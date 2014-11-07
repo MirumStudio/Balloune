@@ -17,4 +17,9 @@ public class MainMenuView : MonoBehaviour {
     {
         Application.LoadLevel("GameplayVincent");
     }
+
+	public void OnPlayButtonLeandreClick()
+	{
+		Application.LoadLevel("GameplayLeandre");
+	}
 }
