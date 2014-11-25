@@ -4,7 +4,9 @@ using System.Collections;
 public class CharacterControllerAlt : MonoBehaviour {
 
 	//Constantes
-	private const float PIVOT_GROUNDED_ADJUSTEMENT = 0.01f;
+	private const float PIVOT_GROUNDED_ADJUSTEMENT = 0.1f;
+	[SerializeField]
+	private LayerMask m_PlatformLayerMask;
 
 	//Inspector
 	public float m_JumpHeight=200;
@@ -35,12 +37,13 @@ public class CharacterControllerAlt : MonoBehaviour {
 		this.mAirControl=this.m_AirControl;
 		this.mReactionSpeed=this.m_ReactionSpeed;
 		this.mAnimator=this.GetComponentInChildren<Animator>();
+		this.GetComponentInChildren<Renderer>().sortingLayerName="Center";
 	}
 
 	void Update () 
 	{
-		this.mIsGrounded = Physics2D.Raycast(this.transform.position-new Vector3(0,PIVOT_GROUNDED_ADJUSTEMENT,0),Vector3.down,PIVOT_GROUNDED_ADJUSTEMENT);
-	
+		this.mIsGrounded = Physics2D.Raycast(this.transform.position-new Vector3(0,PIVOT_GROUNDED_ADJUSTEMENT,0),Vector3.down,PIVOT_GROUNDED_ADJUSTEMENT,this.m_PlatformLayerMask);
+
 		float speed;
 		float direction;
 
@@ -52,7 +55,7 @@ public class CharacterControllerAlt : MonoBehaviour {
 
 		if(this.mIsGrounded)//Si on touche au sol.
 		{
-			if(Input.GetButtonDown("Fire1"))//On peut sauter.
+			if(Input.GetButtonDown("Jump"))//On peut sauter.
 			{
 				this.mJumpDirection = direction; //On mémorise la direction au moment du saut.
 				this.rigidbody2D.AddForce(Vector3.up*this.mJumpHeight);
