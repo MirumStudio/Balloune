@@ -8,7 +8,7 @@ public class AutoFollow : MonoBehaviour {
 	[SerializeField]
 	private Transform m_Target;
 	[SerializeField]
-	private float m_Smoothness = 0.5f; //Should be between 0<Value<=1. 1 means a following without smoothness. Lower than 1 mean a delayed smoothing.
+	private float m_Smoothness = 0.5f; //An higher value means a tighter follow.
 	[SerializeField]
 	private bool m_FollowX = false;
 	[SerializeField]
@@ -22,11 +22,6 @@ public class AutoFollow : MonoBehaviour {
 		{
 			Debug.LogError("No target is assigned to the AutoFollow : desactivating the script");
 			this.enabled=false;
-		}
-		if(m_Smoothness>1)
-		{
-			Debug.LogWarning("The smoothness value of AutoFollow is greater than 1, this will behave as if it was 1.");
-			this.m_Smoothness=1;
 		}
 		else if(m_Smoothness<=0)
 		{
@@ -53,6 +48,6 @@ public class AutoFollow : MonoBehaviour {
 		{
 			target.z = this.m_Target.position.z;
 		}
-		this.transform.position=Vector3.Lerp(this.transform.position,target,this.m_Smoothness);
+		this.transform.position=Vector3.Lerp(this.transform.position,target,this.m_Smoothness*Time.deltaTime);
 	}
 }
