@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MainMenuView : MonoBehaviour {
+public class MainMenuViewOld : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
