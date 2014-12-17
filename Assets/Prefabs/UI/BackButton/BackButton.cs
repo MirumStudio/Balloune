@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MainMenuView : BaseView {
-
-    public const string SCENE_NAME = "MainMenuView";
-
+public class BackButton : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -15,4 +12,9 @@ public class MainMenuView : BaseView {
 	void Update () {
 	
 	}
+
+    public void OnbackClick()
+    {
+        Application.LoadLevel(MainMenuView.SCENE_NAME);
+    }
 }

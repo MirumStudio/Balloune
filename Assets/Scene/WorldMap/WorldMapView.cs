@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MainMenuView : BaseView {
-
-    public const string SCENE_NAME = "MainMenuView";
-
+public class WorldMapView : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

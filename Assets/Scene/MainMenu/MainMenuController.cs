@@ -3,8 +3,6 @@ using System.Collections;
 
 public class MainMenuController : BaseController {
 
-    private int test = 0;
-
 	// Use this for initialization
 	void Start () {
 	
@@ -14,4 +12,24 @@ public class MainMenuController : BaseController {
 	void Update () {
 	
 	}
+
+    public void OnPlayClick()
+    {
+        Application.LoadLevel("WorldMapView");
+    }
+
+    public void OnLoadClick()
+    {
+        Application.LoadLevel("LoadScreenView");
+    }
+
+    public void OnOptionClick()
+    {
+        Application.LoadLevel("OptionMenuView");
+    }
+
+    public void OnQuitClick()
+    {
+        Application.Quit();
+    }
 }
