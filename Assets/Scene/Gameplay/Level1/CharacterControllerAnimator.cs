@@ -7,7 +7,7 @@ public class CharacterControllerAnimator : MonoBehaviour {
     private int m_Speed = 1;
 
     //Constantes
-    private const float PIVOT_GROUNDED_ADJUSTEMENT = 0.1f;
+    private const float PIVOT_GROUNDED_ADJUSTEMENT = 1.2f;
     [SerializeField]
     private LayerMask m_PlatformLayerMask;
 
@@ -59,8 +59,13 @@ public class CharacterControllerAnimator : MonoBehaviour {
         {
             animator.speed = 0f;
         }*/
-        this.mIsGrounded = Physics2D.Raycast(this.transform.position - new Vector3(0, PIVOT_GROUNDED_ADJUSTEMENT, 0), Vector3.down).distance < 0.1;
-       this.mIsGrounded = this.transform.position.y < 327.1f;
+		//CECI EST POUR LE DEBUG V
+		Debug.DrawLine(this.transform.position - new Vector3(0, PIVOT_GROUNDED_ADJUSTEMENT, 0),this.transform.position - new Vector3(0, PIVOT_GROUNDED_ADJUSTEMENT, 0)+Vector3.down,Color.red);
+
+		RaycastHit2D rh = Physics2D.Raycast(this.transform.position - new Vector3(0, PIVOT_GROUNDED_ADJUSTEMENT, 0), Vector3.down);
+        this.mIsGrounded = rh.distance < 0.1;
+		Debug.Log(rh.transform.gameObject.name);
+        //this.mIsGrounded = this.transform.position.y < 327.1f;
         float speed;
         float direction;
 
