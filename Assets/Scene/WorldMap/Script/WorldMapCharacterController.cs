@@ -44,19 +44,19 @@ public class WorldMapCharacterController : MonoBehaviour {
 
     private void CheckInput()
     {
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             CheckLevelId(GetCurrentLevelPoint().UpLevelPoint);
         }
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             CheckLevelId(GetCurrentLevelPoint().BottomLevelPoint);
         }
-        else if (Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             CheckLevelId(GetCurrentLevelPoint().LeftLevelPoint);
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             CheckLevelId(GetCurrentLevelPoint().RightLevelPoint);
         }

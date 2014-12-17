@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class LevelInfoUI : MonoBehaviour {
 
+    private LevelPoint mCurrentLevelPoint;
+
     public void FadeOut()
     {
         //TODO: Real Fade Out
@@ -18,8 +20,14 @@ public class LevelInfoUI : MonoBehaviour {
 
     public void ChangeLevel(LevelPoint pLevel)
     {
+        mCurrentLevelPoint = pLevel;
         var text = transform.FindChild("LevelName").GetComponent<Text>();
         text.text = pLevel.Name;
         FadeIn();
+    }
+
+    public void OnPlayClick()
+    {
+        Application.LoadLevel(mCurrentLevelPoint.Id);
     }
 }
