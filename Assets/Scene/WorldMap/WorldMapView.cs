@@ -3,13 +3,30 @@ using System.Collections;
 
 public class WorldMapView : MonoBehaviour {
 
-	// Use this for initialization
+    [SerializeField]
+    private Canvas m_LevelUI;
+
+    [SerializeField]
+    private GameObject m_Character;
+    private WorldMapCharacterController m_CharacterController;
+
+    [SerializeField]
+    private GameObject m_LevelPoint;
+
 	void Start () {
-	
+        m_CharacterController = m_Character.GetComponent<WorldMapCharacterController>();
+        m_CharacterController.OnLevelChanged += OnLevelChanged;
+        m_CharacterController.OnLevelExited += OnLevelExited;
+        OnLevelChanged(m_CharacterController.GetCurrentLevelPoint().Id);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    private void OnLevelExited(object pSender, object pParam)
+    {
+        m_LevelUI.GetComponent<LevelInfoUI>().FadeOut();
+    }
+
+    private void OnLevelChanged(string pLevelId)
+    {
+        m_LevelUI.GetComponent<LevelInfoUI>().ChangeLevel(m_CharacterController.GetCurrentLevelPoint());
+    }
 }

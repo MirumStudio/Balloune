@@ -2,14 +2,27 @@
 using System.Collections;
 
 public class LevelPoint : MonoBehaviour {
+    [SerializeField]
+    private string m_Id;
+    public string Id { get { return m_Id; } }
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    [SerializeField]
+    private string m_LevelName;
+    public string Name { get { return m_LevelName; } }
+
+    [SerializeField]
+    private string m_RightLevelPoint = string.Empty;
+    public string RightLevelPoint { get { return m_RightLevelPoint; } }
+
+    [SerializeField]
+    private string m_LeftLevelPoint = string.Empty;
+    public string LeftLevelPoint { get { return m_LeftLevelPoint; } }
+
+    [SerializeField]
+    private string m_UpLevelPoint = string.Empty;
+    public string UpLevelPoint { get { return m_UpLevelPoint; } }
+
+    [SerializeField]
+    private string m_BottomLevelPoint = string.Empty;
+    public string BottomLevelPoint { get { return m_BottomLevelPoint; } }
 }
