@@ -3,7 +3,8 @@ using System.Collections;
 
 public class SplashScreenView : BaseView {
 
-    private float duration = 6;
+    private const float DURATION = 6;
+    private float mCurrentTime = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -11,8 +12,8 @@ public class SplashScreenView : BaseView {
 	
 	// Update is called once per frame
 	void Update () {
-        duration -= Time.deltaTime;
-        if(duration <= 0)
+        mCurrentTime += Time.deltaTime;
+        if (mCurrentTime > DURATION)
         {
             Application.LoadLevel("MainMenuView");
         }
