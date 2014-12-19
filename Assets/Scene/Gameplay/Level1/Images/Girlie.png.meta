@@ -24,6 +24,7 @@ TextureImporter:
     21300038: Girlie_19
     21300040: Girlie_20
     21300042: Girlie_21
+    21300044: Girlie_22
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -69,181 +70,231 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 682
-        width: 130
-        height: 230
-      alignment: 0
+        y: 686
+        width: 129
+        height: 226
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_1
       rect:
         serializedVersion: 2
-        x: 130
-        y: 682
-        width: 130
-        height: 230
-      alignment: 0
+        x: 131
+        y: 687
+        width: 129
+        height: 225
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_2
       rect:
         serializedVersion: 2
-        x: 260
-        y: 682
-        width: 130
-        height: 230
-      alignment: 0
+        x: 262
+        y: 687
+        width: 128
+        height: 225
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_3
       rect:
         serializedVersion: 2
-        x: 390
-        y: 682
-        width: 130
-        height: 230
-      alignment: 0
+        x: 393
+        y: 684
+        width: 128
+        height: 228
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_4
       rect:
         serializedVersion: 2
-        x: 520
-        y: 682
-        width: 130
-        height: 230
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 523
+        y: 684
+        width: 129
+        height: 228
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_5
       rect:
         serializedVersion: 2
-        x: 650
-        y: 682
-        width: 130
-        height: 230
-      alignment: 0
+        x: 669
+        y: 781
+        width: 7
+        height: 5
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_6
       rect:
         serializedVersion: 2
         x: 0
-        y: 452
-        width: 130
-        height: 230
-      alignment: 0
+        y: 458
+        width: 128
+        height: 216
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_7
       rect:
         serializedVersion: 2
-        x: 130
-        y: 452
-        width: 130
-        height: 230
-      alignment: 0
+        x: 131
+        y: 456
+        width: 128
+        height: 218
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_8
       rect:
         serializedVersion: 2
-        x: 260
-        y: 452
-        width: 130
-        height: 230
-      alignment: 0
+        x: 261
+        y: 455
+        width: 129
+        height: 220
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_9
       rect:
         serializedVersion: 2
-        x: 390
-        y: 452
-        width: 130
-        height: 230
-      alignment: 0
+        x: 392
+        y: 458
+        width: 128
+        height: 217
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_10
       rect:
         serializedVersion: 2
-        x: 520
-        y: 452
-        width: 130
-        height: 230
-      alignment: 0
+        x: 522
+        y: 458
+        width: 129
+        height: 217
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_11
       rect:
         serializedVersion: 2
-        x: 650
-        y: 452
-        width: 130
-        height: 230
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 653
+        y: 458
+        width: 128
+        height: 217
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_12
       rect:
         serializedVersion: 2
         x: 0
-        y: 222
-        width: 130
-        height: 230
-      alignment: 0
+        y: 229
+        width: 129
+        height: 185
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_13
       rect:
         serializedVersion: 2
-        x: 130
-        y: 222
-        width: 130
-        height: 230
-      alignment: 0
+        x: 131
+        y: 228
+        width: 129
+        height: 186
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_14
       rect:
         serializedVersion: 2
-        x: 260
-        y: 222
-        width: 130
-        height: 230
-      alignment: 0
+        x: 262
+        y: 228
+        width: 128
+        height: 186
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_15
       rect:
         serializedVersion: 2
-        x: 390
-        y: 222
-        width: 130
-        height: 230
-      alignment: 0
+        x: 393
+        y: 228
+        width: 128
+        height: 186
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_16
       rect:
         serializedVersion: 2
-        x: 520
-        y: 222
-        width: 130
-        height: 230
-      alignment: 0
+        x: 523
+        y: 228
+        width: 129
+        height: 186
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Girlie_17
       rect:
         serializedVersion: 2
-        x: 650
-        y: 222
-        width: 130
-        height: 230
-      alignment: 0
+        x: 0
+        y: 0
+        width: 128
+        height: 176
+      alignment: 7
       pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Girlie_18
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 0
+        width: 129
+        height: 176
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Girlie_19
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 0
+        width: 129
+        height: 176
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Girlie_20
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 0
+        width: 128
+        height: 176
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Girlie_21
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 1
+        width: 129
+        height: 175
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Girlie_22
+      rect:
+        serializedVersion: 2
+        x: 653
+        y: 684
+        width: 129
+        height: 228
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
