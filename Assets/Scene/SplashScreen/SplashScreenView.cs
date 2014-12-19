@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SplashScreenView : BaseView {
 
-    private const float DURATION = 6;
+    private const float DURATION = 5;
     private float mCurrentTime = 0;
 
 	// Use this for initialization
