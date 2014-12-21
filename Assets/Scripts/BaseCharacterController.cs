@@ -1,17 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-using UnityEngine;
-using System.Collections;
-
 [RequireComponent (typeof(Rigidbody2D))]
+[RequireComponent (typeof(RectCollider))]
 public abstract class BaseCharacterController : MonoBehaviour {
-	[SerializeField]
-	private float m_PivotGroundedAdjustement = 1.2f;
-	[SerializeField]
-	private float m_GroundedBaseWidth = 1f;
-	[SerializeField]
-	private int m_GroundTestNumberOfInnerRayCasts = 1;
 	[SerializeField]
 	private float m_WalkSpeed = 4;
 	[SerializeField]
@@ -20,43 +12,49 @@ public abstract class BaseCharacterController : MonoBehaviour {
 	private float m_AirControl = 0.2f;
 	[SerializeField]
 	private float m_ReactionSpeed = 8;
-	
+	[SerializeField]
+	private bool m_FullHorizontalControl=true;
+
+	private float mLastXPos;
 	private bool mIsGrounded;
 	private float mJumpDirection;
 	private float mLastDirection;
 	private LayerMask mUsedLayerMask;
+	private RectCollider mRectCollider;
+
+	public virtual void Start () {
+		mRectCollider = GetComponent<RectCollider>();
+		mLastXPos=transform.position.x;
+	}
 	
-	
-	void Update () {
-		mIsGrounded = GroundHitTest();
+	void Update (){
+		mIsGrounded = mRectCollider.TouchSomething(RectCollider.Edges.Ground);
 		
 		float direction = GetHorizontalAxisValue() * GetSpeed();
-		
+		m_FullHorizontalControl=mIsGrounded;
 		if (mIsGrounded && CharacterWantToJump)
 		{
 			InitJumping(direction);
 		}
+		else if(CharacterWantToJump)
+		{
+			if(IsDirectionObstructed(direction))
+			{
+				InitJumping(-direction);
+			}
+		}
 		
 		direction = AjustDirection(direction);
-		
+
+		BlockUpward();
+		if(m_FullHorizontalControl)
+		{
+			LockXAxis();
+		}
 		Move(direction);
 		SaveDirection(direction);
 		
 		UpdateAnimation(direction, mIsGrounded);
-	}
-	
-	private bool GroundHitTest()
-	{
-		Vector3 pivot = this.transform.position - new Vector3(m_GroundedBaseWidth/2, m_PivotGroundedAdjustement, 0);
-		for(int i = 0;i<m_GroundTestNumberOfInnerRayCasts+2;i++)
-		{
-			//DEBUG
-			Debug.DrawLine(pivot,pivot + Vector3.down, Color.red);
-			var raycastHit2D = Physics2D.Raycast(pivot, Vector3.down);
-			if(raycastHit2D.distance == 0){return true;}
-			pivot.x+=m_GroundedBaseWidth/(m_GroundTestNumberOfInnerRayCasts+1);
-		}
-		return false;
 	}
 	
 	protected abstract float GetHorizontalAxisValue();
@@ -79,7 +77,7 @@ public abstract class BaseCharacterController : MonoBehaviour {
 	private void InitJumping(float pDirection)
 	{
 		mJumpDirection = pDirection;
-		rigidbody2D.velocity=Vector3.up * m_JumpHeight;
+		rigidbody2D.velocity=new Vector2(pDirection/20,1) * m_JumpHeight;
 	}
 	
 	protected bool IsInAir
@@ -107,12 +105,39 @@ public abstract class BaseCharacterController : MonoBehaviour {
 	
 	private void Move(float pDirection)
 	{
-		transform.Translate(pDirection * Time.deltaTime * Vector3.right);
+		if(!IsDirectionObstructed(pDirection))
+		{
+			transform.Translate(pDirection * Time.deltaTime * Vector3.right);
+			mLastXPos=transform.position.x;
+		}
+		if(!m_FullHorizontalControl)
+		{
+			rigidbody2D.velocity=new Vector2(Mathf.Lerp(rigidbody2D.velocity.x,pDirection,Time.deltaTime*m_AirControl),rigidbody2D.velocity.y);
+		}
 	}
-	
+
+	private void BlockUpward()
+	{
+		if(mRectCollider.TouchSomething(RectCollider.Edges.Top))
+		{
+			rigidbody2D.velocity= new Vector2(rigidbody2D.velocity.x,rigidbody2D.velocity.y>0?0:rigidbody2D.velocity.y);
+		}
+	}
+
+	private void LockXAxis()
+	{
+		transform.position=new Vector3(mLastXPos,transform.position.y,transform.position.z);
+	}
+
 	private void SaveDirection(float pDirection)
 	{
 		mLastDirection = pDirection;
+	}
+
+	private bool IsDirectionObstructed(float pDirection)
+	{
+		return pDirection>0 && mRectCollider.TouchSomething(RectCollider.Edges.Right) 
+			|| pDirection<0 && mRectCollider.TouchSomething(RectCollider.Edges.Left);
 	}
 	
 	protected abstract void UpdateAnimation(float pDirection,bool pIsGrounded);

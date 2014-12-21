@@ -9,8 +9,9 @@ public class MainCharacterController : BaseCharacterController {
 	
     private CharacterAnimator mAnimator;
 
-	void Start()
+	public override void Start ()
 	{
+		base.Start ();
 		mAnimator=GetComponent<CharacterAnimator>();
 	}
 		
