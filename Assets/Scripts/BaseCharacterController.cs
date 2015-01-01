@@ -51,9 +51,12 @@ public abstract class BaseCharacterController : MonoBehaviour {
 		{
 			LockXAxis();
 		}
-		Move(direction);
-		SaveDirection(direction);
-		
+        if (direction != 0f)
+        {
+            Move(direction);
+            SaveDirection(direction);
+        }
+
 		UpdateAnimation(direction, mIsGrounded);
 	}
 	
@@ -136,8 +139,26 @@ public abstract class BaseCharacterController : MonoBehaviour {
 
 	private bool IsDirectionObstructed(float pDirection)
 	{
-		return pDirection>0 && mRectCollider.TouchSomething(RectCollider.Edges.Right) 
-			|| pDirection<0 && mRectCollider.TouchSomething(RectCollider.Edges.Left);
+        //TODO CLEAN THIS CODE
+        if (pDirection > 0)
+        {
+            RaycastHit2D hit = mRectCollider.GetEdgeRayCastHit(RectCollider.Edges.Right);
+            if (hit != null && hit.transform != null && hit.transform.name.Contains("kid"))
+            {
+                return false;
+            }
+        }
+        else
+        {
+            RaycastHit2D hit = mRectCollider.GetEdgeRayCastHit(RectCollider.Edges.Left);
+            if (hit != null && hit.transform != null && hit.transform.name.Contains("kid"))
+            {
+                return false;
+            }
+        }
+
+        return pDirection > 0 && mRectCollider.TouchSomething(RectCollider.Edges.Right)
+             || pDirection < 0 && mRectCollider.TouchSomething(RectCollider.Edges.Left);
 	}
 	
 	protected abstract void UpdateAnimation(float pDirection,bool pIsGrounded);

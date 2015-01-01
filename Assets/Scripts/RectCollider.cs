@@ -38,7 +38,7 @@ public class RectCollider : MonoBehaviour
 	}
 
 	//Utilities
-	private RaycastHit2D GetEdgeRayCastHit(Edges pEdge)
+	public RaycastHit2D GetEdgeRayCastHit(Edges pEdge)
 	{
 		switch(pEdge)
 		{

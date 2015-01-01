@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public delegate void OnKidHitHandler();
+
 [RequireComponent (typeof(CharacterAnimator))]
 public class MainCharacterController : BaseCharacterController {
   
+    public event OnKidHitHandler OnKidHit;
+
     [SerializeField]
     private float m_RunSpeed = 10;
 	
@@ -44,4 +48,14 @@ public class MainCharacterController : BaseCharacterController {
 	{
 		this.mAnimator.UpdateAnimation(pDirection,pIsGrounded,PlayerWantToRun);
 	}
+
+    public void OnCollisionEnter2D(Collision2D pCollision)
+    {
+        if (pCollision.gameObject.name.Contains("kid") && OnKidHit != null)
+        {
+            pCollision.gameObject.SetActive(false);
+            OnKidHit();
+        }
+        
+    }
 }
