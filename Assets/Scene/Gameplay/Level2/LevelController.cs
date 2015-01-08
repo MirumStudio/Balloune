@@ -9,7 +9,7 @@ public class LevelController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         GetComponentInChildren<MainCharacterController>().OnKidHit += OnKidHit;
-        GetComponentInChildren<GreyScaleTestScript>().OnMaxColor += OnFinish;
+        GetComponentInChildren<GreyScaler>().OnMaxColor += OnFinish;
         but.SetActive(false);
 	}
 	
@@ -20,7 +20,7 @@ public class LevelController : MonoBehaviour {
 
     private void OnKidHit()
     {
-        GetComponentInChildren<GreyScaleTestScript>().AddGreyScale(0.16f);
+        GetComponentInChildren<GreyScaler>().AddGreyScale(0.16f);
        // but.SetActive(true);
     }
 
