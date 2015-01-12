@@ -28,6 +28,7 @@ public class LevelInfoUI : MonoBehaviour {
 
     public void OnPlayClick()
     {
-        Application.LoadLevel(mCurrentLevelPoint.Id);
+        Application.LoadLevel("Level2");
+        //Application.LoadLevel(mCurrentLevelPoint.Id);
     }
 }

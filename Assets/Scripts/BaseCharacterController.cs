@@ -31,6 +31,7 @@ public abstract class BaseCharacterController : MonoBehaviour {
 		mIsGrounded = mRectCollider.TouchSomething(RectCollider.Edges.Ground);
 		
 		float direction = GetHorizontalAxisValue() * GetSpeed();
+
 		m_FullHorizontalControl=mIsGrounded;
 		if (mIsGrounded && CharacterWantToJump)
 		{
