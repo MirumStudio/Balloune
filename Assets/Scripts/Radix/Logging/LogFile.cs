@@ -7,12 +7,12 @@ using System.Text;
 
 namespace Radix.Logging
 {
-    [DataContract]
+    //[DataContract]
     internal class LogFile
     {
         private string LOG_NAME = "Log_{0}h{1}_{2}.txt";
 
-        [DataMember]
+        //[DataMember]
         public IList<LogEntry> LogEntries;
 
         public LogFile()

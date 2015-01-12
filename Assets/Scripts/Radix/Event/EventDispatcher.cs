@@ -66,14 +66,15 @@ namespace Radix.Event
         {
             if (mEventDictionnary.ContainsKey(_event))
             {
-                mEventDictionnary[_event].ToList().ForEach((listener) =>
+
+                foreach (EventListener listener in mEventDictionnary[_event])
                 {
                     if (_listernerType == null || _listernerType == listener.Listener)
                     {
                         //ErrorManager.AssertNull(listener.Callback);
                         listener.Callback.DynamicInvoke(_event, _args);
                     }
-                });
+                }
             }
         }
         #endregion

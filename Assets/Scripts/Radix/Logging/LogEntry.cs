@@ -10,28 +10,28 @@ using Radix.Service;
 
 namespace Radix.Logging
 {
-    [DataContract]
+   // [DataContract]
     public class LogEntry
     {
-        [DataMember]
+        //[DataMember]
         public ELogType LogType { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public string Message { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public string MemberName { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public string CallerName { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public int LineNumber { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public DateTime Time { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public string StackTrace { get; set; }
 
         private LogEntry(){}

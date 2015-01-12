@@ -14,16 +14,18 @@ namespace Radix.Utilities
 
         public static List<Type> GetAllTypeFromNamespace(string _namespace)
         {
-            return (from type in Assembly.GetExecutingAssembly().GetTypes()
+            return null;
+            /*return (from type in Assembly.GetExecutingAssembly().GetTypes()
                     where type.IsClass && type.Namespace.Contains(_namespace)
-                    select type).ToList();
+                    select type).ToList();*/
         }
 
         public static List<Type> GetAllTypeFromNamespace(Type _type, string _namespace)
         {
+            return null;/*
             return (from type in Assembly.GetExecutingAssembly().GetTypes()
                     where type.IsClass && type.Namespace.Contains(_namespace) && type.IsSubclassOf(_type)
-                    select type).ToList();
+                    select type).ToList();*/
         }
     }
 }

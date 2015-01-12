@@ -38,21 +38,27 @@ namespace Radix.Service
             m_serviceList = new List<ServiceBase>();
 
             List<Type> serviceType = GetAllServiceType();
-            serviceType.ForEach(CreateService);
 
-            m_serviceList.ForEach((service) => service.CallInit());
+            foreach(Type type in serviceType)
+            {
+                CreateService(type);
+            }
+
+            foreach (ServiceBase service in m_serviceList)
+            {
+                service.CallInit();
+            }
         }
 
         internal void Dispose()
         {
             CheckServiceListValidity();
 
-            m_serviceList.ForEach((service) =>
+            foreach (ServiceBase service in m_serviceList)
             {
                 StopService(service);
                 service.CallDispose();
-                service = null;
-            });
+            }
 
             m_serviceList.Clear();
             m_serviceList = null;
@@ -62,20 +68,20 @@ namespace Radix.Service
         {
             CheckServiceListValidity();
 
-            m_serviceList.ForEach((service) =>
+            foreach (ServiceBase service in m_serviceList)
             {
                 StartService(service);
-            });
+            }
         }
 
         internal void StopAllServices()
         {
             CheckServiceListValidity();
 
-            m_serviceList.ForEach((service) =>
+            foreach (ServiceBase service in m_serviceList)
             {
                 StopService(service);
-            });
+            }
         }
 
         internal void StartService<T>() where T : ServiceBase
