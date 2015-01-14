@@ -1,4 +1,5 @@
-﻿using Radix.Utilities;
+﻿using Radix.Event;
+using Radix.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,15 +32,33 @@ namespace Radix.Service
         }
         #endregion
 
+        #region ServiceRegister
+        private static List<Type> mServiceTypes = new List<Type>();
+
+        public static void RegisterService(Type pServiceType)
+        {
+            if(!mServiceTypes.Contains(pServiceType))
+            {
+                mServiceTypes.Add(pServiceType);
+            }
+        }
+
+        private void RegisterRadixService()
+        {
+            mServiceTypes.Add(typeof(EventService));
+        }
+        #endregion
+
         private List<ServiceBase> m_serviceList;
 
         public void Init()
         {
+            RegisterRadixService();
             m_serviceList = new List<ServiceBase>();
 
-            List<Type> serviceType = GetAllServiceType();
+            //List<Type> serviceType = GetAllServiceType();
 
-            foreach(Type type in serviceType)
+            foreach (Type type in mServiceTypes)
             {
                 CreateService(type);
             }

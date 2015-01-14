@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Radix.Service;
 
-public class StartView : MonoBehaviour {
+public class StartView : BaseView {
 
 	// Use this for initialization
-	void Start () {
+	override protected void Start () {
         Application.LoadLevel("SplashScreenView");
 	}
 	

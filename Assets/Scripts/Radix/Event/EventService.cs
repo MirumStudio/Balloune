@@ -55,6 +55,7 @@ namespace Radix.Event
 
         static private bool IsInternalEvent(Enum _event)
         {
+            return false;
             return TypeUtility.IsInNamespace(_event.GetType(), "InternalEvent");
         }
     }

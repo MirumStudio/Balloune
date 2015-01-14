@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Radix.Event;
 
 public delegate void OnKidHitHandler();
 
@@ -73,8 +74,9 @@ public class MainCharacterController : BaseCharacterController {
     {
         if (pCollision.gameObject.name.Contains("kid") && OnKidHit != null)
         {
-            pCollision.gameObject.SetActive(false);
+            //pCollision.gameObject.SetActive(false);
             OnKidHit();
+            EventService.DipatchEvent(EGameEvent.TEST, this);
         }
         
     }

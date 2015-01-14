@@ -149,7 +149,7 @@ public abstract class BaseCharacterController : MonoBehaviour {
                 return false;
             }
         }
-        else
+        else if (pDirection < 0)
         {
             RaycastHit2D hit = mRectCollider.GetEdgeRayCastHit(RectCollider.Edges.Left);
             if (hit != null && hit.transform != null && hit.transform.name.Contains("kid"))

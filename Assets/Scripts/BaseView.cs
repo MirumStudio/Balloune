@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Radix.Service;
 
 public class BaseView : MonoBehaviour {
 
@@ -7,8 +8,8 @@ public class BaseView : MonoBehaviour {
     private BaseController m_Controller = null;*/
 
 	// Use this for initialization
-	void Start () {
-	
+	virtual protected void Start () {
+        ServiceManager.Instance.Init();
 	}
 	
 	// Update is called once per frame

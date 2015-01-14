@@ -1,16 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using Radix.Event;
+using System;
 
-public class LevelController : MonoBehaviour {
+public class LevelController : BaseView {
+
+    public EGameEvent allo;
 
     public GameObject but;
 
 	// Use this for initialization
-	void Start () {
+	protected override void Start () {
+        base.Start();
         GetComponentInChildren<MainCharacterController>().OnKidHit += OnKidHit;
         GetComponentInChildren<GreyScaler>().OnMaxColor += OnFinish;
         but.SetActive(false);
+        EventListener.Register(EGameEvent.TEST, Test);
 	}
 	
 	// Update is called once per frame
@@ -27,5 +33,10 @@ public class LevelController : MonoBehaviour {
     private void OnFinish()
     {
         but.SetActive(true);
+    }
+
+    private void Test(Enum lol, System.Object arg)
+    {
+        Debug.Log("EVENT !!!!!");
     }
 }
