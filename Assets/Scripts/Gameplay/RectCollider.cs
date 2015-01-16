@@ -62,7 +62,8 @@ public class RectCollider : MonoBehaviour
 	}
 
 	//RayCast Tests
-	private void TopAndBottomHitTests(){
+    private void SideHitTests()
+    {
 		Vector2 startRay = mPivot - new Vector2(m_GroundedBaseWidth/2,0);
 		float rayLength = m_GroundedBaseWidth;
 
@@ -71,7 +72,7 @@ public class RectCollider : MonoBehaviour
 		mTopRcH = RayTest(startRay,rayLength,Vector2.right);
 	}
 
-	private void SideHitTests()
+    private void TopAndBottomHitTests()
 	{
 		Vector2 startRay = mPivot - new Vector2(m_BodyWidth/2,-m_BodyHeight);
 		float rayLength = m_BodyHeight-m_FeetHeight;

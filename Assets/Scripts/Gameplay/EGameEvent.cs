@@ -4,5 +4,7 @@ using System.Collections;
 public enum EGameEvent {
     TEST,
     JHFDJUF,
-    JKDKDNHJK
+    JKDKDNHJK,
+    JUMP,
+    GROUND
 }

@@ -44,10 +44,10 @@ public class MainCharacterController : BaseCharacterController {
             {
                 value--;
             }
+            return value;
         }
 
-
-        return value ;
+        return Mathf.Sign(value) ;
 	}
 
     private bool PlayerWantToRun
@@ -74,6 +74,11 @@ public class MainCharacterController : BaseCharacterController {
     {
         if (pCollision.gameObject.name.Contains("kid") && OnKidHit != null)
         {
+            var lol = GetComponent<Collider2D>();
+            var lol2 = pCollision.gameObject.GetComponent<Collider2D>();
+            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), pCollision.gameObject.GetComponent<Collider2D>());
+            /*pCollision.gameObject.SetActive(false);
+            pCollision.gameObject.SetActive(true);*/
             //pCollision.gameObject.SetActive(false);
             OnKidHit();
             EventService.DipatchEvent(EGameEvent.TEST, this);
