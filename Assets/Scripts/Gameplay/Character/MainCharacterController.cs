@@ -55,10 +55,10 @@ public class MainCharacterController : BaseCharacterController {
         get { return Input.GetKey(KeyCode.LeftShift) || RunButton.GetComponent<ButtonOnPressed>().buttonHeld; }
     }
     
-	protected override float GetSpeed()
+	/*protected override float GetSpeed()
     {
         return PlayerWantToRun ? m_RunSpeed : WalkSpeed;
-    }
+    }*/
 	
     private bool PlayerWantToJump
     {
