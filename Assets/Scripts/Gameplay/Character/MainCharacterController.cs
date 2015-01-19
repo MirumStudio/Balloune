@@ -2,13 +2,9 @@
 using System.Collections;
 using Radix.Event;
 
-public delegate void OnKidHitHandler();
-
 [RequireComponent (typeof(CharacterAnimator))]
 public class MainCharacterController : BaseCharacterController {
   
-    public event OnKidHitHandler OnKidHit;
-
     public GameObject RightButton;
     public GameObject LeftButton;
     public GameObject JumpButton;
@@ -30,9 +26,9 @@ public class MainCharacterController : BaseCharacterController {
 		get {return Input.GetKey(KeyCode.Space) || JumpButton.GetComponent<ButtonOnPressed>().buttonHeld;}
 	}
 
-	protected override float GetHorizontalAxisValue() 
+	protected override int GetHorizontalAxisValue() 
 	{
-        float value = Input.GetAxis("Horizontal");
+        int value = (int)Mathf.Sign(Input.GetAxis("Horizontal"));
 
         if(value == 0)
         {
@@ -44,10 +40,9 @@ public class MainCharacterController : BaseCharacterController {
             {
                 value--;
             }
-            return value;
         }
 
-        return Mathf.Sign(value) ;
+        return value ;
 	}
 
     private bool PlayerWantToRun
@@ -65,24 +60,25 @@ public class MainCharacterController : BaseCharacterController {
         get { return Input.GetKey(KeyCode.Space); }
     }
 
-	protected override void UpdateAnimation (float pDirection, bool pIsGrounded)
+    protected override void UpdateAnimation(Direction pDirection, bool pIsGrounded)
 	{
 		this.mAnimator.UpdateAnimation(pDirection,pIsGrounded,PlayerWantToRun);
 	}
 
     public void OnCollisionEnter2D(Collision2D pCollision)
     {
-        if (pCollision.gameObject.name.Contains("kid") && OnKidHit != null)
+        if (pCollision.gameObject.name.Contains("kid"))
         {
             var lol = GetComponent<Collider2D>();
             var lol2 = pCollision.gameObject.GetComponent<Collider2D>();
             Physics2D.IgnoreCollision(GetComponent<Collider2D>(), pCollision.gameObject.GetComponent<Collider2D>());
-            /*pCollision.gameObject.SetActive(false);
-            pCollision.gameObject.SetActive(true);*/
-            //pCollision.gameObject.SetActive(false);
-            OnKidHit();
-            EventService.DipatchEvent(EGameEvent.TEST, this);
+            EventService.DipatchEvent(EGameEvent.CHILD_COLLISION, this);
         }
         
     }
+
+    /* How reset ignoreCollision
+     * /*pCollision.gameObject.SetActive(false);
+            pCollision.gameObject.SetActive(true);*/
+    //pCollision.gameObject.SetActive(false);*/
 }

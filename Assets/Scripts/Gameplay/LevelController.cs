@@ -13,22 +13,15 @@ public class LevelController : BaseView {
 	// Use this for initialization
 	protected override void Start () {
         base.Start();
-        GetComponentInChildren<MainCharacterController>().OnKidHit += OnKidHit;
         GetComponentInChildren<GreyScaler>().OnMaxColor += OnFinish;
         but.SetActive(false);
-        EventListener.Register(EGameEvent.TEST, Test);
+        EventListener.Register(EGameEvent.CHILD_COLLISION, Test);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
-
-    private void OnKidHit()
-    {
-        GetComponentInChildren<GreyScaler>().AddGreyScale(0.16f);
-       // but.SetActive(true);
-    }
 
     private void OnFinish()
     {
@@ -37,6 +30,6 @@ public class LevelController : BaseView {
 
     private void Test(Enum lol, System.Object arg)
     {
-        Debug.Log("EVENT !!!!!");
+        GetComponentInChildren<GreyScaler>().AddGreyScale(0.16f);
     }
 }

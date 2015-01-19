@@ -2,9 +2,6 @@
 using System.Collections;
 
 public enum EGameEvent {
-    TEST,
-    JHFDJUF,
-    JKDKDNHJK,
-    JUMP,
-    GROUND
+    CHILD_COLLISION,
+    BALLOON_GIVEN,
 }

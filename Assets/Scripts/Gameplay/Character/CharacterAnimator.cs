@@ -18,10 +18,10 @@ public class CharacterAnimator : MonoBehaviour {
 	void Start () {
         mAnimator = GetComponent<Animator>();
 	}
-	
-	public void UpdateAnimation(float pDirection, bool pIsGrounded, bool mIsRunning)
+
+    public void UpdateAnimation(Direction pDirection, bool pIsGrounded, bool mIsRunning)
     {
-        if (pDirection == 0)
+        if (pDirection.Edge == EEdge.NONE)
         {
             StopAnimation();
         }
@@ -39,15 +39,15 @@ public class CharacterAnimator : MonoBehaviour {
     }
 
     #region AnimationDirection
-    private void UpdateAnimationDirection(float pDirection, bool pIsGrounded)
+    private void UpdateAnimationDirection(Direction pDirection, bool pIsGrounded)
     {
         if (pIsGrounded)
         {
-            if (IsLeftDirection(pDirection))
+            if (pDirection.IsLeftDirection())
             {
                 SetAnimationDirection(ANIMATION_LEFT_DIRECTION);
             }
-            else if (IsRightDirection(pDirection))
+            else if (pDirection.IsRightDirection())
             {
                 SetAnimationDirection(ANIMATION_RIGHT_DIRECTION);
             }
@@ -56,16 +56,6 @@ public class CharacterAnimator : MonoBehaviour {
         {
             //JUMP ANIMATION
         }
-    }
-
-    private bool IsLeftDirection(float pDirection)
-    {
-        return (pDirection < 0);
-    }
-
-    private bool IsRightDirection(float pDirection)
-    {
-        return (pDirection > 0);
     }
 
     private void SetAnimationDirection(int pAnimationDirection)
