@@ -68,14 +68,16 @@ public class MainCharacterController : BaseCharacterController {
 
     public void OnCollisionEnter2D(Collision2D pCollision)
     {
-        if (pCollision.gameObject.name.Contains("kid"))
+        var interactable = pCollision.gameObject.GetComponent<Interactable>();
+        if (interactable != null)
         {
-            var lol = GetComponent<Collider2D>();
-            var lol2 = pCollision.gameObject.GetComponent<Collider2D>();
-            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), pCollision.gameObject.GetComponent<Collider2D>());
-            EventService.DipatchEvent(EGameEvent.CHILD_COLLISION, this);
+            interactable.DispacthEvent();
+            if (interactable.IsPassableThrough)
+            {
+                var interactableCollider = pCollision.gameObject.GetComponent<Collider2D>();
+                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), interactableCollider);
+            }
         }
-        
     }
 
     /* How reset ignoreCollision

@@ -5,9 +5,6 @@ using Radix.Event;
 using System;
 
 public class LevelController : BaseView {
-
-    public EGameEvent allo;
-
     public GameObject but;
 
 	// Use this for initialization
