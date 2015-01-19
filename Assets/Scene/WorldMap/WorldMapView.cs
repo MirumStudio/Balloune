@@ -4,14 +4,14 @@ using System.Collections;
 public class WorldMapView : MonoBehaviour {
 
     [SerializeField]
-    private Canvas m_LevelUI;
+    private Canvas m_LevelUI = null;
 
     [SerializeField]
-    private GameObject m_Character;
+    private GameObject m_Character = null;
     private WorldMapCharacterController m_CharacterController;
 
     [SerializeField]
-    private GameObject m_LevelPoint;
+    private GameObject m_LevelPoint = null;
 
 	void Start () {
         m_CharacterController = m_Character.GetComponent<WorldMapCharacterController>();

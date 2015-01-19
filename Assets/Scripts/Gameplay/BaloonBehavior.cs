@@ -3,11 +3,11 @@ using System.Collections;
 
 public class BaloonBehavior : MonoBehaviour {
 	[SerializeField]
-	private LineRenderer m_LineRenderer;
+	private LineRenderer m_LineRenderer = null;
 	[SerializeField]
-	private SpringJoint2D m_SpringJoint;
+	private SpringJoint2D m_SpringJoint = null;
 	[SerializeField]
-	private Transform m_RopeStart;
+	private Transform m_RopeStart = null;
 	void Start()
 	{
 		/*this.m_LineRenderer.sortingLayerName="Background";

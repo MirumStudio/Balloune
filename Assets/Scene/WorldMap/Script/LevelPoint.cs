@@ -3,11 +3,11 @@ using System.Collections;
 
 public class LevelPoint : MonoBehaviour {
     [SerializeField]
-    private string m_Id;
+    private string m_Id = string.Empty;
     public string Id { get { return m_Id; } }
 
     [SerializeField]
-    private string m_LevelName;
+    private string m_LevelName = string.Empty;
     public string Name { get { return m_LevelName; } }
 
     [SerializeField]
