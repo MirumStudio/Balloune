@@ -34,11 +34,15 @@ public class CharacterEdgeChecker : MonoBehaviour {
     {
         if(edge == EEdge.RIGHT)
         {
-            return Physics2D.Linecast(GetTopRightCorner(), GetBottomRightCorner(), GroundLayerMask);
+            Vector2 vector = GetBottomRightCorner();
+            vector.y += 0.2f;
+            return Physics2D.Linecast(GetTopRightCorner(), vector, GroundLayerMask);
         }
         else if(edge == EEdge.LEFT)
         {
-            return Physics2D.Linecast(GetTopLeftCorner(), GetBottomLeftCorner(), GroundLayerMask);
+            Vector2 vector = GetBottomLeftCorner();
+            vector.y += 0.2f;
+            return Physics2D.Linecast(GetTopLeftCorner(), vector, GroundLayerMask);
         }
         else if(edge == EEdge.TOP)
         {

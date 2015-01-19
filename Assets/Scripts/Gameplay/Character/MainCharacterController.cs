@@ -28,7 +28,7 @@ public class MainCharacterController : BaseCharacterController {
 
 	protected override int GetHorizontalAxisValue() 
 	{
-        int value = (int)Mathf.Sign(Input.GetAxis("Horizontal"));
+        float value = Input.GetAxis("Horizontal");
 
         if(value == 0)
         {
@@ -40,9 +40,10 @@ public class MainCharacterController : BaseCharacterController {
             {
                 value--;
             }
+            return (int)value;
         }
 
-        return value ;
+        return (int)Mathf.Sign(value);
 	}
 
     private bool PlayerWantToRun

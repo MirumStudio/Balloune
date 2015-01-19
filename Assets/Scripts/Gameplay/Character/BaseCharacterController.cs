@@ -52,7 +52,7 @@ public abstract class BaseCharacterController : MonoBehaviour
 
     private bool CanMove(Direction pDirection)
     {
-        return !(IsInAir && mEdgeChecker.TouchSomething(pDirection.Edge));
+        return !(mEdgeChecker.TouchSomething(pDirection.Edge));
     }
 
     private bool HorizontalMaxSpeedReached(Direction pDirection)
