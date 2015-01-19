@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using Radix.Event;
 
-public delegate void VoidHandler();
 public class GreyScaler : MonoBehaviour
 {
     private const string SHADER_MEMBER_NAME = "_GrayScl";
     private const float MAX_GRAY_VALUE = 1f;
-
-    public event VoidHandler OnMaxColor;
 
     [SerializeField]
     private float m_InitialGrayScale = 0.22f;
@@ -18,12 +16,15 @@ public class GreyScaler : MonoBehaviour
 
     protected float mCurrentValue = 0f;
     protected float mWantedValue = 0f;
+    protected float mStepValue;
 
     void Start()
     {
         SetShaderGrayScale(m_InitialGrayScale);
         mCurrentValue = m_InitialGrayScale;
         mWantedValue = m_InitialGrayScale;
+        mStepValue = (1f - m_InitialGrayScale) / LevelInfo.ChildCount;
+        EventListener.Register(EGameEvent.BALLOON_GIVEN, OnBalloonGiven);
     }
 
     void Update()
@@ -31,27 +32,23 @@ public class GreyScaler : MonoBehaviour
         if(mCurrentValue < mWantedValue)
         {
             mCurrentValue += m_AnimationSpeed;
+            mCurrentValue = Math.Min(mCurrentValue, MAX_GRAY_VALUE);
             SetShaderGrayScale(mCurrentValue);
-
-            CheckForMaxValue();
         }
     }
 
-    public void AddGreyScale(float pValue)
+    private void AddGreyScale(float pValue)
     {
         mWantedValue += pValue;
-    }
-
-    private void CheckForMaxValue()
-    {
-        if (mCurrentValue >= MAX_GRAY_VALUE && OnMaxColor != null)
-        {
-            OnMaxColor();
-        }
     }
 
     private void SetShaderGrayScale(float pNewValue)
     {
         renderer.material.SetFloat(SHADER_MEMBER_NAME, Math.Min(MAX_GRAY_VALUE, pNewValue));
+    }
+
+    private void OnBalloonGiven(Enum lol, System.Object arg)
+    {
+        AddGreyScale(mStepValue);
     }
 }
