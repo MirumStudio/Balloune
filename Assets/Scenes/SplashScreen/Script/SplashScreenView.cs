@@ -13,7 +13,7 @@ public class SplashScreenView : BaseView {
         mCurrentTime += Time.deltaTime;
         if (mCurrentTime > DURATION)
         {
-            Application.LoadLevel("MainMenuView");
+            Application.LoadLevel(MainMenuView.SCENE_NAME);
         }
     }
 
