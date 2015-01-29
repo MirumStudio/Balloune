@@ -8,7 +8,7 @@ public class MainCharacterController : BaseCharacterController {
     public GameObject RightButton;
     public GameObject LeftButton;
     public GameObject JumpButton;
-    public GameObject RunButton;
+    //public GameObject RunButton;
 
     [SerializeField]
     private float m_RunSpeed = 10;
@@ -23,7 +23,7 @@ public class MainCharacterController : BaseCharacterController {
 		
 	protected override bool CharacterWantToJump 
 	{
-		get {return Input.GetKey(KeyCode.Space) || JumpButton.GetComponent<ButtonOnPressed>().buttonHeld;}
+		get {return Input.GetKey(KeyCode.Space) || JumpButton.GetComponent<ButtonOnPressed>().IsPressed;}
 	}
 
 	protected override int GetHorizontalAxisValue() 
@@ -32,11 +32,11 @@ public class MainCharacterController : BaseCharacterController {
 
         if(value == 0)
         {
-            if(RightButton.GetComponent<ButtonOnPressed>().buttonHeld)
+            if(RightButton.GetComponent<ButtonOnPressed>().IsPressed)
             {
                 value++;
             }
-            else if (LeftButton.GetComponent<ButtonOnPressed>().buttonHeld)
+            else if (LeftButton.GetComponent<ButtonOnPressed>().IsPressed)
             {
                 value--;
             }
@@ -48,7 +48,7 @@ public class MainCharacterController : BaseCharacterController {
 
     private bool PlayerWantToRun
     {
-        get { return Input.GetKey(KeyCode.LeftShift) || RunButton.GetComponent<ButtonOnPressed>().buttonHeld; }
+        get { return Input.GetKey(KeyCode.LeftShift)/* || RunButton.GetComponent<ButtonOnPressed>().IsPressed*/; }
     }
     
 	/*protected override float GetSpeed()

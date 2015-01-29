@@ -8,18 +8,16 @@ public class CharacterEdgeChecker : MonoBehaviour {
     private float mWidth;
     private float mHeight;
 
-    SpriteRenderer mSpriteRenderer;
+    Collider2D mCollider;
 
 	void Start () {
-        var collider = GetComponent<Collider2D>();
-        mWidth = collider.bounds.size.x;
-        mHeight = collider.bounds.size.y;
-
-        mSpriteRenderer = GetComponent<SpriteRenderer>();
+        mCollider = GetComponent<Collider2D>();
+        mWidth = mCollider.bounds.size.x;
+        mHeight = mCollider.bounds.size.y;
 	}
 
 	void Update (){
-        //DrawDebugLine(); //For testing
+        DrawDebugLine(); //For testing
 	}
 
     private void DrawDebugLine()
@@ -99,12 +97,12 @@ public class CharacterEdgeChecker : MonoBehaviour {
 
     private float GetRightEdge()
     {
-        return GetCenter().x + mWidth / 2 + 0.1f;
+        return GetCenter().x + mWidth / 2;
     }
 
     private Vector2 GetCenter()
     {
-        return mSpriteRenderer.bounds.center;
+        return mCollider.bounds.center;
     }
 
     private int GroundLayerMask

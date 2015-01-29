@@ -5,14 +5,10 @@ using Radix.Event;
 using System;
 
 public class LevelController : BaseView {
-    public GameObject but;
-
     private int mBalloonGivenCount = 0;
 
 	// Use this for initialization
-	protected override void Start () {
-        base.Start();
-        but.SetActive(false);
+	protected void Start () {
         EventListener.Register(EGameEvent.CHILD_COLLISION, OnChildCollision);
 	}
 	
@@ -26,7 +22,7 @@ public class LevelController : BaseView {
 
     private void OnFinish()
     {
-        but.SetActive(true);
+        EventService.DipatchEvent(EGameEvent.LEVEL_FINISHED, null);
     }
 
     private void OnChildCollision(Enum lol, System.Object arg)

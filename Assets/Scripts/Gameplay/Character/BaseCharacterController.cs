@@ -17,11 +17,9 @@ public abstract class BaseCharacterController : MonoBehaviour
     private bool jump = false;
     private bool mIsGrounded;
 
-    public Transform groundCheck;
     private CharacterEdgeChecker mEdgeChecker;
 
 	public virtual void Start () {
-        groundCheck = transform.Find("GroundCheck");
         mEdgeChecker = GetComponent<CharacterEdgeChecker>();
 	}
 	
