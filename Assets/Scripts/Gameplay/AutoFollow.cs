@@ -15,7 +15,8 @@ public class AutoFollow : MonoBehaviour {
 	private bool m_FollowY = false;
 	[SerializeField]
 	private bool m_FollowZ = false;
-
+    [SerializeField]
+    private float m_AjustY = 0.0f;
 	void Start ()
 	{
 		if(this.m_Target==null)
@@ -42,7 +43,7 @@ public class AutoFollow : MonoBehaviour {
 		}
 		if(this.m_FollowY)
 		{
-			target.y = this.m_Target.position.y;
+			target.y = this.m_Target.position.y + m_AjustY;
 		}
 		if(this.m_FollowZ)
 		{
