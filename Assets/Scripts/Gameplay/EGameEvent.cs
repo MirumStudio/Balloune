@@ -5,7 +5,8 @@ public enum EGameEvent
 {
     CHILD_COLLISION,
     BALLOON_GIVEN,
-    LEVEL_FINISHED
+    LEVEL_FINISHED,
+    HAZARDOUS_COLLISION
 }
 
 public enum EGameControl

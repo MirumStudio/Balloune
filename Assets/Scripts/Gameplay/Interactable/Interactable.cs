@@ -5,10 +5,10 @@ using Radix.Event;
 public class Interactable : MonoBehaviour {
 
     [SerializeField]
-    private EGameEvent m_GameEvent;
+    protected EGameEvent m_GameEvent;
 
     [SerializeField]
-    private bool m_IsPassableThrough = false;
+    protected bool m_IsPassableThrough = false;
 
     public void DispacthEvent()
     {

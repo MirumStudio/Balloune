@@ -7,7 +7,7 @@ public class LevelInfo : MonoBehaviour {
 
 	void Start () {
         //mChildCount = transform.FindChild("Kids").childCount;
-        mChildCount = GetComponentsInChildren<Interactable>().Length;
+        mChildCount = GetComponentsInChildren<KidInteractable>().Length;
 	}
 	
     public static int ChildCount
