@@ -6,7 +6,6 @@ public class LevelInfo : MonoBehaviour {
     private static int mChildCount;
 
 	void Start () {
-        //mChildCount = transform.FindChild("Kids").childCount;
         mChildCount = GetComponentsInChildren<KidInteractable>().Length;
 	}
 	

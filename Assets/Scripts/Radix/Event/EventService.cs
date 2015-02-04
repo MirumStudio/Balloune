@@ -1,6 +1,7 @@
 ﻿using Radix.Service;
 using Radix.Utilities;
 using System;
+using UnityEngine;
 
 namespace Radix.Event
 {
@@ -43,6 +44,7 @@ namespace Radix.Event
 
         static public void DipatchEvent(Enum _event, object _args = null, Type _listernerType = null)
         {
+            Debug.Log("Dispatch event : " + _event);
             if (IsInternalEvent(_event))
             {
                 instance.mInternalEventDispatcher.DispatchEvent(_event, _args, _listernerType);

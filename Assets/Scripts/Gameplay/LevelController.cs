@@ -7,6 +7,8 @@ using System;
 public class LevelController : BaseView {
     private int mBalloonGivenCount = 0;
 
+    bool testFinish = false;
+
 	// Use this for initialization
 	protected void Start () {
         EventListener.Register(EGameEvent.CHILD_COLLISION, OnChildCollision);
@@ -14,7 +16,7 @@ public class LevelController : BaseView {
 	
 	// Update is called once per frame
 	void Update () {
-	    if(mBalloonGivenCount >= LevelInfo.ChildCount)
+        if (mBalloonGivenCount >= LevelInfo.ChildCount && !testFinish)
         {
             OnFinish();
         }
@@ -22,6 +24,7 @@ public class LevelController : BaseView {
 
     private void OnFinish()
     {
+        testFinish = true;
         EventService.DipatchEvent(EGameEvent.LEVEL_FINISHED, null);
     }
 
