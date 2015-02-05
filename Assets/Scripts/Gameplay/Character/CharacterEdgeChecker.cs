@@ -23,8 +23,8 @@ public class CharacterEdgeChecker : MonoBehaviour {
     private void DrawDebugLine()
     {
         Debug.DrawLine(GetTopRightCorner(), GetTopLeftCorner(), Color.red);
-        Debug.DrawLine(GetTopLeftCorner(), GetBottomLeftCorner(), Color.green);
-        Debug.DrawLine(GetTopRightCorner(), GetBottomRightCorner(), Color.blue);
+        //Debug.DrawLine(GetTopLeftCorner(), GetBottomLeftCorner(), Color.green);
+        //Debug.DrawLine(GetTopRightCorner(), GetBottomRightCorner(), Color.blue);
         Debug.DrawLine(GetBottomLeftCorner(), GetBottomRightCorner(), Color.yellow);
     }
 
@@ -34,12 +34,14 @@ public class CharacterEdgeChecker : MonoBehaviour {
         {
             Vector2 vector = GetBottomRightCorner();
             vector.y += 0.2f;
+            Debug.DrawLine(GetTopRightCorner(), vector, Color.blue);
             return Physics2D.Linecast(GetTopRightCorner(), vector, GroundLayerMask);
         }
         else if(edge == EEdge.LEFT)
         {
             Vector2 vector = GetBottomLeftCorner();
             vector.y += 0.2f;
+            Debug.DrawLine(GetTopLeftCorner(), vector, Color.green);
             return Physics2D.Linecast(GetTopLeftCorner(), vector, GroundLayerMask);
         }
         else if(edge == EEdge.TOP)
@@ -92,12 +94,12 @@ public class CharacterEdgeChecker : MonoBehaviour {
 
     private float GetLeftEdge()
     {
-        return GetCenter().x - mWidth / 2;
+        return GetCenter().x - mWidth / 2 - 0.1f;
     }
 
     private float GetRightEdge()
     {
-        return GetCenter().x + mWidth / 2;
+        return GetCenter().x + mWidth / 2 + 0.1f;
     }
 
     private Vector2 GetCenter()

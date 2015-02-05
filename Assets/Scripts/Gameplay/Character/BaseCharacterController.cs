@@ -50,6 +50,7 @@ public abstract class BaseCharacterController : MonoBehaviour
 
     private bool CanMove(Direction pDirection)
     {
+        Debug.Log(mEdgeChecker.TouchSomething(pDirection.Edge));
         return !(mEdgeChecker.TouchSomething(pDirection.Edge));
     }
 
