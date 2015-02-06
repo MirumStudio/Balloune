@@ -24,6 +24,8 @@ public abstract class BaseCharacterController : MonoBehaviour
 	}
 	
 	void Update (){
+        if (UIPopupBase.PopupIsDisplayed) return;
+
         mIsGrounded = mEdgeChecker.TouchSomething(EEdge.BOTTOM);
 
         if (CharacterWantToJump && mIsGrounded)
@@ -34,6 +36,8 @@ public abstract class BaseCharacterController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (UIPopupBase.PopupIsDisplayed) return;
+
         var direction = new Direction(GetHorizontalAxisValue());
 
         UpdateAnimation(direction, mIsGrounded);
@@ -50,7 +54,6 @@ public abstract class BaseCharacterController : MonoBehaviour
 
     private bool CanMove(Direction pDirection)
     {
-        Debug.Log(mEdgeChecker.TouchSomething(pDirection.Edge));
         return !(mEdgeChecker.TouchSomething(pDirection.Edge));
     }
 

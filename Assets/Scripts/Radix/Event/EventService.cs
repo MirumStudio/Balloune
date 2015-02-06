@@ -36,10 +36,16 @@ namespace Radix.Event
             }
         }
 
-        static public void UnregisterAllEventListener(Type _listenerParent)
+        /*static public void UnregisterAllEventListener(Type _listenerParent)
         {
             instance.mInternalEventDispatcher.UnregisterAllEventsListeners(_listenerParent);
             instance.mExternalEventDispatcher.UnregisterAllEventsListeners(_listenerParent);
+        }*/
+
+        static public void UnregisterAllEventListener(Type _Event)
+        {
+            instance.mInternalEventDispatcher.UnregisterAllEventsListeners(_Event);
+            instance.mExternalEventDispatcher.UnregisterAllEventsListeners(_Event);
         }
 
         static public void DipatchEvent(Enum _event, object _args = null, Type _listernerType = null)

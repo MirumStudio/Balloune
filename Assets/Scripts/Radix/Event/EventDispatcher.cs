@@ -51,11 +51,23 @@ namespace Radix.Event
             }
         }
 
-        internal void UnregisterAllEventsListeners(Type _listenerParent)
+       /* internal void UnregisterAllEventsListeners(Type _listenerParent)
         {
             foreach (EventPair eventPair in mEventDictionnary)
             {
                 EventListener eventListener = eventPair.Value.FirstOrDefault((currentEventListener) => { return currentEventListener.Listener == _listenerParent; });
+                UnregisterEventListener(eventListener, eventPair.Value);
+            }
+        }*/
+
+        internal void UnregisterAllEventsListeners(Type _Event)
+        {
+            foreach (EventPair eventPair in mEventDictionnary)
+            {
+                EventListener eventListener = eventPair.Value.FirstOrDefault((currentEventListener) => 
+                {
+                    return currentEventListener.Event.GetType() == _Event; 
+                });
                 UnregisterEventListener(eventListener, eventPair.Value);
             }
         }

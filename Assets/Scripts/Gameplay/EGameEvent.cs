@@ -8,7 +8,10 @@ public enum EGameEvent
     LEVEL_FINISHED,
     HAZARDOUS_COLLISION,
     LIFE_COLLISION,
-    GAME_OVER
+    GAME_OVER,
+    POPUP_DISPLAYED,
+    POPUP_HIDED,
+    DISPLAY_PAUSE_POPUP
 }
 
 public enum EGameControl
