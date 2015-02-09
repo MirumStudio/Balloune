@@ -17,6 +17,7 @@ public class CharacterAnimator : MonoBehaviour {
 
 	void Start () {
         mAnimator = GetComponent<Animator>();
+        SetAnimationDirection(ANIMATION_RIGHT_DIRECTION);
 	}
 
     public void UpdateAnimation(Direction pDirection, bool pIsGrounded, bool mIsRunning)
@@ -41,6 +42,7 @@ public class CharacterAnimator : MonoBehaviour {
     #region AnimationDirection
     private void UpdateAnimationDirection(Direction pDirection, bool pIsGrounded)
     {
+        return;
         if (pIsGrounded)
         {
             if (pDirection.IsLeftDirection())

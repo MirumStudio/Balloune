@@ -12,7 +12,9 @@ public abstract class BaseCharacterController : MonoBehaviour
     [SerializeField]
     private float maxJump = 5.6f;
     [SerializeField]
-    private float jumpForce = 300f;	
+    private float jumpForce = 300f;
+
+    private bool facingRight = true;	
 
     private bool jump = false;
     private bool mIsGrounded;
@@ -48,7 +50,7 @@ public abstract class BaseCharacterController : MonoBehaviour
         }
 
         AjustVelocity();
-        CheckFlipping();
+        CheckFlipping(direction);
         CheckJumping();
     }
 
@@ -84,16 +86,13 @@ public abstract class BaseCharacterController : MonoBehaviour
         rigidbody2D.velocity = newVelocity;
     }
 
-    private void CheckFlipping()
+    private void CheckFlipping(Direction pDirection)
     {
-        /*// If the input is moving the player right and the player is facing left...
-        if (h > 0 && !facingRight)
-            // ... flip the player.
+        if (pDirection.IsRightDirection() && !facingRight
+            || pDirection.IsLeftDirection() && facingRight)
+        {
             Flip();
-        // Otherwise if the input is moving the player left and the player is facing right...
-        else if (h < 0 && facingRight)
-            // ... flip the player.
-            Flip();*/
+        }
     }
 
     private void CheckJumping()
@@ -123,5 +122,14 @@ public abstract class BaseCharacterController : MonoBehaviour
     {
         return mIsGrounded ? maxSpeed : 4f;
     }
+    void Flip()
+    {
+        facingRight = !facingRight;
+
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
+
 }
 
