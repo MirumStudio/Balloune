@@ -33,14 +33,14 @@ public class CharacterEdgeChecker : MonoBehaviour {
         if(edge == EEdge.RIGHT)
         {
             Vector2 vector = GetBottomRightCorner();
-            vector.y += 0.2f;
+            vector.y += 0.05f;
             Debug.DrawLine(GetTopRightCorner(), vector, Color.blue);
             return Physics2D.Linecast(GetTopRightCorner(), vector, GroundLayerMask);
         }
         else if(edge == EEdge.LEFT)
         {
             Vector2 vector = GetBottomLeftCorner();
-            vector.y += 0.2f;
+            vector.y += 0.05f;
             Debug.DrawLine(GetTopLeftCorner(), vector, Color.green);
             return Physics2D.Linecast(GetTopLeftCorner(), vector, GroundLayerMask);
         }
@@ -51,9 +51,9 @@ public class CharacterEdgeChecker : MonoBehaviour {
         else if(edge == EEdge.BOTTOM)
         {
             Vector2 right = GetBottomRightCorner();
-            right.x -= 0.2f;
+            right.x -= 0.1f;
             Vector2 left = GetBottomLeftCorner();
-            left.x += 0.2f;
+            left.x += 0.1f;
             return Physics2D.Linecast(left, right, GroundLayerMask);
         }
         else
@@ -89,7 +89,7 @@ public class CharacterEdgeChecker : MonoBehaviour {
 
     private float GetBottomEdge()
     {
-        return GetCenter().y - mHeight / 2 - 0.1f;
+        return GetCenter().y - mHeight / 2 - 0.05f;
     }
 
     private float GetLeftEdge()
