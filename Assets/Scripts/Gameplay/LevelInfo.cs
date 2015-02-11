@@ -5,7 +5,7 @@ public class LevelInfo : MonoBehaviour {
 
     private static int mChildCount;
 
-	void Start () {
+	void Awake () {
         mChildCount = GetComponentsInChildren<KidInteractable>().Length;
 	}
 	
