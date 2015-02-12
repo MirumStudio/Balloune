@@ -17,6 +17,11 @@ public class AutoFollow : MonoBehaviour {
 	private bool m_FollowZ = false;
     [SerializeField]
     private float m_AjustY = 0.0f;
+    [SerializeField]
+    private float m_MaxLeftX = 0.0f;
+    [SerializeField]
+    private float m_MaxRightX = 0.0f;
+
 	void Start ()
 	{
 		if(this.m_Target==null)
@@ -39,7 +44,16 @@ public class AutoFollow : MonoBehaviour {
 		Vector3 target = this.transform.position;
 		if(this.m_FollowX)
 		{
-			target.x = this.m_Target.position.x;
+            float x = this.m_Target.position.x;
+            if(x < m_MaxLeftX)
+            {
+                x = m_MaxLeftX;
+            }
+            else if (x > m_MaxRightX)
+            {
+                x = m_MaxRightX;
+            }
+			target.x = x;
 		}
 		if(this.m_FollowY)
 		{
