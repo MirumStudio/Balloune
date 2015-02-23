@@ -6,6 +6,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using Radix.Service;
+using Radix.Error.
 
 
 namespace Radix.Logging
@@ -74,6 +75,7 @@ namespace Radix.Logging
 
         public void Save()
         {
+            var LOL = Error.Assert();
             ServiceManager.Instance.GetService<LogService>().AddLogEntry(this);
         }
     }
