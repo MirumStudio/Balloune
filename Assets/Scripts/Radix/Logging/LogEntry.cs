@@ -6,7 +6,6 @@ using System.Text;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using Radix.Service;
-using Radix.Error.
 
 
 namespace Radix.Logging
@@ -37,10 +36,46 @@ namespace Radix.Logging
 
         private LogEntry(){}
 
-        static public LogEntry Create(ELogType aType, string aMessage, bool aSave = true/*,
+        static public void Create(string aMessage, ELogType pType = ELogType.INFO)
+        {
+            string color;
+            switch(pType)
+            {
+                case ELogType.DEBUG:
+                    {
+                        color = "green";
+                        break;
+                    }
+                case ELogType.INFO:
+                    {
+                        color = "blue";
+                        break;
+                    }
+                case ELogType.WARNING:
+                    {
+                        color = "brown";
+                        break;
+                    }
+                case ELogType.ERROR:
+                    {
+                        color = "red";
+                        break;
+                    }
+                default:
+                    {
+                        color = "black";
+                        break;
+                    }
+            }
+
+
+            UnityEngine.Debug.Log("<color=" + color + ">[" + pType + "]\t" + aMessage + "</color>");
+        }
+
+        /*static public LogEntry Create(ELogType aType, string aMessage, bool aSave = true,
         [CallerMemberName] string aMemberName = "",
         [CallerFilePath] string aSourceFilePath = "",
-        [CallerLineNumber] int aSourceLineNumber = 0*/)
+        [CallerLineNumber] int aSourceLineNumber = 0)
         {
             /*var logEntry = new LogEntry
             {
@@ -69,13 +104,12 @@ namespace Radix.Logging
                 logEntry.Save();
             }
 
-            return logEntry;*/
+            return logEntry;
             return null;
-        }
+        }*/
 
         public void Save()
         {
-            var LOL = Error.Assert();
             ServiceManager.Instance.GetService<LogService>().AddLogEntry(this);
         }
     }
