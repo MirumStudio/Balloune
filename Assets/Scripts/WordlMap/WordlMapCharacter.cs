@@ -1,36 +1,49 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Radix.Event;
+using Radix.Error;
 
 public class WordlMapCharacter : MonoBehaviour {
 
     [SerializeField]
     private int m_Speed = 2;
-    public float waittime = 0.5f;
-    public int mCurrentLevel = 0;
+
+    [SerializeField]
+    private float m_WaitTime = 0.2f;
+
+    [SerializeField]
+    private GameObject m_LevelPointListParent;
+
+    private int mCurrentLevel = 0;
     private bool mIsMoving = false;
     private int mFinalDestination = 0;
     private Vector3 mDestination;
     private bool wait = false;
-    private float timelol = 0;
-    public GameObject lol;
+    private float timer = 0;
+    
     private LevelPointController mLevelPointList;
+
+    public int CurrentLevel
+    {
+        get { return mCurrentLevel; }
+    }
+
 	void Start () {
         EventListener.Register(EWorldMapEvent.WANT_CHANGE_LEVEL, OnPlayerWantToChangeLevel);
-        mLevelPointList = lol.GetComponent<LevelPointController>();
-        mCurrentLevel = 0;
+        mLevelPointList = m_LevelPointListParent.GetComponent<LevelPointController>();
+        mCurrentLevel = 0; //TODO : load on database
 	}
 
 
-	void Update () {
-        
+	void Update () 
+    {
         if(wait)
         {
-            timelol += Time.deltaTime;
-            if(timelol > waittime)
+            timer += Time.deltaTime;
+            if (timer > m_WaitTime)
             {
                 wait = false;
-                timelol = 0;
+                timer = 0;
             }
         }
         else if(mIsMoving)
@@ -41,6 +54,9 @@ public class WordlMapCharacter : MonoBehaviour {
 
     public void OnPlayerWantToChangeLevel(System.Enum pEvent, object pArg)
     {
+        Assert.CheckNull(pArg);
+        Assert.Check(pArg is int);
+
         int wantedLevel = (int)pArg;
         if(wantedLevel != mCurrentLevel && !mIsMoving)
         {
@@ -54,14 +70,13 @@ public class WordlMapCharacter : MonoBehaviour {
     {
         if(mFinalDestination < mCurrentLevel)
         {
-            mDestination = mLevelPointList.GetLevelPointTransform(mCurrentLevel - 1).position;
             mCurrentLevel--;
         }
         else if(mFinalDestination > mCurrentLevel)
         {
-            mDestination = mLevelPointList.GetLevelPointTransform(mCurrentLevel + 1).position;
             mCurrentLevel++;
         }
+        mDestination = mLevelPointList.GetLevelPointTransform(mCurrentLevel).position;
         mIsMoving = true;
     }
 
@@ -79,9 +94,13 @@ public class WordlMapCharacter : MonoBehaviour {
             else
             {
                 mIsMoving = false;
-                EventService.DipatchEvent(EWorldMapEvent.END_CHANGE_LEVEL, mLevelPointList.GetLevelPoint(mCurrentLevel));
-                //RaiseOnLevelChanged();
+                RaiseOnLevelChanged();
             }
         }
+    }
+
+    private void RaiseOnLevelChanged()
+    {
+        EventService.DipatchEvent(EWorldMapEvent.END_CHANGE_LEVEL, mLevelPointList.GetLevelPoint(mCurrentLevel));
     }
 }

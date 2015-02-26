@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class MainMenuController : MonoBehaviour
 {
     public void OnPlayClick()
     {
+        //TODO : Go to load game screen
         Application.LoadLevel(WorldMapBaseView.SCENE_NAME + 1);
     }
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Radix.Error;
 
 [RequireComponent(typeof(Collider2D))]
 public class CharacterEdgeChecker : MonoBehaviour {
@@ -17,14 +18,14 @@ public class CharacterEdgeChecker : MonoBehaviour {
 	}
 
 	void Update (){
-        DrawDebugLine(); //For testing
+       // DrawDebugLine(); //For testing
 	}
 
     private void DrawDebugLine()
     {
         Debug.DrawLine(GetTopRightCorner(), GetTopLeftCorner(), Color.red);
-        //Debug.DrawLine(GetTopLeftCorner(), GetBottomLeftCorner(), Color.green);
-        //Debug.DrawLine(GetTopRightCorner(), GetBottomRightCorner(), Color.blue);
+        Debug.DrawLine(GetTopLeftCorner(), GetBottomLeftCorner(), Color.green);
+        Debug.DrawLine(GetTopRightCorner(), GetBottomRightCorner(), Color.blue);
         Debug.DrawLine(GetBottomLeftCorner(), GetBottomRightCorner(), Color.yellow);
     }
 
@@ -58,6 +59,7 @@ public class CharacterEdgeChecker : MonoBehaviour {
         }
         else
         {
+            Error.Create("Edge to check is undefined...", EErrorSeverity.MAJOR);
             return false;
         }
     }

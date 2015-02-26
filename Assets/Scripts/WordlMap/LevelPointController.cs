@@ -1,23 +1,20 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
+﻿using Radix.Error;
+using UnityEngine;
 
 public class LevelPointController : MonoBehaviour {
 
     public LevelPoint GetLevelPoint(int pLevelId)
     {
-        if (pLevelId.IsBetweenInclusively(0, 10))
+        Assert.Check(pLevelId.IsBetweenInclusively(0, 10));
+
+        LevelPoint[] points = GetComponentsInChildren<LevelPoint>();
+        foreach (LevelPoint point in points)
         {
-            LevelPoint[] points = GetComponentsInChildren<LevelPoint>();
-            foreach (LevelPoint point in points)
+            if (point.ID.Equals(pLevelId))
             {
-                if (point.ID.Equals(pLevelId))
-                {
-                    return point;
-                }
+                return point;
             }
         }
-
         return null;
     }
 

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Radix.Error;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class MainMenuBalloon : MonoBehaviour {
@@ -8,21 +8,28 @@ public class MainMenuBalloon : MonoBehaviour {
 
     private LineRenderer mLinerenderer;
 
-	void Start () {
+    private void Start()
+    {
         mLinerenderer = GetComponent<LineRenderer>();
-        mLinerenderer.SetPosition(0, transform.position);
+        UpdateLineRendererPosition();
         mLinerenderer.SetPosition(1, new Vector3(transform.position.x, transform.position.y - 1000, 0));
 	}
-	
-	void Update () {
-        mLinerenderer.SetPosition(0, transform.position);
+
+    private void Update()
+    {
+        UpdateLineRendererPosition();
 	}
 
-    void OnMouseOver()
+    private void OnMouseOver()
     {
         if (Input.GetMouseButtonDown(0))
         {
             OnClick.callback.Invoke(null);
         }
+    }
+
+    private void UpdateLineRendererPosition()
+    {
+        mLinerenderer.SetPosition(0, transform.position);
     }
 }

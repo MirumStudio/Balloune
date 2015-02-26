@@ -4,6 +4,9 @@ using Radix.Event;
 
 public class LevelPoint : MonoBehaviour {
 
+    [SerializeField]
+    private string m_LevelName = string.Empty;
+
     public int ID
     {
         get { return System.Int32.Parse(name.Substring(name.Length - 1)); }
@@ -11,7 +14,7 @@ public class LevelPoint : MonoBehaviour {
 
     public string LevelName
     {
-        get { return name; }
+        get { return m_LevelName; }
     }
 
     void OnMouseOver()

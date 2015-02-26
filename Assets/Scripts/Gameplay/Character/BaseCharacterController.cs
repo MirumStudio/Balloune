@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
 
 [RequireComponent (typeof(Rigidbody2D))]
 public abstract class BaseCharacterController : MonoBehaviour 
@@ -130,6 +128,5 @@ public abstract class BaseCharacterController : MonoBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
     }
-
 }
 

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 public class OpacityLogo : MonoBehaviour {
@@ -13,12 +12,6 @@ public class OpacityLogo : MonoBehaviour {
 
 	void Start () {
         mLogo = GetComponent<Image>();
-
-        if (mLogo == null)
-        {
-            //ERROR
-        }
-
         UpdateLogoColor();
 	}
 	
