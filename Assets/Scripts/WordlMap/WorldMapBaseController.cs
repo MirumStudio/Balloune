@@ -13,7 +13,8 @@ public class WorldMapBaseController : MonoBehaviour {
 
     public void OnPlayClick()
     {
-        Application.LoadLevel("Level" + m_Id + "_" + (GetComponentInChildren<WordlMapCharacter>().CurrentLevel+1));
+        //Application.LoadLevel("Level" + m_Id + "_" + (GetComponentInChildren<WordlMapCharacter>().CurrentLevel+1));
+        Application.LoadLevel("Level" + m_Id + "_" + 1);
     }
 
     void OnDestroy()
