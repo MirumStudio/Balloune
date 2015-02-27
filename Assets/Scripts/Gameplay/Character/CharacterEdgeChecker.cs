@@ -59,7 +59,7 @@ public class CharacterEdgeChecker : MonoBehaviour {
         }
         else
         {
-            Error.Create("Edge to check is undefined...", EErrorSeverity.MAJOR);
+            Error.Create("Edge to check is undefined...", EErrorSeverity.MINOR);
             return false;
         }
     }

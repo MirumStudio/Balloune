@@ -42,7 +42,7 @@ public abstract class BaseCharacterController : MonoBehaviour
 
         UpdateAnimation(direction, mIsGrounded);
 
-        if (CanMove(direction) && !HorizontalMaxSpeedReached(direction))
+        if (direction.Value != 0 && CanMove(direction) && !HorizontalMaxSpeedReached(direction))
         {
             AddForce(direction);
         }
