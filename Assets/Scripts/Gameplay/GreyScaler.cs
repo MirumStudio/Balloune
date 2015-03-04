@@ -44,7 +44,7 @@ public class GreyScaler : MonoBehaviour
 
     private void SetShaderGrayScale(float pNewValue)
     {
-        renderer.material.SetFloat(SHADER_MEMBER_NAME, Math.Min(MAX_GRAY_VALUE, pNewValue));
+        GetComponent<Renderer>().material.SetFloat(SHADER_MEMBER_NAME, Math.Min(MAX_GRAY_VALUE, pNewValue));
     }
 
     private void OnBalloonGiven(Enum lol, System.Object arg)
