@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Radix.Error;
+using System;
 
 namespace Radix.Event
 {
@@ -6,13 +7,13 @@ namespace Radix.Event
     {
         public static void Register<T>(Enum _event, EventReceiverHandler<T> _callback)
         {
-            //ErrorManager.AssertNull(_callback);
+            Assert.CheckNull(_callback);
             RegisterInternal(_event, _callback);
         }
 
         public static void Register(Enum _event, EventReceiverHandler _callback)
         {
-            //ErrorManager.AssertNull(_callback);
+            Assert.CheckNull(_callback);
             RegisterInternal(_event, _callback);
         }
 

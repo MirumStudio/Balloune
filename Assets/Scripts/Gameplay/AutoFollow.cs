@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+
+/*this code come from Unity demo project*/
+
 /// <summary>
 /// This script allow smooth following of the attached object to the target object on selected axis. On a camera to the main character for example.
 /// </summary>

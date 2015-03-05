@@ -9,12 +9,10 @@ public class LevelController : BaseView {
 
     bool testFinish = false;
 
-	// Use this for initialization
 	protected void Start () {
         EventListener.Register(EGameEvent.CHILD_COLLISION, OnChildCollision);
 	}
 	
-	// Update is called once per frame
 	void Update () {
         if (mBalloonGivenCount >= LevelInfo.ChildCount && !testFinish)
         {

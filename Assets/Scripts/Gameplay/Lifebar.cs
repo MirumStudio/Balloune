@@ -2,6 +2,7 @@
 using System.Collections;
 using Radix.Event;
 using System;
+using Radix.Error;
 
 public class Lifebar : MonoBehaviour {
 
@@ -15,16 +16,14 @@ public class Lifebar : MonoBehaviour {
 
     private void OnHazardousCollision(Enum pEvent, System.Object pArg)
     {
-        if(pArg is HazardousInteractable)
+        Assert.Check(pArg is HazardousInteractable);
+        int damage = (pArg as HazardousInteractable).Damage;
+        while (damage > 0)
         {
-            int damage = (pArg as HazardousInteractable).Damage;
-            while (damage > 0)
-            {
-                RemoveOneLife();
-                damage--;
-            }
-            CheckLife();
+            RemoveOneLife();
+            damage--;
         }
+        CheckLife();
     }
 
     private void RemoveOneLife()
@@ -38,16 +37,14 @@ public class Lifebar : MonoBehaviour {
 
     private void OnLifeCollision(Enum pEvent, System.Object pArg)
     {
-        if (pArg is LifeInteractable)
-        {
-            int life = (pArg as LifeInteractable).Life;
-            (pArg as LifeInteractable).gameObject.SetActive(false);
+        Assert.Check(pArg is LifeInteractable);
+        int life = (pArg as LifeInteractable).Life;
+        (pArg as LifeInteractable).gameObject.SetActive(false);
 
-            while (life > 0)
-            {
-                AddOneLife();
-                life--;
-            }
+        while (life > 0)
+        {
+            AddOneLife();
+            life--;
         }
     }
 

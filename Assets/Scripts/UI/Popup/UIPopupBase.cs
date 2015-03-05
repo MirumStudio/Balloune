@@ -2,6 +2,7 @@
 using System.Collections;
 using Radix.Event;
 
+//TODO: implement better popup system with priorities
 public class UIPopupBase : MonoBehaviour {
 
     static private bool mPopupIsDisplay = false;
@@ -41,6 +42,7 @@ public class UIPopupBase : MonoBehaviour {
 
     public void OnRestartClick()
     {
+		//TODO: Restart the current level
         Application.LoadLevel("Level1_1");
     }
 

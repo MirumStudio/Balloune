@@ -3,13 +3,14 @@ using System.Collections;
 using UnityEngine.UI;
 using Radix.Event;
 using System;
+using Radix.Error;
 
 public class UIWorlMapController : MonoBehaviour {
 
     public void Start()
     {
-        EventListener.Register(EWorldMapEvent.BEGIN_CHANGE_LEVEL, b);
-        EventListener.Register(EWorldMapEvent.END_CHANGE_LEVEL, e);
+        EventListener.Register(EWorldMapEvent.BEGIN_CHANGE_LEVEL, OnBeginChangeLevel);
+        EventListener.Register(EWorldMapEvent.END_CHANGE_LEVEL, OnEndChangeLevel);
     }
 
     public void FadeOut()
@@ -31,13 +32,14 @@ public class UIWorlMapController : MonoBehaviour {
         FadeIn();
     }
 
-    public void b(Enum lol, object lold)
+    public void OnBeginChangeLevel(Enum pEvent, object pArgs)
     {
         FadeOut();
     }
 
-    public void e(Enum lol, object lold)
+    public void OnEndChangeLevel(Enum pEvent, object pArgs)
     {
-        ChangeLevel(lold as LevelPoint);
+		Assert.Check(pArgs is LevelPoint);
+        ChangeLevel(pArgs as LevelPoint);
     }
 }

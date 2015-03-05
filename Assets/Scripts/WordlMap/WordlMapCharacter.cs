@@ -3,6 +3,8 @@ using System.Collections;
 using Radix.Event;
 using Radix.Error;
 
+
+//TODO; put logic into WorldMapController
 public class WordlMapCharacter : MonoBehaviour {
 
     [SerializeField]
@@ -18,8 +20,9 @@ public class WordlMapCharacter : MonoBehaviour {
     private bool mIsMoving = false;
     private int mFinalDestination = 0;
     private Vector3 mDestination;
-    private bool wait = false;
-    private float timer = 0;
+	
+    private bool mHaveToWait = false;
+    private float mTimer = 0;
     
     private LevelPointController mLevelPointList;
 
@@ -34,16 +37,15 @@ public class WordlMapCharacter : MonoBehaviour {
         mCurrentLevel = 0; //TODO : load on database
 	}
 
-
 	void Update () 
     {
-        if(wait)
+        if(mHaveToWait)
         {
-            timer += Time.deltaTime;
-            if (timer > m_WaitTime)
+            mTimer += Time.deltaTime;
+            if (mTimer > m_WaitTime)
             {
-                wait = false;
-                timer = 0;
+                mHaveToWait = false;
+                mTimer = 0;
             }
         }
         else if(mIsMoving)
@@ -88,7 +90,7 @@ public class WordlMapCharacter : MonoBehaviour {
         {
             if (mCurrentLevel != mFinalDestination)
             {
-                wait = true;
+                mHaveToWait = true;
                 ChangeLevel();
             }
             else

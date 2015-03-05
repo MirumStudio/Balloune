@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*OLD prototype code
+TODO; delete when the real baloon behavior will be implemented*/
+
 public class BaloonBehavior : MonoBehaviour {
 	[SerializeField]
 	private LineRenderer m_LineRenderer = null;

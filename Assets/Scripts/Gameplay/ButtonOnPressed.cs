@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+//TODO: Find a better name
 public class ButtonOnPressed : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     private bool mButtonHeld;

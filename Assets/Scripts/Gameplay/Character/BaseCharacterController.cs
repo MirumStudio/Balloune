@@ -12,9 +12,9 @@ public abstract class BaseCharacterController : MonoBehaviour
     [SerializeField]
     private float jumpForce = 300f;
 
-    private bool facingRight = true;	
+    private bool mIsFacingRight = true;	
 
-    private bool jump = false;
+    private bool mInitJumping = false;
     private bool mIsGrounded;
 
     private CharacterEdgeChecker mEdgeChecker;
@@ -30,7 +30,7 @@ public abstract class BaseCharacterController : MonoBehaviour
 
         if (CharacterWantToJump && mIsGrounded)
         {
-            jump = true;
+            mInitJumping = true;
         }
 	}
 
@@ -49,7 +49,7 @@ public abstract class BaseCharacterController : MonoBehaviour
 
         AjustVelocity();
         CheckFlipping(direction);
-        CheckJumping();
+        UpdateJumping();
     }
 
     private bool CanMove(Direction pDirection)
@@ -86,19 +86,19 @@ public abstract class BaseCharacterController : MonoBehaviour
 
     private void CheckFlipping(Direction pDirection)
     {
-        if (pDirection.IsRightDirection() && !facingRight
-            || pDirection.IsLeftDirection() && facingRight)
+        if (pDirection.IsRightDirection() && !mIsFacingRight
+            || pDirection.IsLeftDirection() && mIsFacingRight)
         {
             Flip();
         }
     }
 
-    private void CheckJumping()
+    private void UpdateJumping()
     {
-        if (jump)
+        if (mInitJumping)
         {
             rigidbody2D.AddForce(new Vector2(0f, jumpForce));
-            jump = false;
+            mInitJumping = false;
         }
     }
 
@@ -109,20 +109,21 @@ public abstract class BaseCharacterController : MonoBehaviour
 		get;
 	}
 	
+	protected abstract void UpdateAnimation(Direction pDirection,bool pIsGrounded);
+	
 	protected bool IsInAir
 	{
 		get { return !mIsGrounded; }
 	}
-	
-	protected abstract void UpdateAnimation(Direction pDirection,bool pIsGrounded);
 
     protected float GetMaxSpeed()
     {
         return mIsGrounded ? maxSpeed : 4f;
     }
-    void Flip()
+	
+    private void Flip()
     {
-        facingRight = !facingRight;
+        mIsFacingRight = !mIsFacingRight;
 
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//prototype code
 public class AutoScaleTiling : MonoBehaviour {
 
 	public Vector2 m_TileRatio = new Vector2(1,1);

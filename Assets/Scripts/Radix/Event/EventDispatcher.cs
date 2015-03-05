@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Radix.Error;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
 // Define Complex Type
 using EventDictionnary = System.Collections.Generic.Dictionary<System.Enum, System.Collections.Generic.IList<Radix.Event.EventListener>>;
 using EventPair = System.Collections.Generic.KeyValuePair<System.Enum, System.Collections.Generic.IList<Radix.Event.EventListener>>;
@@ -15,9 +15,7 @@ namespace Radix.Event
         #region Register
         internal void RegisterEventListener(EventListener _listener)
         {
-#if DEBUG
-            //ErrorManager.AssertNull(_listener);
-#endif
+            Assert.CheckNull(_listener);
 
             if (!mEventDictionnary.ContainsKey(_listener.Event))
             {
@@ -83,7 +81,7 @@ namespace Radix.Event
                 {
                     if (_listernerType == null || _listernerType == listener.Listener)
                     {
-                        //ErrorManager.AssertNull(listener.Callback);
+                        Assert.CheckNull(listener.Callback);
                         listener.Callback.DynamicInvoke(_event, _args);
                     }
                 }
@@ -94,10 +92,7 @@ namespace Radix.Event
         #region Utility
         private bool ContainListener(EventListener _listener)
         {
-#if DEBUG
-            //ErrorManager.AssertNull(_listener);
-#endif
-
+            Assert.CheckNull(_listener);
             return (mEventDictionnary[_listener.Event].FirstOrDefault((eventListener) => { return eventListener.Equals(_listener); }) != null);
         }
         #endregion

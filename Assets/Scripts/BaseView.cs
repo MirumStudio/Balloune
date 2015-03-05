@@ -8,6 +8,7 @@ public class BaseView : MonoBehaviour {
 
     virtual protected void Awake()
     {
+		//TODO: create a class Radix for Radix.Init or something like that
         ServiceManager.Instance.Init();
     }
 }

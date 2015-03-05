@@ -2,6 +2,9 @@
 using System.Collections;
 using Radix.Error;
 
+/*In this class, there are a lot of small ajustement and magic number.
+TODO: Refactor this class when we will have the real Asset*/
+
 [RequireComponent(typeof(Collider2D))]
 public class CharacterEdgeChecker : MonoBehaviour {
     private const string GROUND_LAYER_NAME = "Ground"; 
@@ -18,7 +21,7 @@ public class CharacterEdgeChecker : MonoBehaviour {
 	}
 
 	void Update (){
-       // DrawDebugLine(); //For testing
+		DrawDebugLine(); //For testing
 	}
 
     private void DrawDebugLine()

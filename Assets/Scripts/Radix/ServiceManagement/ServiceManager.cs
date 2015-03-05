@@ -3,12 +3,13 @@ using Radix.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Radix.Error;
 
 namespace Radix.Service
 {
     public class ServiceManager
     {
-        #region Singleton
+		#region Singleton
         private static volatile ServiceManager instance;
         private static object syncRoot = new Object();
 
@@ -37,10 +38,8 @@ namespace Radix.Service
 
         public static void RegisterService(Type pServiceType)
         {
-            if(!mServiceTypes.Contains(pServiceType))
-            {
-                mServiceTypes.Add(pServiceType);
-            }
+			Assert.Check(!mServiceTypes.Contains(pServiceType), pServiceType + " is already registered");
+			mServiceTypes.Add(pServiceType);
         }
 
         private void RegisterRadixService()
@@ -55,18 +54,8 @@ namespace Radix.Service
         {
             RegisterRadixService();
             m_serviceList = new List<ServiceBase>();
-
-            //List<Type> serviceType = GetAllServiceType();
-
-            foreach (Type type in mServiceTypes)
-            {
-                CreateService(type);
-            }
-
-            foreach (ServiceBase service in m_serviceList)
-            {
-                service.CallInit();
-            }
+            CreateAllServices();
+            InitAllServices();
         }
 
         internal void Dispose()
@@ -83,6 +72,26 @@ namespace Radix.Service
             m_serviceList = null;
         }
 
+		internal void CreateAllServices()
+		{
+			CheckServiceListValidity();
+			
+			foreach (Type type in mServiceTypes)
+            {
+                CreateService(type);
+            }
+		}
+		
+		internal void InitAllServices()
+		{
+			CheckServiceListValidity();
+			
+			foreach (ServiceBase service in m_serviceList)
+            {
+                service.CallInit();
+            }
+		}
+		
         internal void StartAllServices()
         {
             CheckServiceListValidity();

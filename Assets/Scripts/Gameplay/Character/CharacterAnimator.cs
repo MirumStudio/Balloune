@@ -28,8 +28,7 @@ public class CharacterAnimator : MonoBehaviour {
         else
         {
             UpdateAnimationDirection(pDirection, pIsGrounded);
-
-            UpdateAnimationSpeed(mIsRunning);
+			UpdateAnimationSpeed(mIsRunning);
         }
     }
 
@@ -41,6 +40,8 @@ public class CharacterAnimator : MonoBehaviour {
     #region AnimationDirection
     private void UpdateAnimationDirection(Direction pDirection, bool pIsGrounded)
     {
+		//Instead, we use flipping in BaseCharacterController
+		//This function is keep for reference
         return;
         if (pIsGrounded)
         {

@@ -80,7 +80,8 @@ public class MainCharacterController : BaseCharacterController {
         }
     }
 
-    /* How reset ignoreCollision
+    /* FOR REFERENCE
+	How reset ignoreCollision
      * /*pCollision.gameObject.SetActive(false);
             pCollision.gameObject.SetActive(true);*/
     //pCollision.gameObject.SetActive(false);*/
