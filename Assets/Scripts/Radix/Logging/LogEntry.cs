@@ -36,7 +36,7 @@ namespace Radix.Logging
 
         private LogEntry(){}
 
-        static public void Create(string aMessage, ELogType pType = ELogType.INFO)
+        static public void Create(string aMessage, ELogType pType/* = ELogType.INFO*/)
         {
             string color;
             switch(pType)

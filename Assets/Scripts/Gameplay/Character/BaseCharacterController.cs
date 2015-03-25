@@ -59,29 +59,29 @@ public abstract class BaseCharacterController : MonoBehaviour
 
     private bool HorizontalMaxSpeedReached(Direction pDirection)
     {
-        return pDirection.Value * rigidbody2D.velocity.x >= GetMaxSpeed();
+        return pDirection.Value * GetComponent<Rigidbody2D>().velocity.x >= GetMaxSpeed();
     }
 
     private void AddForce(Direction pDirection)
     {
-        rigidbody2D.AddForce(Vector2.right * pDirection.Value * moveForce);
+        GetComponent<Rigidbody2D>().AddForce(Vector2.right * pDirection.Value * moveForce);
     }
 
     private void AjustVelocity()
     {
-        Vector2 newVelocity = rigidbody2D.velocity;
+        Vector2 newVelocity = GetComponent<Rigidbody2D>().velocity;
 
-        if (Mathf.Abs(rigidbody2D.velocity.x) > GetMaxSpeed())
+        if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > GetMaxSpeed())
         {
-            newVelocity.x = Mathf.Sign(rigidbody2D.velocity.x) * GetMaxSpeed();
+            newVelocity.x = Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * GetMaxSpeed();
         }
 
-        if (Mathf.Abs(rigidbody2D.velocity.y) > maxJump)
+        if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) > maxJump)
         {
-            newVelocity.y = Mathf.Sign(rigidbody2D.velocity.y) * maxJump;
+            newVelocity.y = Mathf.Sign(GetComponent<Rigidbody2D>().velocity.y) * maxJump;
         }
 
-        rigidbody2D.velocity = newVelocity;
+        GetComponent<Rigidbody2D>().velocity = newVelocity;
     }
 
     private void CheckFlipping(Direction pDirection)
@@ -97,7 +97,7 @@ public abstract class BaseCharacterController : MonoBehaviour
     {
         if (mInitJumping)
         {
-            rigidbody2D.AddForce(new Vector2(0f, jumpForce));
+            GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpForce));
             mInitJumping = false;
         }
     }
