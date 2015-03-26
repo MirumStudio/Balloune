@@ -8,7 +8,7 @@ public class AutoScaleTiling : MonoBehaviour {
 
 	void Start () 
 	{
-		this.renderer.material.mainTextureScale=new Vector2(this.transform.localScale.x*m_TileRatio.x,this.transform.localScale.z*m_TileRatio.y);
+		this.GetComponent<Renderer>().material.mainTextureScale=new Vector2(this.transform.localScale.x*m_TileRatio.x,this.transform.localScale.z*m_TileRatio.y);
 		Destroy(this);
 	}
 

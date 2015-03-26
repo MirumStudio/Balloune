@@ -23,7 +23,7 @@ public class MainCharacterController : BaseCharacterController {
 		
 	protected override bool CharacterWantToJump 
 	{
-		get {return Input.GetKey(KeyCode.Space) || JumpButton.GetComponent<ButtonOnPressed>().IsPressed;}
+        get { return Input.GetKey(KeyCode.Space) || (JumpButton != null && JumpButton.GetComponent<ButtonOnPressed>().IsPressed);}
 	}
 
 	protected override int GetHorizontalAxisValue() 
@@ -32,11 +32,11 @@ public class MainCharacterController : BaseCharacterController {
 
         if(value == 0)
         {
-            if(RightButton.GetComponent<ButtonOnPressed>().IsPressed)
+            if(RightButton != null && RightButton.GetComponent<ButtonOnPressed>().IsPressed)
             {
                 value++;
             }
-            else if (LeftButton.GetComponent<ButtonOnPressed>().IsPressed)
+            else if (LeftButton != null && LeftButton.GetComponent<ButtonOnPressed>().IsPressed)
             {
                 value--;
             }

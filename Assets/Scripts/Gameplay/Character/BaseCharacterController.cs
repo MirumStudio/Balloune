@@ -19,8 +19,11 @@ public abstract class BaseCharacterController : MonoBehaviour
 
     private CharacterEdgeChecker mEdgeChecker;
 
+    private Rigidbody2D mRigidbody2D;
+
 	public virtual void Start () {
         mEdgeChecker = GetComponent<CharacterEdgeChecker>();
+        mRigidbody2D = GetComponent<Rigidbody2D>();
 	}
 	
 	void Update (){
@@ -59,29 +62,29 @@ public abstract class BaseCharacterController : MonoBehaviour
 
     private bool HorizontalMaxSpeedReached(Direction pDirection)
     {
-        return pDirection.Value * rigidbody2D.velocity.x >= GetMaxSpeed();
+        return pDirection.Value * mRigidbody2D.velocity.x >= GetMaxSpeed();
     }
 
     private void AddForce(Direction pDirection)
     {
-        rigidbody2D.AddForce(Vector2.right * pDirection.Value * moveForce);
+        mRigidbody2D.AddForce(Vector2.right * pDirection.Value * moveForce);
     }
 
     private void AjustVelocity()
     {
-        Vector2 newVelocity = rigidbody2D.velocity;
+        Vector2 newVelocity = mRigidbody2D.velocity;
 
-        if (Mathf.Abs(rigidbody2D.velocity.x) > GetMaxSpeed())
+        if (Mathf.Abs(mRigidbody2D.velocity.x) > GetMaxSpeed())
         {
-            newVelocity.x = Mathf.Sign(rigidbody2D.velocity.x) * GetMaxSpeed();
+            newVelocity.x = Mathf.Sign(mRigidbody2D.velocity.x) * GetMaxSpeed();
         }
 
-        if (Mathf.Abs(rigidbody2D.velocity.y) > maxJump)
+        if (Mathf.Abs(mRigidbody2D.velocity.y) > maxJump)
         {
-            newVelocity.y = Mathf.Sign(rigidbody2D.velocity.y) * maxJump;
+            newVelocity.y = Mathf.Sign(mRigidbody2D.velocity.y) * maxJump;
         }
 
-        rigidbody2D.velocity = newVelocity;
+        mRigidbody2D.velocity = newVelocity;
     }
 
     private void CheckFlipping(Direction pDirection)
@@ -97,7 +100,7 @@ public abstract class BaseCharacterController : MonoBehaviour
     {
         if (mInitJumping)
         {
-            rigidbody2D.AddForce(new Vector2(0f, jumpForce));
+            mRigidbody2D.AddForce(new Vector2(0f, jumpForce));
             mInitJumping = false;
         }
     }
