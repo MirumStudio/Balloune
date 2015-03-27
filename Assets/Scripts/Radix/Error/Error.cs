@@ -12,7 +12,7 @@ namespace Radix.Error
     {
         private Error() { }
 
-        public static void Create(string pMessage, EErrorSeverity pSeverity = EErrorSeverity.MINOR)
+        public static void Create(string pMessage, EErrorSeverity pSeverity/* = EErrorSeverity.MINOR*/)
         {
             StackFrame frame = new StackFrame(1);
             var method = frame.GetMethod();
@@ -27,7 +27,7 @@ namespace Radix.Error
             }
         }
 
-        public static void Create(Exception pMessage, EErrorSeverity pSeverity = EErrorSeverity.MINOR)
+        public static void Create(Exception pMessage, EErrorSeverity pSeverity/* = EErrorSeverity.MINOR*/)
         {
             Create(pMessage.Message, pSeverity);
         }
