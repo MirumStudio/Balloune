@@ -11,10 +11,15 @@ public abstract class BaseCharacterController : MonoBehaviour
     private float maxJump = 5.6f;
     [SerializeField]
     private float jumpForce = 300f;
+	[SerializeField]
+	private float boostedJumpForce = 300f;
+	[SerializeField]
+	private float mTimePressed = 0;
 
     private bool mIsFacingRight = true;	
 
-    private bool mInitJumping = false;
+	private bool mInitJumping = false;
+	private bool mCanBoostJump = false;
     private bool mIsGrounded;
 
     private CharacterEdgeChecker mEdgeChecker;
@@ -33,7 +38,9 @@ public abstract class BaseCharacterController : MonoBehaviour
 
         if (CharacterWantToJump && mIsGrounded)
         {
-            mInitJumping = true;
+			mInitJumping = true;
+			mCanBoostJump = true;
+			mTimePressed = 0;
         }
 	}
 
@@ -96,14 +103,24 @@ public abstract class BaseCharacterController : MonoBehaviour
         }
     }
 
-    private void UpdateJumping()
-    {
-        if (mInitJumping)
-        {
-            mRigidbody2D.AddForce(new Vector2(0f, jumpForce));
-            mInitJumping = false;
-        }
-    }
+	private void UpdateJumping()
+	{
+		mTimePressed = mTimePressed + Time.deltaTime;
+		if (CharacterWantToJump) {
+			if (mInitJumping)
+			{
+				//Character is on the ground
+				mRigidbody2D.AddForce(new Vector2(0f, jumpForce));
+				mInitJumping = false;
+			}
+			else if(mTimePressed > 0.1f && mTimePressed < 0.15f && mCanBoostJump){
+				//Character is already in the air
+				mRigidbody2D.AddForce(new Vector2(0f, boostedJumpForce));
+				mTimePressed = 0;
+				mCanBoostJump = false;
+			}
+		}
+	}
 
 	protected abstract int GetHorizontalAxisValue();
 	
