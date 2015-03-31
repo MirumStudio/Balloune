@@ -63,7 +63,7 @@ public class MainCharacterController : BaseCharacterController {
 
 	private void boostJump(){
 		//Character is already in the air
-		mRigidbody2D.AddForce(new Vector2(0f, boostedJumpForce));
+		mRigidbody2D.AddForce(new Vector2(0f, m_BoostedJumpForce));
 		mTimePressed = 0;
 		mCanBoostJump = false;
 	}
