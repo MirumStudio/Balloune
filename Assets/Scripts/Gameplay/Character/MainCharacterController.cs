@@ -11,7 +11,12 @@ public class MainCharacterController : BaseCharacterController {
     //public GameObject RunButton;
 
     [SerializeField]
-    private float m_RunSpeed = 10;
+	private float m_RunSpeed = 10;
+	[SerializeField]
+	private float m_BoostedJumpForce = 300f;
+	
+	private bool mCanBoostJump = false;
+	private float mTimePressed = 0;
 	
     private CharacterAnimator mAnimator;
 
@@ -19,12 +24,48 @@ public class MainCharacterController : BaseCharacterController {
 	{
 		base.Start ();
 		mAnimator=GetComponent<CharacterAnimator>();
-
 	}
 		
+	protected override void Update (){
+		base.Update ();
+		
+		if (CharacterWantToJump && base.mIsGrounded)
+		{
+			mCanBoostJump = true;
+			mTimePressed = 0;
+		}
+	}
+
 	protected override bool CharacterWantToJump 
 	{
         get { return Input.GetKey(KeyCode.Space) || (JumpButton != null && JumpButton.GetComponent<ButtonOnPressed>().IsPressed);}
+	}
+
+	protected override void UpdateJumping()
+	{
+		mTimePressed = mTimePressed + Time.deltaTime;
+		if (CharacterWantToJump) {
+			jump ();
+		}
+	}
+
+	private void jump(){
+		if (base.mInitJumping)
+		{
+			//Character is on the ground
+			mRigidbody2D.AddForce(new Vector2(0f, base.jumpForce));
+			mInitJumping = false;
+		}
+		else if(mTimePressed > 0.1f && mTimePressed < 0.15f && mCanBoostJump){
+			boostJump ();
+		}
+	}
+
+	private void boostJump(){
+		//Character is already in the air
+		mRigidbody2D.AddForce(new Vector2(0f, boostedJumpForce));
+		mTimePressed = 0;
+		mCanBoostJump = false;
 	}
 
 	protected override int GetHorizontalAxisValue() 
