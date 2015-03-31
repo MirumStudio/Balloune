@@ -19,6 +19,7 @@ public class MainCharacterController : BaseCharacterController {
 	{
 		base.Start ();
 		mAnimator=GetComponent<CharacterAnimator>();
+
 	}
 		
 	protected override bool CharacterWantToJump 
