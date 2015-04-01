@@ -76,12 +76,6 @@ public class CharacterEdgeChecker : MonoBehaviour {
 		if (pEdge == EEdge.RIGHT) 
 		{
 			cornerToCheck = GetBottomRightCorner();
-			/*Vector2 bottomRightCorner = GetBottomRightCorner();
-			bool isOnLedge = Physics2D.Linecast(bottomRightCorner, bottomRightCorner, GroundLayerMask);
-			if(TouchSomething(EEdge.BOTTOM) && !isOnLedge)
-			{
-				isOnEdgeOfPlatform = true;
-			}*/
 		}
 		bool isOnLedge = Physics2D.Linecast(cornerToCheck, cornerToCheck, GroundLayerMask);
 		if(TouchSomething(EEdge.BOTTOM) && !isOnLedge)
