@@ -26,10 +26,6 @@ public class EnemyCharacterController : BaseCharacterController
 	protected override int GetHorizontalAxisValue() 
 	{
 		float horizontalAxisValue = 0;
-		bool turnAround = shouldTurnAround ();
-		if (turnAround) {
-			m_IsFacingRight = !m_IsFacingRight;
-		}
 		if (m_IsFacingRight) 
 		{
 			horizontalAxisValue = 1;
@@ -39,7 +35,11 @@ public class EnemyCharacterController : BaseCharacterController
 		else {
 			Error.Create("Enemy does not know where to go", EErrorSeverity.MINOR);
 		}
-		//Debug.Log ("m_IsFacingRight : " + m_IsFacingRight + " turnAround : " + turnAround);
+
+		bool turnAround = shouldTurnAround ();
+		if (turnAround) {
+			horizontalAxisValue = horizontalAxisValue * -1;
+		}
 		
 		return (int)Mathf.Sign(horizontalAxisValue);
 	}
@@ -61,7 +61,10 @@ public class EnemyCharacterController : BaseCharacterController
 
 	private bool shouldTurnAround(){
 		bool shouldTurnAround = false;
-		if (m_IsFacingRight && mEdgeChecker.TouchSomething (EEdge.RIGHT)) 
+		if (isAboutToFall()) 
+		{
+			shouldTurnAround = true;
+		} else if (m_IsFacingRight && mEdgeChecker.TouchSomething (EEdge.RIGHT)) 
 		{
 			shouldTurnAround = true;
 		} else if (!m_IsFacingRight && mEdgeChecker.TouchSomething (EEdge.LEFT)) 
@@ -70,6 +73,19 @@ public class EnemyCharacterController : BaseCharacterController
 		}
 
 		return shouldTurnAround;
+	}
+
+	private bool isAboutToFall(){
+		bool isAboutToFall = false;
+
+		if (m_IsFacingRight) 
+		{
+			isAboutToFall = mEdgeChecker.isOnEdgeOfPlatform (EEdge.RIGHT);
+		} else 
+		{
+			isAboutToFall = mEdgeChecker.isOnEdgeOfPlatform (EEdge.LEFT);
+		}
+		return isAboutToFall;
 	}
 }
 

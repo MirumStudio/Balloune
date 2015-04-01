@@ -123,7 +123,7 @@ public abstract class BaseCharacterController : MonoBehaviour
 		return mIsGrounded ? maxSpeed : 4f;
 	}
 	
-	private void Flip()
+	protected void Flip()
 	{
 		m_IsFacingRight = !m_IsFacingRight;
 		
