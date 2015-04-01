@@ -8,8 +8,11 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 {
 	[SerializeField]
 	private float m_PatrolRange = 100f;
+	[SerializeField]
+	private float m_VerticalPatrolRange = 100f;
 
 	private float mPatrolledDistance = 0f;
+	private float mVerticalPatrolledDistance = 0f;
 
 	public override void Start ()
 	{
@@ -23,6 +26,8 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 	protected override void FixedUpdate() 
 	{
 		base.FixedUpdate ();
+		var direction = new Direction(GetVerticalAxisValue());
+		moveVertically (direction);
 	}
 	
 	protected override int GetHorizontalAxisValue() 
@@ -45,6 +50,27 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 		mPatrolledDistance = mPatrolledDistance + horizontalAxisValue;
 		return (int)Mathf.Sign(horizontalAxisValue);
 	}
+
+	protected int GetVerticalAxisValue() 
+	{
+		float verticalAxisValue = 0;
+		if (m_VerticalPatrolRange > 0) 
+		{
+			verticalAxisValue = 1;
+		} else if (m_VerticalPatrolRange < 0) {
+			verticalAxisValue = -1;
+		}
+		else {
+			Error.Create("Enemy does not know where to go", EErrorSeverity.MINOR);
+		}
+		
+		bool turnAround = shouldTurnAroundVertically ();
+		if (turnAround) {
+			verticalAxisValue = verticalAxisValue * -1;
+		}
+		mVerticalPatrolledDistance = mVerticalPatrolledDistance + verticalAxisValue;
+		return (int)Mathf.Sign(verticalAxisValue);
+	}
 	
 	protected override void UpdateAnimation(Direction pDirection, bool pIsGrounded)
 	{
@@ -63,14 +89,34 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 		return shouldTurnAround;
 	}
 
+	private bool shouldTurnAroundVertically()
+	{
+		bool shouldTurnAround = false;
+		if (Mathf.Abs(mVerticalPatrolledDistance) >= Mathf.Abs (m_VerticalPatrolRange)) 
+		{
+			shouldTurnAround = true;
+			mVerticalPatrolledDistance = 0;
+			m_VerticalPatrolRange = m_VerticalPatrolRange * -1;
+		} 
+		return shouldTurnAround;
+	}
+
 	protected override bool CharacterWantToJump 
 	{
 		get { return false;}
 	}
-	
-	protected override void AddForce(Direction pDirection)
+
+	private void moveVertically(Direction pDirection)
 	{
-		mRigidbody2D.AddForce(Vector2.right * pDirection.Value * moveForce);
+		if (pDirection.Value != 0)
+		{
+			AddVerticalForce(pDirection);
+		}
+	}
+
+	private void AddVerticalForce(Direction pDirection)
+	{
+		mRigidbody2D.AddForce(Vector2.up * pDirection.Value * moveForce);
 	}
 }
 

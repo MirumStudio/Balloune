@@ -38,11 +38,6 @@ public class EnemyCharacterController : BaseCharacterController
 		get { return false;}
 	}
 
-	protected override void AddForce(Direction pDirection)
-	{
-		mRigidbody2D.AddForce(Vector2.right * pDirection.Value * moveForce);
-	}
-
 	protected virtual bool shouldTurnAround()
 	{
 		return false;
