@@ -32,15 +32,12 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 	
 	protected override int GetHorizontalAxisValue() 
 	{
-		float horizontalAxisValue = 0;
+		int horizontalAxisValue = 0;
 		if (m_PatrolRange > 0) 
 		{
 			horizontalAxisValue = 1;
 		} else if (m_PatrolRange < 0) {
 			horizontalAxisValue = -1;
-		}
-		else {
-			Error.Create("Enemy does not know where to go", EErrorSeverity.MINOR);
 		}
 		
 		bool turnAround = shouldTurnAround ();
@@ -48,20 +45,17 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 			horizontalAxisValue = horizontalAxisValue * -1;
 		}
 		mPatrolledDistance = mPatrolledDistance + horizontalAxisValue;
-		return (int)Mathf.Sign(horizontalAxisValue);
+		return horizontalAxisValue;
 	}
 
 	protected int GetVerticalAxisValue() 
 	{
-		float verticalAxisValue = 0;
+		int verticalAxisValue = 0;
 		if (m_VerticalPatrolRange > 0) 
 		{
 			verticalAxisValue = 1;
 		} else if (m_VerticalPatrolRange < 0) {
 			verticalAxisValue = -1;
-		}
-		else {
-			Error.Create("Enemy does not know where to go", EErrorSeverity.MINOR);
 		}
 		
 		bool turnAround = shouldTurnAroundVertically ();
@@ -69,7 +63,7 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 			verticalAxisValue = verticalAxisValue * -1;
 		}
 		mVerticalPatrolledDistance = mVerticalPatrolledDistance + verticalAxisValue;
-		return (int)Mathf.Sign(verticalAxisValue);
+		return verticalAxisValue;
 	}
 	
 	protected override void UpdateAnimation(Direction pDirection, bool pIsGrounded)

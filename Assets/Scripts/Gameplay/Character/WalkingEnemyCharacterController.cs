@@ -22,7 +22,7 @@ public class WalkingEnemyCharacterController : EnemyCharacterController
 	
 	protected override int GetHorizontalAxisValue() 
 	{
-		float horizontalAxisValue = 0;
+		int horizontalAxisValue = 0;
 		if (m_IsFacingRight) 
 		{
 			horizontalAxisValue = 1;
@@ -38,7 +38,7 @@ public class WalkingEnemyCharacterController : EnemyCharacterController
 			horizontalAxisValue = horizontalAxisValue * -1;
 		}
 		
-		return (int)Mathf.Sign(horizontalAxisValue);
+		return horizontalAxisValue;
 	}
 	
 	protected override void UpdateAnimation(Direction pDirection, bool pIsGrounded)
