@@ -16,7 +16,7 @@ public class BalloonBehavior : MonoBehaviour
     private float m_MinVelocityY = -1.0f;
 
     [SerializeField]
-    private Transform mParent = null;
+    public Transform mParent = null;
 
     private LineRenderer mline = null;
     private Rigidbody2D mRigidbody2D = null;
