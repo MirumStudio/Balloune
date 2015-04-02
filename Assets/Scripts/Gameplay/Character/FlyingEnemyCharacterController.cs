@@ -11,8 +11,10 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 	[SerializeField]
 	private float m_VerticalPatrolRange = 100f;
 
-	private float mPatrolledDistance = 0f;
-	private float mVerticalPatrolledDistance = 0f;
+	[SerializeField]
+	private float m_PatrolledDistance = 0f;
+	[SerializeField]
+	private float m_VerticalPatrolledDistance = 0f;
 
 	public override void Start ()
 	{
@@ -44,7 +46,7 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 		if (turnAround) {
 			horizontalAxisValue = horizontalAxisValue * -1;
 		}
-		mPatrolledDistance = mPatrolledDistance + horizontalAxisValue;
+		m_PatrolledDistance = m_PatrolledDistance + horizontalAxisValue;
 		return horizontalAxisValue;
 	}
 
@@ -62,7 +64,7 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 		if (turnAround) {
 			verticalAxisValue = verticalAxisValue * -1;
 		}
-		mVerticalPatrolledDistance = mVerticalPatrolledDistance + verticalAxisValue;
+		m_VerticalPatrolledDistance = m_VerticalPatrolledDistance + verticalAxisValue;
 		return verticalAxisValue;
 	}
 	
@@ -74,10 +76,10 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 	protected override bool shouldTurnAround()
 	{
 		bool shouldTurnAround = false;
-		if (Mathf.Abs(mPatrolledDistance) >= Mathf.Abs (m_PatrolRange)) 
+		if (Mathf.Abs(m_PatrolledDistance) >= Mathf.Abs (m_PatrolRange)) 
 		{
 			shouldTurnAround = true;
-			mPatrolledDistance = 0;
+			m_PatrolledDistance = 0;
 			m_PatrolRange = m_PatrolRange * -1;
 		} 
 		return shouldTurnAround;
@@ -86,10 +88,10 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 	private bool shouldTurnAroundVertically()
 	{
 		bool shouldTurnAround = false;
-		if (Mathf.Abs(mVerticalPatrolledDistance) >= Mathf.Abs (m_VerticalPatrolRange)) 
+		if (Mathf.Abs(m_VerticalPatrolledDistance) >= Mathf.Abs (m_VerticalPatrolRange)) 
 		{
 			shouldTurnAround = true;
-			mVerticalPatrolledDistance = 0;
+			m_VerticalPatrolledDistance = 0;
 			m_VerticalPatrolRange = m_VerticalPatrolRange * -1;
 		} 
 		return shouldTurnAround;
