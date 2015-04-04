@@ -37,16 +37,19 @@ public abstract class BaseCharacterController : MonoBehaviour
 		{
 			mInitJumping = true;
 		}
+
+		var direction = new Direction(GetHorizontalAxisValue());
+		move(direction);
 	}
 	
 	protected virtual void FixedUpdate()
 	{
 		if (UIPopupBase.PopupIsDisplayed) return;
-		var direction = new Direction(GetHorizontalAxisValue());
-		move (direction);
+		/*var direction = new Direction(GetHorizontalAxisValue());
+		move (direction);*/
 	}
 	
-	protected void move(Direction pDirection)
+	protected virtual void move(Direction pDirection)
 	{
 		UpdateAnimation(pDirection, mIsGrounded);
 		
@@ -60,12 +63,12 @@ public abstract class BaseCharacterController : MonoBehaviour
 		UpdateJumping();
 	}
 	
-	private bool CanMove(Direction pDirection)
+	protected bool CanMove(Direction pDirection)
 	{
 		return !(mEdgeChecker.TouchSomething(pDirection.Edge));
 	}
 	
-	private bool HorizontalMaxSpeedReached(Direction pDirection)
+	protected bool HorizontalMaxSpeedReached(Direction pDirection)
 	{
 		return pDirection.Value * mRigidbody2D.velocity.x >= GetMaxSpeed();
 	}
@@ -73,9 +76,14 @@ public abstract class BaseCharacterController : MonoBehaviour
 	protected virtual void AddForce(Direction pDirection)
 	{
 		mRigidbody2D.AddForce(Vector2.right * pDirection.Value * moveForce);
+		//Debug.Log (mRigidbody2D.position.x);
+		/*Debug.Log (pDirection.Value);
+		Vector2 newPosition = mRigidbody2D.position;
+		newPosition.x = newPosition.x + pDirection.Value;
+		mRigidbody2D.MovePosition (newPosition);*/
 	}
 	
-	private void AjustVelocity()
+	protected void AjustVelocity()
 	{
 		Vector2 newVelocity = mRigidbody2D.velocity;
 		
@@ -92,7 +100,7 @@ public abstract class BaseCharacterController : MonoBehaviour
 		mRigidbody2D.velocity = newVelocity;
 	}
 	
-	private void CheckFlipping(Direction pDirection)
+	protected void CheckFlipping(Direction pDirection)
 	{
 		if (pDirection.IsRightDirection() && !m_IsFacingRight
 		    || pDirection.IsLeftDirection() && m_IsFacingRight)

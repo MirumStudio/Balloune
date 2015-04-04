@@ -6,6 +6,9 @@ using Radix.Error;
 [RequireComponent (typeof(CharacterAnimator))]
 public class EnemyCharacterController : BaseCharacterController
 {
+	[SerializeField]
+	protected float moveSpeed = 1f;
+
 	protected CharacterAnimator mAnimator;
 	
 	public override void Start ()
@@ -22,7 +25,24 @@ public class EnemyCharacterController : BaseCharacterController
 	{
 		base.FixedUpdate ();
 	}
-	
+
+	protected override void move(Direction pDirection)
+	{
+		UpdateAnimation(pDirection, mIsGrounded);
+		
+		Vector2 newPosition = mRigidbody2D.position;
+
+		if (pDirection.Value != 0 && CanMove(pDirection) && !HorizontalMaxSpeedReached(pDirection))
+		{
+			newPosition.x = newPosition.x + (pDirection.Value *  moveSpeed * Time.deltaTime);
+		}
+		Debug.Log ("Before : " + newPosition.y);
+		mRigidbody2D.MovePosition (newPosition);
+		AjustVelocity();
+		CheckFlipping(pDirection);
+		UpdateJumping();
+	}
+
 	protected override int GetHorizontalAxisValue() 
 	{
 		return 0;

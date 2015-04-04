@@ -53,7 +53,7 @@ public class WalkingEnemyCharacterController : EnemyCharacterController
 	
 	protected override void AddForce(Direction pDirection)
 	{
-		mRigidbody2D.AddForce(Vector2.right * pDirection.Value * moveForce);
+		//mRigidbody2D.AddForce(Vector2.right * pDirection.Value * moveForce);
 	}
 	
 	protected override bool shouldTurnAround(){
