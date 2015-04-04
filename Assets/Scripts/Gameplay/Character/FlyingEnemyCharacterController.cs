@@ -134,9 +134,6 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 	
 	private void AddVerticalForce(Direction pDirection)
 	{
-		//mRigidbody2D.AddForce(Vector2.up * pDirection.Value * moveForce);
-		//Debug.Log ("mRigidbody2D.position.y : " + mRigidbody2D.position.y);
-		//Debug.Log ("pDirection.Value : " + pDirection.Value);
 		Vector2 newPosition = mRigidbody2D.position;
 		newPosition.y = newPosition.y + pDirection.Value;
 		mRigidbody2D.MovePosition (newPosition);

@@ -45,8 +45,6 @@ public abstract class BaseCharacterController : MonoBehaviour
 	protected virtual void FixedUpdate()
 	{
 		if (UIPopupBase.PopupIsDisplayed) return;
-		/*var direction = new Direction(GetHorizontalAxisValue());
-		move (direction);*/
 	}
 	
 	protected virtual void move(Direction pDirection)
@@ -76,11 +74,6 @@ public abstract class BaseCharacterController : MonoBehaviour
 	protected virtual void AddForce(Direction pDirection)
 	{
 		mRigidbody2D.AddForce(Vector2.right * pDirection.Value * moveForce);
-		//Debug.Log (mRigidbody2D.position.x);
-		/*Debug.Log (pDirection.Value);
-		Vector2 newPosition = mRigidbody2D.position;
-		newPosition.x = newPosition.x + pDirection.Value;
-		mRigidbody2D.MovePosition (newPosition);*/
 	}
 	
 	protected void AjustVelocity()
