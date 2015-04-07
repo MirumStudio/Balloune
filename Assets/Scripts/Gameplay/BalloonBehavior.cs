@@ -16,7 +16,7 @@ public class BalloonBehavior : MonoBehaviour
     private float m_MinVelocityY = -1.0f;
 
     [SerializeField]
-    public Transform mParent = null;
+    public Transform m_Parent = null;
 
     private LineRenderer mline = null;
     private Rigidbody2D mRigidbody2D = null;
@@ -52,7 +52,7 @@ public class BalloonBehavior : MonoBehaviour
 
     private float GetDistanceBetweenParentAndPosition()
     {
-        return Vector2.Distance(mParent.position, transform.position);
+        return Vector2.Distance(m_Parent.position, transform.position);
     }
 
     private void UpdateSpringJoint(float aDistance)
@@ -75,7 +75,7 @@ public class BalloonBehavior : MonoBehaviour
     private void UpdateLinePosition()
     {
         mline.SetPosition(0, new Vector3(transform.position.x, transform.position.y, -1));
-        mline.SetPosition(1, new Vector3(mParent.position.x, mParent.position.y, -1));
+        mline.SetPosition(1, new Vector3(m_Parent.position.x, m_Parent.position.y, -1));
     }
 
     private void Ajustvelocity()
