@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
+using Radix.Event;
+using Radix.Error;
 
 public class BalloonBehavior : MonoBehaviour
 {
@@ -18,14 +21,24 @@ public class BalloonBehavior : MonoBehaviour
     [SerializeField]
     public Transform m_Parent = null;
 
+	public int balloonIndex = -1;
+
     private LineRenderer mline = null;
     private Rigidbody2D mRigidbody2D = null;
     private SpringJoint2D mSpringJoint2D = null;
+	private BalloonHolder balloonHolder = null;
+
+	[SerializeField]
+	private float m_MaximumInvulnerableTime = 2f;
+	private bool mIsInvulnerable = false;
+	private float mInvulnerableTime = 0f;
 
     void Start()
     {
         mRigidbody2D = GetComponent<Rigidbody2D>();
-        mSpringJoint2D = GetComponent<SpringJoint2D>();
+		mSpringJoint2D = GetComponent<SpringJoint2D>();
+		balloonHolder = (BalloonHolder) this.mSpringJoint2D.connectedBody.GetComponent<BalloonHolder>();
+		EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
         InitLineRenderer();
 
         //Testing purpose
@@ -48,6 +61,7 @@ public class BalloonBehavior : MonoBehaviour
         AjustAngularDrag();
         UpdateLinePosition();
         UpdateSpringJoint(GetDistanceBetweenParentAndPosition());
+		CheckInvulnerability ();
     }
 
     private float GetDistanceBetweenParentAndPosition()
@@ -66,6 +80,16 @@ public class BalloonBehavior : MonoBehaviour
             mSpringJoint2D.enabled = false;
         }
     }
+
+	private void CheckInvulnerability() {
+		if (mIsInvulnerable) {
+			mInvulnerableTime += Time.deltaTime;
+			if (mInvulnerableTime >= m_MaximumInvulnerableTime) {
+				mIsInvulnerable = false;
+				mInvulnerableTime = 0;
+			}
+		}
+	}
 
     private void AjustAngularDrag()
     {
@@ -103,4 +127,45 @@ public class BalloonBehavior : MonoBehaviour
     {
         return Mathf.Max(m_MinVelocityY, mRigidbody2D.velocity.y);
     }
+
+	public void OnCollisionEnter2D(Collision2D pCollision)
+	{
+		var interactable = pCollision.gameObject.GetComponent<Interactable>();
+		if (interactable != null && interactable.GetType() == typeof(HazardousInteractable))
+		{
+			interactable.DispacthEvent();
+			if (interactable.IsPassableThrough)
+			{
+				var interactableCollider = pCollision.gameObject.GetComponent<Collider2D>();
+				Physics2D.IgnoreCollision(GetComponent<Collider2D>(), interactableCollider);
+			}
+		}
+	}
+
+	private void OnHazardousCollision(Enum pEvent, System.Object pArg)
+	{
+		Assert.Check(pArg is HazardousInteractable);
+		int damage = (pArg as HazardousInteractable).Damage;
+		if (damage > 0 && !this.mIsInvulnerable)
+		{
+			popBalloon();
+		}
+		checkIfGameOver();
+	}
+
+	private void popBalloon(){
+		//TODO balloon explosion animation and sound effect
+		balloonHolder.destroyBalloon(balloonIndex);
+	}
+
+	private void checkIfGameOver() {
+		if (balloonHolder.countBalloons() <= 0)
+		{
+			EventService.DipatchEvent(EGameEvent.GAME_OVER, null);
+		}
+	}
+	
+	public void setInvulnerable(bool pInvulnerable) {
+		this.mIsInvulnerable = pInvulnerable;
+	}
 }

@@ -10,11 +10,11 @@ public class Lifebar : MonoBehaviour {
 
 	void Start () {
         m_lifeCount = transform.childCount;
-        EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
+        //EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
         EventListener.Register(EGameEvent.LIFE_COLLISION, OnLifeCollision);
 	}
 
-    private void OnHazardousCollision(Enum pEvent, System.Object pArg)
+    /*private void OnHazardousCollision(Enum pEvent, System.Object pArg)
     {
         Assert.Check(pArg is HazardousInteractable);
         int damage = (pArg as HazardousInteractable).Damage;
@@ -24,7 +24,7 @@ public class Lifebar : MonoBehaviour {
             damage--;
         }
         CheckLife();
-    }
+    }*/
 
     private void RemoveOneLife()
     {

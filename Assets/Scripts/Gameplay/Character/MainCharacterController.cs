@@ -116,7 +116,7 @@ public class MainCharacterController : BaseCharacterController {
 	public void OnCollisionEnter2D(Collision2D pCollision)
 	{
 		var interactable = pCollision.gameObject.GetComponent<Interactable>();
-		if (interactable != null)
+		if (interactable != null && interactable.GetType() != typeof(HazardousInteractable))
 		{
 			interactable.DispacthEvent();
 			if (interactable.IsPassableThrough)
