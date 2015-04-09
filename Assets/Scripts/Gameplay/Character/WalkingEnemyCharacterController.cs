@@ -51,11 +51,6 @@ public class WalkingEnemyCharacterController : EnemyCharacterController
 		get { return false;}
 	}
 	
-	protected override void AddForce(Direction pDirection)
-	{
-		mRigidbody2D.AddForce(Vector2.right * pDirection.Value * moveForce);
-	}
-	
 	protected override bool shouldTurnAround(){
 		bool shouldTurnAround = false;
 		if (isAboutToFall()) 

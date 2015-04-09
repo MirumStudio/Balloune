@@ -22,14 +22,15 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 	}
 	
 	protected override void Update (){
-		base.Update ();
+		//base.Update ();
+		var xDirection = new Direction(GetHorizontalAxisValue());
+		var yDirection = new Direction(GetVerticalAxisValue());
+		move (xDirection, yDirection);
 	}
 	
 	protected override void FixedUpdate() 
 	{
 		base.FixedUpdate ();
-		var direction = new Direction(GetVerticalAxisValue());
-		moveVertically (direction);
 	}
 	
 	protected override int GetHorizontalAxisValue() 
@@ -46,7 +47,7 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 		if (turnAround) {
 			horizontalAxisValue = horizontalAxisValue * -1;
 		}
-		m_PatrolledDistance = m_PatrolledDistance + horizontalAxisValue;
+		m_PatrolledDistance = m_PatrolledDistance + horizontalAxisValue  * moveSpeed * Time.deltaTime;
 		return horizontalAxisValue;
 	}
 
@@ -64,7 +65,7 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 		if (turnAround) {
 			verticalAxisValue = verticalAxisValue * -1;
 		}
-		m_VerticalPatrolledDistance = m_VerticalPatrolledDistance + verticalAxisValue;
+		m_VerticalPatrolledDistance = m_VerticalPatrolledDistance + verticalAxisValue * moveSpeed * Time.deltaTime;
 		return verticalAxisValue;
 	}
 	
@@ -102,6 +103,27 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 		get { return false;}
 	}
 
+	protected void move(Direction pXDirection, Direction pYDirection)
+	{
+		UpdateAnimation(pXDirection, mIsGrounded);
+
+		Vector2 newPosition = mRigidbody2D.position;
+
+		if (pXDirection.Value != 0 && CanMove(pXDirection) && !HorizontalMaxSpeedReached(pXDirection))
+		{
+			newPosition.x = newPosition.x + (pXDirection.Value *  moveSpeed * Time.deltaTime);
+		}
+		if (pYDirection.Value != 0 && CanMove (pYDirection)) 
+		{
+			newPosition.y = newPosition.y + (pYDirection.Value *  moveSpeed * Time.deltaTime);
+		}
+
+		mRigidbody2D.MovePosition (newPosition);
+		AjustVelocity();
+		CheckFlipping(pXDirection);
+		UpdateJumping();
+	}
+
 	private void moveVertically(Direction pDirection)
 	{
 		if (pDirection.Value != 0)
@@ -112,7 +134,9 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 
 	private void AddVerticalForce(Direction pDirection)
 	{
-		mRigidbody2D.AddForce(Vector2.up * pDirection.Value * moveForce);
+		Vector2 newPosition = mRigidbody2D.position;
+		newPosition.y = newPosition.y + pDirection.Value;
+		mRigidbody2D.MovePosition (newPosition);
 	}
 }
 
