@@ -126,10 +126,11 @@ public class MainCharacterController : BaseCharacterController {
 			}
 		}
 	}
-	
-	/* FOR REFERENCE
-	How reset ignoreCollision
+
+    /* FOR REFERENCE
+     * Physics2D.IgnoreCollision(GetComponent<Collider2D>(), interactableCollider, false);
+    How reset ignoreCollision
      * /*pCollision.gameObject.SetActive(false);
             pCollision.gameObject.SetActive(true);*/
-	//pCollision.gameObject.SetActive(false);*/
+    //pCollision.gameObject.SetActive(false);*/
 }
