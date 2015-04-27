@@ -10,9 +10,6 @@ public class BalloonBehavior : MonoBehaviour
     private float m_MaxDistance = 4.00f;
 
     [SerializeField]
-    private float m_AngularDrag = 1f;
-
-    [SerializeField]
     private float m_MaxVelocityX = 3.0f;
 
     [SerializeField]
@@ -25,7 +22,8 @@ public class BalloonBehavior : MonoBehaviour
 
     private LineRenderer mline = null;
     private Rigidbody2D mRigidbody2D = null;
-    private SpringJoint2D mSpringJoint2D = null;
+	//private SpringJoint2D mSpringJoint2D = null;
+	private DistanceJoint2D mDistanceJoint2D = null;
 	private BalloonHolder balloonHolder = null;
 
 	[SerializeField]
@@ -36,8 +34,10 @@ public class BalloonBehavior : MonoBehaviour
     void Start()
     {
         mRigidbody2D = GetComponent<Rigidbody2D>();
-		mSpringJoint2D = GetComponent<SpringJoint2D>();
-		balloonHolder = (BalloonHolder) this.mSpringJoint2D.connectedBody.GetComponent<BalloonHolder>();
+		//mSpringJoint2D = GetComponent<SpringJoint2D>();
+		mDistanceJoint2D = GetComponent<DistanceJoint2D>();
+		//balloonHolder = (BalloonHolder) this.mSpringJoint2D.connectedBody.GetComponent<BalloonHolder>();
+		balloonHolder = (BalloonHolder) this.mDistanceJoint2D.connectedBody.GetComponent<BalloonHolder>();
 		EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
         InitLineRenderer();
 
@@ -57,8 +57,7 @@ public class BalloonBehavior : MonoBehaviour
 
     private void Update()
     {
-        Ajustvelocity();
-        AjustAngularDrag();
+        Adjustvelocity();
         UpdateLinePosition();
         UpdateSpringJoint(GetDistanceBetweenParentAndPosition());
 		CheckInvulnerability ();
@@ -73,11 +72,12 @@ public class BalloonBehavior : MonoBehaviour
     {
         if (aDistance >= m_MaxDistance)
         {
-            mSpringJoint2D.enabled = true;
+			//mDistanceJoint2D.enabled = true;
         }
-        else if (aDistance < m_MaxDistance && mSpringJoint2D.enabled)
-        {
-            mSpringJoint2D.enabled = false;
+		//else if (aDistance < m_MaxDistance && mSpringJoint2D.enabled)
+		else if (aDistance < m_MaxDistance && mDistanceJoint2D.enabled)
+		{
+			//mDistanceJoint2D.enabled = false;
         }
     }
 
@@ -91,23 +91,18 @@ public class BalloonBehavior : MonoBehaviour
 		}
 	}
 
-    private void AjustAngularDrag()
-    {
-        mRigidbody2D.angularDrag = m_AngularDrag;
-    }
-
     private void UpdateLinePosition()
     {
         mline.SetPosition(0, new Vector3(transform.position.x, transform.position.y, -1));
         mline.SetPosition(1, new Vector3(m_Parent.position.x, m_Parent.position.y, -1));
     }
 
-    private void Ajustvelocity()
+    private void Adjustvelocity()
     {
-        mRigidbody2D.velocity = new Vector2(AjustVelocityX(), AjustVelocityY());
+        mRigidbody2D.velocity = new Vector2(AdjustVelocityX(), AdjustVelocityY());
     }
 
-    private float AjustVelocityX()
+    private float AdjustVelocityX()
     {
         float x = mRigidbody2D.velocity.x;
 
@@ -123,7 +118,7 @@ public class BalloonBehavior : MonoBehaviour
         return x;
     }
 
-    private float AjustVelocityY()
+    private float AdjustVelocityY()
     {
         return Mathf.Max(m_MinVelocityY, mRigidbody2D.velocity.y);
     }
