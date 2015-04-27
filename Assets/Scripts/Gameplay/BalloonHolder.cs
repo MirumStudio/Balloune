@@ -20,16 +20,18 @@ public class BalloonHolder : MonoBehaviour {
 			BalloonBehavior balloonBehavior = m_LifeBalloons[i].GetComponent<BalloonBehavior>();
 			balloonBehavior.m_Parent = m_Tack.transform;
 			balloonBehavior.balloonIndex = i;
+
+			//TESTING PURPOSES, REMOVE THIS
+			Time.timeScale = 0.3f;
 		}
 	}
 
     private GameObject CreateBalloon(float x)
     {
         var balloon = Instantiate(m_PrefabBalloune, new Vector2(x, 3), Quaternion.identity) as GameObject;
-		SpringJoint2D balloonJoint= balloon.GetComponent<SpringJoint2D> ();
+		DistanceJoint2D balloonJoint= balloon.GetComponent<DistanceJoint2D> ();
 		balloonJoint.connectedBody = m_Tack.GetComponent<Rigidbody2D>();
 		heldBalloons++;
-        //balloon.GetComponent<BalloonBehavior>().m_Parent = m_Tack.transform;
 		return balloon;
     }
 
