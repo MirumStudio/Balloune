@@ -7,9 +7,6 @@ using Radix.Error;
 public class BalloonBehavior : MonoBehaviour
 {
     [SerializeField]
-    private float m_MaxDistance = 4.00f;
-
-    [SerializeField]
     private float m_MaxVelocityX = 3.0f;
 
     [SerializeField]
@@ -57,31 +54,25 @@ public class BalloonBehavior : MonoBehaviour
 
     private void Update()
     {
-        Adjustvelocity();
-        UpdateLinePosition();
-        UpdateSpringJoint(GetDistanceBetweenParentAndPosition());
-		CheckInvulnerability ();
+        /*Adjustvelocity();
+        UpdateLinePosition();*/
+		CheckIfInvulnerable ();
     }
+
+	private void FixedUpdate()
+	{
+		Adjustvelocity();
+		UpdateLinePosition();
+		UpdateLineDistance();
+	}
 
     private float GetDistanceBetweenParentAndPosition()
     {
-        return Vector2.Distance(m_Parent.position, transform.position);
+		return Vector2.Distance(m_Parent.position, mRigidbody2D.position);
+        //return Vector2.Distance(m_Parent.position, transform.position);
     }
 
-    private void UpdateSpringJoint(float aDistance)
-    {
-        if (aDistance >= m_MaxDistance)
-        {
-			//mDistanceJoint2D.enabled = true;
-        }
-		//else if (aDistance < m_MaxDistance && mSpringJoint2D.enabled)
-		else if (aDistance < m_MaxDistance && mDistanceJoint2D.enabled)
-		{
-			//mDistanceJoint2D.enabled = false;
-        }
-    }
-
-	private void CheckInvulnerability() {
+	private void CheckIfInvulnerable() {
 		if (mIsInvulnerable) {
 			mInvulnerableTime += Time.deltaTime;
 			if (mInvulnerableTime >= m_MaximumInvulnerableTime) {
@@ -96,6 +87,33 @@ public class BalloonBehavior : MonoBehaviour
         mline.SetPosition(0, new Vector3(transform.position.x, transform.position.y, -1));
         mline.SetPosition(1, new Vector3(m_Parent.position.x, m_Parent.position.y, -1));
     }
+
+	private void UpdateLineDistance()
+	{
+		float maxDistance = mDistanceJoint2D.distance;
+		float currentDistance = GetDistanceBetweenParentAndPosition ();
+		Debug.Log ("CurrentDistance : " + currentDistance);
+		bool fixRequired = false;
+		if (currentDistance > maxDistance) {
+			Vector2 balloonPosition = new Vector2(mRigidbody2D.position.x, mRigidbody2D.position.y);
+			Debug.Log ("currentTackPosition : (" + m_Parent.position.x + "," + m_Parent.position.y +")");
+			Debug.Log ("currentBalloonPosition : (" + balloonPosition.x + "," + balloonPosition.y +")");
+
+			double distance = Vector2.Distance (balloonPosition, m_Parent.position);
+			float distanceRatio = (float) (-maxDistance / distance);
+
+			float distanceX = m_Parent.position.x - balloonPosition.x;
+			float newX = distanceX * distanceRatio + m_Parent.position.x;
+
+			float distanceY =  m_Parent.position.y - balloonPosition.y;
+			float newY = distanceY * distanceRatio + m_Parent.position.y;
+
+			Debug.Log ("New Coordinates : (" + newX + "," + newY +")");
+			mRigidbody2D.MovePosition(new Vector2(newX, newY));
+			fixRequired = true;
+		}
+		Debug.Log ("fixRequired : " + fixRequired);
+	}
 
     private void Adjustvelocity()
     {
