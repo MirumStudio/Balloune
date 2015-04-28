@@ -20,9 +20,7 @@ public class BalloonHolder : MonoBehaviour {
 			BalloonBehavior balloonBehavior = m_LifeBalloons[i].GetComponent<BalloonBehavior>();
 			balloonBehavior.m_Parent = m_Tack.transform;
 			balloonBehavior.balloonIndex = i;
-
-			//TESTING PURPOSES, REMOVE THIS
-			Time.timeScale = 0.3f;
+			i = m_LifeBalloons.Length;
 		}
 	}
 
