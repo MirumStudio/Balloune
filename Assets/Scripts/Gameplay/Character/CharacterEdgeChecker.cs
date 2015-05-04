@@ -40,14 +40,14 @@ public class CharacterEdgeChecker : MonoBehaviour {
             Vector2 vector = GetBottomRightCorner();
             vector.y += 0.05f;
             Debug.DrawLine(GetTopRightCorner(), vector, Color.blue);
-			isTouchingSomething = Physics2D.Linecast(GetTopRightCorner(), vector, GroundLayerMask);
+			//isTouchingSomething = Physics2D.Linecast(GetTopRightCorner(), vector, GroundLayerMask);
         }
         else if(edge == EEdge.LEFT)
         {
             Vector2 vector = GetBottomLeftCorner();
             vector.y += 0.05f;
             Debug.DrawLine(GetTopLeftCorner(), vector, Color.green);
-			isTouchingSomething = Physics2D.Linecast(GetTopLeftCorner(), vector, GroundLayerMask);
+			//isTouchingSomething = Physics2D.Linecast(GetTopLeftCorner(), vector, GroundLayerMask);
         }
         else if(edge == EEdge.TOP)
         {

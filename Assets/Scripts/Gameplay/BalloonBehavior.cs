@@ -37,7 +37,7 @@ public class BalloonBehavior : MonoBehaviour
 		//balloonHolder = (BalloonHolder) this.mSpringJoint2D.connectedBody.GetComponent<BalloonHolder>();
 		//balloonHolder = (BalloonHolder) this.mDistanceJoint2D.connectedBody.GetComponent<BalloonHolder>();
 		rope = GetComponent<Rope> ();
-		balloonHolder = (BalloonHolder)rope.GetStartOfRope().GetHingeJoint().connectedBody.GetComponent<BalloonHolder>();
+		///balloonHolder = (BalloonHolder)rope.GetStartOfRope().GetHingeJoint().connectedBody.GetComponent<BalloonHolder>();
 		EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
         InitLineRenderer();
 

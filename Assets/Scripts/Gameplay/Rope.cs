@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Rope : Component
+public class Rope : MonoBehaviour
 {
 	private int ropeLength;
 

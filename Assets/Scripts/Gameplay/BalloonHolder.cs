@@ -30,7 +30,7 @@ public class BalloonHolder : MonoBehaviour {
     private GameObject CreateBalloon(float x)
 	{
 		Rope rope = new Rope(ropeLength);
-		rope.GetStartOfRope().GetHingeJoint().connectedBody = m_Tack.GetComponent<Rigidbody2D> ();
+		//rope.GetStartOfRope().GetHingeJoint().connectedBody = m_Tack.GetComponent<Rigidbody2D> ();
         GameObject balloon = Instantiate(m_PrefabBalloune, new Vector2(x, 3), Quaternion.identity) as GameObject;
 		//DistanceJoint2D balloonJoint= balloon.GetComponent<DistanceJoint2D> ();
 		//SpringJoint2D balloonJoint = balloon.GetComponent<SpringJoint2D> ();
