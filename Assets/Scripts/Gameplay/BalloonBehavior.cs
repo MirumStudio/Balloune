@@ -22,6 +22,7 @@ public class BalloonBehavior : MonoBehaviour
 	//private SpringJoint2D mSpringJoint2D = null;
 	private DistanceJoint2D mDistanceJoint2D = null;
 	private BalloonHolder balloonHolder = null;
+	private Rope rope = null;
 
 	[SerializeField]
 	private float m_MaximumInvulnerableTime = 2f;
@@ -34,7 +35,9 @@ public class BalloonBehavior : MonoBehaviour
 		//mSpringJoint2D = GetComponent<SpringJoint2D>();
 		mDistanceJoint2D = GetComponent<DistanceJoint2D>();
 		//balloonHolder = (BalloonHolder) this.mSpringJoint2D.connectedBody.GetComponent<BalloonHolder>();
-		balloonHolder = (BalloonHolder) this.mDistanceJoint2D.connectedBody.GetComponent<BalloonHolder>();
+		//balloonHolder = (BalloonHolder) this.mDistanceJoint2D.connectedBody.GetComponent<BalloonHolder>();
+		rope = GetComponent<Rope> ();
+		balloonHolder = (BalloonHolder)rope.GetStartOfRope().GetHingeJoint().connectedBody.GetComponent<BalloonHolder>();
 		EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
         InitLineRenderer();
 
@@ -54,16 +57,13 @@ public class BalloonBehavior : MonoBehaviour
 
     private void Update()
     {
-        /*Adjustvelocity();
-        UpdateLinePosition();*/
 		CheckIfInvulnerable ();
     }
 
 	private void FixedUpdate()
 	{
 		Adjustvelocity();
-		UpdateLinePosition();
-		UpdateLineDistance();
+		//UpdateLinePosition();
 	}
 
     private float GetDistanceBetweenParentAndPosition()
@@ -84,6 +84,7 @@ public class BalloonBehavior : MonoBehaviour
 
     private void UpdateLinePosition()
     {
+		//UpdateLineDistance ();
         mline.SetPosition(0, new Vector3(transform.position.x, transform.position.y, -1));
         mline.SetPosition(1, new Vector3(m_Parent.position.x, m_Parent.position.y, -1));
     }
@@ -91,13 +92,14 @@ public class BalloonBehavior : MonoBehaviour
 	private void UpdateLineDistance()
 	{
 		float maxDistance = mDistanceJoint2D.distance;
+		//float maxDistance = mSpringJoint2D.distance;
 		float currentDistance = GetDistanceBetweenParentAndPosition ();
-		Debug.Log ("CurrentDistance : " + currentDistance);
+		//Debug.Log ("CurrentDistance : " + currentDistance);
 		bool fixRequired = false;
 		if (currentDistance > maxDistance) {
 			Vector2 balloonPosition = new Vector2(mRigidbody2D.position.x, mRigidbody2D.position.y);
-			Debug.Log ("currentTackPosition : (" + m_Parent.position.x + "," + m_Parent.position.y +")");
-			Debug.Log ("currentBalloonPosition : (" + balloonPosition.x + "," + balloonPosition.y +")");
+			//Debug.Log ("currentTackPosition : (" + m_Parent.position.x + "," + m_Parent.position.y +")");
+			//Debug.Log ("currentBalloonPosition : (" + balloonPosition.x + "," + balloonPosition.y +")");
 
 			double distance = Vector2.Distance (balloonPosition, m_Parent.position);
 			float distanceRatio = (float) (-maxDistance / distance);
@@ -108,11 +110,11 @@ public class BalloonBehavior : MonoBehaviour
 			float distanceY =  m_Parent.position.y - balloonPosition.y;
 			float newY = distanceY * distanceRatio + m_Parent.position.y;
 
-			Debug.Log ("New Coordinates : (" + newX + "," + newY +")");
+			//Debug.Log ("New Coordinates : (" + newX + "," + newY +")");
 			mRigidbody2D.MovePosition(new Vector2(newX, newY));
 			fixRequired = true;
 		}
-		Debug.Log ("fixRequired : " + fixRequired);
+		//Debug.Log ("fixRequired : " + fixRequired);
 	}
 
     private void Adjustvelocity()
@@ -180,5 +182,15 @@ public class BalloonBehavior : MonoBehaviour
 	
 	public void setInvulnerable(bool pInvulnerable) {
 		this.mIsInvulnerable = pInvulnerable;
+	}
+
+	public Rope GetRope()
+	{
+		return rope;
+	}
+
+	public void SetRope(Rope pRope)
+	{
+		rope = pRope;
 	}
 }

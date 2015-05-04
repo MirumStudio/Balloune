@@ -9,12 +9,15 @@ public class BalloonHolder : MonoBehaviour {
 	[SerializeField]
     protected GameObject m_PrefabBalloune;
 
+	[SerializeField]
+	int ropeLength = 4;
+
 	private GameObject[] m_LifeBalloons = new GameObject[3];
 	private int heldBalloons = 0;
 
 	// Use this for initialization
 	void Start () {
-		int firstBalloonX = -32;
+		int firstBalloonX = -45;
 		for (int i = 0; i < m_LifeBalloons.Length; i++) {
 			m_LifeBalloons[i] = CreateBalloon (firstBalloonX - (i * 3));
 			BalloonBehavior balloonBehavior = m_LifeBalloons[i].GetComponent<BalloonBehavior>();
@@ -25,10 +28,17 @@ public class BalloonHolder : MonoBehaviour {
 	}
 
     private GameObject CreateBalloon(float x)
-    {
-        var balloon = Instantiate(m_PrefabBalloune, new Vector2(x, 3), Quaternion.identity) as GameObject;
-		DistanceJoint2D balloonJoint= balloon.GetComponent<DistanceJoint2D> ();
-		balloonJoint.connectedBody = m_Tack.GetComponent<Rigidbody2D>();
+	{
+		Rope rope = new Rope(ropeLength);
+		rope.GetStartOfRope().GetHingeJoint().connectedBody = m_Tack.GetComponent<Rigidbody2D> ();
+        GameObject balloon = Instantiate(m_PrefabBalloune, new Vector2(x, 3), Quaternion.identity) as GameObject;
+		//DistanceJoint2D balloonJoint= balloon.GetComponent<DistanceJoint2D> ();
+		//SpringJoint2D balloonJoint = balloon.GetComponent<SpringJoint2D> ();
+		//balloonJoint.connectedBody = m_Tack.GetComponent<Rigidbody2D>();
+
+		balloon.GetComponent<HingeJoint2D>().connectedBody = rope.GetEndOfRope().GetRigidBody();
+		rope = balloon.AddComponent<Rope>();
+		Debug.Log ("balloon ropes : " + balloon.GetComponents<Rope>().Length);
 		heldBalloons++;
 		return balloon;
     }
