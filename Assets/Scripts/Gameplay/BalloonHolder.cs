@@ -10,6 +10,9 @@ public class BalloonHolder : MonoBehaviour {
     protected GameObject m_PrefabBalloune;
 
 	[SerializeField]
+	protected GameObject m_PrefabRope;
+
+	[SerializeField]
 	int ropeLength = 4;
 
 	private GameObject[] m_LifeBalloons = new GameObject[3];
@@ -29,8 +32,11 @@ public class BalloonHolder : MonoBehaviour {
 
     private GameObject CreateBalloon(float x)
 	{
-		Rope rope = new Rope(ropeLength);
+		//Rope rope = new Rope(ropeLength);
 		//attach rope to character
+		GameObject ropeGameObject = Instantiate (m_PrefabRope, new Vector2 (x, 3), Quaternion.identity) as GameObject;
+		Rope rope = ropeGameObject.GetComponent<Rope> ();
+		rope.createRope (ropeLength);
 		rope.GetStartOfRope().GetComponent<HingeJoint2D>().connectedBody = m_Tack.GetComponent<Rigidbody2D> ();
 
         GameObject balloon = Instantiate(m_PrefabBalloune, new Vector2(x, 3), Quaternion.identity) as GameObject;
