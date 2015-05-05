@@ -4,20 +4,31 @@ public class Rope : Component
 {
 	private int ropeLength;
 
-	private RopeSegment[] ropeSegments;
+	private GameObject[] ropeSegments;
 
 	public Rope (int pRopeLength)
 	{
 		ropeLength = pRopeLength;
-		ropeSegments = new RopeSegment[ropeLength];
+		ropeSegments = new GameObject[ropeLength];
 
 		for (int i = 0; i < ropeLength; i++) {
-			RopeSegment newSegment = new RopeSegment();
-			HingeJoint2D newHinge = new HingeJoint2D ();
-			newSegment.SetHingeJoint(newHinge);
+			GameObject newSegment = new GameObject();
+			Rigidbody2D newRigidBody = newSegment.AddComponent<Rigidbody2D>();
+			HingeJoint2D newHinge = newSegment.AddComponent<HingeJoint2D>();
+			SpriteRenderer newSprite = newSegment.AddComponent<SpriteRenderer>();
+			newSegment.name = "hinge" + i;
+			newRigidBody.gravityScale = -1;
+			newRigidBody.drag = 1;
+			newSprite.sortingOrder = 24;
+			//newSprite.sprite = UnityEngine.Sprite.Create(Resources.Load<Texture2D>("Ressources/balloonRope"), new Rect(0,0,10,100), new Vector2(0,0));
+			newSprite.sprite = Resources.Load<UnityEngine.Sprite>("Assets/Ressources/balloonRope.jpg");
 			if (i > 0) {
-				newSegment.GetHingeJoint().connectedBody = ropeSegments[i - 1].GetRigidBody();
+				newHinge.connectedBody = ropeSegments[i - 1].GetComponent<Rigidbody2D>();
 			}
+			else {
+				newHinge.connectedAnchor = new Vector2(0,0);
+			}
+			newHinge.anchor = new Vector2(0, -1);
 			ropeSegments[i] = newSegment;
 		}
 	}
@@ -27,12 +38,12 @@ public class Rope : Component
 		return ropeLength;
 	}
 
-	public RopeSegment GetStartOfRope()
+	public GameObject GetStartOfRope()
 	{
 		return ropeSegments[0];
 	}
 
-	public RopeSegment GetEndOfRope()
+	public GameObject GetEndOfRope()
 	{
 		return ropeSegments[ropeLength - 1];
 	}
