@@ -1,10 +1,12 @@
 fileFormatVersion: 2
 guid: 0faa3bcace6ce5442bde69ce39e7583a
-timeCreated: 1428395178
+timeCreated: 1430815134
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - m_Tack: {instanceID: 0}
+  - m_PrefabBalloune: {fileID: 175754, guid: 05a442575c5995947b9257489b557c9c, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
