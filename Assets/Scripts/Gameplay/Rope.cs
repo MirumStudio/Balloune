@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class Rope : MonoBehaviour
 {
-	private int mRopeLength;
+	private float mRopeLength;
+	private int mNumberOfHinges;
 
 	private GameObject[] mRopeSegments;
 
 	[SerializeField]
-	private GameObject m_RopeSegmentPrefab;
+	private GameObject m_RopeSegmentPrefab = null;
 
 	public Rope (int pRopeLength)
 	{
@@ -40,23 +41,23 @@ public class Rope : MonoBehaviour
 		}*/
 	}
 
-	public void createRope(int pRopeLength)
+	public void createRope(float pRopeLength, int pNumberOfHinges)
 	{
 		mRopeLength = pRopeLength;
-		mRopeSegments = new GameObject[mRopeLength];
-		
-		for (int i = 0; i < mRopeLength; i++) {
+		mNumberOfHinges = pNumberOfHinges;
+		mRopeSegments = new GameObject[mNumberOfHinges];
+		float lengthOfEachSegment = GetLengthOfEachSegment();
+		for (int i = 0; i < mNumberOfHinges; i++) {
 			GameObject newSegment = Instantiate (m_RopeSegmentPrefab, new Vector2 (0, i), Quaternion.identity) as GameObject;
 			LineRenderer segmentLineRenderer = newSegment.GetComponent<LineRenderer>();
+			segmentLineRenderer.SetPosition (1, new Vector3(0, lengthOfEachSegment, -1));
 			HingeJoint2D segmentHinge = newSegment.GetComponent<HingeJoint2D>();
 			newSegment.name = "segment" + i;
 			if(i > 0)
 			{
 				GameObject previousSegment = mRopeSegments[i - 1];
-				//segmentLineRenderer.SetPosition (0, new Vector3(0, previousSegment.transform.position.y - 0.5f, 19));
-				//segmentLineRenderer.SetPosition (1, new Vector3(0, previousSegment.transform.position.y + 0.5f, 19));
 				segmentHinge.connectedBody = mRopeSegments[i - 1].GetComponent<Rigidbody2D>();
-				segmentHinge.connectedAnchor = new Vector2(0, 0.5f);
+				segmentHinge.connectedAnchor = new Vector2(0, lengthOfEachSegment);
 			}
 			else {
 				segmentHinge.connectedAnchor = new Vector2(0,0);
@@ -66,9 +67,18 @@ public class Rope : MonoBehaviour
 		}
 	}
 
+	public float GetLengthOfEachSegment()
+	{
+		float returnValue = (mRopeLength / mNumberOfHinges) - 0.5f;
+		Debug.Log (mRopeLength);
+		Debug.Log (mNumberOfHinges);
+		Debug.Log (returnValue);
+		return returnValue;
+	}
+
 	public int GetLength()
 	{
-		return mRopeLength;
+		return mNumberOfHinges;
 	}
 
 	public GameObject GetStartOfRope()
@@ -78,7 +88,7 @@ public class Rope : MonoBehaviour
 
 	public GameObject GetEndOfRope()
 	{
-		return mRopeSegments[mRopeLength - 1];
+		return mRopeSegments[mNumberOfHinges - 1];
 	}
 }
 
