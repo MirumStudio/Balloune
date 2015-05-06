@@ -11,6 +11,7 @@ namespace Radix.DatabaseManagement.Sqlite
 {
     public class SqliteService : ServiceBase
     {
+        private System.Object mLock = new System.Object();
         private IDbConnection mDBConnection;
 
         protected override void Init()
@@ -23,15 +24,15 @@ namespace Radix.DatabaseManagement.Sqlite
 
         }
 
-        public bool ExecuteQuery(SQLQuery pQuery)
+        public void ExecuteQuery(SQLQuery pQuery)
         {
-            lock (mDBConnection)
+            lock (mLock)
             {
-                return ExecuteQueryThreadSafe(pQuery);
+                ExecuteQueryThreadSafe(pQuery);
             }
         }
 
-        public bool ExecuteQueryThreadSafe(SQLQuery pQuery)
+        public void ExecuteQueryThreadSafe(SQLQuery pQuery)
         {
             try
             {
@@ -42,9 +43,8 @@ namespace Radix.DatabaseManagement.Sqlite
             }
             catch(Exception exception)
             {
-
+                //error
             }
-            return true;
         }
 
         private void OpenConnection(string pDBName)
@@ -56,14 +56,13 @@ namespace Radix.DatabaseManagement.Sqlite
 
         private IDataReader ExecuteRequest(string pSQLQuery)
         {
-            IDbCommand dbcmd = mDBConnection.CreateCommand();
+            IDbCommand command = mDBConnection.CreateCommand();
 
-            string sqlQuery = "SELECT lol, toto " + "FROM TestData";
-            dbcmd.CommandText = sqlQuery;
-            IDataReader reader = dbcmd.ExecuteReader();
+            command.CommandText = pSQLQuery;
+            IDataReader reader = command.ExecuteReader();
 
-            dbcmd.Dispose();
-            dbcmd = null;
+            command.Dispose();
+            command = null;
 
             return reader;
         }
@@ -83,6 +82,16 @@ namespace Radix.DatabaseManagement.Sqlite
 
         private void CloseConnection()
         {
+            mDBConnection.Close();
+            mDBConnection = null;
+        }
+
+        public void Test()
+        {
+            string conn = "URI=file:" + Application.dataPath + "/Databases/lol.db";
+            mDBConnection = (IDbConnection)new SqliteConnection(conn);
+            mDBConnection.Open();
+
             mDBConnection.Close();
             mDBConnection = null;
         }

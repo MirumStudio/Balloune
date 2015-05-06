@@ -5,16 +5,10 @@ using System.Text;
 
 namespace Radix.DatabaseManagement
 {
-    public class SQLQuery
+    public abstract class SQLQuery
     {
-        public string GetQuery()
-        {
-            return string.Empty;
-        }
+        public abstract string GetQuery();//SELECT lol, toto " + "FROM TestData
 
-        public string GetDatabaseName()
-        {
-            return string.Empty;
-        }
+        public abstract string GetDatabaseName();
     }
 }

@@ -24,7 +24,22 @@ public class SqliteTest
     [Test]
     public void ExecuteQueryNull()
     {
-        bool test = ServiceManager.Instance.GetService<SqliteService>().ExecuteQuery(null);
-        Assert.False(test);
+        //ServiceManager.Instance.GetService<SqliteService>().ExecuteQuery(null);
+        Assert.Fail();
     }
+
+    [Test]
+    public void Test()
+    {
+        ServiceManager.Instance.GetService<SqliteService>().ExecuteQuery(new TestCreateQuery());
+        Assert.Pass();
+    }
+
+    /*
+     * create (file exist)
+     * select 
+     * ins (select)
+     * Update (select)
+     * delete (sele
+     */
 }
