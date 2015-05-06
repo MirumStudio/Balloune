@@ -4,11 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Radix.Error;
+using Radix.DatabaseManagement.Sqlite;
 
 namespace Radix.Service
 {
     public class ServiceManager
     {
+        private bool mIsInit = false;
+
 		#region Singleton
         private static volatile ServiceManager instance;
         private static object syncRoot = new Object();
@@ -45,6 +48,7 @@ namespace Radix.Service
         private void RegisterRadixService()
         {
             mServiceTypes.Add(typeof(EventService));
+            mServiceTypes.Add(typeof(SqliteService));
         }
         #endregion
 
@@ -52,10 +56,14 @@ namespace Radix.Service
 
         public void Init()
         {
-            RegisterRadixService();
-            m_serviceList = new List<ServiceBase>();
-            CreateAllServices();
-            InitAllServices();
+            if (!mIsInit)
+            {
+                RegisterRadixService();
+                m_serviceList = new List<ServiceBase>();
+                CreateAllServices();
+                InitAllServices();
+                mIsInit = true;
+            }
         }
 
         internal void Dispose()
