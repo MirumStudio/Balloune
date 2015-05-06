@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class BalloonHolder : MonoBehaviour {
-
+	private const int NUMBER_OF_BALLOONS = 3;
     [SerializeField]
 	protected GameObject m_Tack;
 
@@ -12,20 +12,25 @@ public class BalloonHolder : MonoBehaviour {
 	[SerializeField]
 	protected GameObject m_RopePrefab;
 
-	private GameObject[] mLifeBalloons = new GameObject[3];
+	private GameObject[] mLifeBalloons = new GameObject[NUMBER_OF_BALLOONS];
+	private Rope[] mRopes = new Rope[NUMBER_OF_BALLOONS];
+
 	private int mHeldBalloons = 0;
 
 	void Start () {
 		int firstBalloonX = -32;
-		BalloonCreator balloonCreator = new BalloonCreator (m_BalloonPrefab, m_RopePrefab, m_Tack);
+		BalloonCreator balloonCreator = new BalloonCreator (m_BalloonPrefab, m_Tack);
+		RopeManager ropeManager = new RopeManager (m_RopePrefab, m_Tack);
 		for (int i = 0; i < mLifeBalloons.Length; i++) {
 			mLifeBalloons[i] = balloonCreator.CreateBalloon (new Vector2(firstBalloonX - (i * 3), 1.2f));
 			mHeldBalloons++;
 			SetBalloonBehavior(mLifeBalloons[i], i);
+			mRopes[i] = ropeManager.CreateRopeForBalloon (mLifeBalloons[i]);
+			ropeManager.AttachRope(mLifeBalloons[i], mRopes[i]);
 			i = mLifeBalloons.Length;
 		}
 	}
-	
+
 	private void SetBalloonBehavior(GameObject pBalloon, int pBalloonIndex)
 	{
 		BalloonBehavior balloonBehavior = pBalloon.GetComponent<BalloonBehavior>();
@@ -46,6 +51,11 @@ public class BalloonHolder : MonoBehaviour {
 
 	public int CountBalloons() {
 		return mHeldBalloons;
+	}
+
+	public Rope GetRope(int index)
+	{
+		return mRopes[index];
 	}
 
 	void Update () {

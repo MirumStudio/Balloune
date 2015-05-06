@@ -12,7 +12,10 @@ public class BalloonBehavior : MonoBehaviour
 	public int mBalloonIndex = -1;
 
     private Rigidbody2D mRigidbody2D = null;
+	private LineRenderer mLineRenderer = null;
 	private BalloonHolder mBalloonHolder = null;
+
+	private Rope mRope = null;
 
 	[SerializeField]
 	private float m_MaximumInvulnerableTime = 2f;
@@ -21,7 +24,9 @@ public class BalloonBehavior : MonoBehaviour
 
     void Start()
     {
-        mRigidbody2D = GetComponent<Rigidbody2D>();
+		mRigidbody2D = GetComponent<Rigidbody2D>();
+		mLineRenderer = GetComponent<LineRenderer> ();
+		mRope = mBalloonHolder.GetRope (mBalloonIndex);
 		EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
     }
 
@@ -32,13 +37,18 @@ public class BalloonBehavior : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-
+		UpdateLineRenderer ();
 	}
 
     private float GetDistanceBetweenParentAndPosition()
     {
 		return Vector2.Distance(m_Parent.position, mRigidbody2D.position);
     }
+
+	private void UpdateLineRenderer()
+	{
+		mRope.SetLineRenderer (mLineRenderer);
+	}
 
 	private void CheckIfInvulnerable() {
 		if (mIsInvulnerable) {
