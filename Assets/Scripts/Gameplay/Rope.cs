@@ -29,8 +29,8 @@ public class Rope : MonoBehaviour
 		for (int i = 0; i < m_NumberOfHinges; i++) {
 			GameObject newSegment = PrefabFactory.Instantiate (m_RopeSegmentPrefab, new Vector2 (0, i));
 			newSegment.name = "segment" + i;
-			LineRenderer segmentLineRenderer = newSegment.GetComponent<LineRenderer> ();
-			segmentLineRenderer.SetPosition (1, new Vector3 (0, mLengthOfEachSegment, -1));
+			//LineRenderer segmentLineRenderer = newSegment.GetComponent<LineRenderer> ();
+			//segmentLineRenderer.SetPosition (1, new Vector3 (0, mLengthOfEachSegment, -1));
 			mRopeSegments [i] = newSegment;
 		}
 	}
@@ -49,6 +49,16 @@ public class Rope : MonoBehaviour
 				segmentHinge.connectedAnchor = new Vector2(0,0);
 			}
 		}
+	}
+
+	public LineRenderer SetLineRenderer(LineRenderer pLineRenderer)
+	{
+		pLineRenderer.SetVertexCount(m_NumberOfHinges);
+		for (int i = 0; i < m_NumberOfHinges; i++) {
+			pLineRenderer.SetPosition (i, new Vector3(mRopeSegments[i].transform.position.x, mRopeSegments[i].transform.position.y + GetLengthOfEachSegment(), -1));
+		}
+
+		return pLineRenderer;
 	}
 
 	public float GetLengthOfEachSegment()

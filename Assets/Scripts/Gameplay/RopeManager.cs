@@ -1,28 +1,18 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class BalloonCreator : MonoBehaviour 
+public class RopeManager : MonoBehaviour 
 {
-	private static GameObject mBalloonPrefab;
-	//private static GameObject mRopePrefab;
-	private static GameObject mTack;
-
-	public BalloonCreator(GameObject pBalloonPrefab, GameObject pTack)
+	private GameObject mRopePrefab;
+	private GameObject mTack;
+	
+	public RopeManager(GameObject pRopePrefab, GameObject pTack)
 	{
-		mBalloonPrefab = pBalloonPrefab;
-		//mRopePrefab = pRopePrefab;
+		mRopePrefab = pRopePrefab;
 		mTack = pTack;
 	}
 	
-	public GameObject CreateBalloon(Vector2 pPosition)
-	{
-		GameObject balloon = PrefabFactory.Instantiate (mBalloonPrefab, pPosition);
-		//Rope newRope = CreateRopeForBalloon (balloon);
-		//AttachRope (balloon, newRope);
-		return balloon;
-	}
-
-	/*public static Rope CreateRopeForBalloon(GameObject pBalloon)
+	public Rope CreateRopeForBalloon(GameObject pBalloon)
 	{
 		float maxBalloonDistance = SetMaxBalloonDistance (pBalloon);
 		GameObject ropeGameObject = PrefabFactory.Instantiate (mRopePrefab, new Vector2 (pBalloon.transform.position.x, 3));
@@ -31,30 +21,30 @@ public class BalloonCreator : MonoBehaviour
 		rope.SetLineRenderer (pBalloon.GetComponent<LineRenderer> ());
 		return rope;
 	}
-
-	private static float SetMaxBalloonDistance(GameObject pBalloon)
+	
+	private float SetMaxBalloonDistance(GameObject pBalloon)
 	{
 		DistanceJoint2D balloonJoint= pBalloon.GetComponent<DistanceJoint2D> ();
 		balloonJoint.connectedBody = mTack.GetComponent<Rigidbody2D>();
 		return balloonJoint.distance;
 	}
-
-	public static void AttachRope(GameObject pBalloon, Rope pRope)
+	
+	public void AttachRope(GameObject pBalloon, Rope pRope)
 	{
 		AttachRopeToCharacter(pRope);
 		AttachRopeToBalloon(pBalloon, pRope);
 	}
 	
-	private static void AttachRopeToCharacter(Rope pRope)
+	private void AttachRopeToCharacter(Rope pRope)
 	{
 		pRope.GetStartOfRope().GetComponent<HingeJoint2D>().connectedBody = mTack.GetComponent<Rigidbody2D> ();
 	}
 	
-	private static void AttachRopeToBalloon(GameObject pBalloon, Rope pRope)
+	private void AttachRopeToBalloon(GameObject pBalloon, Rope pRope)
 	{
 		HingeJoint2D balloonHinge = pBalloon.GetComponent<HingeJoint2D> ();
 		balloonHinge.connectedBody = pRope.GetEndOfRope().GetComponent<Rigidbody2D>();
 		balloonHinge.connectedAnchor = new Vector2 (0, pRope.GetLengthOfEachSegment());
 		pRope.transform.parent = pBalloon.transform;
-	}*/
+	}
 }
