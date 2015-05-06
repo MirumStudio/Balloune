@@ -8,12 +8,12 @@ public class ButtonOnPressed : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 {
     private bool mButtonHeld;
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData pEventData)
     {
         mButtonHeld = true;
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnPointerUp(PointerEventData pEventData)
     {
         mButtonHeld = false;
     }

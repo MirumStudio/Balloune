@@ -4,13 +4,13 @@
 public abstract class BaseCharacterController : MonoBehaviour 
 {
 	[SerializeField]
-	protected float moveForce = 350f;
+	protected float m_MoveForce = 350f;
 	[SerializeField]
-	private float maxSpeed = 3f;
+	private float m_MaxSpeed = 3f;
 	[SerializeField]
-	private float maxJump = 5.6f;
+	private float m_MaxJump = 5.6f;
 	[SerializeField]
-	protected float jumpForce = 300f;
+	protected float m_JumpForce = 700f;
 	[SerializeField]
 	protected bool m_IsFacingRight = true;
 
@@ -72,7 +72,7 @@ public abstract class BaseCharacterController : MonoBehaviour
 	
 	protected virtual void AddForce(Direction pDirection)
 	{
-		mRigidbody2D.AddForce(Vector2.right * pDirection.Value * moveForce);
+		mRigidbody2D.AddForce(Vector2.right * pDirection.Value * m_MoveForce);
 	}
 	
 	protected void AjustVelocity()
@@ -84,9 +84,9 @@ public abstract class BaseCharacterController : MonoBehaviour
 			newVelocity.x = Mathf.Sign(mRigidbody2D.velocity.x) * GetMaxSpeed();
 		}
 		
-		if (Mathf.Abs(mRigidbody2D.velocity.y) > maxJump)
+		if (Mathf.Abs(mRigidbody2D.velocity.y) > m_MaxJump)
 		{
-			newVelocity.y = Mathf.Sign(mRigidbody2D.velocity.y) * maxJump;
+			newVelocity.y = Mathf.Sign(mRigidbody2D.velocity.y) * m_MaxJump;
 		}
 		
 		mRigidbody2D.velocity = newVelocity;
@@ -120,7 +120,7 @@ public abstract class BaseCharacterController : MonoBehaviour
 	
 	protected float GetMaxSpeed()
 	{
-		return mIsGrounded ? maxSpeed : 4f;
+		return mIsGrounded ? m_MaxSpeed : 4f;
 	}
 	
 	protected void Flip()

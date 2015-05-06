@@ -1,13 +1,13 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Radix.Event;
 
 [RequireComponent (typeof(CharacterAnimator))]
 public class MainCharacterController : BaseCharacterController {
 	
-	public GameObject RightButton;
-	public GameObject LeftButton;
-	public GameObject JumpButton;
+	public GameObject mRightButton;
+	public GameObject mLeftButton;
+	public GameObject mJumpButton;
 	//public GameObject RunButton;
 	
 	[SerializeField]
@@ -43,7 +43,7 @@ public class MainCharacterController : BaseCharacterController {
 	
 	protected override bool CharacterWantToJump 
 	{
-		get { return Input.GetKey(KeyCode.Space) || (JumpButton != null && JumpButton.GetComponent<ButtonOnPressed>().IsPressed);}
+		get { return Input.GetKey(KeyCode.Space) || (mJumpButton != null && mJumpButton.GetComponent<ButtonOnPressed>().IsPressed);}
 	}
 	
 	protected override void UpdateJumping()
@@ -58,7 +58,7 @@ public class MainCharacterController : BaseCharacterController {
 		if (base.mInitJumping)
 		{
 			//Character is on the ground
-			mRigidbody2D.AddForce(new Vector2(0f, base.jumpForce));
+			mRigidbody2D.AddForce(new Vector2(0f, base.m_JumpForce));
 			mInitJumping = false;
 		}
 		else if(mTimePressed > 0.1f && mTimePressed < 0.15f && mCanBoostJump){
@@ -79,11 +79,11 @@ public class MainCharacterController : BaseCharacterController {
 		
 		if(value == 0)
 		{
-			if(RightButton != null && RightButton.GetComponent<ButtonOnPressed>().IsPressed)
+			if(mRightButton != null && mRightButton.GetComponent<ButtonOnPressed>().IsPressed)
 			{
 				value++;
 			}
-			else if (LeftButton != null && LeftButton.GetComponent<ButtonOnPressed>().IsPressed)
+			else if (mLeftButton != null && mLeftButton.GetComponent<ButtonOnPressed>().IsPressed)
 			{
 				value--;
 			}

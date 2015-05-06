@@ -10,30 +10,8 @@ public class Lifebar : MonoBehaviour {
 
 	void Start () {
         m_lifeCount = transform.childCount;
-        //EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
         EventListener.Register(EGameEvent.LIFE_COLLISION, OnLifeCollision);
 	}
-
-    /*private void OnHazardousCollision(Enum pEvent, System.Object pArg)
-    {
-        Assert.Check(pArg is HazardousInteractable);
-        int damage = (pArg as HazardousInteractable).Damage;
-        while (damage > 0)
-        {
-            RemoveOneLife();
-            damage--;
-        }
-        CheckLife();
-    }*/
-
-    private void RemoveOneLife()
-    {
-        if (m_lifeCount > 0)
-        {
-            m_lifeCount--;
-            transform.GetChild(m_lifeCount).gameObject.SetActive(false);
-        }
-    }
 
     private void OnLifeCollision(Enum pEvent, System.Object pArg)
     {

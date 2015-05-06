@@ -27,7 +27,7 @@ public class Rope : MonoBehaviour
 	private void CreateRopeSegments()
 	{
 		for (int i = 0; i < m_NumberOfHinges; i++) {
-			GameObject newSegment = Instantiate (m_RopeSegmentPrefab, new Vector2 (0, i), Quaternion.identity) as GameObject;
+			GameObject newSegment = PrefabFactory.Instantiate (m_RopeSegmentPrefab, new Vector2 (0, i));
 			newSegment.name = "segment" + i;
 			LineRenderer segmentLineRenderer = newSegment.GetComponent<LineRenderer> ();
 			segmentLineRenderer.SetPosition (1, new Vector3 (0, mLengthOfEachSegment, -1));

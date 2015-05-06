@@ -70,3 +70,5 @@ Assets/Plugins/UnityVS/Editor/SyntaxTree.VisualStudio.Unity.Messaging.dll.meta
 Assets/Plugins/UnityVS/Editor/UnityVS.VersionSpecific.dll.meta
 Assets/Ressources/Images.meta
 Assets/Workbench.meta
+Assets/Plugins/UnityVS/
+Assets/Plugins/UnityVS.meta

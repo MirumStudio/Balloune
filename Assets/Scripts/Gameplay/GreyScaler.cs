@@ -50,7 +50,7 @@ public class GreyScaler : MonoBehaviour
         mRenderer.material.SetFloat(SHADER_MEMBER_NAME, Math.Min(MAX_GRAY_VALUE, pNewValue));
     }
 
-    private void OnBalloonGiven(Enum lol, System.Object arg)
+    private void OnBalloonGiven(Enum pEnum, System.Object arg)
     {
         AddGreyScale(mStepValue);
     }

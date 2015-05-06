@@ -9,7 +9,7 @@ public class BalloonBehavior : MonoBehaviour
     [SerializeField]
     public Transform m_Parent = null;
 
-	public int balloonIndex = -1;
+	public int mBalloonIndex = -1;
 
     private Rigidbody2D mRigidbody2D = null;
 	private BalloonHolder mBalloonHolder = null;
@@ -77,7 +77,7 @@ public class BalloonBehavior : MonoBehaviour
 
 	private void PopBalloon(){
 		//TODO balloon explosion animation and sound effect
-		mBalloonHolder.DestroyBalloon(balloonIndex);
+		mBalloonHolder.DestroyBalloon(mBalloonIndex);
 	}
 
 	private void CheckIfGameOver() {

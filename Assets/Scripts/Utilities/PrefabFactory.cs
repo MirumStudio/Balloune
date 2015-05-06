@@ -43,6 +43,19 @@ public class PrefabFactory : MonoBehaviour
         return prefab;
     }
 
+	public static GameObject Instantiate(GameObject objectToInstantiate, Vector2 pPosition)
+	{
+		var prefab = Instantiate(objectToInstantiate, pPosition, Quaternion.identity) as GameObject;
+		return prefab;
+	}
+
+	public static GameObject Instantiate(GameObject objectToInstantiate, MonoBehaviour pParent, Vector2 pPosition)
+	{
+		var prefab = Instantiate(objectToInstantiate, pPosition, Quaternion.identity) as GameObject;
+		SetParent(prefab, pParent);
+		return prefab;
+	}
+
     private static void SetParent(GameObject pObject, MonoBehaviour pParent)
     {
         if (pParent != null)

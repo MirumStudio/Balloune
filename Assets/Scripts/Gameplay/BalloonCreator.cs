@@ -3,9 +3,9 @@ using System.Collections;
 
 public class BalloonCreator : MonoBehaviour 
 {
-	GameObject mBalloonPrefab;
-	GameObject mRopePrefab;
-	GameObject mTack;
+	private GameObject mBalloonPrefab;
+	private GameObject mRopePrefab;
+	private GameObject mTack;
 
 	public BalloonCreator(GameObject pBalloonPrefab, GameObject pRopePrefab, GameObject pTack)
 	{
@@ -16,7 +16,7 @@ public class BalloonCreator : MonoBehaviour
 	
 	public GameObject CreateBalloon(Vector2 pPosition)
 	{
-		GameObject balloon = Instantiate(mBalloonPrefab, pPosition, Quaternion.identity) as GameObject;
+		GameObject balloon = PrefabFactory.Instantiate (mBalloonPrefab, pPosition);
 		Rope newRope = CreateRopeForBalloon (balloon);
 		AttachRope (balloon, newRope);
 		return balloon;
@@ -25,7 +25,7 @@ public class BalloonCreator : MonoBehaviour
 	private Rope CreateRopeForBalloon(GameObject pBalloon)
 	{
 		float maxBalloonDistance = SetMaxBalloonDistance (pBalloon);
-		GameObject ropeGameObject = Instantiate (mRopePrefab, new Vector2 (pBalloon.transform.position.x, 3), Quaternion.identity) as GameObject;
+		GameObject ropeGameObject = PrefabFactory.Instantiate (mRopePrefab, new Vector2 (pBalloon.transform.position.x, 3));
 		Rope rope = ropeGameObject.GetComponent<Rope> ();
 		rope.createRope (maxBalloonDistance);
 		return rope;

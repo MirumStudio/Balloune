@@ -7,14 +7,14 @@ using System;
 public class LevelController : BaseView {
     private int mBalloonGivenCount = 0;
 
-    bool testFinish = false;
+    bool mIsFinished = false;
 
 	protected void Start () {
         EventListener.Register(EGameEvent.CHILD_COLLISION, OnChildCollision);
 	}
 	
 	void Update () {
-        if (mBalloonGivenCount >= LevelInfo.ChildCount && !testFinish)
+        if (mBalloonGivenCount >= LevelInfo.ChildCount && !mIsFinished)
         {
             OnFinish();
         }
@@ -22,11 +22,11 @@ public class LevelController : BaseView {
 
     private void OnFinish()
     {
-        testFinish = true;
+        mIsFinished = true;
         EventService.DipatchEvent(EGameEvent.LEVEL_FINISHED, null);
     }
 
-    private void OnChildCollision(Enum lol, System.Object arg)
+    private void OnChildCollision(Enum pEnum, System.Object arg)
     {
         EventService.DipatchEvent(EGameEvent.BALLOON_GIVEN, arg);
         mBalloonGivenCount++;
