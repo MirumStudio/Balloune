@@ -72,10 +72,10 @@ public class CharacterAnimator : MonoBehaviour {
 	#endregion
 	
 	#region AnimationSpeed
-	private void UpdateAnimationSpeed(bool mIsRunning)
+	private void UpdateAnimationSpeed(bool pIsRunning)
 	{
 		float speed = 0;
-		if (mIsRunning)
+		if (pIsRunning)
 		{
 			speed=1;
 			SetRunAnimationSpeed();

@@ -38,7 +38,7 @@ public abstract class BaseCharacterController : MonoBehaviour
 			mInitJumping = true;
 		}
 		var direction = new Direction(GetHorizontalAxisValue());
-		move(direction);
+		Move(direction);
 	}
 	
 	protected virtual void FixedUpdate()
@@ -46,7 +46,7 @@ public abstract class BaseCharacterController : MonoBehaviour
 		if (UIPopupBase.PopupIsDisplayed) return;
 	}
 	
-	protected virtual void move(Direction pDirection)
+	protected virtual void Move(Direction pDirection)
 	{
 		UpdateAnimation(pDirection, mIsGrounded);
 		

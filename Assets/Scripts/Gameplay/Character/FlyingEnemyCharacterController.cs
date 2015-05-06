@@ -25,7 +25,7 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 		//base.Update ();
 		var xDirection = new Direction(GetHorizontalAxisValue());
 		var yDirection = new Direction(GetVerticalAxisValue());
-		move (xDirection, yDirection);
+		Move (xDirection, yDirection);
 	}
 	
 	protected override void FixedUpdate() 
@@ -43,7 +43,7 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 			horizontalAxisValue = -1;
 		}
 		
-		bool turnAround = shouldTurnAround ();
+		bool turnAround = ShouldTurnAround ();
 		if (turnAround) {
 			horizontalAxisValue = horizontalAxisValue * -1;
 		}
@@ -61,7 +61,7 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 			verticalAxisValue = -1;
 		}
 		
-		bool turnAround = shouldTurnAroundVertically ();
+		bool turnAround = ShouldTurnAroundVertically ();
 		if (turnAround) {
 			verticalAxisValue = verticalAxisValue * -1;
 		}
@@ -74,7 +74,7 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 		mAnimator.UpdateAnimation(pDirection,pIsGrounded);
 	}
 
-	protected override bool shouldTurnAround()
+	protected override bool ShouldTurnAround()
 	{
 		bool shouldTurnAround = false;
 		if (Mathf.Abs(m_PatrolledDistance) >= Mathf.Abs (m_PatrolRange)) 
@@ -86,7 +86,7 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 		return shouldTurnAround;
 	}
 
-	private bool shouldTurnAroundVertically()
+	private bool ShouldTurnAroundVertically()
 	{
 		bool shouldTurnAround = false;
 		if (Mathf.Abs(m_VerticalPatrolledDistance) >= Mathf.Abs (m_VerticalPatrolRange)) 
@@ -103,7 +103,7 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 		get { return false;}
 	}
 
-	protected void move(Direction pXDirection, Direction pYDirection)
+	protected void Move(Direction pXDirection, Direction pYDirection)
 	{
 		UpdateAnimation(pXDirection, mIsGrounded);
 
@@ -124,7 +124,7 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 		UpdateJumping();
 	}
 
-	private void moveVertically(Direction pDirection)
+	private void MoveVertically(Direction pDirection)
 	{
 		if (pDirection.Value != 0)
 		{

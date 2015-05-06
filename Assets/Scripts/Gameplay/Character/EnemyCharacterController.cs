@@ -26,7 +26,7 @@ public class EnemyCharacterController : BaseCharacterController
 		base.FixedUpdate ();
 	}
 
-	protected override void move(Direction pDirection)
+	protected override void Move(Direction pDirection)
 	{
 		UpdateAnimation(pDirection, mIsGrounded);
 		
@@ -57,7 +57,7 @@ public class EnemyCharacterController : BaseCharacterController
 		get { return false;}
 	}
 
-	protected virtual bool shouldTurnAround()
+	protected virtual bool ShouldTurnAround()
 	{
 		return false;
 	}

@@ -5,10 +5,9 @@ using Radix.Event;
 [RequireComponent (typeof(CharacterAnimator))]
 public class MainCharacterController : BaseCharacterController {
 	
-	public GameObject mRightButton;
-	public GameObject mLeftButton;
-	public GameObject mJumpButton;
-	//public GameObject RunButton;
+	public GameObject m_RightButton;
+	public GameObject m_LeftButton;
+	public GameObject m_JumpButton;
 	
 	[SerializeField]
 	private float m_RunSpeed = 10;
@@ -43,18 +42,18 @@ public class MainCharacterController : BaseCharacterController {
 	
 	protected override bool CharacterWantToJump 
 	{
-		get { return Input.GetKey(KeyCode.Space) || (mJumpButton != null && mJumpButton.GetComponent<ButtonOnPressed>().IsPressed);}
+		get { return Input.GetKey(KeyCode.Space) || (m_JumpButton != null && m_JumpButton.GetComponent<ButtonOnPressed>().IsPressed);}
 	}
 	
 	protected override void UpdateJumping()
 	{
 		mTimePressed = mTimePressed + Time.deltaTime;
 		if (CharacterWantToJump) {
-			jump ();
+			Jump ();
 		}
 	}
 	
-	private void jump(){
+	private void Jump(){
 		if (base.mInitJumping)
 		{
 			//Character is on the ground
@@ -62,11 +61,11 @@ public class MainCharacterController : BaseCharacterController {
 			mInitJumping = false;
 		}
 		else if(mTimePressed > 0.1f && mTimePressed < 0.15f && mCanBoostJump){
-			boostJump ();
+			BoostJump ();
 		}
 	}
 	
-	private void boostJump(){
+	private void BoostJump(){
 		//Character is already in the air
 		mRigidbody2D.AddForce(new Vector2(0f, m_BoostedJumpForce));
 		mTimePressed = 0;
@@ -79,11 +78,11 @@ public class MainCharacterController : BaseCharacterController {
 		
 		if(value == 0)
 		{
-			if(mRightButton != null && mRightButton.GetComponent<ButtonOnPressed>().IsPressed)
+			if(m_RightButton != null && m_RightButton.GetComponent<ButtonOnPressed>().IsPressed)
 			{
 				value++;
 			}
-			else if (mLeftButton != null && mLeftButton.GetComponent<ButtonOnPressed>().IsPressed)
+			else if (m_LeftButton != null && m_LeftButton.GetComponent<ButtonOnPressed>().IsPressed)
 			{
 				value--;
 			}

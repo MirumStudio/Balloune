@@ -32,28 +32,28 @@ public class CharacterEdgeChecker : MonoBehaviour {
         Debug.DrawLine(GetBottomLeftCorner(), GetBottomRightCorner(), Color.yellow);
     }
 
-    public bool TouchSomething(EEdge edge)
+    public bool TouchSomething(EEdge pEdge)
     {
 		bool isTouchingSomething = false;
-        if(edge == EEdge.RIGHT)
+        if(pEdge == EEdge.RIGHT)
         {
             Vector2 vector = GetBottomRightCorner();
             vector.y += 0.05f;
             Debug.DrawLine(GetTopRightCorner(), vector, Color.blue);
 			isTouchingSomething = Physics2D.Linecast(GetTopRightCorner(), vector, GroundLayerMask);
         }
-        else if(edge == EEdge.LEFT)
+        else if(pEdge == EEdge.LEFT)
         {
             Vector2 vector = GetBottomLeftCorner();
             vector.y += 0.05f;
             Debug.DrawLine(GetTopLeftCorner(), vector, Color.green);
 			isTouchingSomething = Physics2D.Linecast(GetTopLeftCorner(), vector, GroundLayerMask);
         }
-        else if(edge == EEdge.TOP)
+        else if(pEdge == EEdge.TOP)
         {
 			isTouchingSomething = Physics2D.Linecast(GetTopRightCorner(), GetTopLeftCorner(), GroundLayerMask);
         }
-        else if(edge == EEdge.BOTTOM)
+        else if(pEdge == EEdge.BOTTOM)
         {
             Vector2 right = GetBottomRightCorner();
             right.x -= 0.1f;
@@ -69,7 +69,7 @@ public class CharacterEdgeChecker : MonoBehaviour {
 		return isTouchingSomething;
     }
 
-	public bool isOnEdgeOfPlatform(EEdge pEdge)
+	public bool IsOnEdgeOfPlatform(EEdge pEdge)
 	{
 		bool isOnEdgeOfPlatform = false;
 		Vector2 cornerToCheck = GetBottomLeftCorner();
