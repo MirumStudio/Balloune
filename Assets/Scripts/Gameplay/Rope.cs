@@ -3,7 +3,6 @@ using UnityEngine;
 public class Rope : MonoBehaviour
 {
 	private float mRopeLength;
-	private int mNumberOfHinges;
 	private float mLengthOfEachSegment;
 
 	private GameObject[] mRopeSegments;
@@ -11,16 +10,15 @@ public class Rope : MonoBehaviour
 	[SerializeField]
 	private GameObject m_RopeSegmentPrefab = null;
 
-	public Rope (int pRopeLength)
-	{
+	[SerializeField]
+	private int m_NumberOfHinges = 15;
 
-	}
+	public Rope (){}
 
-	public void createRope(float pRopeLength, int pNumberOfHinges)
+	public void createRope(float pRopeLength)
 	{
 		mRopeLength = pRopeLength;
-		mNumberOfHinges = pNumberOfHinges;
-		mRopeSegments = new GameObject[mNumberOfHinges];
+		mRopeSegments = new GameObject[m_NumberOfHinges];
 		mLengthOfEachSegment = GetLengthOfEachSegment();
 		CreateRopeSegments ();
 		AttachRopeSegments ();
@@ -28,12 +26,11 @@ public class Rope : MonoBehaviour
 
 	private void CreateRopeSegments()
 	{
-		for (int i = 0; i < mNumberOfHinges; i++) {
+		for (int i = 0; i < m_NumberOfHinges; i++) {
 			GameObject newSegment = Instantiate (m_RopeSegmentPrefab, new Vector2 (0, i), Quaternion.identity) as GameObject;
+			newSegment.name = "segment" + i;
 			LineRenderer segmentLineRenderer = newSegment.GetComponent<LineRenderer> ();
 			segmentLineRenderer.SetPosition (1, new Vector3 (0, mLengthOfEachSegment, -1));
-			newSegment.name = "segment" + i;
-			
 			mRopeSegments [i] = newSegment;
 		}
 	}
@@ -53,10 +50,10 @@ public class Rope : MonoBehaviour
 			}
 		}
 	}
-	
+
 	public float GetLengthOfEachSegment()
 	{
-		return (mRopeLength / mNumberOfHinges) - 0.5f;
+		return (mRopeLength / m_NumberOfHinges) - 0.5f;
 	}
 
 	public GameObject GetStartOfRope()
@@ -66,7 +63,7 @@ public class Rope : MonoBehaviour
 
 	public GameObject GetEndOfRope()
 	{
-		return mRopeSegments[mNumberOfHinges - 1];
+		return mRopeSegments[m_NumberOfHinges - 1];
 	}
 }
 
