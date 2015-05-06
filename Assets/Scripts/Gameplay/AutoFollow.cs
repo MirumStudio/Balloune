@@ -9,7 +9,7 @@ using System.Collections;
 public class AutoFollow : MonoBehaviour {
 
 	[SerializeField]
-	private Transform m_Target;
+	private Transform m_Target = null;
 	[SerializeField]
 	private float m_Smoothness = 0.5f; //An higher value means a tighter follow.
 	[SerializeField]

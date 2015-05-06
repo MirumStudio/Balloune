@@ -8,9 +8,9 @@ public abstract class BaseCharacterController : MonoBehaviour
 	[SerializeField]
 	private float m_MaxSpeed = 3f;
 	[SerializeField]
-	private float m_MaxJump = 5.6f;
+	private float m_MaxJump = 25f;
 	[SerializeField]
-	protected float m_JumpForce = 700f;
+	protected float m_JumpForce = 850f;
 	[SerializeField]
 	protected bool m_IsFacingRight = true;
 

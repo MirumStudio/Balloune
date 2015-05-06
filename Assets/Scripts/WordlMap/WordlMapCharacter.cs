@@ -14,7 +14,7 @@ public class WordlMapCharacter : MonoBehaviour {
     private float m_WaitTime = 0.2f;
 
     [SerializeField]
-    private GameObject m_LevelPointListParent;
+    private GameObject m_LevelPointListParent = null;
 
     private int mCurrentLevel = 0;
     private bool mIsMoving = false;

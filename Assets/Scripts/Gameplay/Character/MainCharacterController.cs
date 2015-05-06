@@ -8,9 +8,7 @@ public class MainCharacterController : BaseCharacterController {
 	public GameObject m_RightButton;
 	public GameObject m_LeftButton;
 	public GameObject m_JumpButton;
-	
-	[SerializeField]
-	private float m_RunSpeed = 10;
+
 	[SerializeField]
 	private float m_BoostedJumpForce = 300f;
 	
@@ -96,11 +94,6 @@ public class MainCharacterController : BaseCharacterController {
 	{
 		get { return Input.GetKey(KeyCode.LeftShift)/* || RunButton.GetComponent<ButtonOnPressed>().IsPressed*/; }
 	}
-	
-	/*protected override float GetSpeed()
-    {
-        return PlayerWantToRun ? m_RunSpeed : WalkSpeed;
-    }*/
 	
 	private bool PlayerWantToJump
 	{
