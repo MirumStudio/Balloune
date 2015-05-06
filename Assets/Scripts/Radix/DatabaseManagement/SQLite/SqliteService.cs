@@ -11,6 +11,8 @@ namespace Radix.DatabaseManagement.Sqlite
 {
     public class SqliteService : ServiceBase
     {
+        private IDbConnection mDBConnection;
+
         protected override void Init()
         {
 
@@ -21,36 +23,68 @@ namespace Radix.DatabaseManagement.Sqlite
 
         }
 
-        void Start()
+        public bool ExecuteQuery(SQLQuery pQuery)
         {
-            string conn = "URI=file:" + Application.dataPath + "/Databases/test.db"; //Path to database.
-            IDbConnection dbconn;
-            dbconn = (IDbConnection)new SqliteConnection(conn);
-            dbconn.Open(); //Open connection to the database.
-            IDbCommand dbcmd = dbconn.CreateCommand();
+            lock (mDBConnection)
+            {
+                return ExecuteQueryThreadSafe(pQuery);
+            }
+        }
 
-            string sqlQuery = "SELECT lol " + "FROM TestData";
+        public bool ExecuteQueryThreadSafe(SQLQuery pQuery)
+        {
+            try
+            {
+                OpenConnection(pQuery.GetDatabaseName());
+                var data = ExecuteRequest(pQuery.GetQuery());
+                ReadResult(data);
+                CloseConnection();
+            }
+            catch(Exception exception)
+            {
+
+            }
+            return true;
+        }
+
+        private void OpenConnection(string pDBName)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/Databases/" + pDBName + ".db";
+            mDBConnection = (IDbConnection)new SqliteConnection(conn);
+            mDBConnection.Open();
+        }
+
+        private IDataReader ExecuteRequest(string pSQLQuery)
+        {
+            IDbCommand dbcmd = mDBConnection.CreateCommand();
+
+            string sqlQuery = "SELECT lol, toto " + "FROM TestData";
             dbcmd.CommandText = sqlQuery;
             IDataReader reader = dbcmd.ExecuteReader();
 
-            while (reader.Read())
-            {
-                int value = reader.GetInt32(0);
-
-                Debug.Log("lol= " + value);
-            }
-
-            reader.Close();
-            reader = null;
             dbcmd.Dispose();
             dbcmd = null;
-            dbconn.Close();
-            dbconn = null;
+
+            return reader;
         }
 
-        public bool ExecuteQuery(SQLQuery pQuery)
+        private void ReadResult(IDataReader pData)
         {
-            return true;
+            while (pData.Read())
+            {
+                int lol = pData.GetInt32(0);
+                string toto = pData.GetString(1);
+                //Debug.Log("lol = " + value);
+            }
+
+            pData.Close();
+            pData = null;
+        }
+
+        private void CloseConnection()
+        {
+            mDBConnection.Close();
+            mDBConnection = null;
         }
     }
 }

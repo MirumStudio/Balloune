@@ -7,5 +7,14 @@ namespace Radix.DatabaseManagement
 {
     public class SQLQuery
     {
+        public string GetQuery()
+        {
+            return string.Empty;
+        }
+
+        public string GetDatabaseName()
+        {
+            return string.Empty;
+        }
     }
 }
