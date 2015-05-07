@@ -38,11 +38,12 @@ namespace Radix.DatabaseManagement.Sqlite
             {
                 OpenConnection(pQuery.GetDatabaseName());
                 var data = ExecuteRequest(pQuery.GetQuery());
-                ReadResult(data);
+                pQuery.Result = ReadResult(data);
                 CloseConnection();
             }
             catch(Exception exception)
             {
+                int y = 6;
                 //error
             }
         }
@@ -67,17 +68,26 @@ namespace Radix.DatabaseManagement.Sqlite
             return reader;
         }
 
-        private void ReadResult(IDataReader pData)
+        private List<List<object>> ReadResult(IDataReader pData)
         {
+            List<List<object>> result = new List<List<object>>();
+
             while (pData.Read())
             {
-                int lol = pData.GetInt32(0);
-                string toto = pData.GetString(1);
-                //Debug.Log("lol = " + value);
+                List<object> currentResult = new List<object>();
+                int count = pData.FieldCount;
+                for(int i = 0; i < count;i++)
+                {
+                    currentResult.Add(pData.GetValue(i));
+                }
+
+                result.Add(currentResult);
             }
 
             pData.Close();
             pData = null;
+
+            return result;
         }
 
         private void CloseConnection()

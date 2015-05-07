@@ -132,6 +132,11 @@ namespace Radix.Service
 
         public T GetService<T>() where T : ServiceBase
         {
+            if(m_serviceList == null)
+            {
+                throw new NullReferenceException(".................LOL");
+            }
+
             T serviceBase = m_serviceList.FirstOrDefault((service) => service.GetType() == typeof(T)) as T;
 
             if (serviceBase != null)

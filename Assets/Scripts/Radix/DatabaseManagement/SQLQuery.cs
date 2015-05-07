@@ -7,8 +7,15 @@ namespace Radix.DatabaseManagement
 {
     public abstract class SQLQuery
     {
-        public abstract string GetQuery();//SELECT lol, toto " + "FROM TestData
+        public List<List<object>> Result { get; set; }
+        protected string TableName { get; set; }
+        protected string mDBName = string.Empty;
 
-        public abstract string GetDatabaseName();
+        public virtual string GetDatabaseName()
+        {
+            return mDBName;
+        }
+
+        public abstract string GetQuery();
     }
 }
