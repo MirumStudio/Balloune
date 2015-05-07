@@ -40,7 +40,7 @@ public class MainCharacterController : BaseCharacterController {
 	
 	protected override bool CharacterWantToJump 
 	{
-		get { return Input.GetKey(KeyCode.Space) || (m_JumpButton != null && m_JumpButton.GetComponent<ButtonOnPressed>().IsPressed);}
+		get { return SwipeControl.IsJumpCommand();/*return Input.GetKey(KeyCode.Space) || (m_JumpButton != null && m_JumpButton.GetComponent<ButtonOnPressed>().IsPressed)*/;}
 	}
 	
 	protected override void UpdateJumping()
@@ -72,9 +72,9 @@ public class MainCharacterController : BaseCharacterController {
 	
 	protected override int GetHorizontalAxisValue() 
 	{
-		float value = Input.GetAxis("Horizontal");
-		
-		if(value == 0)
+		//float value = Input.GetAxis("Horizontal");
+		float value = SwipeControl.GetDirection ();
+		/*if(value == 0)
 		{
 			if(m_RightButton != null && m_RightButton.GetComponent<ButtonOnPressed>().IsPressed)
 			{
@@ -85,9 +85,9 @@ public class MainCharacterController : BaseCharacterController {
 				value--;
 			}
 			return (int)value;
-		}
+		}*/
 		
-		return (int)Mathf.Sign(value);
+		return (int)value;
 	}
 	
 	private bool PlayerWantToRun
