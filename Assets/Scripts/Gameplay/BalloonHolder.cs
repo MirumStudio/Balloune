@@ -21,13 +21,13 @@ public class BalloonHolder : MonoBehaviour {
 		int firstBalloonX = -32;
 		BalloonCreator balloonCreator = new BalloonCreator (m_BalloonPrefab, m_Tack);
 		RopeManager ropeManager = new RopeManager (m_RopePrefab, m_Tack);
+		Debug.Log (mLifeBalloons.Length);
 		for (int i = 0; i < mLifeBalloons.Length; i++) {
 			mLifeBalloons[i] = balloonCreator.CreateBalloon (new Vector2(firstBalloonX - (i * 3), 1.2f));
 			mHeldBalloons++;
 			SetBalloonBehavior(mLifeBalloons[i], i);
 			mRopes[i] = ropeManager.CreateRopeForBalloon (mLifeBalloons[i]);
 			ropeManager.AttachRope(mLifeBalloons[i], mRopes[i]);
-			i = mLifeBalloons.Length;
 		}
 	}
 
