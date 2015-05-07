@@ -21,7 +21,6 @@ public class BalloonHolder : MonoBehaviour {
 		int firstBalloonX = -32;
 		BalloonCreator balloonCreator = new BalloonCreator (m_BalloonPrefab, m_Tack);
 		RopeManager ropeManager = new RopeManager (m_RopePrefab, m_Tack);
-		Debug.Log (mLifeBalloons.Length);
 		for (int i = 0; i < mLifeBalloons.Length; i++) {
 			mLifeBalloons[i] = balloonCreator.CreateBalloon (new Vector2(firstBalloonX - (i * 3), 1.2f));
 			mHeldBalloons++;
@@ -34,9 +33,9 @@ public class BalloonHolder : MonoBehaviour {
 	private void SetBalloonBehavior(GameObject pBalloon, int pBalloonIndex)
 	{
 		BalloonBehavior balloonBehavior = pBalloon.GetComponent<BalloonBehavior>();
-		balloonBehavior.m_Parent = m_Tack.transform;
+		balloonBehavior.SetBalloonHolder(this);
 		balloonBehavior.mBalloonIndex = pBalloonIndex;
-		balloonBehavior.SetBalloonHolder (this);
+		balloonBehavior.SetTack (m_Tack);
 	}
 
 	public void DestroyBalloon(int pBalloonIndex) {

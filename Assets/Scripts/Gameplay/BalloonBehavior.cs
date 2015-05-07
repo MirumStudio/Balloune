@@ -15,6 +15,7 @@ public class BalloonBehavior : MonoBehaviour
 	private LineRenderer mLineRenderer = null;
 	private HingeJoint2D mBalloonJoint = null;
 	private BalloonHolder mBalloonHolder = null;
+	private GameObject mTack = null;
 
 	private Rope mRope = null;
 
@@ -29,7 +30,10 @@ public class BalloonBehavior : MonoBehaviour
 		mLineRenderer = GetComponent<LineRenderer> ();
 		mBalloonJoint = GetComponent<HingeJoint2D> ();
 		mRope = mBalloonHolder.GetRope (mBalloonIndex);
+		m_Parent = mBalloonHolder.transform;
 		EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
+		Transform mainCharacter = mTack.transform.parent;
+		Physics2D.IgnoreCollision(mainCharacter.GetComponent<BoxCollider2D>(), GetComponent<CircleCollider2D>());
     }
 
     private void Update()
@@ -44,7 +48,7 @@ public class BalloonBehavior : MonoBehaviour
 
     private float GetDistanceBetweenParentAndPosition()
     {
-		return Vector2.Distance(m_Parent.position, mRigidbody2D.position);
+		return Vector2.Distance(mTack.transform.position, mRigidbody2D.position);
     }
 
 	private void UpdateLineRenderer()
@@ -106,5 +110,10 @@ public class BalloonBehavior : MonoBehaviour
 	public void SetBalloonHolder(BalloonHolder pBalloonHolder)
 	{
 		mBalloonHolder = pBalloonHolder;
+	}
+
+	public void SetTack(GameObject pTack)
+	{
+		mTack = pTack;
 	}
 }
