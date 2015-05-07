@@ -13,6 +13,7 @@ public class BalloonBehavior : MonoBehaviour
 
     private Rigidbody2D mRigidbody2D = null;
 	private LineRenderer mLineRenderer = null;
+	private HingeJoint2D mBalloonJoint = null;
 	private BalloonHolder mBalloonHolder = null;
 
 	private Rope mRope = null;
@@ -26,6 +27,7 @@ public class BalloonBehavior : MonoBehaviour
     {
 		mRigidbody2D = GetComponent<Rigidbody2D>();
 		mLineRenderer = GetComponent<LineRenderer> ();
+		mBalloonJoint = GetComponent<HingeJoint2D> ();
 		mRope = mBalloonHolder.GetRope (mBalloonIndex);
 		EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
     }
@@ -47,7 +49,7 @@ public class BalloonBehavior : MonoBehaviour
 
 	private void UpdateLineRenderer()
 	{
-		mRope.SetLineRenderer (mLineRenderer);
+		mRope.DrawRope (mLineRenderer, mBalloonJoint);
 	}
 
 	private void CheckIfInvulnerable() {

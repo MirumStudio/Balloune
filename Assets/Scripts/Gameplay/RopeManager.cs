@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class RopeManager : MonoBehaviour 
+public class RopeManager 
 {
 	private GameObject mRopePrefab;
 	private GameObject mTack;
@@ -18,7 +18,6 @@ public class RopeManager : MonoBehaviour
 		GameObject ropeGameObject = PrefabFactory.Instantiate (mRopePrefab, new Vector2 (pBalloon.transform.position.x, 3));
 		Rope rope = ropeGameObject.GetComponent<Rope> ();
 		rope.createRope (maxBalloonDistance);
-		rope.SetLineRenderer (pBalloon.GetComponent<LineRenderer> ());
 		return rope;
 	}
 	
