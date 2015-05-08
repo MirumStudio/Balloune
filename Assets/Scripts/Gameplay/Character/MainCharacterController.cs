@@ -70,26 +70,25 @@ public class MainCharacterController : BaseCharacterController {
 		mCanBoostJump = false;
 	}
 	
-	protected override int GetHorizontalAxisValue() 
+	protected override float GetHorizontalAxisValue() 
 	{
-		//float value = Input.GetAxis("Horizontal");
-		float value = SwipeControl.GetDirection ();
-		/*if(value == 0)
-		{
-			if(m_RightButton != null && m_RightButton.GetComponent<ButtonOnPressed>().IsPressed)
-			{
-				value++;
-			}
-			else if (m_LeftButton != null && m_LeftButton.GetComponent<ButtonOnPressed>().IsPressed)
-			{
-				value--;
-			}
-			return (int)value;
-		}*/
+		float speed = SwipeControl.GetSpeed ();
+		speed = AdjustSpeed (speed);
 		
-		return (int)value;
+		return speed;
 	}
-	
+
+	private float AdjustSpeed(float mSpeed)
+	{
+		mSpeed = mSpeed * 2;
+		if (mSpeed > 1) {
+			mSpeed = 1;
+		} else if (mSpeed < -1) {
+			mSpeed = -1;
+		}
+		return mSpeed;
+	}
+
 	private bool PlayerWantToRun
 	{
 		get { return Input.GetKey(KeyCode.LeftShift)/* || RunButton.GetComponent<ButtonOnPressed>().IsPressed*/; }

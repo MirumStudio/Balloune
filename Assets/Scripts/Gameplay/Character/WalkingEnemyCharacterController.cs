@@ -20,9 +20,9 @@ public class WalkingEnemyCharacterController : EnemyCharacterController
 		base.FixedUpdate ();
 	}
 	
-	protected override int GetHorizontalAxisValue() 
+	protected override float GetHorizontalAxisValue() 
 	{
-		int horizontalAxisValue = 0;
+		float horizontalAxisValue = 0;
 		if (m_IsFacingRight) 
 		{
 			horizontalAxisValue = 1;

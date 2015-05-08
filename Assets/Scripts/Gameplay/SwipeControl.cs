@@ -8,20 +8,20 @@ public class SwipeControl : MonoBehaviour {
 	private float mLeftOfScreen;
 	private float mRightOfScreen;
 	private List<Vector3> mLeftTouchPositions = new List<Vector3>();
-
-	private static float mDirection = 0;
+	
+	private static float mSpeed = 0;
 	private static bool mIsJumpCommand = false;
-
+	
 	void Start () {
 		mMinimumSwipeDistance = Screen.height * 5 / 100; //dragDistance is 20% height of the screen
 		mLeftOfScreen = Screen.width * 20 / 100;
 		mRightOfScreen = Screen.width * 80 / 100;
 	}
-
+	
 	void Update () {
 		EvaluateTouchCommand();
 	}
-
+	
 	private void EvaluateTouchCommand ()
 	{
 		foreach (Touch touch in Input.touches)
@@ -33,24 +33,31 @@ public class SwipeControl : MonoBehaviour {
 			}
 		}
 	}
-
+	
 	private void EvaluateLeftSide(Touch touch)
 	{
-		if (touch.phase == TouchPhase.Stationary) {
+		if (touch.phase == TouchPhase.Ended) {
+			mSpeed = 0;
 			ClearTouches ();
-		} else if (touch.phase == TouchPhase.Ended) {
-			mDirection = 0;
-			ClearTouches ();
+			Debug.Log ("Ended");
 		} else {
 			if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved) {
-				AddTouchPosition(touch);
+				Touch newTouch = touch;
+				AddTouchPosition(newTouch);
+				if(IsTurnAround())
+				{
+					Vector3 newStartingTouch = mLeftTouchPositions[currentTouchIndex - 1];
+					ClearTouches ();
+					AddPosition(newStartingTouch);
+					AddTouchPosition(newTouch);
+				}
 			}
 			if (IsSwipeBiggerThanMinimumDistance ()){
 				EvaluateSwipe();
 			}
 		}
 	}
-
+	
 	private void EvaluateRightSide(Touch touch)
 	{
 		if (touch.position.x > mRightOfScreen && touch.phase != TouchPhase.Ended) {
@@ -59,55 +66,80 @@ public class SwipeControl : MonoBehaviour {
 			mIsJumpCommand = false;
 		}
 	}
-
+	
 	private void EvaluateSwipe()
 	{
-		if (IsSwipingUp ()) {
-			mDirection = -1;
-		} else {
-			mDirection = 1;
-		}
+		float swipeDistance = mLeftTouchPositions [0].y - mLeftTouchPositions [currentTouchIndex].y;
+		Debug.Log ("Start : " + mLeftTouchPositions [0].y);
+		Debug.Log ("End : " + mLeftTouchPositions [currentTouchIndex].y);
+		Debug.Log ("Distance : " + swipeDistance);
+		mSpeed = GetFractionOfScreenHeight (swipeDistance);
+		Debug.Log ("Screen Height : " + Screen.height);
+		Debug.Log ("Fraction of Screen Height : " + mSpeed);
 	}
-
-	private bool IsSwipingUp()
-	{
-		bool IsSwipingUp = false;
-		if (mLeftTouchPositions[currentTouchIndex].y > mLeftTouchPositions[0].y) 
-		{   
-			IsSwipingUp = true;
-		}
-		return IsSwipingUp;
-	}
-
+	
 	private void AddTouchPosition(Touch touch)
 	{
 		mLeftTouchPositions.Add(touch.position);
 		currentTouchIndex++;
 	}
 
+	private void AddPosition(Vector3 position)
+	{
+		mLeftTouchPositions.Add (position);
+		currentTouchIndex++;
+	}
+	
 	private void ClearTouches()
 	{
 		mLeftTouchPositions.Clear ();
 		currentTouchIndex = -1;
 	}
-
-	public static float GetDirection()
+	
+	public static float GetSpeed()
 	{
-		return mDirection;
+		return mSpeed;
 	}
-
+	
 	public static bool IsJumpCommand()
 	{
 		return mIsJumpCommand;
 	}
-
+	
 	private bool IsSwipeBiggerThanMinimumDistance()
 	{
 		bool isSwipeBigEnough = false;
 		float swipeDistance = Mathf.Abs (mLeftTouchPositions[currentTouchIndex].y - mLeftTouchPositions[0].y);
 		//minSwipeDistance = 26
 		isSwipeBigEnough = swipeDistance > mMinimumSwipeDistance;
-		//return true;
 		return isSwipeBigEnough;
+	}
+
+	private bool IsTurnAround()
+	{
+		//To call after adding new touch
+		bool isTurnAround = false;
+		if (mLeftTouchPositions.Count > 1) {
+			bool originalDirectionIsUp = true;
+			if ((mLeftTouchPositions [currentTouchIndex - 1].y - mLeftTouchPositions [0].y) < 0) {
+				originalDirectionIsUp = false;
+			}
+			bool currentDirectionIsUp = true;
+			if ((mLeftTouchPositions[currentTouchIndex].y - mLeftTouchPositions[currentTouchIndex - 1].y) < 0) {
+				currentDirectionIsUp = false;
+			}
+			if(originalDirectionIsUp != currentDirectionIsUp)
+			{
+				isTurnAround = true;
+			}
+		}
+
+		return isTurnAround;
+	}
+	
+	private float GetFractionOfScreenHeight(float distance)
+	{
+		float fractionOfScreenHeight = distance / Screen.height;
+		return fractionOfScreenHeight;
 	}
 }
