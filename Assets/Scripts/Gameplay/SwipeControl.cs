@@ -3,13 +3,11 @@ using System.Collections.Generic;
 
 public class SwipeControl : MonoBehaviour {
 	//Code taken from http://www.thegamecontriver.com/2014/08/unity3d-swipe-input-for-touch-screen.html
-	private Vector3 mFirstTouchPosition;
-	private Vector3 mPreviousTouchPosition;
-	private Vector3 mLastTouchPosition;
+	private int currentTouchIndex = -1;
 	private float mMinimumSwipeDistance;
 	private float mLeftOfScreen;
 	private float mRightOfScreen;
-	private List<Vector3> mTouchPositions = new List<Vector3>();
+	private List<Vector3> mLeftTouchPositions = new List<Vector3>();
 
 	private static float mDirection = 0;
 	private static bool mIsJumpCommand = false;
@@ -21,44 +19,33 @@ public class SwipeControl : MonoBehaviour {
 	}
 
 	void Update () {
-		foreach (Touch touch in Input.touches)
-		{ 	
-			EvaluateTouchCommand(touch);
-		}
+		EvaluateTouchCommand();
 	}
 
-	private void EvaluateTouchCommand (Touch touch)
+	private void EvaluateTouchCommand ()
 	{
-		if (touch.position.x > mRightOfScreen) {
-			EvaluateRightSide (touch);
-		} else if ( touch.position.x < mLeftOfScreen){
-			EvaluateLeftSide(touch);
+		foreach (Touch touch in Input.touches)
+		{ 	
+			if (touch.position.x > mRightOfScreen) {
+				EvaluateRightSide (touch);
+			} else if ( touch.position.x < mLeftOfScreen){
+				EvaluateLeftSide(touch);
+			}
 		}
 	}
 
 	private void EvaluateLeftSide(Touch touch)
 	{
-		if (mFirstTouchPosition.x < mLeftOfScreen) {
-			if (touch.phase == TouchPhase.Began) {
-				AddFirstTouchPosition(touch);
-			} else if (touch.phase == TouchPhase.Moved) {
-				float previousDirection = mDirection;
-				if(mTouchPositions.Count > 1)
-				{
-					AddTouchPosition (touch);
-				}
-				else
-				{
-					AddFirstTouchPosition(touch);
-				}
-			} else if (touch.phase == TouchPhase.Stationary) {
-				ClearTouches ();
-			} else if (touch.phase == TouchPhase.Ended) {
-				ClearTouches ();
-				mDirection = 0;
+		if (touch.phase == TouchPhase.Stationary) {
+			ClearTouches ();
+		} else if (touch.phase == TouchPhase.Ended) {
+			mDirection = 0;
+			ClearTouches ();
+		} else {
+			if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved) {
+				AddTouchPosition(touch);
 			}
-
-			if (IsSwipeBiggerThanMinimumDistance () && mTouchPositions.Count > 1) {
+			if (IsSwipeBiggerThanMinimumDistance ()){
 				EvaluateSwipe();
 			}
 		}
@@ -85,29 +72,23 @@ public class SwipeControl : MonoBehaviour {
 	private bool IsSwipingUp()
 	{
 		bool IsSwipingUp = false;
-		if (mLastTouchPosition.y > mFirstTouchPosition.y)  
+		if (mLeftTouchPositions[currentTouchIndex].y > mLeftTouchPositions[0].y) 
 		{   
 			IsSwipingUp = true;
 		}
 		return IsSwipingUp;
 	}
 
-	private void AddFirstTouchPosition(Touch touch)
-	{
-		AddTouchPosition (touch);
-		mFirstTouchPosition = mTouchPositions [0];
-	}
-
 	private void AddTouchPosition(Touch touch)
 	{
-		mTouchPositions.Add(touch.position);
-		mPreviousTouchPosition = mLastTouchPosition;
-		mLastTouchPosition =  mTouchPositions[mTouchPositions.Count-1];
+		mLeftTouchPositions.Add(touch.position);
+		currentTouchIndex++;
 	}
 
 	private void ClearTouches()
 	{
-		mTouchPositions.Clear ();
+		mLeftTouchPositions.Clear ();
+		currentTouchIndex = -1;
 	}
 
 	public static float GetDirection()
@@ -123,7 +104,10 @@ public class SwipeControl : MonoBehaviour {
 	private bool IsSwipeBiggerThanMinimumDistance()
 	{
 		bool isSwipeBigEnough = false;
-		isSwipeBigEnough = Mathf.Abs (mLastTouchPosition.x - mFirstTouchPosition.x) > mMinimumSwipeDistance || Mathf.Abs (mLastTouchPosition.y - mFirstTouchPosition.y) > mMinimumSwipeDistance;
+		float swipeDistance = Mathf.Abs (mLeftTouchPositions[currentTouchIndex].y - mLeftTouchPositions[0].y);
+		//minSwipeDistance = 26
+		isSwipeBigEnough = swipeDistance > mMinimumSwipeDistance;
+		//return true;
 		return isSwipeBigEnough;
 	}
 }
