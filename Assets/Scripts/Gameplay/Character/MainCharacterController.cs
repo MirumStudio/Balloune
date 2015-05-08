@@ -13,7 +13,7 @@ public class MainCharacterController : BaseCharacterController {
 	private float m_BoostedJumpForce = 300f;
 	
 	private bool mCanBoostJump = false;
-	private float mTimePressed = 0;
+	private float mTimeJumpPressed = 0;
 	
 	private CharacterAnimator mAnimator;
 	
@@ -29,7 +29,7 @@ public class MainCharacterController : BaseCharacterController {
 		if (CharacterWantToJump && base.mIsGrounded)
 		{
 			mCanBoostJump = true;
-			mTimePressed = 0;
+			mTimeJumpPressed = 0;
 		}
 	}
 	
@@ -40,12 +40,12 @@ public class MainCharacterController : BaseCharacterController {
 	
 	protected override bool CharacterWantToJump 
 	{
-		get { return Input.GetKey(KeyCode.Space) || (m_JumpButton != null && m_JumpButton.GetComponent<ButtonOnPressed>().IsPressed);}
+		get { return SwipeControl.IsJumpCommand();/*return Input.GetKey(KeyCode.Space) || (m_JumpButton != null && m_JumpButton.GetComponent<ButtonOnPressed>().IsPressed)*/;}
 	}
 	
 	protected override void UpdateJumping()
 	{
-		mTimePressed = mTimePressed + Time.deltaTime;
+		mTimeJumpPressed = mTimeJumpPressed + Time.deltaTime;
 		if (CharacterWantToJump) {
 			Jump ();
 		}
@@ -58,7 +58,7 @@ public class MainCharacterController : BaseCharacterController {
 			mRigidbody2D.AddForce(new Vector2(0f, base.m_JumpForce));
 			mInitJumping = false;
 		}
-		else if(mTimePressed > 0.1f && mTimePressed < 0.15f && mCanBoostJump){
+		else if(mTimeJumpPressed > 0.1f && mTimeJumpPressed < 0.15f && mCanBoostJump){
 			BoostJump ();
 		}
 	}
@@ -66,15 +66,15 @@ public class MainCharacterController : BaseCharacterController {
 	private void BoostJump(){
 		//Character is already in the air
 		mRigidbody2D.AddForce(new Vector2(0f, m_BoostedJumpForce));
-		mTimePressed = 0;
+		mTimeJumpPressed = 0;
 		mCanBoostJump = false;
 	}
 	
 	protected override int GetHorizontalAxisValue() 
 	{
-		float value = Input.GetAxis("Horizontal");
-		
-		if(value == 0)
+		//float value = Input.GetAxis("Horizontal");
+		float value = SwipeControl.GetDirection ();
+		/*if(value == 0)
 		{
 			if(m_RightButton != null && m_RightButton.GetComponent<ButtonOnPressed>().IsPressed)
 			{
@@ -85,9 +85,9 @@ public class MainCharacterController : BaseCharacterController {
 				value--;
 			}
 			return (int)value;
-		}
+		}*/
 		
-		return (int)Mathf.Sign(value);
+		return (int)value;
 	}
 	
 	private bool PlayerWantToRun
