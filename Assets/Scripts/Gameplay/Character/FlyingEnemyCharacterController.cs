@@ -23,8 +23,8 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 	
 	protected override void Update (){
 		//base.Update ();
-		var xDirection = new Direction(GetHorizontalAxisValue());
-		var yDirection = new Direction(GetVerticalAxisValue());
+		Direction xDirection = GetDirection(GetHorizontalAxisValue());
+		Direction yDirection = GetDirection(GetVerticalAxisValue());
 		Move (xDirection, yDirection);
 	}
 	
@@ -33,9 +33,9 @@ public class FlyingEnemyCharacterController : EnemyCharacterController
 		base.FixedUpdate ();
 	}
 	
-	protected override int GetHorizontalAxisValue() 
+	protected override float GetHorizontalAxisValue() 
 	{
-		int horizontalAxisValue = 0;
+		float horizontalAxisValue = 0;
 		if (m_PatrolRange > 0) 
 		{
 			horizontalAxisValue = 1;

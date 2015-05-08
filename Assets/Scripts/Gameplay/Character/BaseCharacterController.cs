@@ -37,7 +37,7 @@ public abstract class BaseCharacterController : MonoBehaviour
 		{
 			mInitJumping = true;
 		}
-		var direction = new Direction(GetHorizontalAxisValue());
+		float direction = GetHorizontalAxisValue();
 		Move(direction);
 	}
 	
@@ -46,17 +46,18 @@ public abstract class BaseCharacterController : MonoBehaviour
 		if (UIPopupBase.PopupIsDisplayed) return;
 	}
 	
-	protected virtual void Move(Direction pDirection)
+	protected virtual void Move(float pSpeed)
 	{
-		UpdateAnimation(pDirection, mIsGrounded);
+		Direction direction = GetDirection (pSpeed);
+		UpdateAnimation(direction, mIsGrounded);
 		
-		if (pDirection.Value != 0 && CanMove(pDirection) && !HorizontalMaxSpeedReached(pDirection))
+		if (direction.Value != 0 && CanMove(direction) && !HorizontalMaxSpeedReached(direction))
 		{
-			AddForce(pDirection);
+			AddForce(pSpeed);
 		}
 		
 		AjustVelocity();
-		CheckFlipping(pDirection);
+		CheckFlipping(direction);
 		UpdateJumping();
 	}
 	
@@ -70,9 +71,9 @@ public abstract class BaseCharacterController : MonoBehaviour
 		return pDirection.Value * mRigidbody2D.velocity.x >= GetMaxSpeed();
 	}
 	
-	protected virtual void AddForce(Direction pDirection)
+	protected virtual void AddForce(float pSpeed)
 	{
-		mRigidbody2D.AddForce(Vector2.right * pDirection.Value * m_MoveForce);
+		mRigidbody2D.AddForce(Vector2.right * pSpeed * m_MoveForce);
 	}
 	
 	protected void AjustVelocity()
@@ -104,13 +105,24 @@ public abstract class BaseCharacterController : MonoBehaviour
 	protected virtual void UpdateJumping()
 	{	}
 	
-	protected abstract int GetHorizontalAxisValue();
+	protected abstract float GetHorizontalAxisValue();
 	
 	protected abstract bool CharacterWantToJump
 	{
 		get;
 	}
-	
+
+	protected Direction GetDirection(float speed)
+	{
+		int directionInt = 0;
+		if (speed > 0) {
+			directionInt = 1;
+		} else if (speed < 0) {
+			directionInt = -1;
+		}
+		return new Direction (directionInt);
+	}
+
 	protected abstract void UpdateAnimation(Direction pDirection,bool pIsGrounded);
 	
 	protected bool IsInAir
