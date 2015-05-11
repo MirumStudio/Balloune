@@ -60,10 +60,15 @@ namespace Radix.DatabaseManagement.Sqlite
             command.CommandText = pSQLQuery;
             IDataReader reader = command.ExecuteReader();
 
-            command.Dispose();
-            command = null;
+            DisposeDbCommand(command);
 
             return reader;
+        }
+
+        private void DisposeDbCommand(IDbCommand pCommand)
+        {
+            pCommand.Dispose();
+            pCommand = null;
         }
 
         private List<List<object>> ReadResult(IDataReader pData)
@@ -72,20 +77,30 @@ namespace Radix.DatabaseManagement.Sqlite
 
             while (pData.Read())
             {
-                List<object> currentResult = new List<object>();
-                int count = pData.FieldCount;
-                for(int i = 0; i < count;i++)
-                {
-                    currentResult.Add(pData.GetValue(i));
-                }
-
-                result.Add(currentResult);
+                result.Add(ReadRow(pData));
             }
 
-            pData.Close();
-            pData = null;
+            DisposeDataReader(pData);
 
             return result;
+        }
+
+        private List<object> ReadRow(IDataReader pData)
+        {
+            List<object> currentResult = new List<object>();
+            int count = pData.FieldCount;
+            for (int i = 0; i < count; i++)
+            {
+                currentResult.Add(pData.GetValue(i));
+            }
+
+            return currentResult;
+        }
+
+        private void DisposeDataReader(IDataReader pData)
+        {
+            pData.Close();
+            pData = null;
         }
 
         private void CloseConnection()
