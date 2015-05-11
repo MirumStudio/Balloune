@@ -2,11 +2,15 @@
 using System.Collections;
 using Radix.DatabaseManagement;
 
-public class TestDeleteQuery : SQLQuery {
-
-
-    public override string GetQuery()
+public class TestDeleteQuery : SQLDeleteQuery
+{
+    public TestDeleteQuery()
     {
-        return string.Empty;
+        base.mDBName = "Test1";
+
+        TableName = "Person";
+
+        AddWhereValue("Age", "22");
+        
     }
 }

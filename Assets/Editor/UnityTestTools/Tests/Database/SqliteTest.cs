@@ -109,11 +109,16 @@ public class SqliteTest
 
         ServiceManager.Instance.GetService<SqliteService>().ExecuteQuery(query);
 
-       /* Assert.AreEqual(21, query.GetAge());
-        Assert.AreEqual("Bob", query.GetName());*/
+        TestSelectQuery query2 = new TestSelectQuery();
+
+        ServiceManager.Instance.GetService<SqliteService>().ExecuteQuery(query);
+
+        Assert.AreEqual(1, query2.GetResultCount());
+        Assert.AreEqual(22, query2.GetAge());
+        Assert.AreEqual("Bob", query2.GetName());
     }
 
-   /* [Test]
+    [Test]
     public void DeleteFormat()
     {
         SQLQuery query = new TestDeleteQuery();
@@ -130,11 +135,14 @@ public class SqliteTest
 
         ServiceManager.Instance.GetService<SqliteService>().ExecuteQuery(query);
 
-       /* Assert.AreEqual(21, query.GetAge());
-        Assert.AreEqual("Bob", query.GetName());*/
-  /*  }
+        TestSelectQuery query2 = new TestSelectQuery();
 
-    [Test]
+        ServiceManager.Instance.GetService<SqliteService>().ExecuteQuery(query);
+
+        Assert.AreEqual(0, query2.GetResultCount());
+    }
+
+  /*  [Test]
     public void DeleteDB()
     {
         TestDeleteDB delete = new TestDeleteDB();
