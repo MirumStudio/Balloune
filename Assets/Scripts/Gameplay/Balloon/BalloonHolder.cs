@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class BalloonHolder : MonoBehaviour {
+	public const string BALLOON_HOLDER_NAME = "BalloonHolder";
 	private const int NUMBER_OF_BALLOONS = 3;
     [SerializeField]
 	protected GameObject m_Tack;
@@ -13,6 +14,7 @@ public class BalloonHolder : MonoBehaviour {
 	protected GameObject m_RopePrefab;
 
 	private GameObject[] mLifeBalloons = new GameObject[NUMBER_OF_BALLOONS];
+	private BalloonBehavior[] mLifeBalloonsBehavior = new BalloonBehavior[NUMBER_OF_BALLOONS];
 	private Rope[] mRopes = new Rope[NUMBER_OF_BALLOONS];
 
 	private int mHeldBalloons = 0;
@@ -23,6 +25,7 @@ public class BalloonHolder : MonoBehaviour {
 		RopeManager ropeManager = new RopeManager (m_RopePrefab, m_Tack);
 		for (int i = 0; i < mLifeBalloons.Length; i++) {
 			mLifeBalloons[i] = balloonCreator.CreateBalloon (new Vector2(firstBalloonX - (i * 3), 1.2f));
+			mLifeBalloonsBehavior[i] = mLifeBalloons[i].GetComponent<BalloonBehavior>();
 			mHeldBalloons++;
 			SetBalloonBehavior(mLifeBalloons[i], i);
 			mRopes[i] = ropeManager.CreateRopeForBalloon (mLifeBalloons[i]);
@@ -32,7 +35,7 @@ public class BalloonHolder : MonoBehaviour {
 
 	private void SetBalloonBehavior(GameObject pBalloon, int pBalloonIndex)
 	{
-		BalloonBehavior balloonBehavior = pBalloon.GetComponent<BalloonBehavior>();
+		BalloonBehavior balloonBehavior = mLifeBalloonsBehavior[pBalloonIndex];
 		balloonBehavior.SetBalloonHolder(this);
 		balloonBehavior.mBalloonIndex = pBalloonIndex;
 		balloonBehavior.SetTack (m_Tack);
@@ -40,12 +43,23 @@ public class BalloonHolder : MonoBehaviour {
 
 	public void DestroyBalloon(int pBalloonIndex) {
 		Destroy (mLifeBalloons [pBalloonIndex]);
+		Destroy (mLifeBalloonsBehavior [pBalloonIndex]);
 		mHeldBalloons--;
 		for(int i = 0; i < mLifeBalloons.Length; i++) {
 			if(mLifeBalloons[i] != null) {
-				mLifeBalloons[i].GetComponent<BalloonBehavior>().SetInvulnerable(true);
+				mLifeBalloonsBehavior[i].SetInvulnerable(true);
 			}
 		}
+	}
+
+	public GameObject[] GetLifeBalloons()
+	{
+		return mLifeBalloons;
+	}
+
+	public BalloonBehavior[] GetLifeBalloonsBehavior()
+	{
+		return mLifeBalloonsBehavior;
 	}
 
 	public int CountBalloons() {
