@@ -6,6 +6,7 @@ using Radix.Service;
 using UnityEngine;
 using System.Data;
 using Mono.Data.Sqlite;
+using Radix.ErrorMangement;
 
 namespace Radix.DatabaseManagement.Sqlite
 {
@@ -15,16 +16,14 @@ namespace Radix.DatabaseManagement.Sqlite
         private IDbConnection mDBConnection;
 
         protected override void Init()
-        {
-
-        }
+        {}
 
         protected override void Dispose()
         {
-
+            CloseConnection();
         }
 
-        public void ExecuteQuery(SQLQuery pQuery)
+        internal void ExecuteQuery(SQLQuery pQuery)
         {
             lock (mLock)
             {
@@ -32,7 +31,7 @@ namespace Radix.DatabaseManagement.Sqlite
             }
         }
 
-        public void ExecuteQueryThreadSafe(SQLQuery pQuery)
+        private void ExecuteQueryThreadSafe(SQLQuery pQuery)
         {
             try
             {
@@ -43,8 +42,7 @@ namespace Radix.DatabaseManagement.Sqlite
             }
             catch(Exception exception)
             {
-                int y = 6;
-                //error
+                Error.Create(exception.Message, EErrorSeverity.MAJOR);
             }
         }
 
@@ -92,8 +90,11 @@ namespace Radix.DatabaseManagement.Sqlite
 
         private void CloseConnection()
         {
-            mDBConnection.Close();
-            mDBConnection = null;
+            if (mDBConnection != null)
+            {
+                mDBConnection.Close();
+                mDBConnection = null;
+            }
         }
 
         public void Test()

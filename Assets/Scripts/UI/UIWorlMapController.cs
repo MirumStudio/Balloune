@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using Radix.Event;
 using System;
-using Radix.Error;
+using Radix.ErrorMangement;
 
 public class UIWorlMapController : MonoBehaviour {
 

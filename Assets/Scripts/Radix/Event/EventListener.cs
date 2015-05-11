@@ -1,4 +1,4 @@
-﻿using Radix.Error;
+﻿using Radix.ErrorMangement;
 using System;
 
 namespace Radix.Event

@@ -10,7 +10,66 @@ using UnityEditor;
 
 public class SqliteTest 
 {
-    [SetUp]
+    [Test]
+    public void BigDatabasetest()
+    {
+        ServiceManager.Instance.Init();
+        AssetDatabase.DeleteAsset("Assets/Databases/Test1.db");
+
+        ServiceManager.Instance.GetService<SqliteService>();
+
+        var query = new TestCreateQuery();
+        query.Execute();
+
+        TestInsertQuery insertQuery = new TestInsertQuery();
+
+        insertQuery.AddDataTest("Name", "Bob");
+        insertQuery.AddDataTest("Age", "21");
+
+        string insertQueryWanted = "INSERT INTO Person (Name,Age) VALUES ('Bob','21');";
+
+        Assert.AreEqual(insertQuery.GetQuery(), insertQueryWanted);
+        insertQuery.Execute();
+
+        TestSelectQuery selectQuery = new TestSelectQuery();
+
+        string selectQueryWanted = "SELECT Name,Age FROM Person;";
+
+        Assert.AreEqual(selectQuery.GetQuery(), selectQueryWanted);
+
+        selectQuery.Execute();
+
+        Assert.AreEqual(1, selectQuery.GetResultCount());
+        Assert.AreEqual(21, selectQuery.GetAge());
+        Assert.AreEqual("Bob", selectQuery.GetName());
+
+        TestUpdateQuery updateQuery = new TestUpdateQuery();
+
+        string updateQueryWanted = "UPDATE Person SET Age='22' WHERE Name='Bob';";
+
+        Assert.AreEqual(updateQuery.GetQuery(), updateQueryWanted);
+
+        updateQuery.Execute();
+        selectQuery.Execute();
+
+        Assert.AreEqual(1, selectQuery.GetResultCount());
+        Assert.AreEqual(22, selectQuery.GetAge());
+        Assert.AreEqual("Bob", selectQuery.GetName());
+
+        TestDeleteQuery deleteQuery = new TestDeleteQuery();
+
+        string deleteQueryWanted = "DELETE FROM Person WHERE Age='22';";
+
+        Assert.AreEqual(deleteQuery.GetQuery(), deleteQueryWanted);
+
+        deleteQuery.Execute();
+
+        selectQuery.Execute();
+        Assert.AreEqual(0, selectQuery.GetResultCount());
+    }
+
+
+    /*[SetUp]
     public void InitService()
     {
         ServiceManager.Instance.Init();
@@ -34,14 +93,11 @@ public class SqliteTest
     [Test]
     public void Createdatabase()
     {
-        var lol = ServiceManager.Instance.GetService<SqliteService>();
+        ServiceManager.Instance.GetService<SqliteService>();
 
-        if(lol == null)
-        {
-            Assert.Fail("WHUT WHUT");
-        }
+        var query =  new TestCreateQuery();
+        query.Execute();
 
-        ServiceManager.Instance.GetService<SqliteService>().ExecuteQuery(new TestCreateQuery());
         Assert.Pass();
     }
     
@@ -66,7 +122,7 @@ public class SqliteTest
         query.AddDataTest("Name", "Bob");
         query.AddDataTest("Age", "21");
 
-        ServiceManager.Instance.GetService<SqliteService>().ExecuteQuery(query);
+        query.Execute();
         Assert.Pass();
     }
 
@@ -85,7 +141,7 @@ public class SqliteTest
     {
         TestSelectQuery query = new TestSelectQuery();
 
-        ServiceManager.Instance.GetService<SqliteService>().ExecuteQuery(query);
+        query.Execute();
 
         Assert.AreEqual(1, query.GetResultCount());
         Assert.AreEqual(21, query.GetAge());
@@ -107,11 +163,11 @@ public class SqliteTest
     {
         TestUpdateQuery query = new TestUpdateQuery();
 
-        ServiceManager.Instance.GetService<SqliteService>().ExecuteQuery(query);
+        query.Execute();
 
         TestSelectQuery query2 = new TestSelectQuery();
 
-        ServiceManager.Instance.GetService<SqliteService>().ExecuteQuery(query);
+        query2.Execute();
 
         Assert.AreEqual(1, query2.GetResultCount());
         Assert.AreEqual(22, query2.GetAge());
@@ -133,30 +189,12 @@ public class SqliteTest
     {
         TestDeleteQuery query = new TestDeleteQuery();
 
-        ServiceManager.Instance.GetService<SqliteService>().ExecuteQuery(query);
+        query.Execute();
 
         TestSelectQuery query2 = new TestSelectQuery();
 
-        ServiceManager.Instance.GetService<SqliteService>().ExecuteQuery(query);
+        query2.Execute();
 
         Assert.AreEqual(0, query2.GetResultCount());
-    }
-
-  /*  [Test]
-    public void DeleteDB()
-    {
-        TestDeleteDB delete = new TestDeleteDB();
-        delete.Execute();
     }*/
-
-    /*
-     * create (file exist)
-     * select 
-     * ins (select)
-     * Update (select)
-     * delete (sele
-     * cehc query formartion
-     * Empty
-     */
-
 }
