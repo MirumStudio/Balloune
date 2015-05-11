@@ -96,15 +96,5 @@ namespace Radix.DatabaseManagement.Sqlite
                 mDBConnection = null;
             }
         }
-
-        public void Test()
-        {
-            string conn = "URI=file:" + Application.dataPath + "/Databases/lol.db";
-            mDBConnection = (IDbConnection)new SqliteConnection(conn);
-            mDBConnection.Open();
-
-            mDBConnection.Close();
-            mDBConnection = null;
-        }
     }
 }
