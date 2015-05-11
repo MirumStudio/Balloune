@@ -2,7 +2,7 @@
 using System.Collections;
 using Radix.Event;
 using System;
-using Radix.Error;
+using Radix.ErrorMangement;
 
 public class Lifebar : MonoBehaviour {
 

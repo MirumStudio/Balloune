@@ -15,11 +15,6 @@ public class TestSelectQuery : SQLSelectQuery
         AddRow("Age");
     }
 
-    public void Execute()
-    {
-        ServiceManager.Instance.GetService<SqliteService>().ExecuteQuery(this);
-    }
-
     public string GetName()
     {
         return Result[0][0] as string;

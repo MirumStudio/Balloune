@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Radix.Event;
-using Radix.Error;
+using Radix.ErrorMangement;
 
 [RequireComponent (typeof(CharacterAnimator))]
 public class EnemyCharacterController : BaseCharacterController

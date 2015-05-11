@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Radix.Error;
+using Radix.ErrorMangement;
 
 /*In this class, there are a lot of small ajustement and magic number.
 TODO: Refactor this class when we will have the real Asset*/

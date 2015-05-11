@@ -3,7 +3,7 @@ using Radix.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Radix.Error;
+using Radix.ErrorMangement;
 using Radix.DatabaseManagement.Sqlite;
 
 namespace Radix.Service
@@ -132,21 +132,13 @@ namespace Radix.Service
 
         public T GetService<T>() where T : ServiceBase
         {
-            if(m_serviceList == null)
-            {
-                throw new NullReferenceException(".................LOL");
-            }
+            Assert.CheckNull(m_serviceList);
 
             T serviceBase = m_serviceList.FirstOrDefault((service) => service.GetType() == typeof(T)) as T;
 
-            if (serviceBase != null)
-            {
-                return serviceBase;
-            }
-            else
-            {
-                throw new NullReferenceException("Cannot find an instance of " + typeof(T).Name);
-            }
+            Assert.CheckNull(serviceBase, "Cannot find an instance of " + typeof(T).Name);
+
+            return serviceBase;
         }
 
         private void StartService(ServiceBase _service)

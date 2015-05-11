@@ -6,7 +6,7 @@ using System.Text;
 using Radix.Utlities;
 using System.Diagnostics;
 
-namespace Radix.Error
+namespace Radix.ErrorMangement
 {
     public class Error
     {

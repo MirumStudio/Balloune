@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 using Radix.Event;
-using Radix.Error;
+using Radix.ErrorMangement;
 
 public class BalloonBehavior : MonoBehaviour
 {

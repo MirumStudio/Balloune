@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Radix.Error
+namespace Radix.ErrorMangement
 {
 #if UNITY_EDITOR
     public class Assert
