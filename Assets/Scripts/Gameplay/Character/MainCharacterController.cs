@@ -14,6 +14,8 @@ public class MainCharacterController : BaseCharacterController {
 	
 	private bool mCanBoostJump = false;
 	private float mTimeJumpPressed = 0;
+
+	private BalloonHolder mBalloonHolder = null;
 	
 	private CharacterAnimator mAnimator;
 	
@@ -21,11 +23,12 @@ public class MainCharacterController : BaseCharacterController {
 	{
 		base.Start ();
 		mAnimator=GetComponent<CharacterAnimator>();
+		mBalloonHolder = GameObject.Find (BalloonHolder.BALLOON_HOLDER_NAME).GetComponent<BalloonHolder>();
 	}
 	
 	protected override void Update (){
 		base.Update ();
-		
+
 		if (CharacterWantToJump && base.mIsGrounded)
 		{
 			mCanBoostJump = true;
@@ -40,7 +43,7 @@ public class MainCharacterController : BaseCharacterController {
 	
 	protected override bool CharacterWantToJump 
 	{
-		get { return SwipeControl.IsJumpCommand();/*return Input.GetKey(KeyCode.Space) || (m_JumpButton != null && m_JumpButton.GetComponent<ButtonOnPressed>().IsPressed)*/;}
+		get { return Input.GetKey(KeyCode.Space) || (m_JumpButton != null && m_JumpButton.GetComponent<ButtonOnPressed>().IsPressed);}
 	}
 	
 	protected override void UpdateJumping()
@@ -50,7 +53,7 @@ public class MainCharacterController : BaseCharacterController {
 			Jump ();
 		}
 	}
-	
+
 	private void Jump(){
 		if (base.mInitJumping)
 		{
@@ -72,15 +75,22 @@ public class MainCharacterController : BaseCharacterController {
 	
 	protected override float GetHorizontalAxisValue() 
 	{
-		float speed = SwipeControl.GetSpeed ();
-		speed = AdjustSpeed (speed);
-		
+		float speed = 0f;
+		BalloonBehavior[] lifeBalloons = mBalloonHolder.GetLifeBalloonsBehavior ();
+		for (int i = 0; i < lifeBalloons.Length; i++) {
+			if(lifeBalloons[i] != null && lifeBalloons[i].IsPullingCharacter() == true)
+			{
+				CharacterPull pull = lifeBalloons[i].GetPull();
+				speed = pull.GetPullStrength() * pull.GetPullDirection();
+				speed = AdjustSpeed(speed);
+				break;
+			}
+		}
 		return speed;
 	}
 
 	private float AdjustSpeed(float mSpeed)
 	{
-		mSpeed = mSpeed * 2;
 		if (mSpeed > 1) {
 			mSpeed = 1;
 		} else if (mSpeed < -1) {
