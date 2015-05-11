@@ -26,23 +26,24 @@ public class EnemyCharacterController : BaseCharacterController
 		base.FixedUpdate ();
 	}
 
-	protected override void Move(Direction pDirection)
+	protected override void Move(float pSpeed)
 	{
-		UpdateAnimation(pDirection, mIsGrounded);
+		Direction direction = GetDirection (pSpeed);
+		UpdateAnimation(direction, mIsGrounded);
 		
 		Vector2 newPosition = mRigidbody2D.position;
 
-		if (pDirection.Value != 0 && CanMove(pDirection) && !HorizontalMaxSpeedReached(pDirection))
+		if (direction.Value != 0 && CanMove(direction) && !HorizontalMaxSpeedReached(direction))
 		{
-			newPosition.x = newPosition.x + (pDirection.Value *  moveSpeed * Time.deltaTime);
+			newPosition.x = newPosition.x + (direction.Value *  moveSpeed * Time.deltaTime);
 		}
 		mRigidbody2D.MovePosition (newPosition);
 		AjustVelocity();
-		CheckFlipping(pDirection);
+		CheckFlipping(direction);
 		UpdateJumping();
 	}
 
-	protected override int GetHorizontalAxisValue() 
+	protected override float GetHorizontalAxisValue() 
 	{
 		return 0;
 	}
