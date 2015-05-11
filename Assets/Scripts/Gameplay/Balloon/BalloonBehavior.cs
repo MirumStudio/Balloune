@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 using Radix.Event;
-using Radix.ErrorMangement;
+using Radix.Error;
 
 public class BalloonBehavior : MonoBehaviour
 {
@@ -16,7 +16,6 @@ public class BalloonBehavior : MonoBehaviour
 	private HingeJoint2D mBalloonJoint = null;
 	private BalloonHolder mBalloonHolder = null;
 	private DistanceJoint2D mDistanceJoint = null;
-	private CircleCollider2D mCircleCollider = null;
 	private GameObject mTack = null;
 	private Transform mainCharacter = null;
 
@@ -36,12 +35,11 @@ public class BalloonBehavior : MonoBehaviour
 		mLineRenderer = GetComponent<LineRenderer> ();
 		mBalloonJoint = GetComponent<HingeJoint2D> ();
 		mDistanceJoint = GetComponent<DistanceJoint2D> ();
-		mCircleCollider = GetComponent<CircleCollider2D> ();
 		mRope = mBalloonHolder.GetRope (mBalloonIndex);
 		m_Parent = mBalloonHolder.transform;
 		EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
 		mainCharacter = mTack.transform.parent;
-		Physics2D.IgnoreCollision(mainCharacter.GetComponent<BoxCollider2D>(), mCircleCollider);
+		Physics2D.IgnoreCollision(mainCharacter.GetComponent<BoxCollider2D>(), GetComponent<CircleCollider2D>());
     }
 
 	
@@ -59,6 +57,8 @@ public class BalloonBehavior : MonoBehaviour
 	public void MoveBalloon()
 	{
 		if (mIsTouched) {
+			mRigidbody2D.gravityScale = 0;
+			mRigidbody2D.drag = 0;
 			Vector2 currentBalloonPosition = transform.position;
 			Vector2 touchPosition = TouchControl.GetTouchPosition();
 			float touchDistance = Vector2.Distance (touchPosition, currentBalloonPosition);
@@ -66,48 +66,32 @@ public class BalloonBehavior : MonoBehaviour
 			if(balloonDistance < mDistanceJoint.distance)
 			{
 				DragBalloon(touchPosition, currentBalloonPosition);
+			}
+			else {
+				SetVelocity(Vector2.zero);
 				DragCharacter(touchDistance, currentBalloonPosition);
 			}
-			if(balloonDistance >= mDistanceJoint.distance) {
-				SetVelocity(Vector2.zero);
-			}
-		}
-	}
-
-	public void IgnoreOtherBalloonCollision(bool pIgnore)
-	{
-		BalloonBehavior[] allHeldballoons = mBalloonHolder.GetLifeBalloonsBehavior ();
-
-		for (int i = 0; i < allHeldballoons.Length; i++) {
-			if(i != mBalloonIndex)
-			{
-				Physics2D.IgnoreCollision(allHeldballoons[i].GetCircleCollider(), mCircleCollider, pIgnore);
-			}
+		} else {
+			mRigidbody2D.drag = 1;
+			mRigidbody2D.gravityScale = -1;
+			mCharacterPull.StopPulling();
 		}
 	}
 
 	private void DragBalloon(Vector2 pTouchPosition, Vector2 pCurrentBalloonPosition)
 	{
+		//mCharacterPull.StopPulling();
 		float xDistance = pTouchPosition.x - pCurrentBalloonPosition.x;
 		float yDistance = pTouchPosition.y - pCurrentBalloonPosition.y;
-		Vector2 velocity = new Vector2(xDistance * 5, yDistance * 5);
+		Vector2 velocity = new Vector2(xDistance, yDistance);
 		SetVelocity(velocity);
 	}
 
 	private void DragCharacter(float pTouchDistance, Vector2 pCurrentBalloonPosition)
 	{
-		double balloonAngle = GetBalloonAngle ();
-		mCharacterPull.SetPullStrength(balloonAngle);
-		float mDirection = mCharacterPull.GetPullDirection();
-	}
-
-	private double GetBalloonAngle()
-	{
-		float deltaX = transform.position.x - mTack.transform.position.x;
-		float deltaY = transform.position.y - mTack.transform.position.y;
-		float radian = Mathf.Atan2 (deltaY, deltaX);
-		double angle = radian * Mathf.Rad2Deg;
-		return angle;
+		mCharacterPull.SetPullStrength(pTouchDistance - mDistanceJoint.distance);
+		float mDirection = pCurrentBalloonPosition.x - mTack.transform.position.x;
+		mCharacterPull.SetPullDirection(mDirection);
 	}
 
 	private void SetVelocity(Vector2 velocity)
@@ -208,15 +192,5 @@ public class BalloonBehavior : MonoBehaviour
 			isPulling = true;
 		}
 		return isPulling;
-	}
-
-	public CircleCollider2D GetCircleCollider()
-	{
-		return mCircleCollider;
-	}
-
-	public Rigidbody2D GetRigidBody()
-	{
-		return mRigidbody2D;
 	}
 }
