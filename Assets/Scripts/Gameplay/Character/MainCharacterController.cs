@@ -43,7 +43,7 @@ public class MainCharacterController : BaseCharacterController {
 	
 	protected override bool CharacterWantToJump 
 	{
-		get { return Input.GetKey(KeyCode.Space) || (m_JumpButton != null && m_JumpButton.GetComponent<ButtonOnPressed>().IsPressed);}
+		get { return TouchControl.IsJumpCommand ();/*return Input.GetKey(KeyCode.Space) || (m_JumpButton != null && m_JumpButton.GetComponent<ButtonOnPressed>().IsPressed);*/}
 	}
 	
 	protected override void UpdateJumping()
@@ -81,7 +81,7 @@ public class MainCharacterController : BaseCharacterController {
 			if(lifeBalloons[i] != null && lifeBalloons[i].IsPullingCharacter() == true)
 			{
 				CharacterPull pull = lifeBalloons[i].GetPull();
-				speed = pull.GetPullStrength() * pull.GetPullDirection();
+				speed = pull.GetPullStrength();
 				speed = AdjustSpeed(speed);
 				break;
 			}
@@ -91,10 +91,10 @@ public class MainCharacterController : BaseCharacterController {
 
 	private float AdjustSpeed(float mSpeed)
 	{
-		if (mSpeed > 1) {
-			mSpeed = 1;
-		} else if (mSpeed < -1) {
-			mSpeed = -1;
+		if (mSpeed < 0.10f && mSpeed > 0) {
+			mSpeed = 0;
+		} else if (mSpeed > -0.10f && mSpeed < 0) {
+			mSpeed = -0;
 		}
 		return mSpeed;
 	}
