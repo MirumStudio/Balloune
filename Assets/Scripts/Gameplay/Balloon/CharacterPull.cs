@@ -8,9 +8,16 @@ public class CharacterPull
 
 	public CharacterPull (){}
 
-	public void SetPullStrength(float pPullStrength)
+	public void SetPullStrength(double pPullAngle)
 	{
-		mPullStrength = pPullStrength;
+		mPullStrength = CalculatePullStrength (pPullAngle);
+		SetPullDirection (mPullStrength);
+	}
+
+	private float CalculatePullStrength(double pPullAngle)
+	{
+		float pullStrength = (float)(90 - pPullAngle) / 90;
+		return pullStrength;
 	}
 
 	public float GetPullStrength()
@@ -18,11 +25,14 @@ public class CharacterPull
 		return mPullStrength;
 	}
 
-	public void SetPullDirection(float pPullDirection)
+	private void SetPullDirection(double pPullDirection)
 	{
-		mPullDirection = -1;
 		if (pPullDirection > 0) {
 			mPullDirection = 1;
+		} else if (pPullDirection < 0) {
+			mPullDirection = -1;
+		} else {
+			mPullDirection = 0;
 		}
 	}
 
@@ -39,7 +49,7 @@ public class CharacterPull
 	public bool IsPulling()
 	{
 		bool isPulling = false;
-		if (mPullStrength > 0) {
+		if (mPullStrength != 0) {
 			isPulling = true;
 		}
 		return isPulling;
