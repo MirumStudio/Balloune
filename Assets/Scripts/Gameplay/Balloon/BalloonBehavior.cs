@@ -14,6 +14,7 @@ public class BalloonBehavior : MonoBehaviour
     public int mBalloonIndex = -1;
 
     private Rigidbody2D mRigidbody2D = null;
+<<<<<<< HEAD
     private LineRenderer mLineRenderer = null;
     private HingeJoint2D mBalloonJoint = null;
     private BalloonHolder mBalloonHolder = null;
@@ -21,6 +22,15 @@ public class BalloonBehavior : MonoBehaviour
     private CircleCollider2D mCircleCollider = null;
     private GameObject mTack = null;
     private Transform mainCharacter = null;
+=======
+	private LineRenderer mLineRenderer = null;
+	private HingeJoint2D mBalloonJoint = null;
+	private BalloonHolder mBalloonHolder = null;
+	private DistanceJoint2D mDistanceJoint = null;
+	private CircleCollider2D mCircleCollider = null;
+	private GameObject mTack = null;
+	private Transform mainCharacter = null;
+>>>>>>> Drag and drop controls are working, tweaking might be required.
 
     private Rope mRope = null;
 
@@ -34,6 +44,7 @@ public class BalloonBehavior : MonoBehaviour
 
     void Start()
     {
+<<<<<<< HEAD
         mRigidbody2D = GetComponent<Rigidbody2D>();
         mLineRenderer = GetComponent<LineRenderer>();
         mBalloonJoint = GetComponent<HingeJoint2D>();
@@ -232,3 +243,193 @@ public class BalloonBehavior : MonoBehaviour
         return mRigidbody2D;
     }
 }
+=======
+		mRigidbody2D = GetComponent<Rigidbody2D>();
+		mLineRenderer = GetComponent<LineRenderer> ();
+		mBalloonJoint = GetComponent<HingeJoint2D> ();
+		mDistanceJoint = GetComponent<DistanceJoint2D> ();
+		mCircleCollider = GetComponent<CircleCollider2D> ();
+		mRope = mBalloonHolder.GetRope (mBalloonIndex);
+		m_Parent = mBalloonHolder.transform;
+		EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
+		mainCharacter = mTack.transform.parent;
+		Physics2D.IgnoreCollision(mainCharacter.GetComponent<BoxCollider2D>(), mCircleCollider);
+    }
+
+	
+	private void Update()
+	{
+		CheckIfInvulnerable ();
+	}
+	
+	private void FixedUpdate()
+	{
+		UpdateLineRenderer ();
+		MoveBalloon ();
+	}
+
+	public void MoveBalloon()
+	{
+		if (mIsTouched) {
+			Vector2 currentBalloonPosition = transform.position;
+			Vector2 touchPosition = TouchControl.GetTouchPosition();
+			float touchDistance = Vector2.Distance (touchPosition, currentBalloonPosition);
+			float balloonDistance = GetDistanceBetweenParentAndPosition();
+			if(balloonDistance < mDistanceJoint.distance)
+			{
+				DragBalloon(touchPosition, currentBalloonPosition);
+				DragCharacter(touchDistance, currentBalloonPosition);
+			}
+			if(balloonDistance >= mDistanceJoint.distance) {
+				SetVelocity(Vector2.zero);
+			}
+		}
+	}
+
+	public void IgnoreOtherBalloonCollision(bool pIgnore)
+	{
+		BalloonBehavior[] allHeldballoons = mBalloonHolder.GetLifeBalloonsBehavior ();
+
+		for (int i = 0; i < allHeldballoons.Length; i++) {
+			if(i != mBalloonIndex)
+			{
+				Physics2D.IgnoreCollision(allHeldballoons[i].GetCircleCollider(), mCircleCollider, pIgnore);
+			}
+		}
+	}
+
+	private void DragBalloon(Vector2 pTouchPosition, Vector2 pCurrentBalloonPosition)
+	{
+		float xDistance = pTouchPosition.x - pCurrentBalloonPosition.x;
+		float yDistance = pTouchPosition.y - pCurrentBalloonPosition.y;
+		Vector2 velocity = new Vector2(xDistance * 5, yDistance * 5);
+		SetVelocity(velocity);
+	}
+
+	private void DragCharacter(float pTouchDistance, Vector2 pCurrentBalloonPosition)
+	{
+		double balloonAngle = GetBalloonAngle ();
+		mCharacterPull.SetPullStrength(balloonAngle);
+		float mDirection = mCharacterPull.GetPullDirection();
+	}
+
+	private double GetBalloonAngle()
+	{
+		float deltaX = transform.position.x - mTack.transform.position.x;
+		float deltaY = transform.position.y - mTack.transform.position.y;
+		float radian = Mathf.Atan2 (deltaY, deltaX);
+		double angle = radian * Mathf.Rad2Deg;
+		return angle;
+	}
+
+	private void SetVelocity(Vector2 velocity)
+	{
+		mRigidbody2D.velocity = velocity;
+	}
+
+    private float GetDistanceBetweenParentAndPosition()
+    {
+		return Vector2.Distance(mTack.transform.position, transform.TransformPoint(mDistanceJoint.anchor));
+    }
+
+	private void UpdateLineRenderer()
+	{
+		mRope.DrawRope (mLineRenderer, mBalloonJoint);
+	}
+
+	private void CheckIfInvulnerable() {
+		if (mIsInvulnerable) {
+			mInvulnerableTime += Time.deltaTime;
+			if (mInvulnerableTime >= m_MaximumInvulnerableTime) {
+				mIsInvulnerable = false;
+				mInvulnerableTime = 0;
+			}
+		}
+	}
+
+	public void OnCollisionEnter2D(Collision2D pCollision)
+	{
+		var interactable = pCollision.gameObject.GetComponent<Interactable>();
+		if (interactable != null && interactable.GetType() == typeof(HazardousInteractable))
+		{
+			interactable.DispacthEvent();
+			if (interactable.IsPassableThrough)
+			{
+				var interactableCollider = pCollision.gameObject.GetComponent<Collider2D>();
+				Physics2D.IgnoreCollision(GetComponent<Collider2D>(), interactableCollider);
+			}
+		}
+	}
+
+	private void OnHazardousCollision(Enum pEvent, System.Object pArg)
+	{
+		Assert.Check(pArg is HazardousInteractable);
+		int damage = (pArg as HazardousInteractable).Damage;
+		if (damage > 0 && !this.mIsInvulnerable)
+		{
+			PopBalloon();
+		}
+		CheckIfGameOver();
+	}
+
+	private void PopBalloon(){
+		//TODO balloon explosion animation and sound effect
+		mBalloonHolder.DestroyBalloon(mBalloonIndex);
+	}
+
+	private void CheckIfGameOver() {
+		if (mBalloonHolder.CountBalloons() <= 0)
+		{
+			EventService.DipatchEvent(EGameEvent.GAME_OVER, null);
+		}
+	}
+	
+	public void SetInvulnerable(bool pInvulnerable) {
+		this.mIsInvulnerable = pInvulnerable;
+	}
+
+	public void SetBalloonHolder(BalloonHolder pBalloonHolder)
+	{
+		mBalloonHolder = pBalloonHolder;
+	}
+
+	public void SetTack(GameObject pTack)
+	{
+		mTack = pTack;
+	}
+
+	public void setIsTouched(bool pIsTouched)
+	{
+		mIsTouched = pIsTouched;
+	}
+
+	public bool IsTouched()
+	{
+		return mIsTouched;
+	}
+
+	public CharacterPull GetPull()
+	{
+		return mCharacterPull;
+	}
+
+	public bool IsPullingCharacter()
+	{
+		bool isPulling = false;
+		if (mCharacterPull != null && mCharacterPull.IsPulling ()) {
+			isPulling = true;
+		}
+		return isPulling;
+	}
+
+	public CircleCollider2D GetCircleCollider()
+	{
+		return mCircleCollider;
+	}
+
+	public Rigidbody2D GetRigidBody()
+	{
+		return mRigidbody2D;
+	}
+}
+>>>>>>> Drag and drop controls are working, tweaking might be required.
