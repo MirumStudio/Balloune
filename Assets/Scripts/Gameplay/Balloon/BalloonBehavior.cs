@@ -6,6 +6,8 @@ using Radix.Error;
 
 public class BalloonBehavior : MonoBehaviour
 {
+	private const float MAX_DRAG_VELOCITY = 15f;
+
     [SerializeField]
     public Transform m_Parent = null;
 
@@ -61,12 +63,11 @@ public class BalloonBehavior : MonoBehaviour
 		if (mIsTouched) {
 			Vector2 currentBalloonPosition = transform.position;
 			Vector2 touchPosition = TouchControl.GetTouchPosition();
-			float touchDistance = Vector2.Distance (touchPosition, currentBalloonPosition);
 			float balloonDistance = GetDistanceBetweenParentAndPosition();
 			if(balloonDistance < mDistanceJoint.distance)
 			{
 				DragBalloon(touchPosition, currentBalloonPosition);
-				DragCharacter(touchDistance, currentBalloonPosition);
+				DragCharacter(currentBalloonPosition);
 			}
 			if(balloonDistance >= mDistanceJoint.distance) {
 				SetVelocity(Vector2.zero);
@@ -94,7 +95,7 @@ public class BalloonBehavior : MonoBehaviour
 		SetVelocity(velocity);
 	}
 
-	private void DragCharacter(float pTouchDistance, Vector2 pCurrentBalloonPosition)
+	private void DragCharacter(Vector2 pCurrentBalloonPosition)
 	{
 		double balloonAngle = GetBalloonAngle ();
 		mCharacterPull.SetPullStrength(balloonAngle);
@@ -112,6 +113,7 @@ public class BalloonBehavior : MonoBehaviour
 
 	private void SetVelocity(Vector2 velocity)
 	{
+		velocity = Vector2.ClampMagnitude (velocity, MAX_DRAG_VELOCITY);
 		mRigidbody2D.velocity = velocity;
 	}
 
