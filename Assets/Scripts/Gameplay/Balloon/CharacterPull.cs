@@ -16,7 +16,9 @@ public class CharacterPull
 
 	private float CalculatePullStrength(double pPullAngle)
 	{
-		float pullStrength = (float)(90 - pPullAngle) / 90;
+		float pPullAngleFloat = Mathf.Abs ((float) pPullAngle);
+		float pullStrength = (90 - pPullAngleFloat) / 90;
+
 		return pullStrength;
 	}
 
