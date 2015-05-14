@@ -20,11 +20,7 @@ public class BalloonHolder : MonoBehaviour {
 	[SerializeField]
 	protected GameObject m_RopePrefab;
 
-	private List<GameObject> mLifeBalloons = new List<GameObject>();
-	private List<BalloonBehavior> mLifeBalloonsBehavior = new  List<BalloonBehavior>();
-	private List<Rope> mRopes = new List<Rope>();
-
-	private int mHeldBalloons = 0;
+	private List<Balloon> mBalloons = new List<Balloon>();
 
 	void Start () {
         BalloonFactory.Init(m_BalloonPrefab, m_Tack);
@@ -45,7 +41,7 @@ public class BalloonHolder : MonoBehaviour {
 	}
 
 	public void DestroyBalloon(int pBalloonIndex) {
-		Destroy (mLifeBalloons [pBalloonIndex]);
+		/*Destroy (mLifeBalloons [pBalloonIndex]);
 		Destroy (mLifeBalloonsBehavior [pBalloonIndex]);
 		mHeldBalloons--;
         for (int i = 0; i < NUMBER_LIFE_BALLOON; i++)
@@ -53,43 +49,38 @@ public class BalloonHolder : MonoBehaviour {
 			if(mLifeBalloons[i] != null) {
 				mLifeBalloonsBehavior[i].SetInvulnerable(true);
 			}
-		}
+		}*/
 	}
 
     public void CreateBalloune()
     {
 		RopeManager ropeManager = new RopeManager (m_RopePrefab, m_Tack);
 
-		var balloon = BalloonFactory.CreateBalloon (new Vector2(m_Tack.transform.position.x - (1 * 3), 1.2f));
-		
-        var behavior = balloon.GetComponent<BalloonBehavior>();
-        SetBalloonBehavior(balloon, behavior, mHeldBalloons);
-        mHeldBalloons++;
-		var rope = ropeManager.CreateRopeForBalloon (balloon);
-        ropeManager.AttachRope(balloon, rope);
+		var balloonObject = BalloonFactory.CreateBalloon (new Vector2(m_Tack.transform.position.x - (1 * 3), 1.2f));
 
-        mRopes.Add(rope);
-        mLifeBalloons.Add(balloon);
-        mLifeBalloonsBehavior.Add(behavior);
+        var balloon = balloonObject.AddComponent<LifeBalloon>();
+        balloon.Init();
+        var behavior = balloonObject.GetComponent<BalloonBehavior>();
+        SetBalloonBehavior(balloonObject, behavior, mBalloons.Count);
+
+        var rope = ropeManager.CreateRopeForBalloon(balloonObject);
+        ropeManager.AttachRope(balloonObject, rope);
+
+        mBalloons.Add(balloon);
     }
 
 	public int CountBalloons() 
     {
-		return mHeldBalloons;
+		return mBalloons.Count;
 	}
-
-	public Rope GetRope(int index)
-	{
-		return mRopes[index];
-	}
-
-    public List<BalloonBehavior> GetLifeBalloonsBehavior()
-    {
-        return mLifeBalloonsBehavior;
-    }
 
     private void OnInfluateBalloon(Enum pEvent, object pArg)
     {
         CreateBalloune();
+    }
+
+    public List<Balloon> Ballounes
+    {
+        get { return mBalloons; }
     }
 }
