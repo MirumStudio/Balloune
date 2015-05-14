@@ -42,7 +42,7 @@ public class BalloonBehavior : MonoBehaviour
         mCircleCollider = GetComponent<CircleCollider2D>();
         mRope = GetComponentInChildren<Rope>();
         m_Parent = mBalloonHolder.transform;
-        EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
+        //EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
         mainCharacter = mTack.transform.parent;
         Physics2D.IgnoreCollision(mainCharacter.GetComponent<BoxCollider2D>(), mCircleCollider);
     }
@@ -150,6 +150,7 @@ public class BalloonBehavior : MonoBehaviour
         if (interactable != null && interactable.GetType() == typeof(HazardousInteractable))
         {
             interactable.DispacthEvent();
+            OnHazardousCollision(interactable as HazardousInteractable);
             if (interactable.IsPassableThrough)
             {
                 var interactableCollider = pCollision.gameObject.GetComponent<Collider2D>();
@@ -158,10 +159,9 @@ public class BalloonBehavior : MonoBehaviour
         }
     }
 
-    private void OnHazardousCollision(Enum pEvent, System.Object pArg)
+    private void OnHazardousCollision(HazardousInteractable pArg)
     {
-        Assert.Check(pArg is HazardousInteractable);
-        int damage = (pArg as HazardousInteractable).Damage;
+        int damage = pArg.Damage;
         if (damage > 0 && !this.mIsInvulnerable)
         {
             PopBalloon();
@@ -172,7 +172,8 @@ public class BalloonBehavior : MonoBehaviour
     private void PopBalloon()
     {
         //TODO balloon explosion animation and sound effect
-        mBalloonHolder.DestroyBalloon(mBalloonIndex);
+
+        mBalloonHolder.DestroyBalloon(GetComponent<Balloon>());
     }
 
     private void CheckIfGameOver()

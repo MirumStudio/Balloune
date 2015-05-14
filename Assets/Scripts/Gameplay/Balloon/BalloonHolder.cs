@@ -40,16 +40,15 @@ public class BalloonHolder : MonoBehaviour {
         pBehavior.SetTack(m_Tack);
 	}
 
-	public void DestroyBalloon(int pBalloonIndex) {
-		/*Destroy (mLifeBalloons [pBalloonIndex]);
-		Destroy (mLifeBalloonsBehavior [pBalloonIndex]);
-		mHeldBalloons--;
-        for (int i = 0; i < NUMBER_LIFE_BALLOON; i++)
+    public void DestroyBalloon(Balloon pBalloon)
+    {
+        mBalloons.Remove(pBalloon);
+        Destroy(pBalloon.gameObject);
+        Destroy(pBalloon.Behavior);
+        foreach(Balloon balloon in mBalloons)
         {
-			if(mLifeBalloons[i] != null) {
-				mLifeBalloonsBehavior[i].SetInvulnerable(true);
-			}
-		}*/
+            balloon.Behavior.SetInvulnerable(true);
+        }
 	}
 
     public void CreateBalloune()
