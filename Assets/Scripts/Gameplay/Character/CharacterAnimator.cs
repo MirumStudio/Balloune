@@ -39,6 +39,7 @@ public class CharacterAnimator : MonoBehaviour {
 	
 	private void StopAnimation()
 	{
+        if (mAnimator == null) return;
 		mAnimator.speed = 0;
 	}
 	
@@ -74,6 +75,7 @@ public class CharacterAnimator : MonoBehaviour {
 	#region AnimationSpeed
 	private void UpdateAnimationSpeed(bool pIsRunning)
 	{
+        if (mAnimator == null) return;
 		float speed = 0;
 		if (pIsRunning)
 		{

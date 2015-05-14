@@ -77,16 +77,17 @@ public class MainCharacterController : BaseCharacterController {
 	protected override float GetHorizontalAxisValue() 
 	{
 		float speed = 0f;
-        List<BalloonBehavior> lifeBalloons = mBalloonHolder.GetLifeBalloonsBehavior();
-		for (int i = 0; i < lifeBalloons.Count; i++) {
-			if(lifeBalloons[i] != null && lifeBalloons[i].IsPullingCharacter() == true)
-			{
-				CharacterPull pull = lifeBalloons[i].GetPull();
-				speed = pull.GetPullStrength();
-				speed = AdjustSpeed(speed);
-				break;
-			}
-		}
+        List<Balloon> balloons = mBalloonHolder.Ballounes;
+        foreach(Balloon balloon in balloons)
+        {
+            if (balloon.Behavior.IsPullingCharacter() == true)
+            {
+                CharacterPull pull = balloon.Behavior.GetPull();
+                speed = pull.GetPullStrength();
+                speed = AdjustSpeed(speed);
+                break;
+            }
+        }
 		return speed;
 	}
 

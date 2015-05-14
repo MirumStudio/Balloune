@@ -40,7 +40,7 @@ public class BalloonBehavior : MonoBehaviour
         mBalloonJoint = GetComponent<HingeJoint2D>();
         mDistanceJoint = GetComponent<DistanceJoint2D>();
         mCircleCollider = GetComponent<CircleCollider2D>();
-        mRope = mBalloonHolder.GetRope(mBalloonIndex);
+        mRope = GetComponentInChildren<Rope>();
         m_Parent = mBalloonHolder.transform;
         EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
         mainCharacter = mTack.transform.parent;
@@ -80,13 +80,13 @@ public class BalloonBehavior : MonoBehaviour
 
     public void IgnoreOtherBalloonCollision(bool pIgnore)
     {
-        List<BalloonBehavior> allHeldballoons = mBalloonHolder.GetLifeBalloonsBehavior();
+        List<Balloon> allHeldballoons = mBalloonHolder.Ballounes;
 
         for (int i = 0; i < allHeldballoons.Count; i++)
         {
             if (i != mBalloonIndex)
             {
-                Physics2D.IgnoreCollision(allHeldballoons[i].GetCircleCollider(), mCircleCollider, pIgnore);
+                Physics2D.IgnoreCollision(allHeldballoons[i].CircleCollider, mCircleCollider, pIgnore);
             }
         }
     }
