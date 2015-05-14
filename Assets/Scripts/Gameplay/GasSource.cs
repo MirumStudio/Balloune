@@ -4,6 +4,9 @@ using Radix.Event;
 
 public class GasSource : MonoBehaviour {
 
+    [SerializeField]
+    private float m_MinimunDistance = 4.0f;
+
     Vector2 prev_vec = new Vector2();
     Vector2 curr_vec = new Vector2();
     float total_angle = 0f;
@@ -37,17 +40,19 @@ public class GasSource : MonoBehaviour {
         prev_vec = new Vector2(curr_vec.x, curr_vec.y);
         curr_vec = new Vector2(pos.x - transform.position.x, pos.y - transform.position.y);
 
-        //if (curr_vec.magnitude > MIN_DIST) within_bound = false;
-
-        var constants_value = Mathf.Min(1, Vector2.Dot(prev_vec, curr_vec) / (prev_vec.magnitude * curr_vec.magnitude));
-
-        if (!float.IsNaN(constants_value))
+        if (curr_vec.magnitude <= m_MinimunDistance)
         {
-            var delta_angle = Mathf.Acos(constants_value);
 
-            var direction = CrossProduct(prev_vec, curr_vec) > 0 ? 1 : -1;
+            var constants_value = Mathf.Min(1, Vector2.Dot(prev_vec, curr_vec) / (prev_vec.magnitude * curr_vec.magnitude));
 
-            total_angle += (Mathf.Rad2Deg * delta_angle) * direction;
+            if (!float.IsNaN(constants_value))
+            {
+                var delta_angle = Mathf.Acos(constants_value);
+
+                var direction = CrossProduct(prev_vec, curr_vec) > 0 ? 1 : -1;
+
+                total_angle += (Mathf.Rad2Deg * delta_angle) * direction;
+            }
         }
     }
 
