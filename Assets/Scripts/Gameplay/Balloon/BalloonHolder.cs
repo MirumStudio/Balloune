@@ -1,9 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using Radix.Event;
+using System;
 
 public class BalloonHolder : MonoBehaviour {
 	public const string BALLOON_HOLDER_NAME = "BalloonHolder";
-	private const int NUMBER_OF_BALLOONS = 3;
+    public const int NUMBER_LIFE_BALLOON = 3;
+
+    [SerializeField]
+    protected uint m_MaxBalloonCount = 6;
+
     [SerializeField]
 	protected GameObject m_Tack;
 
@@ -13,56 +20,58 @@ public class BalloonHolder : MonoBehaviour {
 	[SerializeField]
 	protected GameObject m_RopePrefab;
 
-	private GameObject[] mLifeBalloons = new GameObject[NUMBER_OF_BALLOONS];
-	private BalloonBehavior[] mLifeBalloonsBehavior = new BalloonBehavior[NUMBER_OF_BALLOONS];
-	private Rope[] mRopes = new Rope[NUMBER_OF_BALLOONS];
+	private List<GameObject> mLifeBalloons = new List<GameObject>();
+	private List<BalloonBehavior> mLifeBalloonsBehavior = new  List<BalloonBehavior>();
+	private List<Rope> mRopes = new List<Rope>();
 
 	private int mHeldBalloons = 0;
 
 	void Start () {
-		int firstBalloonX = -32;
-		BalloonCreator balloonCreator = new BalloonCreator (m_BalloonPrefab, m_Tack);
-		RopeManager ropeManager = new RopeManager (m_RopePrefab, m_Tack);
-		for (int i = 0; i < mLifeBalloons.Length; i++) {
-			mLifeBalloons[i] = balloonCreator.CreateBalloon (new Vector2(firstBalloonX - (i * 3), 1.2f));
-			mLifeBalloonsBehavior[i] = mLifeBalloons[i].GetComponent<BalloonBehavior>();
-			mHeldBalloons++;
-			SetBalloonBehavior(mLifeBalloons[i], i);
-			mRopes[i] = ropeManager.CreateRopeForBalloon (mLifeBalloons[i]);
-			ropeManager.AttachRope(mLifeBalloons[i], mRopes[i]);
+        EventListener.Register(EGameEvent.INFLATE_BALLOON, OnInfluateBalloon);
+        for (int i = 0; i < NUMBER_LIFE_BALLOON; i++)
+        {
+            CreateBalloune();
 		}
 	}
 
-	private void SetBalloonBehavior(GameObject pBalloon, int pBalloonIndex)
+    private void SetBalloonBehavior(GameObject pBalloon, BalloonBehavior pBehavior, int pBalloonIndex)
 	{
-		BalloonBehavior balloonBehavior = mLifeBalloonsBehavior[pBalloonIndex];
-		balloonBehavior.SetBalloonHolder(this);
-		balloonBehavior.mBalloonIndex = pBalloonIndex;
-		balloonBehavior.SetTack (m_Tack);
+        pBehavior.SetBalloonHolder(this);
+        pBehavior.mBalloonIndex = pBalloonIndex;
+        pBehavior.SetTack(m_Tack);
 	}
 
 	public void DestroyBalloon(int pBalloonIndex) {
 		Destroy (mLifeBalloons [pBalloonIndex]);
 		Destroy (mLifeBalloonsBehavior [pBalloonIndex]);
 		mHeldBalloons--;
-		for(int i = 0; i < mLifeBalloons.Length; i++) {
+        for (int i = 0; i < NUMBER_LIFE_BALLOON; i++)
+        {
 			if(mLifeBalloons[i] != null) {
 				mLifeBalloonsBehavior[i].SetInvulnerable(true);
 			}
 		}
 	}
 
-	public GameObject[] GetLifeBalloons()
-	{
-		return mLifeBalloons;
-	}
+    public void CreateBalloune()
+    {
+        BalloonCreator balloonCreator = new BalloonCreator (m_BalloonPrefab, m_Tack);
+		RopeManager ropeManager = new RopeManager (m_RopePrefab, m_Tack);
 
-	public BalloonBehavior[] GetLifeBalloonsBehavior()
-	{
-		return mLifeBalloonsBehavior;
-	}
+		var balloon = balloonCreator.CreateBalloon (new Vector2(m_Tack.transform.position.x - (1 * 3), 1.2f));
+		var behavior = balloon.GetComponent<BalloonBehavior>();
+        SetBalloonBehavior(balloon, behavior, mHeldBalloons);
+        mHeldBalloons++;
+		var rope = ropeManager.CreateRopeForBalloon (balloon);
+        ropeManager.AttachRope(balloon, rope);
 
-	public int CountBalloons() {
+        mRopes.Add(rope);
+        mLifeBalloons.Add(balloon);
+        mLifeBalloonsBehavior.Add(behavior);
+    }
+
+	public int CountBalloons() 
+    {
 		return mHeldBalloons;
 	}
 
@@ -71,7 +80,13 @@ public class BalloonHolder : MonoBehaviour {
 		return mRopes[index];
 	}
 
-	void Update () {
-	
-	}
+    public List<BalloonBehavior> GetLifeBalloonsBehavior()
+    {
+        return mLifeBalloonsBehavior;
+    }
+
+    private void OnInfluateBalloon(Enum pEvent, object pArg)
+    {
+        CreateBalloune();
+    }
 }

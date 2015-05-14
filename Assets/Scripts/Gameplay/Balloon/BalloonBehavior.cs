@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using Radix.Event;
 using Radix.ErrorMangement;
+using System.Collections.Generic;
 
 public class BalloonBehavior : MonoBehaviour
 {
@@ -79,9 +80,9 @@ public class BalloonBehavior : MonoBehaviour
 
     public void IgnoreOtherBalloonCollision(bool pIgnore)
     {
-        BalloonBehavior[] allHeldballoons = mBalloonHolder.GetLifeBalloonsBehavior();
+        List<BalloonBehavior> allHeldballoons = mBalloonHolder.GetLifeBalloonsBehavior();
 
-        for (int i = 0; i < allHeldballoons.Length; i++)
+        for (int i = 0; i < allHeldballoons.Count; i++)
         {
             if (i != mBalloonIndex)
             {

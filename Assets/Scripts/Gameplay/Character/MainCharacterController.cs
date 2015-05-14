@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Radix.Event;
+using System.Collections.Generic;
 
 [RequireComponent (typeof(CharacterAnimator))]
 public class MainCharacterController : BaseCharacterController {
@@ -76,8 +77,8 @@ public class MainCharacterController : BaseCharacterController {
 	protected override float GetHorizontalAxisValue() 
 	{
 		float speed = 0f;
-		BalloonBehavior[] lifeBalloons = mBalloonHolder.GetLifeBalloonsBehavior ();
-		for (int i = 0; i < lifeBalloons.Length; i++) {
+        List<BalloonBehavior> lifeBalloons = mBalloonHolder.GetLifeBalloonsBehavior();
+		for (int i = 0; i < lifeBalloons.Count; i++) {
 			if(lifeBalloons[i] != null && lifeBalloons[i].IsPullingCharacter() == true)
 			{
 				CharacterPull pull = lifeBalloons[i].GetPull();
