@@ -5,7 +5,7 @@ using Radix.Event;
 using Radix.ErrorMangement;
 using System.Collections.Generic;
 
-public class BalloonBehavior : MonoBehaviour
+public class BalloonPhysics : MonoBehaviour
 {
     private const float MAX_DRAG_VELOCITY = 15f;
 

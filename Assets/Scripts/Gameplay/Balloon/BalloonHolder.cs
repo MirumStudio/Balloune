@@ -34,21 +34,21 @@ public class BalloonHolder : MonoBehaviour {
 		}
 	}
 
-    private void SetBalloonBehavior(GameObject pBalloon, BalloonBehavior pBehavior, int pBalloonIndex)
+    private void SetBalloonBehavior(GameObject pBalloon, BalloonPhysics pPhysic, int pBalloonIndex)
 	{
-        pBehavior.SetBalloonHolder(this);
-        pBehavior.mBalloonIndex = pBalloonIndex;
-        pBehavior.SetTack(m_Tack);
+        pPhysic.SetBalloonHolder(this);
+        pPhysic.mBalloonIndex = pBalloonIndex;
+        pPhysic.SetTack(m_Tack);
 	}
 
     public void DestroyBalloon(Balloon pBalloon)
     {
         mBalloons.Remove(pBalloon);
         Destroy(pBalloon.gameObject);
-        Destroy(pBalloon.Behavior);
+        Destroy(pBalloon.Physic);
         foreach(Balloon balloon in mBalloons)
         {
-            balloon.Behavior.SetInvulnerable(true);
+            balloon.Physic.SetInvulnerable(true);
         }
 	}
 
@@ -75,8 +75,8 @@ public class BalloonHolder : MonoBehaviour {
         }
         
         balloon.Init();
-        var behavior = balloonObject.GetComponent<BalloonBehavior>();
-        SetBalloonBehavior(balloonObject, behavior, mBalloons.Count);
+        var physics = balloonObject.GetComponent<BalloonPhysics>();
+        SetBalloonBehavior(balloonObject, physics, mBalloons.Count);
 
         var rope = ropeManager.CreateRopeForBalloon(balloonObject);
         ropeManager.AttachRope(balloonObject, rope);
