@@ -6,7 +6,7 @@ public class TouchControl : MonoBehaviour {
 	private const string BALLOON_IDENTIFIER = "Balloune";
 
 	private GameObject mTouchedBalloon = null;
-	private BalloonBehavior mTouchedBalloonBehavior = null;
+    private BalloonPhysics mTouchedBalloonPhysics = null;
 	private static Vector2 mWorldPosition;
 
 	private float mMinimumSwipeDistance;
@@ -95,23 +95,23 @@ public class TouchControl : MonoBehaviour {
 
 	private void PickupBalloon()
 	{
-		mTouchedBalloonBehavior = mTouchedBalloon.GetComponent<BalloonBehavior>();
-		mTouchedBalloonBehavior.setIsTouched(true);
-		mTouchedBalloonBehavior.IgnoreOtherBalloonCollision (true);
-		mTouchedBalloonBehavior.GetRigidBody().gravityScale = 0;
-		mTouchedBalloonBehavior.GetRigidBody().drag = 0;
+        mTouchedBalloonPhysics = mTouchedBalloon.GetComponent<BalloonPhysics>();
+        mTouchedBalloonPhysics.setIsTouched(true);
+        mTouchedBalloonPhysics.IgnoreOtherBalloonCollision(true);
+        mTouchedBalloonPhysics.GetRigidBody().gravityScale = 0;
+        mTouchedBalloonPhysics.GetRigidBody().drag = 0;
 	}
 
 	private void DropBalloon()
 	{
 		if (mTouchedBalloon != null) {
-			mTouchedBalloonBehavior.setIsTouched(false);
-			mTouchedBalloonBehavior.IgnoreOtherBalloonCollision (false);
-			mTouchedBalloonBehavior.GetRigidBody().drag = 1;
-			mTouchedBalloonBehavior.GetRigidBody().gravityScale = -1;
-			mTouchedBalloonBehavior.GetPull().StopPulling();
+            mTouchedBalloonPhysics.setIsTouched(false);
+            mTouchedBalloonPhysics.IgnoreOtherBalloonCollision(false);
+            mTouchedBalloonPhysics.GetRigidBody().drag = 1;
+            mTouchedBalloonPhysics.GetRigidBody().gravityScale = -1;
+            mTouchedBalloonPhysics.GetPull().StopPulling();
 			mTouchedBalloon = null;
-			mTouchedBalloonBehavior = null;
+            mTouchedBalloonPhysics = null;
 		}
 		mWorldPosition = Vector2.zero;
 		mTouchPositions.Clear ();

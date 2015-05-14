@@ -80,9 +80,9 @@ public class MainCharacterController : BaseCharacterController {
         List<Balloon> balloons = mBalloonHolder.Ballounes;
         foreach(Balloon balloon in balloons)
         {
-            if (balloon.Behavior.IsPullingCharacter() == true)
+            if (balloon.Physic.IsPullingCharacter() == true)
             {
-                CharacterPull pull = balloon.Behavior.GetPull();
+                CharacterPull pull = balloon.Physic.GetPull();
                 speed = pull.GetPullStrength();
                 speed = AdjustSpeed(speed);
                 break;

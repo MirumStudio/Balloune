@@ -7,18 +7,17 @@ public abstract class Balloon : MonoBehaviour {
     public float Mass { get; set; }
 
     private CircleCollider2D mCircleCollider = null;
-    private BalloonBehavior mBehavior = null;
+    private BalloonPhysics mPhysics = null;
 
 	virtual public void Init () {
         mCircleCollider = GetComponent<CircleCollider2D>();
-        mBehavior = GetComponent<BalloonBehavior>();
+        mPhysics = GetComponent<BalloonPhysics>();
 	}
 
     protected void ChangeColor(Color pColor)
     {
         GetComponent<SpriteRenderer>().color = pColor;
     }
-
 
 	void Update () {
 	
@@ -29,8 +28,8 @@ public abstract class Balloon : MonoBehaviour {
         get { return mCircleCollider; }
     }
 
-    public BalloonBehavior Behavior
+    public BalloonPhysics Physic
     {
-        get { return mBehavior; }
+        get { return mPhysics; }
     }
 }
