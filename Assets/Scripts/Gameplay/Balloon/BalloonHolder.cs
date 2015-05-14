@@ -27,7 +27,10 @@ public class BalloonHolder : MonoBehaviour {
 	private int mHeldBalloons = 0;
 
 	void Start () {
+        BalloonFactory.Init(m_BalloonPrefab, m_Tack);
+
         EventListener.Register(EGameEvent.INFLATE_BALLOON, OnInfluateBalloon);
+
         for (int i = 0; i < NUMBER_LIFE_BALLOON; i++)
         {
             CreateBalloune();
@@ -55,11 +58,11 @@ public class BalloonHolder : MonoBehaviour {
 
     public void CreateBalloune()
     {
-        BalloonCreator balloonCreator = new BalloonCreator (m_BalloonPrefab, m_Tack);
 		RopeManager ropeManager = new RopeManager (m_RopePrefab, m_Tack);
 
-		var balloon = balloonCreator.CreateBalloon (new Vector2(m_Tack.transform.position.x - (1 * 3), 1.2f));
-		var behavior = balloon.GetComponent<BalloonBehavior>();
+		var balloon = BalloonFactory.CreateBalloon (new Vector2(m_Tack.transform.position.x - (1 * 3), 1.2f));
+		
+        var behavior = balloon.GetComponent<BalloonBehavior>();
         SetBalloonBehavior(balloon, behavior, mHeldBalloons);
         mHeldBalloons++;
 		var rope = ropeManager.CreateRopeForBalloon (balloon);
