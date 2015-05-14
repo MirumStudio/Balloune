@@ -13,7 +13,7 @@ public class TouchControl : MonoBehaviour {
 	private List<Vector3> mTouchPositions = new List<Vector3>();
 	private int mCurrentTouchIndex = -1;
 
-	private float mSwipeThreshold = 1.8f;
+	private float mSwipeSpeedThreshold = 1.2f;
 	private static bool mIsJumpCommand = false;	
 
 	void Start () {
@@ -61,7 +61,7 @@ public class TouchControl : MonoBehaviour {
 		Collider2D[] touchedColliders = Physics2D.OverlapCircleAll (worldPosition2D,  1f);
 		for(int i = 0; i < touchedColliders.Length; i++)
 		{
-			if(touchedColliders[i].name.Contains ("Balloune"))
+			if(touchedColliders[i].name.Contains (BALLOON_IDENTIFIER))
 			{
 				mTouchedBalloon = touchedColliders[i].gameObject;
 				break;
@@ -82,7 +82,7 @@ public class TouchControl : MonoBehaviour {
 		if (mCurrentTouchIndex > 0) {
 			Vector2 speedVector = pTouch.deltaTime * pTouch.deltaPosition;
 			float swipeSpeed = speedVector.magnitude;
-			if(swipeSpeed > mSwipeThreshold && pTouch.deltaPosition.y > 0 && Mathf.Abs(pTouch.deltaPosition.x) < 25)
+			if(swipeSpeed > mSwipeSpeedThreshold && pTouch.deltaPosition.y > mMinimumSwipeDistance && Mathf.Abs(pTouch.deltaPosition.x) < 100)
 			{
 				isJumpCommand = true;
 			}
