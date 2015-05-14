@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Radix.Event;
 using System;
+using Radix.Utlities;
 
 public class BalloonHolder : MonoBehaviour {
 	public const string BALLOON_HOLDER_NAME = "BalloonHolder";
@@ -29,7 +30,7 @@ public class BalloonHolder : MonoBehaviour {
 
         for (int i = 0; i < NUMBER_LIFE_BALLOON; i++)
         {
-            CreateBalloune();
+            CreateBalloune(EBalloonType.LIFE);
 		}
 	}
 
@@ -51,13 +52,28 @@ public class BalloonHolder : MonoBehaviour {
         }
 	}
 
-    public void CreateBalloune()
+    public void CreateBalloune(EBalloonType pType)
     {
 		RopeManager ropeManager = new RopeManager (m_RopePrefab, m_Tack);
 
 		var balloonObject = BalloonFactory.CreateBalloon (new Vector2(m_Tack.transform.position.x - (1 * 3), 1.2f));
 
-        var balloon = balloonObject.AddComponent<LifeBalloon>();
+        Balloon balloon = null;
+        //TODO: Do it in a better way
+        switch(pType)
+        {
+            case EBalloonType.LIFE : 
+                {
+                    balloon  = balloonObject.AddComponent<LifeBalloon>();
+                    break;
+                }
+            case EBalloonType.TOXIC:
+                {
+                    balloon = balloonObject.AddComponent<ToxicBalloon>();
+                    break;
+                }
+        }
+        
         balloon.Init();
         var behavior = balloonObject.GetComponent<BalloonBehavior>();
         SetBalloonBehavior(balloonObject, behavior, mBalloons.Count);
@@ -75,7 +91,9 @@ public class BalloonHolder : MonoBehaviour {
 
     private void OnInfluateBalloon(Enum pEvent, object pArg)
     {
-        CreateBalloune();
+        var type = EnumUtility.ObjectToEnum<EBalloonType>(pArg);
+
+        CreateBalloune(type);
     }
 
     public List<Balloon> Ballounes

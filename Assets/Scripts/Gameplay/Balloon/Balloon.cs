@@ -3,7 +3,6 @@ using System.Collections;
 
 public abstract class Balloon : MonoBehaviour {
 
-    public Color Color { get; set; }
     public EBalloonType Type { get; set; }
     public float Mass { get; set; }
 
@@ -15,6 +14,10 @@ public abstract class Balloon : MonoBehaviour {
         mBehavior = GetComponent<BalloonBehavior>();
 	}
 
+    protected void ChangeColor(Color pColor)
+    {
+        GetComponent<SpriteRenderer>().color = pColor;
+    }
 
 
 	void Update () {

@@ -17,5 +17,11 @@ namespace Radix.Utlities
                 .OfType<TAttribute>()
                 .SingleOrDefault();
         }
+
+        public static T ObjectToEnum<T>(object o)
+        {
+            T enumVal = (T)Enum.Parse(typeof(T), o.ToString());
+            return enumVal;
+        }
     }
 }

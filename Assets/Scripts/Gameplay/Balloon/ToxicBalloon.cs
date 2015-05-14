@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LifeBalloon : Balloon {
+public class ToxicBalloon : Balloon {
 
     override public void Init()
     {
         base.Init();
-        ChangeColor(Color.red);
-	}
+        ChangeColor(Color.green);
+    }
 	
+	// Update is called once per frame
 	void Update () {
-	    
+	
 	}
 }
