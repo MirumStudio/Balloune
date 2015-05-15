@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DefaultBehavior : BalloonBahavior {
+public class DefaultBehavior : BalloonBehavior
+{
 
 	void Start () {
 	    

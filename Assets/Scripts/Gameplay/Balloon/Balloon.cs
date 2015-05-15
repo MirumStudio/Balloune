@@ -10,10 +10,10 @@ public abstract class Balloon : MonoBehaviour {
     private CircleCollider2D mCircleCollider = null;
     private BalloonPhysics mPhysics = null;
 
-    private List<BalloonBahavior> mBehaviors;
+    private List<BalloonBehavior> mBehaviors;
 
 	virtual public void Init () {
-        mBehaviors = new List<BalloonBahavior>();
+        mBehaviors = new List<BalloonBehavior>();
         mCircleCollider = GetComponent<CircleCollider2D>();
         mPhysics = GetComponent<BalloonPhysics>();
         AddBehavior<DefaultBehavior>();
@@ -28,7 +28,7 @@ public abstract class Balloon : MonoBehaviour {
 	
 	}
 
-    protected void AddBehavior<T>() where T : BalloonBahavior
+    protected void AddBehavior<T>() where T : BalloonBehavior
     {
         var behavior = gameObject.AddComponent<T>();
         mBehaviors.Add(behavior);
@@ -46,9 +46,17 @@ public abstract class Balloon : MonoBehaviour {
 
     public virtual void OnMove(float pDistance)
     {
-        foreach(BalloonBahavior behavior in mBehaviors)
+        foreach(BalloonBehavior behavior in mBehaviors)
         {
             behavior.OnMove(pDistance);
+        }
+    }
+
+    public virtual void OnPop()
+    {
+        foreach (BalloonBehavior behavior in mBehaviors)
+        {
+            behavior.OnPop();
         }
     }
 }

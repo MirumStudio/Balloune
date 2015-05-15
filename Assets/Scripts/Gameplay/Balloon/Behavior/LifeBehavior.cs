@@ -3,26 +3,30 @@ using System.Collections;
 using Radix.Event;
 using System;
 
-public class LifeBehavior : BalloonBahavior {
-
-
+public class LifeBehavior : BalloonBehavior
+{
     private BalloonPhysics mPhysics;
-    private BalloonHolder mBalloonHolder;
 
 	void Start () {
         mPhysics = GetComponent<BalloonPhysics>();
-        mBalloonHolder = GetComponent<BalloonHolder>();
+
 	}
 
 	void Update () {
-	
+	    
 	}
+
+    public override void OnPop()
+    {
+       // CheckIfGameOver();
+        base.OnPop();
+    }
 
     private void CheckIfGameOver()
     {
-        if (mBalloonHolder.CountBalloons() <= 0)
+       /* if (mBalloonHolder.GetLifeBalloonCount() <= 0)
         {
             EventService.DipatchEvent(EGameEvent.GAME_OVER, null);
-        }
+        }*/
     }
 }

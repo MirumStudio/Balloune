@@ -3,7 +3,8 @@ using System.Collections;
 using Radix.Event;
 using System;
 
-public class CharacterPullBehavior : BalloonBahavior {
+public class CharacterPullBehavior : BalloonBehavior
+{
 
     private CharacterPull mCharacterPull;
     private BalloonPhysics mPhysics;
