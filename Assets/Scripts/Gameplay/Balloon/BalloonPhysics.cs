@@ -31,10 +31,12 @@ public class BalloonPhysics : MonoBehaviour
     private float mInvulnerableTime = 0f;
 
     private bool mIsTouched = false;
-    private CharacterPull mCharacterPull = new CharacterPull();
+
+    private Balloon mBalloon = null;
 
     void Start()
     {
+        mBalloon = GetComponent<Balloon>();
         mRigidbody2D = GetComponent<Rigidbody2D>();
         mLineRenderer = GetComponent<LineRenderer>();
         mBalloonJoint = GetComponent<HingeJoint2D>();
@@ -69,7 +71,7 @@ public class BalloonPhysics : MonoBehaviour
             if (balloonDistance < mDistanceJoint.distance)
             {
                 DragBalloon(touchPosition, currentBalloonPosition);
-                DragCharacter(currentBalloonPosition);
+                mBalloon.OnMove(balloonDistance);
             }
             if (balloonDistance >= mDistanceJoint.distance)
             {
@@ -99,14 +101,7 @@ public class BalloonPhysics : MonoBehaviour
         SetVelocity(velocity);
     }
 
-    private void DragCharacter(Vector2 pCurrentBalloonPosition)
-    {
-        double balloonAngle = GetBalloonAngle();
-        mCharacterPull.SetPullStrength(balloonAngle);
-        float mDirection = mCharacterPull.GetPullDirection();
-    }
-
-    private double GetBalloonAngle()
+    public double GetBalloonAngle()
     {
         float deltaX = transform.position.x - mTack.transform.position.x;
         float deltaY = transform.position.y - mTack.transform.position.y;
@@ -166,7 +161,7 @@ public class BalloonPhysics : MonoBehaviour
         {
             PopBalloon();
         }
-        CheckIfGameOver();
+        //CheckIfGameOver();
     }
 
     private void PopBalloon()
@@ -174,14 +169,6 @@ public class BalloonPhysics : MonoBehaviour
         //TODO balloon explosion animation and sound effect
 
         mBalloonHolder.DestroyBalloon(GetComponent<Balloon>());
-    }
-
-    private void CheckIfGameOver()
-    {
-        if (mBalloonHolder.CountBalloons() <= 0)
-        {
-            EventService.DipatchEvent(EGameEvent.GAME_OVER, null);
-        }
     }
 
     public void SetInvulnerable(bool pInvulnerable)
@@ -207,21 +194,6 @@ public class BalloonPhysics : MonoBehaviour
     public bool IsTouched()
     {
         return mIsTouched;
-    }
-
-    public CharacterPull GetPull()
-    {
-        return mCharacterPull;
-    }
-
-    public bool IsPullingCharacter()
-    {
-        bool isPulling = false;
-        if (mCharacterPull != null && mCharacterPull.IsPulling())
-        {
-            isPulling = true;
-        }
-        return isPulling;
     }
 
     public CircleCollider2D GetCircleCollider()

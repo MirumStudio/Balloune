@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using Radix.Event;
 using System.Collections.Generic;
+using System;
 
 [RequireComponent (typeof(CharacterAnimator))]
 public class MainCharacterController : BaseCharacterController {
@@ -19,12 +20,18 @@ public class MainCharacterController : BaseCharacterController {
 	private BalloonHolder mBalloonHolder = null;
 	
 	private CharacterAnimator mAnimator;
-	
+
+    private CharacterPull mCurrentPull = null;
+
+
 	public override void Start ()
 	{
 		base.Start ();
 		mAnimator=GetComponent<CharacterAnimator>();
 		mBalloonHolder = GameObject.Find (BalloonHolder.BALLOON_HOLDER_NAME).GetComponent<BalloonHolder>();
+
+        EventListener.Register(EGameEvent.BEGIN_PULLING, OnBeginPulling);
+        EventListener.Register(EGameEvent.END_PULLING, OnStopPulling);
 	}
 	
 	protected override void Update (){
@@ -77,17 +84,13 @@ public class MainCharacterController : BaseCharacterController {
 	protected override float GetHorizontalAxisValue() 
 	{
 		float speed = 0f;
-        List<Balloon> balloons = mBalloonHolder.Ballounes;
-        foreach(Balloon balloon in balloons)
+
+        if(mCurrentPull != null)
         {
-            if (balloon.Physic.IsPullingCharacter() == true)
-            {
-                CharacterPull pull = balloon.Physic.GetPull();
-                speed = pull.GetPullStrength();
-                speed = AdjustSpeed(speed);
-                break;
-            }
+            speed = mCurrentPull.GetPullStrength();
+            speed = AdjustSpeed(speed);
         }
+
 		return speed;
 	}
 
@@ -129,6 +132,16 @@ public class MainCharacterController : BaseCharacterController {
 			}
 		}
 	}
+
+    public void OnBeginPulling(Enum pEvent, object pArg)
+    {
+        mCurrentPull = pArg as CharacterPull;
+    }
+
+    public void OnStopPulling(Enum pEvent, object pArg)
+    {
+        mCurrentPull = null;
+    }
 
     /* FOR REFERENCE
      * Physics2D.IgnoreCollision(GetComponent<Collider2D>(), interactableCollider, false);

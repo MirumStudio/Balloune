@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public abstract class Balloon : MonoBehaviour {
 
@@ -9,7 +10,10 @@ public abstract class Balloon : MonoBehaviour {
     private CircleCollider2D mCircleCollider = null;
     private BalloonPhysics mPhysics = null;
 
+    private List<BalloonBahavior> mBehaviors;
+
 	virtual public void Init () {
+        mBehaviors = new List<BalloonBahavior>();
         mCircleCollider = GetComponent<CircleCollider2D>();
         mPhysics = GetComponent<BalloonPhysics>();
         AddBehavior<DefaultBehavior>();
@@ -26,7 +30,8 @@ public abstract class Balloon : MonoBehaviour {
 
     protected void AddBehavior<T>() where T : BalloonBahavior
     {
-        gameObject.AddComponent<T>();
+        var behavior = gameObject.AddComponent<T>();
+        mBehaviors.Add(behavior);
     }
 
     public CircleCollider2D CircleCollider
@@ -37,5 +42,13 @@ public abstract class Balloon : MonoBehaviour {
     public BalloonPhysics Physic
     {
         get { return mPhysics; }
+    }
+
+    public virtual void OnMove(float pDistance)
+    {
+        foreach(BalloonBahavior behavior in mBehaviors)
+        {
+            behavior.OnMove(pDistance);
+        }
     }
 }
