@@ -12,4 +12,9 @@ public abstract class BalloonBahavior : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public virtual void OnMove(float pDistance)
+    {
+
+    }
 }

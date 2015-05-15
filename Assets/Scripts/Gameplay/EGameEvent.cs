@@ -12,7 +12,9 @@ public enum EGameEvent
     POPUP_DISPLAYED,
     POPUP_HIDED,
     DISPLAY_PAUSE_POPUP,
-    INFLATE_BALLOON
+    INFLATE_BALLOON,
+    BEGIN_PULLING,
+    END_PULLING
 }
 
 public enum EGameControl

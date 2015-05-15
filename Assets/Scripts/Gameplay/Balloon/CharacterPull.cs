@@ -50,11 +50,7 @@ public class CharacterPull
 
 	public bool IsPulling()
 	{
-		bool isPulling = false;
-		if (mPullStrength != 0) {
-			isPulling = true;
-		}
-		return isPulling;
+        return (mPullStrength != 0);
 	}
 
 	public void StopPulling()

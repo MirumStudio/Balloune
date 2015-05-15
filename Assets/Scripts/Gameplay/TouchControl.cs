@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Radix.Event;
 
 [RequireComponent (typeof(Camera))]
 public class TouchControl : MonoBehaviour {
@@ -109,7 +110,9 @@ public class TouchControl : MonoBehaviour {
             mTouchedBalloonPhysics.IgnoreOtherBalloonCollision(false);
             mTouchedBalloonPhysics.GetRigidBody().drag = 1;
             mTouchedBalloonPhysics.GetRigidBody().gravityScale = -1;
-            mTouchedBalloonPhysics.GetPull().StopPulling();
+
+            EventService.DipatchEvent(EGameEvent.END_PULLING, null);
+
 			mTouchedBalloon = null;
             mTouchedBalloonPhysics = null;
 		}
