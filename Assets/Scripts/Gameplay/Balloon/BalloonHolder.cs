@@ -54,34 +54,37 @@ public class BalloonHolder : MonoBehaviour {
 
     public void CreateBalloune(EBalloonType pType)
     {
-		RopeManager ropeManager = new RopeManager (m_RopePrefab, m_Tack);
+		if(mBalloons.Count < m_MaxBalloonCount)
+		{
+			RopeManager ropeManager = new RopeManager (m_RopePrefab, m_Tack);
 
-		var balloonObject = BalloonFactory.CreateBalloon (new Vector2(m_Tack.transform.position.x - (1 * 3), 1.2f));
+			var balloonObject = BalloonFactory.CreateBalloon (new Vector2(m_Tack.transform.position.x - (1 * 3), 1.2f));
 
-        Balloon balloon = null;
-        //TODO: Do it in a better way
-        switch(pType)
-        {
-            case EBalloonType.LIFE : 
-                {
-                    balloon  = balloonObject.AddComponent<LifeBalloon>();
-                    break;
-                }
-            case EBalloonType.TOXIC:
-                {
-                    balloon = balloonObject.AddComponent<ToxicBalloon>();
-                    break;
-                }
-        }
-        
-        balloon.Init();
-        var physics = balloonObject.GetComponent<BalloonPhysics>();
-        SetBalloonBehavior(balloonObject, physics, mBalloons.Count);
+			Balloon balloon = null;
+			//TODO: Do it in a better way
+			switch(pType)
+			{
+				case EBalloonType.LIFE : 
+					{
+						balloon  = balloonObject.AddComponent<LifeBalloon>();
+						break;
+					}
+				case EBalloonType.TOXIC:
+					{
+						balloon = balloonObject.AddComponent<ToxicBalloon>();
+						break;
+					}
+			}
+			
+			balloon.Init();
+			var physics = balloonObject.GetComponent<BalloonPhysics>();
+			SetBalloonBehavior(balloonObject, physics, mBalloons.Count);
 
-        var rope = ropeManager.CreateRopeForBalloon(balloonObject);
-        ropeManager.AttachRope(balloonObject, rope);
+			var rope = ropeManager.CreateRopeForBalloon(balloonObject);
+			ropeManager.AttachRope(balloonObject, rope);
 
-        mBalloons.Add(balloon);
+			mBalloons.Add(balloon);
+		}
     }
 
 	public int CountBalloons() 
