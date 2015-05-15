@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class BalloonBahavior : MonoBehaviour {
+public abstract class BalloonBehavior : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -14,6 +14,11 @@ public abstract class BalloonBahavior : MonoBehaviour {
 	}
 
     public virtual void OnMove(float pDistance)
+    {
+
+    }
+
+    public virtual void OnPop()
     {
 
     }

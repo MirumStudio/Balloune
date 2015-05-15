@@ -161,14 +161,13 @@ public class BalloonPhysics : MonoBehaviour
         {
             PopBalloon();
         }
-        //CheckIfGameOver();
     }
 
     private void PopBalloon()
     {
-        //TODO balloon explosion animation and sound effect
-
-        mBalloonHolder.DestroyBalloon(GetComponent<Balloon>());
+        var balloon = GetComponent<Balloon>();
+        balloon.OnPop();
+        mBalloonHolder.DestroyBalloon(balloon);
     }
 
     public void SetInvulnerable(bool pInvulnerable)

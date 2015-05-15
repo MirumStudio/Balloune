@@ -50,6 +50,11 @@ public class BalloonHolder : MonoBehaviour {
         {
             balloon.Physic.SetInvulnerable(true);
         }
+
+        if (GetLifeBalloonCount() <= 0)
+        {
+            EventService.DipatchEvent(EGameEvent.GAME_OVER, null);
+        }
 	}
 
     public void CreateBalloune(EBalloonType pType)
@@ -102,5 +107,13 @@ public class BalloonHolder : MonoBehaviour {
     public List<Balloon> Ballounes
     {
         get { return mBalloons; }
+    }
+
+    public int GetLifeBalloonCount()
+    {
+        return mBalloons.FindAll((balloune) => 
+        {
+            return balloune is LifeBalloon;
+        }).Count;
     }
 }
