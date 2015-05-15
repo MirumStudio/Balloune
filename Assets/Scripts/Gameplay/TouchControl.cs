@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 [RequireComponent (typeof(Camera))]
 public class TouchControl : MonoBehaviour {
-	private const string BALLOON_IDENTIFIER = "Balloune";
+	private const string BALLOON_IDENTIFIER = "Balloon";
 
 	private GameObject mTouchedBalloon = null;
     private BalloonPhysics mTouchedBalloonPhysics = null;
