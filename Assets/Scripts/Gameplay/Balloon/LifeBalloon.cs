@@ -7,6 +7,7 @@ public class LifeBalloon : Balloon {
     {
         base.Init();
         ChangeColor(Color.red);
+        AddBehavior<LifeBehavior>();
 	}
 	
 	void Update () {
