@@ -12,6 +12,7 @@ public abstract class Balloon : MonoBehaviour {
 	virtual public void Init () {
         mCircleCollider = GetComponent<CircleCollider2D>();
         mPhysics = GetComponent<BalloonPhysics>();
+        AddBehavior<DefaultBehavior>();
 	}
 
     protected void ChangeColor(Color pColor)
@@ -22,6 +23,11 @@ public abstract class Balloon : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    protected void AddBehavior<T>() where T : BalloonBahavior
+    {
+        gameObject.AddComponent<T>();
+    }
 
     public CircleCollider2D CircleCollider
     {
