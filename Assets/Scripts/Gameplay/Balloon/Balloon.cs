@@ -11,6 +11,8 @@ public abstract class Balloon : MonoBehaviour {
     private BalloonPhysics mPhysics = null;
 
     private List<BalloonBehavior> mBehaviors;
+	private BalloonHolder mBalloonHolder;
+	private int mBalloonIndex;
 
 	virtual public void Init () {
         mBehaviors = new List<BalloonBehavior>();
@@ -39,7 +41,7 @@ public abstract class Balloon : MonoBehaviour {
         get { return mCircleCollider; }
     }
 
-    public BalloonPhysics Physic
+    public BalloonPhysics Physics
     {
         get { return mPhysics; }
     }
@@ -59,4 +61,21 @@ public abstract class Balloon : MonoBehaviour {
             behavior.OnPop();
         }
     }
+
+	public void SetBalloonHolder(BalloonHolder pBalloonHolder)
+	{
+		mBalloonHolder = pBalloonHolder;
+		mPhysics.SetBalloonHolder (mBalloonHolder);
+	}
+
+	public void SetBalloonIndex(int pBalloonIndex)
+	{
+		mBalloonIndex = pBalloonIndex;
+		mPhysics.SetBalloonIndex (mBalloonIndex);
+	}
+
+	public int BalloonIndex
+	{
+		get { return mBalloonIndex; }
+	}
 }

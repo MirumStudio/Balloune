@@ -4,8 +4,10 @@ using System.Collections;
 public abstract class BalloonBehavior : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
-	
+	protected Balloon mBalloon = null;
+
+	protected virtual void Start () {
+		mBalloon = GetComponent<Balloon> ();
 	}
 	
 	// Update is called once per frame

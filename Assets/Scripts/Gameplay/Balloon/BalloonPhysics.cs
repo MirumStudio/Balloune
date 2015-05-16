@@ -7,12 +7,14 @@ using System.Collections.Generic;
 
 public class BalloonPhysics : MonoBehaviour
 {
-    private const float MAX_DRAG_VELOCITY = 15f;
-
-    [SerializeField]
+	private const float MAX_DRAG_VELOCITY = 15f;
+	private const float TIME_TO_DETACH = 1f;
+	
+	[SerializeField]
     public Transform m_Parent = null;
-
-    public int mBalloonIndex = -1;
+	
+	private Balloon mBalloon = null;
+	private int mBalloonIndex = -1;
 
     private Rigidbody2D mRigidbody2D = null;
     private LineRenderer mLineRenderer = null;
@@ -31,8 +33,9 @@ public class BalloonPhysics : MonoBehaviour
     private float mInvulnerableTime = 0f;
 
     private bool mIsTouched = false;
+	private bool mIsAttached = true;
 
-    private Balloon mBalloon = null;
+	private float mTimePullingAtMaximumDistance = 0f;
 
     void Start()
     {
@@ -58,25 +61,26 @@ public class BalloonPhysics : MonoBehaviour
     private void FixedUpdate()
     {
         UpdateLineRenderer();
-        MoveBalloon();
-    }
-
-    public void MoveBalloon()
+		MoveBalloon();
+		ChangeTimePullingAtMaximumDistance ();
+	}
+	
+	public void MoveBalloon()
     {
         if (mIsTouched)
         {
             Vector2 currentBalloonPosition = transform.position;
             Vector2 touchPosition = TouchControl.GetTouchPosition();
             float balloonDistance = GetDistanceBetweenParentAndPosition();
-            if (balloonDistance < mDistanceJoint.distance)
-            {
-                DragBalloon(touchPosition, currentBalloonPosition);
-                mBalloon.OnMove(balloonDistance);
-            }
-            if (balloonDistance >= mDistanceJoint.distance)
-            {
-                SetVelocity(Vector2.zero);
-            }
+			if (IsBalloonAtMaximumDistance() == false)
+			{
+				DragBalloon(touchPosition, currentBalloonPosition);
+				mBalloon.OnMove(balloonDistance);
+			}
+			if (IsBalloonAtMaximumDistance())
+			{
+				SetVelocity(Vector2.zero);
+			}
         }
     }
 
@@ -109,6 +113,17 @@ public class BalloonPhysics : MonoBehaviour
         double angle = radian * Mathf.Rad2Deg;
         return angle;
     }
+	
+	public void DetachBalloon()
+	{
+		if (mTimePullingAtMaximumDistance >= TIME_TO_DETACH) {
+			mDistanceJoint.enabled = false;
+			mBalloonJoint.enabled = false;
+			mLineRenderer.enabled = false;
+			mIsAttached = false;
+			mBalloonHolder.DetachBalloon(mBalloonIndex);
+		}
+	}
 
     private void SetVelocity(Vector2 velocity)
     {
@@ -180,7 +195,12 @@ public class BalloonPhysics : MonoBehaviour
         mBalloonHolder = pBalloonHolder;
     }
 
-    public void SetTack(GameObject pTack)
+	public void SetBalloonIndex(int pBalloonIndex)
+	{
+		mBalloonIndex = pBalloonIndex;
+	}
+	
+	public void SetTack(GameObject pTack)
     {
         mTack = pTack;
     }
@@ -192,16 +212,48 @@ public class BalloonPhysics : MonoBehaviour
 
     public bool IsTouched()
     {
-        return mIsTouched;
+		return mIsTouched;
     }
 
-    public CircleCollider2D GetCircleCollider()
+	public CircleCollider2D GetCircleCollider()
+	{
+		return mCircleCollider;
+	}
+	
+	public Rigidbody2D GetRigidBody()
     {
-        return mCircleCollider;
+		return mRigidbody2D;
     }
 
-    public Rigidbody2D GetRigidBody()
-    {
-        return mRigidbody2D;
-    }
+	private bool IsBalloonAtMaximumDistance()
+	{
+		bool isBalloonAtMaximumDistance = false;
+		if(mIsAttached)
+		{
+			isBalloonAtMaximumDistance = GetDistanceBetweenParentAndPosition() >= mDistanceJoint.distance;
+		}
+		return isBalloonAtMaximumDistance;
+	}
+
+	private bool IsBalloonAtDetachDistance()
+	{
+		bool isBalloonAtMaximumDistance = false;
+		//We have to do this because the balloon is almost never exactly at its max distance
+		float distanceOffset = mDistanceJoint.distance * 0.00025f;
+		float detachMaxDistance = mDistanceJoint.distance - distanceOffset;
+		if(mIsAttached)
+		{
+			isBalloonAtMaximumDistance = GetDistanceBetweenParentAndPosition() >= detachMaxDistance;
+		}
+		return isBalloonAtMaximumDistance;
+	}
+
+	private void ChangeTimePullingAtMaximumDistance()
+	{
+		if (IsBalloonAtDetachDistance () && mIsTouched	) {
+			mTimePullingAtMaximumDistance = mTimePullingAtMaximumDistance + Time.deltaTime;
+		} else {
+			mTimePullingAtMaximumDistance = 0f;
+		}
+	}
 }

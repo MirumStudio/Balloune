@@ -10,7 +10,8 @@ public class CharacterPullBehavior : BalloonBehavior
     private BalloonPhysics mPhysics;
     private BalloonHolder mBalloonHolder;
 
-	void Start () {
+	protected override void Start () {
+		base.Start ();
         mPhysics = GetComponent<BalloonPhysics>();
         mBalloonHolder = GetComponent<BalloonHolder>();
         EventListener.Register(EGameEvent.END_PULLING, OnStopPulling);

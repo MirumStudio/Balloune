@@ -26,18 +26,18 @@ public class BalloonHolder : MonoBehaviour {
 	void Start () {
         BalloonFactory.Init(m_BalloonPrefab, m_Tack);
 
-        EventListener.Register(EGameEvent.INFLATE_BALLOON, OnInfluateBalloon);
+        EventListener.Register(EGameEvent.INFLATE_BALLOON, OnInflateBalloon);
 
         for (int i = 0; i < NUMBER_LIFE_BALLOON; i++)
         {
-            CreateBalloune(EBalloonType.LIFE);
+            CreateBalloon(EBalloonType.LIFE);
 		}
 	}
 
-    private void SetBalloonBehavior(GameObject pBalloon, BalloonPhysics pPhysic, int pBalloonIndex)
+    private void SetBalloonProperties(Balloon pBalloon, BalloonPhysics pPhysic, int pBalloonIndex)
 	{
-        pPhysic.SetBalloonHolder(this);
-        pPhysic.mBalloonIndex = pBalloonIndex;
+        pBalloon.SetBalloonHolder(this);
+        pBalloon.SetBalloonIndex (pBalloonIndex);
         pPhysic.SetTack(m_Tack);
 	}
 
@@ -45,10 +45,10 @@ public class BalloonHolder : MonoBehaviour {
     {
         mBalloons.Remove(pBalloon);
         Destroy(pBalloon.gameObject);
-        Destroy(pBalloon.Physic);
+        Destroy(pBalloon.Physics);
         foreach(Balloon balloon in mBalloons)
         {
-            balloon.Physic.SetInvulnerable(true);
+            balloon.Physics.SetInvulnerable(true);
         }
 
         if (GetLifeBalloonCount() <= 0)
@@ -57,7 +57,7 @@ public class BalloonHolder : MonoBehaviour {
         }
 	}
 
-    public void CreateBalloune(EBalloonType pType)
+    public void CreateBalloon(EBalloonType pType)
     {
 		if(mBalloons.Count < m_MaxBalloonCount)
 		{
@@ -83,7 +83,7 @@ public class BalloonHolder : MonoBehaviour {
 			
 			balloon.Init();
 			var physics = balloonObject.GetComponent<BalloonPhysics>();
-			SetBalloonBehavior(balloonObject, physics, mBalloons.Count);
+			SetBalloonProperties(balloon, physics, mBalloons.Count);
 
 			var rope = ropeManager.CreateRopeForBalloon(balloonObject);
 			ropeManager.AttachRope(balloonObject, rope);
@@ -92,16 +92,21 @@ public class BalloonHolder : MonoBehaviour {
 		}
     }
 
+	public void DetachBalloon(int pBalloonToDetach)
+	{
+		mBalloons.RemoveAt (pBalloonToDetach);
+	}
+
 	public int CountBalloons() 
     {
 		return mBalloons.Count;
 	}
 
-    private void OnInfluateBalloon(Enum pEvent, object pArg)
+    private void OnInflateBalloon(Enum pEvent, object pArg)
     {
         var type = EnumUtility.ObjectToEnum<EBalloonType>(pArg);
 
-        CreateBalloune(type);
+        CreateBalloon(type);
     }
 
     public List<Balloon> Ballounes

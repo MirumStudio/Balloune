@@ -7,9 +7,9 @@ public class LifeBehavior : BalloonBehavior
 {
     private BalloonPhysics mPhysics;
 
-	void Start () {
+	protected override void Start () {
+		base.Start ();
         mPhysics = GetComponent<BalloonPhysics>();
-
 	}
 
 	void Update () {
@@ -17,11 +17,12 @@ public class LifeBehavior : BalloonBehavior
 	}
 
     public override void OnPop()
-    {
-       // CheckIfGameOver();
-        base.OnPop();
+	{
+		base.OnPop();
+		// CheckIfGameOver();
     }
 
+	//Je crois qu'on avait dit que ce serait la scène qui ferait ce check là
     private void CheckIfGameOver()
     {
        /* if (mBalloonHolder.GetLifeBalloonCount() <= 0)
