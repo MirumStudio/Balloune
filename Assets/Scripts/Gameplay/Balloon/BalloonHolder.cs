@@ -55,6 +55,11 @@ public class BalloonHolder : MonoBehaviour {
         {
             EventService.DipatchEvent(EGameEvent.GAME_OVER, null);
         }
+
+        if (GetLifeBalloonCount() <= 0)
+        {
+            EventService.DipatchEvent(EGameEvent.GAME_OVER, null);
+        }
 	}
 
     public void CreateBalloon(EBalloonType pType)
