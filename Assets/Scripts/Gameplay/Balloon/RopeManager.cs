@@ -14,24 +14,29 @@ public class RopeManager
 	
 	public Rope CreateRopeForBalloon(GameObject pBalloon)
 	{
-		float maxBalloonDistance = SetMaxBalloonDistance (pBalloon);
 		GameObject ropeGameObject = PrefabFactory.Instantiate (mRopePrefab, new Vector2 (pBalloon.transform.position.x, 3));
 		Rope rope = ropeGameObject.GetComponent<Rope> ();
-		rope.createRope (maxBalloonDistance);
+		rope.createRope (GetMaxBalloonDistance (pBalloon));
 		return rope;
 	}
 	
-	private float SetMaxBalloonDistance(GameObject pBalloon)
+	private float GetMaxBalloonDistance(GameObject pBalloonObject)
 	{
-		DistanceJoint2D balloonJoint= pBalloon.GetComponent<DistanceJoint2D> ();
+		Balloon balloon = pBalloonObject.GetComponent<Balloon> ();
+
+		return balloon.m_MaxBalloonDistance;
+		/*DistanceJoint2D balloonJoint= pBalloonObject.GetComponent<DistanceJoint2D> ();
 		balloonJoint.connectedBody = mTack.GetComponent<Rigidbody2D>();
-		return balloonJoint.distance;
+		return balloonJoint.distance;*/
 	}
 	
-	public void AttachRope(GameObject pBalloon, Rope pRope)
+	public void AttachRope(GameObject pBalloonObject, Rope pRope)
 	{
+		DistanceJoint2D balloonJoint= pBalloonObject.GetComponent<DistanceJoint2D> ();
+		balloonJoint.distance = GetMaxBalloonDistance (pBalloonObject);
+		balloonJoint.connectedBody = mTack.GetComponent<Rigidbody2D>();
 		AttachRopeToCharacter(pRope);
-		AttachRopeToBalloon(pBalloon, pRope);
+		AttachRopeToBalloon(pBalloonObject, pRope);
 	}
 	
 	private void AttachRopeToCharacter(Rope pRope)

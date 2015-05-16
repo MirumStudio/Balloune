@@ -43,7 +43,7 @@ public class RopeRenderer
 	
 	private void DrawPosition(Vector2 positionToDraw)
 	{
-		mLinerenderer.SetPosition (vertexToDraw, new Vector3 (positionToDraw.x, positionToDraw.y, -1));
+		mLinerenderer.SetPosition (vertexToDraw, new Vector3 (positionToDraw.x, positionToDraw.y, -9));
 		vertexToDraw--;
 	}
 	

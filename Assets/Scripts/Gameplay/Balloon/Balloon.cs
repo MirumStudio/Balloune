@@ -7,6 +7,8 @@ public abstract class Balloon : MonoBehaviour {
     public EBalloonType Type { get; set; }
     public float Mass { get; set; }
 
+	public float m_MaxBalloonDistance = 4f;
+
     private CircleCollider2D mCircleCollider = null;
     private BalloonPhysics mPhysics = null;
 
