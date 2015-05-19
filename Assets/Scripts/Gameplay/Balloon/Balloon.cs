@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public abstract class Balloon : MonoBehaviour {
 
+	private GameObject mBalloonObject = null;
     public EBalloonType Type { get; set; }
     public float Mass { get; set; }
 
@@ -17,6 +18,7 @@ public abstract class Balloon : MonoBehaviour {
 	private int mBalloonIndex;
 
 	virtual public void Init () {
+		mBalloonObject = transform.gameObject;
         mBehaviors = new List<BalloonBehavior>();
         mCircleCollider = GetComponent<CircleCollider2D>();
         mPhysics = GetComponent<BalloonPhysics>();
@@ -38,15 +40,20 @@ public abstract class Balloon : MonoBehaviour {
         mBehaviors.Add(behavior);
     }
 
-    public CircleCollider2D CircleCollider
-    {
-        get { return mCircleCollider; }
-    }
+	public BalloonPhysics Physics
+	{
+		get { return mPhysics; }
+	}
 
-    public BalloonPhysics Physics
+	public GameObject GameObject
     {
-        get { return mPhysics; }
-    }
+		get { return mBalloonObject; }
+	}
+
+	public CircleCollider2D CircleCollider
+	{
+		get { return mCircleCollider; }
+	}
 
     public virtual void OnMove(float pDistance)
     {

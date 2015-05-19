@@ -10,6 +10,7 @@ public class ToxicBalloon : Balloon {
         base.Init();
 		ChangeColor(Color.green);
 		AddBehavior<DetachBehavior>();
+		AddBehavior<AttachBehavior>();
 		m_MaxBalloonDistance = TOXIC_BALLOON_DISTANCE;
 	}
 	

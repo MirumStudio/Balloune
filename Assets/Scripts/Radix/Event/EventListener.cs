@@ -5,17 +5,23 @@ namespace Radix.Event
 {
     public class EventListener
     {
-        public static void Register<T>(Enum _event, EventReceiverHandler<T> _callback)
+        public static void Register<T>(Enum _event, SingleParamEventReceiverHandler<T> _callback)
         {
             Assert.CheckNull(_callback);
             RegisterInternal(_event, _callback);
         }
 
-        public static void Register(Enum _event, EventReceiverHandler _callback)
+        public static void Register(Enum _event, SingleParamEventReceiverHandler _callback)
         {
             Assert.CheckNull(_callback);
             RegisterInternal(_event, _callback);
         }
+
+		public static void Register(Enum _event, TwoParamEventReceiverHandler _callback)
+		{
+			Assert.CheckNull(_callback);
+			RegisterInternal(_event, _callback);
+		}
 
         private static void RegisterInternal(Enum _event, Delegate _callback)
         {

@@ -5,8 +5,9 @@ using UnityEngine;
 
 namespace Radix.Event
 {
-    public delegate void EventReceiverHandler(Enum _event, object _args);
-    public delegate void EventReceiverHandler<T>(Enum _event, T _args);
+	public delegate void SingleParamEventReceiverHandler(Enum _event, object _args);
+	public delegate void SingleParamEventReceiverHandler<T>(Enum _event, T _args);
+	public delegate void TwoParamEventReceiverHandler(Enum _event, object _arg1, object _arg2);
     public class EventService : ServiceBase
     {
         private static EventService instance = null;
@@ -60,6 +61,19 @@ namespace Radix.Event
                 instance.mExternalEventDispatcher.DispatchEvent(_event, _args, null);
             }
         }
+
+		static public void DipatchEvent(Enum _event, object _arg1, object _arg2 /*= null*/)
+		{
+			Debug.Log("Dispatch event : " + _event);
+			if (IsInternalEvent(_event))
+			{
+				instance.mInternalEventDispatcher.DispatchEvent(_event, _arg1, _arg2, null);
+			}
+			else
+			{
+				instance.mExternalEventDispatcher.DispatchEvent(_event, _arg1, _arg2, null);
+			}
+		}
 
         static private bool IsInternalEvent(Enum _event)
         {

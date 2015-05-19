@@ -72,14 +72,14 @@ namespace Radix.Event
         #endregion
 
         #region Dispatch
-        internal void DispatchEvent(Enum _event, object _args, Type _listernerType)
+        internal void DispatchEvent(Enum _event, object _args, Type _listenerType)
         {
             if (mEventDictionnary.ContainsKey(_event))
             {
 
                 foreach (EventListener listener in mEventDictionnary[_event])
                 {
-                    if (_listernerType == null || _listernerType == listener.Listener)
+                    if (_listenerType == null || _listenerType == listener.Listener)
                     {
                         Assert.CheckNull(listener.Callback);
                         listener.Callback.DynamicInvoke(_event, _args);
@@ -87,6 +87,22 @@ namespace Radix.Event
                 }
             }
         }
+
+		internal void DispatchEvent(Enum _event, object _arg1, object _arg2, Type _listenerType)
+		{
+			if (mEventDictionnary.ContainsKey(_event))
+			{
+				
+				foreach (EventListener listener in mEventDictionnary[_event])
+				{
+					if (_listenerType == null || _listenerType == listener.Listener)
+					{
+						Assert.CheckNull(listener.Callback);
+						listener.Callback.DynamicInvoke(_event, _arg1, _arg2);
+					}
+				}
+			}
+		}
         #endregion
 
         #region Utility

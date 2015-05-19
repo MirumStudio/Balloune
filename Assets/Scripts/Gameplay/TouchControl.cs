@@ -6,7 +6,8 @@ using Radix.Event;
 public class TouchControl : MonoBehaviour {
 	private const string BALLOON_IDENTIFIER = "Balloon";
 
-	private GameObject mTouchedBalloon = null;
+	private GameObject mTouchedBalloonObject = null;
+	private Balloon mTouchedBalloon = null;
     private BalloonPhysics mTouchedBalloonPhysics = null;
 	private static Vector2 mWorldPosition;
 
@@ -34,11 +35,11 @@ public class TouchControl : MonoBehaviour {
 			{			
 				AddTouch(Input.GetTouch(i));
 				mWorldPosition = GetWorldPosition(Input.GetTouch(i));
-				if(mTouchedBalloon == null)
+				if(mTouchedBalloonObject == null)
 				{
-					mTouchedBalloon = GetTouchedBalloon(mWorldPosition);
+					mTouchedBalloonObject = GetTouchedBalloon(mWorldPosition);
 				}
-				if(mTouchedBalloon != null)
+				if(mTouchedBalloonObject != null)
 				{
 					PickupBalloon();
 					mIsJumpCommand = IsJumpCommand(Input.GetTouch (i));
@@ -64,12 +65,12 @@ public class TouchControl : MonoBehaviour {
 		{
 			if(touchedColliders[i].name.Contains (BALLOON_IDENTIFIER))
 			{
-				mTouchedBalloon = touchedColliders[i].gameObject;
+				mTouchedBalloonObject = touchedColliders[i].gameObject;
 				break;
 			}
 		}
 
-		return mTouchedBalloon;
+		return mTouchedBalloonObject;
 	}
 
 	public static Vector2 GetTouchPosition()
@@ -96,25 +97,18 @@ public class TouchControl : MonoBehaviour {
 
 	private void PickupBalloon()
 	{
-        mTouchedBalloonPhysics = mTouchedBalloon.GetComponent<BalloonPhysics>();
-        mTouchedBalloonPhysics.setIsTouched(true);
-        mTouchedBalloonPhysics.IgnoreOtherBalloonCollision(true);
-        mTouchedBalloonPhysics.GetRigidBody().gravityScale = 0;
-        mTouchedBalloonPhysics.GetRigidBody().drag = 0;
+		mTouchedBalloon = mTouchedBalloonObject.GetComponent<Balloon> ();
+		mTouchedBalloonPhysics = mTouchedBalloon.Physics;
+		EventService.DipatchEvent(EGameEvent.PICKUP_BALLOON, mTouchedBalloon);
 	}
 
 	private void DropBalloon()
 	{
-		if (mTouchedBalloon != null) {
-            mTouchedBalloonPhysics.setIsTouched(false);
-            mTouchedBalloonPhysics.IgnoreOtherBalloonCollision(false);
-            mTouchedBalloonPhysics.GetRigidBody().drag = 1;
-            mTouchedBalloonPhysics.GetRigidBody().gravityScale = -1;
-
-            EventService.DipatchEvent(EGameEvent.END_PULLING, null);
-
+		if (mTouchedBalloonObject != null) {
+			EventService.DipatchEvent(EGameEvent.DROP_BALLOON, mTouchedBalloon);
+			mTouchedBalloonObject = null;
+			mTouchedBalloonPhysics = null;
 			mTouchedBalloon = null;
-            mTouchedBalloonPhysics = null;
 		}
 		mWorldPosition = Vector2.zero;
 		mTouchPositions.Clear ();

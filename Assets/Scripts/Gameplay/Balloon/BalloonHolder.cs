@@ -91,7 +91,7 @@ public class BalloonHolder : MonoBehaviour {
 			SetBalloonProperties(balloon, physics, mBalloons.Count);
 
 			var rope = ropeManager.CreateRopeForBalloon(balloonObject);
-			ropeManager.AttachRope(balloonObject, rope);
+			ropeManager.AttachRope(balloonObject, rope, m_Tack);
 
 			mBalloons.Add(balloon);
 		}

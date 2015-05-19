@@ -49,11 +49,14 @@ public class BalloonPhysics : MonoBehaviour
         m_Parent = mBalloonHolder.transform;
         //EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
         mainCharacter = mTack.transform.parent;
-        Physics2D.IgnoreCollision(mainCharacter.GetComponent<BoxCollider2D>(), mCircleCollider);
-    }
-
-
-    private void Update()
+		Physics2D.IgnoreCollision(mainCharacter.GetComponent<BoxCollider2D>(), mCircleCollider);
+		EventListener.Register(EGameEvent.PICKUP_BALLOON, OnPickupBalloon);
+		EventListener.Register(EGameEvent.DROP_BALLOON, OnDropBalloon);
+		EventListener.Register(EGameEvent.ATTACH_BALLOON, OnAttachBalloon);
+	}
+	
+	
+	private void Update()
     {
         CheckIfInvulnerable();
     }
@@ -113,7 +116,7 @@ public class BalloonPhysics : MonoBehaviour
         double angle = radian * Mathf.Rad2Deg;
         return angle;
     }
-	
+
 	public void DetachBalloon()
 	{
 		if (mTimePullingAtMaximumDistance >= TIME_TO_DETACH) {
@@ -122,6 +125,18 @@ public class BalloonPhysics : MonoBehaviour
 			mLineRenderer.enabled = false;
 			mIsAttached = false;
 			mBalloonHolder.DetachBalloon(mBalloonIndex);
+		}
+	}
+
+	public void OnAttachBalloon(Enum pEvent, object pBalloon, object pTack)
+	{
+		if(((Balloon) pBalloon).Physics == this)
+		{
+			mDistanceJoint.enabled = true;
+			mBalloonJoint.enabled = true;
+			mLineRenderer.enabled = true;
+			mIsAttached = true;
+			mTack = (GameObject)pTack;
 		}
 	}
 
@@ -210,11 +225,16 @@ public class BalloonPhysics : MonoBehaviour
         mIsTouched = pIsTouched;
     }
 
-    public bool IsTouched()
+    public bool IsTouched
     {
-		return mIsTouched;
+		get {return mIsTouched;}
     }
 
+	public bool IsAttached
+	{
+		get {return mIsAttached;}
+	}
+	
 	public CircleCollider2D GetCircleCollider()
 	{
 		return mCircleCollider;
@@ -255,5 +275,25 @@ public class BalloonPhysics : MonoBehaviour
 		} else {
 			mTimePullingAtMaximumDistance = 0f;
 		}
+	}
+
+	public void OnPickupBalloon(Enum pEvent, object pArg)
+	{
+		if (mBalloon == (Balloon) pArg) {
+			mIsTouched = true;
+			IgnoreOtherBalloonCollision(true);
+			mRigidbody2D.gravityScale = 0;
+			mRigidbody2D.drag = 0;
+		}
+	}
+	
+	public void OnDropBalloon(Enum pEvent, object pBalloon)
+	{
+		mIsTouched = false;
+		IgnoreOtherBalloonCollision(false);
+		mRigidbody2D.drag = 1;
+		mRigidbody2D.gravityScale = -1;
+		
+		EventService.DipatchEvent(EGameEvent.END_PULLING, null);
 	}
 }
