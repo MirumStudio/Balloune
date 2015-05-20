@@ -23,7 +23,7 @@ public class AttachBehavior : BalloonBehavior
 	
 	private void OnDropBalloon(Enum pEvent, object pBalloon)
 	{
-		if (((Balloon) pBalloon).GameObject == mBalloon.gameObject) {
+		if (((Balloon) pBalloon).GameObject == mBalloon.GameObject) {
 			Vector2 position = transform.position;
 			EventService.DipatchEvent(EGameEvent.ATTEMPT_ATTACH_BALLOON, pBalloon, position);
 		}

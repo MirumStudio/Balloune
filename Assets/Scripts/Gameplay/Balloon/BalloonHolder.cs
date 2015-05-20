@@ -7,7 +7,6 @@ using Radix.Utlities;
 
 public class BalloonHolder : MonoBehaviour {
 	public const string BALLOON_HOLDER_NAME = "BalloonHolder";
-    public const int NUMBER_LIFE_BALLOON = 3;
 
     [SerializeField]
     protected uint m_MaxBalloonCount = 6;
@@ -21,20 +20,15 @@ public class BalloonHolder : MonoBehaviour {
 	[SerializeField]
 	protected GameObject m_RopePrefab;
 
+	[SerializeField]
 	private List<Balloon> mBalloons = new List<Balloon>();
 
-	void Start () {
-        BalloonFactory.Init(m_BalloonPrefab, m_Tack);
-
-        EventListener.Register(EGameEvent.INFLATE_BALLOON, OnInflateBalloon);
-
-        for (int i = 0; i < NUMBER_LIFE_BALLOON; i++)
-        {
-            CreateBalloon(EBalloonType.LIFE);
-		}
+	protected virtual void Start () {
+		BalloonFactory.Init(m_BalloonPrefab, m_Tack);
+		EventListener.Register(EGameEvent.ATTEMPT_ATTACH_BALLOON, OnAttemptAttachBalloon);
 	}
-
-    private void SetBalloonProperties(Balloon pBalloon, BalloonPhysics pPhysic, int pBalloonIndex)
+	
+	private void SetBalloonProperties(Balloon pBalloon, BalloonPhysics pPhysic, int pBalloonIndex)
 	{
         pBalloon.SetBalloonHolder(this);
         pBalloon.SetBalloonIndex (pBalloonIndex);
@@ -97,6 +91,31 @@ public class BalloonHolder : MonoBehaviour {
 		}
     }
 
+	public void OnAttemptAttachBalloon(Enum pEvent, object pBalloon, object pPosition)
+	{
+		if (CountBalloons () < m_MaxBalloonCount) {
+			Collider2D[] touchedColliders = Physics2D.OverlapCircleAll ((Vector2)pPosition,  1f);
+			Collider2D thisCollider = m_Tack.transform.parent.GetComponent<Collider2D> ();
+			for(int i = 0; i < touchedColliders.Length; i++)
+			{
+				if(touchedColliders[i] == thisCollider)
+				{
+					AttachBalloon ((Balloon) pBalloon);
+					EventService.DipatchEvent(EGameEvent.ATTACH_BALLOON, pBalloon, m_Tack);
+					break;
+				}
+			}
+		}
+	}
+
+	private void AttachBalloon(Balloon pBalloon)
+	{
+		pBalloon.SetBalloonIndex (CountBalloons ());
+		pBalloon.SetBalloonHolder (this);
+		mBalloons.Add (pBalloon);
+		pBalloon.GameObject.transform.parent = this.gameObject.transform;
+	}
+
 	public void DetachBalloon(int pBalloonToDetach)
 	{
 		mBalloons.RemoveAt (pBalloonToDetach);
@@ -107,14 +126,7 @@ public class BalloonHolder : MonoBehaviour {
 		return mBalloons.Count;
 	}
 
-    private void OnInflateBalloon(Enum pEvent, object pArg)
-    {
-        var type = EnumUtility.ObjectToEnum<EBalloonType>(pArg);
-
-        CreateBalloon(type);
-    }
-
-    public List<Balloon> Ballounes
+    public List<Balloon> Balloons
     {
         get { return mBalloons; }
     }

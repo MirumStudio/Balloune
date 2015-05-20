@@ -10,7 +10,7 @@ public class DetachBehavior : BalloonBehavior
 	protected override void Start () {
 		base.Start ();
 		mPhysics = mBalloon.Physics;
-		}
+	}
 	
 	void Update () {
 		

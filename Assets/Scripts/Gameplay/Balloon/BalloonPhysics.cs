@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 public class BalloonPhysics : MonoBehaviour
 {
+	private const int BALLOON_COLLISION_LAYER = 8;
+	private const int PICKEDUP_BALLOON_COLLISION_LAYER = 10;
+
 	private const float MAX_DRAG_VELOCITY = 15f;
 	private const float TIME_TO_DETACH = 1f;
 	
@@ -87,18 +90,15 @@ public class BalloonPhysics : MonoBehaviour
         }
     }
 
-    public void IgnoreOtherBalloonCollision(bool pIgnore)
-    {
-        List<Balloon> allHeldballoons = mBalloonHolder.Ballounes;
+	private void IgnoreOtherBalloonCollision()
+	{
+		mBalloon.GameObject.layer = PICKEDUP_BALLOON_COLLISION_LAYER;
+	}
 
-        for (int i = 0; i < allHeldballoons.Count; i++)
-        {
-            if (i != mBalloonIndex)
-            {
-                Physics2D.IgnoreCollision(allHeldballoons[i].CircleCollider, mCircleCollider, pIgnore);
-            }
-        }
-    }
+	private void StopIgnoringOtherBalloonCollision()
+	{
+		mBalloon.GameObject.layer = BALLOON_COLLISION_LAYER;
+	}
 
     private void DragBalloon(Vector2 pTouchPosition, Vector2 pCurrentBalloonPosition)
     {
@@ -281,7 +281,7 @@ public class BalloonPhysics : MonoBehaviour
 	{
 		if (mBalloon == (Balloon) pArg) {
 			mIsTouched = true;
-			IgnoreOtherBalloonCollision(true);
+			IgnoreOtherBalloonCollision();
 			mRigidbody2D.gravityScale = 0;
 			mRigidbody2D.drag = 0;
 		}
@@ -290,7 +290,7 @@ public class BalloonPhysics : MonoBehaviour
 	public void OnDropBalloon(Enum pEvent, object pBalloon)
 	{
 		mIsTouched = false;
-		IgnoreOtherBalloonCollision(false);
+		StopIgnoringOtherBalloonCollision();
 		mRigidbody2D.drag = 1;
 		mRigidbody2D.gravityScale = -1;
 		

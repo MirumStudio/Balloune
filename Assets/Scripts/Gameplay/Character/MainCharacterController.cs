@@ -28,7 +28,7 @@ public class MainCharacterController : BaseCharacterController {
 	{
 		base.Start ();
 		mAnimator=GetComponent<CharacterAnimator>();
-		mBalloonHolder = GameObject.Find (BalloonHolder.BALLOON_HOLDER_NAME).GetComponent<BalloonHolder>();
+		mBalloonHolder = GameObject.Find (GirlBalloonHolder.BALLOON_HOLDER_NAME).GetComponent<BalloonHolder>();
 
         EventListener.Register(EGameEvent.BEGIN_PULLING, OnBeginPulling);
         EventListener.Register(EGameEvent.END_PULLING, OnStopPulling);
