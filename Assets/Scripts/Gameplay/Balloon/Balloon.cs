@@ -77,6 +77,11 @@ public abstract class Balloon : MonoBehaviour {
 		mPhysics.SetBalloonHolder (mBalloonHolder);
 	}
 
+	public BalloonHolder BalloonHolder
+	{
+		get { return mBalloonHolder; }
+	}
+
 	public void SetBalloonIndex(int pBalloonIndex)
 	{
 		mBalloonIndex = pBalloonIndex;

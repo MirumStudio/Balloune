@@ -4,8 +4,11 @@ using Radix.Event;
 
 public class GasSource : MonoBehaviour {
 
+	[SerializeField]
+	private EBalloonType m_GasType = EBalloonType.TOXIC;
+
     [SerializeField]
-    private float m_MinimunDistance = 4.0f;
+    private float m_MinimumDistance = 4.0f;
 
     Vector2 prev_vec = new Vector2();
     Vector2 curr_vec = new Vector2();
@@ -25,7 +28,7 @@ public class GasSource : MonoBehaviour {
         {
             if(total_angle > 330 || total_angle < -330)
             {
-                EventService.DipatchEvent(EGameEvent.INFLATE_BALLOON, EBalloonType.TOXIC);
+				EventService.DipatchEvent(EGameEvent.INFLATE_BALLOON, m_GasType);
             }
 
 
@@ -40,7 +43,7 @@ public class GasSource : MonoBehaviour {
         prev_vec = new Vector2(curr_vec.x, curr_vec.y);
         curr_vec = new Vector2(pos.x - transform.position.x, pos.y - transform.position.y);
 
-        if (curr_vec.magnitude <= m_MinimunDistance)
+        if (curr_vec.magnitude <= m_MinimumDistance)
         {
 
             var constants_value = Mathf.Min(1, Vector2.Dot(prev_vec, curr_vec) / (prev_vec.magnitude * curr_vec.magnitude));

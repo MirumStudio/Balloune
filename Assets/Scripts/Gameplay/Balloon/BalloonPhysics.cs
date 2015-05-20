@@ -296,4 +296,9 @@ public class BalloonPhysics : MonoBehaviour
 		
 		EventService.DipatchEvent(EGameEvent.END_PULLING, null);
 	}
+
+	public DistanceJoint2D DistanceJoint2D
+	{
+		get { return mDistanceJoint; }
+	}
 }

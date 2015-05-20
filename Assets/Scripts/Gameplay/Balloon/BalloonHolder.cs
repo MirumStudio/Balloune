@@ -6,7 +6,7 @@ using System;
 using Radix.Utlities;
 
 public class BalloonHolder : MonoBehaviour {
-	public const string BALLOON_HOLDER_NAME = "BalloonHolder";
+	public const string GIRL_BALLOON_HOLDER_NAME = "BalloonHolder";
 
     [SerializeField]
     protected uint m_MaxBalloonCount = 6;
@@ -23,8 +23,11 @@ public class BalloonHolder : MonoBehaviour {
 	[SerializeField]
 	private List<Balloon> mBalloons = new List<Balloon>();
 
+	private GameObject mOwner = null;
+
 	protected virtual void Start () {
 		BalloonFactory.Init(m_BalloonPrefab, m_Tack);
+		mOwner = m_Tack.transform.parent.gameObject;
 		EventListener.Register(EGameEvent.ATTEMPT_ATTACH_BALLOON, OnAttemptAttachBalloon);
 	}
 	
@@ -78,6 +81,11 @@ public class BalloonHolder : MonoBehaviour {
 						balloon = balloonObject.AddComponent<ToxicBalloon>();
 						break;
 					}
+				case EBalloonType.FLYING:
+				{
+					balloon = balloonObject.AddComponent<FlyingBalloon>();
+					break;
+				}
 			}
 			
 			balloon.Init();
@@ -138,4 +146,9 @@ public class BalloonHolder : MonoBehaviour {
             return balloune is LifeBalloon;
         }).Count;
     }
+
+	public GameObject Owner
+	{
+		get { return mOwner; }
+	}
 }

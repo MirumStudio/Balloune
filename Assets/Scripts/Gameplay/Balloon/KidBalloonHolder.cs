@@ -7,7 +7,7 @@ using Radix.Utlities;
 
 public class KidBalloonHolder : BalloonHolder
 {
-	public const string BALLOON_HOLDER_NAME = "KidBalloonHolder";
+	public const string KID_BALLOON_HOLDER_NAME = "KidBalloonHolder";
 	protected override void Start()
 	{
 		base.Start ();

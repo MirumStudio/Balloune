@@ -7,6 +7,7 @@ using System.Text;
     public enum EBalloonType
     {
         LIFE,
-        TOXIC
+        TOXIC,
+		FLYING
     }
 
