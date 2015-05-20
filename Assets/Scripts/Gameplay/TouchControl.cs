@@ -99,13 +99,13 @@ public class TouchControl : MonoBehaviour {
 	{
 		mTouchedBalloon = mTouchedBalloonObject.GetComponent<Balloon> ();
 		mTouchedBalloonPhysics = mTouchedBalloon.Physics;
-		EventService.DipatchEvent(EGameEvent.PICKUP_BALLOON, mTouchedBalloon);
+		EventService.DispatchEvent(EGameEvent.PICKUP_BALLOON, mTouchedBalloon);
 	}
 
 	private void DropBalloon()
 	{
 		if (mTouchedBalloonObject != null) {
-			EventService.DipatchEvent(EGameEvent.DROP_BALLOON, mTouchedBalloon);
+			EventService.DispatchEvent(EGameEvent.DROP_BALLOON, mTouchedBalloon);
 			mTouchedBalloonObject = null;
 			mTouchedBalloonPhysics = null;
 			mTouchedBalloon = null;

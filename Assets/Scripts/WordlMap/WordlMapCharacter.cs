@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Radix.Event;
 using Radix.ErrorMangement;
@@ -62,7 +62,7 @@ public class WordlMapCharacter : MonoBehaviour {
         int wantedLevel = (int)pArg;
         if(wantedLevel != mCurrentLevel && !mIsMoving)
         {
-            EventService.DipatchEvent(EWorldMapEvent.BEGIN_CHANGE_LEVEL, wantedLevel);
+            EventService.DispatchEvent(EWorldMapEvent.BEGIN_CHANGE_LEVEL, wantedLevel);
             mFinalDestination = wantedLevel;
             ChangeLevel();
         }
@@ -103,6 +103,6 @@ public class WordlMapCharacter : MonoBehaviour {
 
     private void RaiseOnLevelChanged()
     {
-        EventService.DipatchEvent(EWorldMapEvent.END_CHANGE_LEVEL, mLevelPointList.GetLevelPoint(mCurrentLevel));
+        EventService.DispatchEvent(EWorldMapEvent.END_CHANGE_LEVEL, mLevelPointList.GetLevelPoint(mCurrentLevel));
     }
 }

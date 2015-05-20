@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Radix.Event;
 using System;
@@ -27,7 +27,7 @@ public class CharacterPullBehavior : BalloonBehavior
         if (mCharacterPull == null)
         {
             mCharacterPull = new CharacterPull();
-            EventService.DipatchEvent(EGameEvent.BEGIN_PULLING, mCharacterPull);
+            EventService.DispatchEvent(EGameEvent.BEGIN_PULLING, mCharacterPull);
         }
         DragCharacter();
     }

@@ -25,7 +25,7 @@ public class AttachBehavior : BalloonBehavior
 	{
 		if (((Balloon) pBalloon).GameObject == mBalloon.GameObject) {
 			Vector2 position = transform.position;
-			EventService.DipatchEvent(EGameEvent.ATTEMPT_ATTACH_BALLOON, pBalloon, position);
+			EventService.DispatchEvent(EGameEvent.ATTEMPT_ATTACH_BALLOON, pBalloon, position);
 		}
 	}
 }

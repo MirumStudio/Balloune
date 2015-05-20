@@ -49,7 +49,7 @@ namespace Radix.Event
             instance.mExternalEventDispatcher.UnregisterAllEventsListeners(_Event);
         }
 
-        static public void DipatchEvent(Enum _event, object _args /*= null*/)
+        static public void DispatchEvent(Enum _event, object _args /*= null*/)
         {
             Debug.Log("Dispatch event : " + _event);
             if (IsInternalEvent(_event))
@@ -62,7 +62,7 @@ namespace Radix.Event
             }
         }
 
-		static public void DipatchEvent(Enum _event, object _arg1, object _arg2 /*= null*/)
+		static public void DispatchEvent(Enum _event, object _arg1, object _arg2 /*= null*/)
 		{
 			Debug.Log("Dispatch event : " + _event);
 			if (IsInternalEvent(_event))

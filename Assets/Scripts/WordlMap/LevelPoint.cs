@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Radix.Event;
 
@@ -21,7 +21,7 @@ public class LevelPoint : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
-            EventService.DipatchEvent(EWorldMapEvent.WANT_CHANGE_LEVEL, ID);
+            EventService.DispatchEvent(EWorldMapEvent.WANT_CHANGE_LEVEL, ID);
         }
     }
 }

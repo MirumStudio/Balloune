@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Radix.Event;
 
@@ -12,7 +12,7 @@ public class Interactable : MonoBehaviour {
 
     public void DispacthEvent()
     {
-        EventService.DipatchEvent(m_GameEvent, this);
+        EventService.DispatchEvent(m_GameEvent, this);
     }
 
     public bool IsPassableThrough

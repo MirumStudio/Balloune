@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using Radix.Event;
@@ -23,12 +23,12 @@ public class LevelController : BaseView {
     private void OnFinish()
     {
         mIsFinished = true;
-        EventService.DipatchEvent(EGameEvent.LEVEL_FINISHED, null);
+        EventService.DispatchEvent(EGameEvent.LEVEL_FINISHED, null);
     }
 
     private void OnChildCollision(Enum pEnum, System.Object arg)
     {
-        EventService.DipatchEvent(EGameEvent.BALLOON_GIVEN, arg);
+        EventService.DispatchEvent(EGameEvent.BALLOON_GIVEN, arg);
         mBalloonGivenCount++;
     }
 }

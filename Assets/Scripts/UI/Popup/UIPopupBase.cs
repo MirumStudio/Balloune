@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Radix.Event;
 
@@ -25,14 +25,14 @@ public class UIPopupBase : MonoBehaviour {
     {
         gameObject.SetActive(true);
         mPopupIsDisplay = true;
-        EventService.DipatchEvent(EGameEvent.POPUP_DISPLAYED, this);
+        EventService.DispatchEvent(EGameEvent.POPUP_DISPLAYED, this);
     }
 
     protected void HidePopup()
     {
         gameObject.SetActive(false);
         mPopupIsDisplay = false;
-        EventService.DipatchEvent(EGameEvent.POPUP_HIDED, this);
+        EventService.DispatchEvent(EGameEvent.POPUP_HIDED, this);
     }
 
     public void OnLevelSelectClick()

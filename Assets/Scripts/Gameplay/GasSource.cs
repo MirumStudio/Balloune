@@ -28,7 +28,7 @@ public class GasSource : MonoBehaviour {
         {
             if(total_angle > 330 || total_angle < -330)
             {
-				EventService.DipatchEvent(EGameEvent.INFLATE_BALLOON, m_GasType);
+				EventService.DispatchEvent(EGameEvent.INFLATE_BALLOON, m_GasType);
             }
 
 

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System;
 using Radix.Event;
@@ -22,7 +22,7 @@ public class UILevelController : MonoBehaviour {
 
     public void OnPauseClick()
     {
-        EventService.DipatchEvent(EGameEvent.DISPLAY_PAUSE_POPUP, null);
+        EventService.DispatchEvent(EGameEvent.DISPLAY_PAUSE_POPUP, null);
     }
 
     void OnDestroy()

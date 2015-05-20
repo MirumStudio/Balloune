@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Radix.Event;
 using System;
@@ -41,7 +41,7 @@ public class Lifebar : MonoBehaviour {
     {
         if (m_lifeCount <= 0)
         {
-            EventService.DipatchEvent(EGameEvent.GAME_OVER, null);
+            EventService.DispatchEvent(EGameEvent.GAME_OVER, null);
         }
     }
 }

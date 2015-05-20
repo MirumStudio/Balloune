@@ -50,12 +50,12 @@ public class BalloonHolder : MonoBehaviour {
 
         if (GetLifeBalloonCount() <= 0)
         {
-            EventService.DipatchEvent(EGameEvent.GAME_OVER, null);
+            EventService.DispatchEvent(EGameEvent.GAME_OVER, null);
         }
 
         if (GetLifeBalloonCount() <= 0)
         {
-            EventService.DipatchEvent(EGameEvent.GAME_OVER, null);
+            EventService.DispatchEvent(EGameEvent.GAME_OVER, null);
         }
 	}
 
@@ -109,7 +109,7 @@ public class BalloonHolder : MonoBehaviour {
 				if(touchedColliders[i] == thisCollider)
 				{
 					AttachBalloon ((Balloon) pBalloon);
-					EventService.DipatchEvent(EGameEvent.ATTACH_BALLOON, pBalloon, m_Tack);
+					EventService.DispatchEvent(EGameEvent.ATTACH_BALLOON, pBalloon, m_Tack);
 					break;
 				}
 			}

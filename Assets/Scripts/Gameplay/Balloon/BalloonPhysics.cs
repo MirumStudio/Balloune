@@ -294,7 +294,7 @@ public class BalloonPhysics : MonoBehaviour
 		mRigidbody2D.drag = 1;
 		mRigidbody2D.gravityScale = -1;
 		
-		EventService.DipatchEvent(EGameEvent.END_PULLING, null);
+		EventService.DispatchEvent(EGameEvent.END_PULLING, null);
 	}
 
 	public DistanceJoint2D DistanceJoint2D
