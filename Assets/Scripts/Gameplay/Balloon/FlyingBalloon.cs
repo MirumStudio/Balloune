@@ -11,6 +11,7 @@ public class FlyingBalloon : Balloon {
 		ChangeColor(Color.gray);
 		AddBehavior<CharacterPullBehavior>();
 		AddBehavior<FlyingBehavior>();
+		AddBehavior<TriggerableBehavior>();
 		m_MaxBalloonDistance = FLYING_BALLOON_DISTANCE;
 	}
 	

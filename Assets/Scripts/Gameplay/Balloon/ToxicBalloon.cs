@@ -11,6 +11,7 @@ public class ToxicBalloon : Balloon {
 		ChangeColor(Color.green);
 		AddBehavior<DetachBehavior>();
 		AddBehavior<AttachBehavior>();
+		AddBehavior<TriggerableBehavior> ();
 		m_MaxBalloonDistance = TOXIC_BALLOON_DISTANCE;
 	}
 	

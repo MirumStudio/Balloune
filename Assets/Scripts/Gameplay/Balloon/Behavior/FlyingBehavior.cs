@@ -40,4 +40,13 @@ public class FlyingBehavior : BalloonBehavior
 		pNewDistanceJoint.maxDistanceOnly = pJointToCopy.maxDistanceOnly;
 		return pNewDistanceJoint;
 	}
+
+	public override void OnPop()
+	{
+		if (mBalloon.BalloonHolder != null) {
+			mBalloon.BalloonHolder.DestroyBalloon (mBalloon);
+		} else {
+			DestroyObject (mBalloon.GameObject);
+		}
+	}
 }

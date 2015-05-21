@@ -49,7 +49,7 @@ public class BalloonPhysics : MonoBehaviour
         mDistanceJoint = GetComponent<DistanceJoint2D>();
         mCircleCollider = GetComponent<CircleCollider2D>();
         mRope = GetComponentInChildren<Rope>();
-        m_Parent = mBalloonHolder.transform;
+		m_Parent = mBalloonHolder.transform;
         //EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
         mainCharacter = mTack.transform.parent;
 		Physics2D.IgnoreCollision(mainCharacter.GetComponent<BoxCollider2D>(), mCircleCollider);
@@ -97,7 +97,6 @@ public class BalloonPhysics : MonoBehaviour
 
 	private void StopIgnoringOtherBalloonCollision()
 	{
-		Debug.Log ("Name : " + mBalloon.name);
 		mBalloon.GameObject.layer = BALLOON_COLLISION_LAYER;
 	}
 
@@ -126,12 +125,13 @@ public class BalloonPhysics : MonoBehaviour
 			mLineRenderer.enabled = false;
 			mIsAttached = false;
 			mBalloonHolder.DetachBalloon(mBalloonIndex);
+			mBalloonHolder = null;
 		}
 	}
 
 	public void OnAttachBalloon(Enum pEvent, object pBalloon, object pTack)
 	{
-		if(((Balloon) pBalloon).Physics == this)
+		if(((Balloon) pBalloon) == mBalloon)
 		{
 			mDistanceJoint.enabled = true;
 			mBalloonJoint.enabled = true;
@@ -194,13 +194,12 @@ public class BalloonPhysics : MonoBehaviour
         }
     }
 
-    private void PopBalloon()
+    public void PopBalloon()
     {
-        var balloon = GetComponent<Balloon>();
-        balloon.OnPop();
-        mBalloonHolder.DestroyBalloon(balloon);
-    }
-
+		//DetachBalloon ();
+        mBalloon.OnPop();
+	}
+	
     public void SetInvulnerable(bool pInvulnerable)
     {
         this.mIsInvulnerable = pInvulnerable;
@@ -290,7 +289,7 @@ public class BalloonPhysics : MonoBehaviour
 	
 	public void OnDropBalloon(Enum pEvent, object pBalloon)
 	{
-		if (((Balloon)pBalloon).Physics == this) {
+		if (((Balloon)pBalloon) == mBalloon) {
 			mIsTouched = false;
 			StopIgnoringOtherBalloonCollision();
 			mRigidbody2D.drag = 1;

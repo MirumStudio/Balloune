@@ -11,6 +11,7 @@ public class StunBalloon : Balloon {
 		ChangeColor(Color.yellow);
 		AddBehavior<DetachBehavior>();
 		AddBehavior<AttachBehavior>();
+		AddBehavior<TriggerableBehavior> ();
 		m_MaxBalloonDistance = STUN_BALLOON_DISTANCE;
 	}
 	

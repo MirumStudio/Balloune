@@ -18,6 +18,9 @@ public class TouchControl : MonoBehaviour {
 	private float mSwipeSpeedThreshold = 1.2f;
 	private static bool mIsJumpCommand = false;	
 
+	private float mDoubleTapThreshold = 0.2f;
+	private float mDoubleTapTime = 0f;
+
 	void Start () {
 		mMinimumSwipeDistance = Screen.height * 8 / 100;
 	}
@@ -43,6 +46,7 @@ public class TouchControl : MonoBehaviour {
 				{
 					PickupBalloon();
 					mIsJumpCommand = IsJumpCommand(Input.GetTouch (i));
+					IsDoubleTap(Input.GetTouch(i));
 				}
 			}
 			else{
@@ -93,6 +97,27 @@ public class TouchControl : MonoBehaviour {
 			}
 		}
 		return isJumpCommand;
+	}
+
+	private bool IsDoubleTap(Touch pTouch)
+	{
+		bool isDoubleTap = false;
+		if (pTouch.phase == TouchPhase.Began && mDoubleTapTime > 0f && mDoubleTapTime <= mDoubleTapThreshold) {
+			//this is a double tap
+			isDoubleTap = true;
+			EventService.DispatchEvent(EGameEvent.TRIGGER_BALLOON, mTouchedBalloon);
+			mDoubleTapTime = 0f;
+		} else if (pTouch.phase == TouchPhase.Began) {
+			//First touch ever
+			mDoubleTapTime = 0f;
+		} else if(pTouch.phase == TouchPhase.Began) {
+			//Any touch that is not a double tap
+			mDoubleTapTime = 0f;
+		} else if (pTouch.phase != TouchPhase.Began) {
+			//Any touch that stayed on the screen
+			mDoubleTapTime += pTouch.deltaTime;
+		}
+		return isDoubleTap;
 	}
 
 	private void PickupBalloon()
