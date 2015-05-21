@@ -8,6 +8,7 @@ using System.Text;
     {
         LIFE,
         TOXIC,
-		FLYING
+		FLYING,
+		STUN
     }
 

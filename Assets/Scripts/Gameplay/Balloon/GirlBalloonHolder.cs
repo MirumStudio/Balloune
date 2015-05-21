@@ -30,8 +30,10 @@ public class GirlBalloonHolder : BalloonHolder
 
 	public override void CreateBalloon(EBalloonType pType)
 	{
-		if (pType.Equals (EBalloonType.LIFE) && CanCreateAdditionalLifeBalloon(pType)) {
+		if (pType.Equals (EBalloonType.LIFE) && CanCreateAdditionalLifeBalloon (pType)) {
 			mNumberOfLifeBalloons++;
+			base.CreateBalloon (pType);
+		} else if (!pType.Equals (EBalloonType.LIFE)) {
 			base.CreateBalloon(pType);
 		}
 	}

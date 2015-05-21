@@ -82,10 +82,15 @@ public class BalloonHolder : MonoBehaviour {
 						break;
 					}
 				case EBalloonType.FLYING:
-				{
-					balloon = balloonObject.AddComponent<FlyingBalloon>();
-					break;
-				}
+					{
+						balloon = balloonObject.AddComponent<FlyingBalloon>();
+						break;
+					}
+				case EBalloonType.STUN:
+					{
+						balloon = balloonObject.AddComponent<StunBalloon>();
+						break;
+					}
 			}
 			
 			balloon.Init();
