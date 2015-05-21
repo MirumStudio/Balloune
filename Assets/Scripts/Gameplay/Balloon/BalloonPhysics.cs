@@ -97,6 +97,7 @@ public class BalloonPhysics : MonoBehaviour
 
 	private void StopIgnoringOtherBalloonCollision()
 	{
+		Debug.Log ("Name : " + mBalloon.name);
 		mBalloon.GameObject.layer = BALLOON_COLLISION_LAYER;
 	}
 
@@ -289,12 +290,14 @@ public class BalloonPhysics : MonoBehaviour
 	
 	public void OnDropBalloon(Enum pEvent, object pBalloon)
 	{
-		mIsTouched = false;
-		StopIgnoringOtherBalloonCollision();
-		mRigidbody2D.drag = 1;
-		mRigidbody2D.gravityScale = -1;
-		
-		EventService.DispatchEvent(EGameEvent.END_PULLING, null);
+		if (((Balloon)pBalloon).Physics == this) {
+			mIsTouched = false;
+			StopIgnoringOtherBalloonCollision();
+			mRigidbody2D.drag = 1;
+			mRigidbody2D.gravityScale = -1;
+			
+			EventService.DispatchEvent(EGameEvent.END_PULLING, null);
+		}
 	}
 
 	public DistanceJoint2D DistanceJoint2D

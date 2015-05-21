@@ -6,7 +6,7 @@ using System;
 using Radix.Utlities;
 
 public class BalloonHolder : MonoBehaviour {
-	public const string GIRL_BALLOON_HOLDER_NAME = "BalloonHolder";
+	public const string BALLOON_HOLDER_NAME = "BalloonHolder";
 
     [SerializeField]
     protected uint m_MaxBalloonCount = 6;
@@ -20,10 +20,9 @@ public class BalloonHolder : MonoBehaviour {
 	[SerializeField]
 	protected GameObject m_RopePrefab;
 
-	[SerializeField]
-	private List<Balloon> mBalloons = new List<Balloon>();
+	protected List<Balloon> mBalloons = new List<Balloon>();
 
-	private GameObject mOwner = null;
+	protected GameObject mOwner = null;
 
 	protected virtual void Start () {
 		BalloonFactory.Init(m_BalloonPrefab, m_Tack);
@@ -40,9 +39,10 @@ public class BalloonHolder : MonoBehaviour {
 
     public void DestroyBalloon(Balloon pBalloon)
     {
-        mBalloons.Remove(pBalloon);
+        DetachBalloon(pBalloon.BalloonIndex);
         Destroy(pBalloon.gameObject);
         Destroy(pBalloon.Physics);
+		EventService.DispatchEvent (EGameEvent.DROP_BALLOON, pBalloon);
         foreach(Balloon balloon in mBalloons)
         {
             balloon.Physics.SetInvulnerable(true);
@@ -59,7 +59,7 @@ public class BalloonHolder : MonoBehaviour {
         }
 	}
 
-    public void CreateBalloon(EBalloonType pType)
+    public virtual void CreateBalloon(EBalloonType pType)
     {
 		if(mBalloons.Count < m_MaxBalloonCount)
 		{
@@ -94,6 +94,7 @@ public class BalloonHolder : MonoBehaviour {
 
 			var rope = ropeManager.CreateRopeForBalloon(balloonObject);
 			ropeManager.AttachRope(balloonObject, rope, m_Tack);
+			balloonObject.transform.parent = this.gameObject.transform;
 
 			mBalloons.Add(balloon);
 		}
@@ -124,7 +125,7 @@ public class BalloonHolder : MonoBehaviour {
 		pBalloon.GameObject.transform.parent = this.gameObject.transform;
 	}
 
-	public void DetachBalloon(int pBalloonToDetach)
+	public virtual void DetachBalloon(int pBalloonToDetach)
 	{
 		mBalloons.RemoveAt (pBalloonToDetach);
 	}
