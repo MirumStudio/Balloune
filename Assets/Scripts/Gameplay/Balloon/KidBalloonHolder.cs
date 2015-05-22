@@ -13,5 +13,17 @@ public class KidBalloonHolder : BalloonHolder
 		base.Start ();
 		m_MaxBalloonCount = 1;
 	}
+
+	protected override void AttachBalloon(Balloon pBalloon)
+	{
+		EventService.DispatchEvent (EGameEvent.BALLOON_GIVEN, pBalloon);
+		base.AttachBalloon (pBalloon);
+	}
+
+	public override void DetachBalloon(int pBalloonToDetach)
+	{
+		EventService.DispatchEvent (EGameEvent.BALLOON_TAKEN, pBalloonToDetach);
+		base.DetachBalloon (pBalloonToDetach);
+	}
 }
 

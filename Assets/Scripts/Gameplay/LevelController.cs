@@ -10,7 +10,8 @@ public class LevelController : BaseView {
     bool mIsFinished = false;
 
 	protected void Start () {
-        EventListener.Register(EGameEvent.CHILD_COLLISION, OnChildCollision);
+		EventListener.Register(EGameEvent.BALLOON_GIVEN, OnBalloonGiven);
+		EventListener.Register(EGameEvent.BALLOON_TAKEN, OnBalloonTaken);
 	}
 	
 	void Update () {
@@ -26,9 +27,13 @@ public class LevelController : BaseView {
         EventService.DispatchEvent(EGameEvent.LEVEL_FINISHED, null);
     }
 
-    private void OnChildCollision(Enum pEnum, System.Object arg)
+    private void OnBalloonGiven(Enum pEnum, object arg)
     {
-        EventService.DispatchEvent(EGameEvent.BALLOON_GIVEN, arg);
         mBalloonGivenCount++;
     }
+
+	private void OnBalloonTaken(Enum pEnum, object arg)
+	{
+		mBalloonGivenCount--;
+	}
 }

@@ -122,7 +122,7 @@ public class BalloonHolder : MonoBehaviour {
 		}
 	}
 
-	private void AttachBalloon(Balloon pBalloon)
+	protected virtual void AttachBalloon(Balloon pBalloon)
 	{
 		pBalloon.SetBalloonIndex (CountBalloons ());
 		pBalloon.SetBalloonHolder (this);
