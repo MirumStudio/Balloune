@@ -18,7 +18,8 @@ public class LifeBehavior : BalloonBehavior
 
     public override void OnPop()
 	{
-		base.OnPop();
+		DestroyObject (mBalloon.GameObject);
+		//base.OnPop();
 		// CheckIfGameOver();
     }
 
