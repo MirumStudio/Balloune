@@ -124,7 +124,7 @@ public class BalloonPhysics : MonoBehaviour
 			mBalloonJoint.enabled = false;
 			mLineRenderer.enabled = false;
 			mIsAttached = false;
-			mBalloonHolder.DetachBalloon(mBalloonIndex);
+			mBalloonHolder.DetachBalloon(mBalloon);
 			mBalloonHolder = null;
 		}
 	}

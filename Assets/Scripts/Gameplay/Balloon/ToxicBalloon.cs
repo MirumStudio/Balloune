@@ -5,9 +5,9 @@ public class ToxicBalloon : Balloon {
 	
 	private const float TOXIC_BALLOON_DISTANCE = 2f;
 
-    override public void Init()
+	override public void Init(EBalloonType pType)
     {
-        base.Init();
+		base.Init(pType);
 		ChangeColor(Color.green);
 		AddBehavior<DetachBehavior>();
 		AddBehavior<AttachBehavior>();

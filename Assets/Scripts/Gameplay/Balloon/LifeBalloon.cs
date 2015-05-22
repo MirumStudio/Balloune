@@ -4,9 +4,9 @@ using System.Collections;
 public class LifeBalloon : Balloon {
 
 	private const float LIFE_BALLOON_DISTANCE = 4f;
-    override public void Init()
+	override public void Init(EBalloonType pType)
     {
-        base.Init();
+		base.Init(pType);
         ChangeColor(Color.red);
         AddBehavior<LifeBehavior>();
         AddBehavior<CharacterPullBehavior>();

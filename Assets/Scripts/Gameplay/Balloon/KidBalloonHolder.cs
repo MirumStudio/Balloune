@@ -20,7 +20,7 @@ public class KidBalloonHolder : BalloonHolder
 		base.AttachBalloon (pBalloon);
 	}
 
-	public override void DetachBalloon(int pBalloonToDetach)
+	public override void DetachBalloon(Balloon pBalloonToDetach)
 	{
 		EventService.DispatchEvent (EGameEvent.BALLOON_TAKEN, pBalloonToDetach);
 		base.DetachBalloon (pBalloonToDetach);

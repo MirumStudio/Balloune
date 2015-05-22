@@ -17,12 +17,13 @@ public abstract class Balloon : MonoBehaviour {
 	private BalloonHolder mBalloonHolder;
 	private int mBalloonIndex;
 
-	virtual public void Init () {
+	virtual public void Init (EBalloonType pType) {
 		mBalloonObject = transform.gameObject;
         mBehaviors = new List<BalloonBehavior>();
         mCircleCollider = GetComponent<CircleCollider2D>();
         mPhysics = GetComponent<BalloonPhysics>();
         AddBehavior<DefaultBehavior>();
+		Type = pType;
 	}
 
     protected void ChangeColor(Color pColor)

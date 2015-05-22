@@ -5,9 +5,9 @@ public class FlyingBalloon : Balloon {
 	
 	private const float FLYING_BALLOON_DISTANCE = 7f;
 	
-	override public void Init()
+	override public void Init(EBalloonType pType)
 	{
-		base.Init();
+		base.Init(pType);
 		ChangeColor(Color.gray);
 		AddBehavior<CharacterPullBehavior>();
 		AddBehavior<FlyingBehavior>();

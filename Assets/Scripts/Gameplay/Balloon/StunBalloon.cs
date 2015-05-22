@@ -5,9 +5,9 @@ public class StunBalloon : Balloon {
 	
 	private const float STUN_BALLOON_DISTANCE = 2f;
 
-    override public void Init()
+	override public void Init(EBalloonType pType)
     {
-        base.Init();
+		base.Init(pType);
 		ChangeColor(Color.yellow);
 		AddBehavior<DetachBehavior>();
 		AddBehavior<AttachBehavior>();

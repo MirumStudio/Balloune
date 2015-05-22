@@ -9,6 +9,7 @@ public class GirlBalloonHolder : BalloonHolder
 {
 	public const string GIRL_BALLOON_HOLDER_NAME = "GirlBalloonHolder";
 	public const int MAX_LIFE_BALLOON = 3;
+	[SerializeField]
 	private int mNumberOfLifeBalloons = 0;
 	protected override void Start()
 	{
@@ -56,12 +57,12 @@ public class GirlBalloonHolder : BalloonHolder
 		return holdsMaximumLifeBalloons;
 	}
 
-	public override void DetachBalloon(int pBalloonToDetach)
+	public override void DetachBalloon(Balloon pBalloonToDetach)
 	{
-		if (pBalloonToDetach.GetType().Equals (EBalloonType.LIFE)) {
+		if (pBalloonToDetach.Type.Equals (EBalloonType.LIFE)) {
 			mNumberOfLifeBalloons--;
 		}
-		mBalloons.RemoveAt (pBalloonToDetach);
+		base.DetachBalloon (pBalloonToDetach);
 	}
 }
 

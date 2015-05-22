@@ -20,6 +20,7 @@ public class BalloonHolder : MonoBehaviour {
 	[SerializeField]
 	protected GameObject m_RopePrefab;
 
+	[SerializeField]
 	protected List<Balloon> mBalloons = new List<Balloon>();
 
 	protected GameObject mOwner = null;
@@ -39,7 +40,7 @@ public class BalloonHolder : MonoBehaviour {
 
     public void DestroyBalloon(Balloon pBalloon)
     {
-        DetachBalloon(pBalloon.BalloonIndex);
+        DetachBalloon(pBalloon);
         Destroy(pBalloon.gameObject);
         Destroy(pBalloon.Physics);
 		EventService.DispatchEvent (EGameEvent.DROP_BALLOON, pBalloon);
@@ -93,7 +94,7 @@ public class BalloonHolder : MonoBehaviour {
 					}
 			}
 			
-			balloon.Init();
+			balloon.Init(pType);
 			var physics = balloonObject.GetComponent<BalloonPhysics>();
 			SetBalloonProperties(balloon, physics, mBalloons.Count);
 
@@ -130,9 +131,9 @@ public class BalloonHolder : MonoBehaviour {
 		pBalloon.GameObject.transform.parent = this.gameObject.transform;
 	}
 
-	public virtual void DetachBalloon(int pBalloonToDetach)
+	public virtual void DetachBalloon(Balloon pBalloonToDetach)
 	{
-		mBalloons.RemoveAt (pBalloonToDetach);
+		mBalloons.Remove (pBalloonToDetach);
 	}
 
 	public int CountBalloons() 
