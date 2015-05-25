@@ -175,13 +175,7 @@ public class BalloonPhysics : MonoBehaviour
         var interactable = pCollision.gameObject.GetComponent<Interactable>();
         if (interactable != null && interactable.GetType() == typeof(HazardousInteractable))
         {
-            interactable.DispacthEvent();
             OnHazardousCollision(interactable as HazardousInteractable);
-            if (interactable.IsPassableThrough)
-            {
-                var interactableCollider = pCollision.gameObject.GetComponent<Collider2D>();
-                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), interactableCollider);
-            }
         }
     }
 
@@ -196,7 +190,6 @@ public class BalloonPhysics : MonoBehaviour
 
     public void PopBalloon()
     {
-		//DetachBalloon ();
         mBalloon.OnPop();
 	}
 	
