@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using Radix.Service;
 using UnityEngine;
-using System.Data;
-using Mono.Data.Sqlite;
+//using System.Data;
+//using Mono.Data.Sqlite;
 using Radix.ErrorMangement;
 
 namespace Radix.DatabaseManagement.Sqlite
@@ -13,14 +13,14 @@ namespace Radix.DatabaseManagement.Sqlite
     public class SqliteService : ServiceBase
     {
         private System.Object mLock = new System.Object();
-        private IDbConnection mDBConnection;
+        //private IDbConnection mDBConnection;
 
         protected override void Init()
         {}
 
         protected override void Dispose()
         {
-            CloseConnection();
+            //CloseConnection();
         }
 
         internal void ExecuteQuery(SQLQuery pQuery)
@@ -33,7 +33,7 @@ namespace Radix.DatabaseManagement.Sqlite
 
         private void ExecuteQueryThreadSafe(SQLQuery pQuery)
         {
-            try
+           /* try
             {
                 OpenConnection(pQuery.GetDatabaseName());
                 var data = ExecuteRequest(pQuery.GetQuery());
@@ -43,10 +43,10 @@ namespace Radix.DatabaseManagement.Sqlite
             catch(Exception exception)
             {
                 Error.Create(exception.Message, EErrorSeverity.MAJOR);
-            }
+            }*/
         }
 
-        private void OpenConnection(string pDBName)
+        /*private void OpenConnection(string pDBName)
         {
             string conn = "URI=file:" + Application.dataPath + "/Databases/" + pDBName + ".db";
             mDBConnection = (IDbConnection)new SqliteConnection(conn);
@@ -110,6 +110,6 @@ namespace Radix.DatabaseManagement.Sqlite
                 mDBConnection.Close();
                 mDBConnection = null;
             }
-        }
+        }*/
     }
 }

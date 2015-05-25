@@ -7,7 +7,7 @@ namespace Radix.Utlities
 {
     public static class EnumUtility
     {
-        public static TAttribute GetAttribute<TAttribute>(this Enum value)
+      /*  public static TAttribute GetAttribute<TAttribute>(this Enum value)
         where TAttribute : Attribute
         {
             var type = value.GetType();
@@ -16,7 +16,7 @@ namespace Radix.Utlities
                 .GetCustomAttributes(false)
                 .OfType<TAttribute>()
                 .SingleOrDefault();
-        }
+        }*/
 
         public static T ObjectToEnum<T>(object o)
         {

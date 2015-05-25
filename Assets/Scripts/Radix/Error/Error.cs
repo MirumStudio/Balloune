@@ -14,7 +14,7 @@ namespace Radix.ErrorMangement
 
         public static void Create(string pMessage, EErrorSeverity pSeverity/* = EErrorSeverity.MINOR*/)
         {
-            StackFrame frame = new StackFrame(1);
+           /* StackFrame frame = new StackFrame(1);
             var method = frame.GetMethod();
             var type = method.DeclaringType;
             var name = method.Name;
@@ -24,7 +24,7 @@ namespace Radix.ErrorMangement
             if (pSeverity != EErrorSeverity.MINOR)
             {
                 UnityEngine.Debug.Break();
-            }
+            }*/
         }
 
         public static void Create(Exception pMessage, EErrorSeverity pSeverity/* = EErrorSeverity.MINOR*/)
