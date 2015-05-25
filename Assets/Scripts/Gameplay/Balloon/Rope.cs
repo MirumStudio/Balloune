@@ -14,23 +14,25 @@ public class Rope : MonoBehaviour
 	private int m_NumberOfHinges = 15;
 
 	private RopeRenderer mRopeRenderer = null;
+	private LineRenderer mLineRenderer = null;
 
 	public Rope (){}
 
-	public void createRope(float pRopeLength)
+	public void CreateRope(float pRopeLength, Vector2 pBasePosition, LineRenderer pLineRenderer)
 	{
 		mRopeLength = pRopeLength;
 		mRopeSegments = new GameObject[m_NumberOfHinges];
 		mLengthOfEachSegment = GetLengthOfEachSegment();
-		CreateRopeSegments ();
+		mLineRenderer = pLineRenderer;
+		CreateRopeSegments (pBasePosition);
 		AttachRopeSegments ();
-		mRopeRenderer = new RopeRenderer (mRopeSegments);
+		mRopeRenderer = new RopeRenderer (mLineRenderer, mRopeSegments);
 	}
 
-	private void CreateRopeSegments()
+	private void CreateRopeSegments(Vector2 pBasePosition)
 	{
 		for (int i = 0; i < m_NumberOfHinges; i++) {
-			GameObject newSegment = PrefabFactory.Instantiate (m_RopeSegmentPrefab, new Vector2 (0, i));
+			GameObject newSegment = PrefabFactory.Instantiate (m_RopeSegmentPrefab, pBasePosition);
 			newSegment.name = "segment" + i;
 			newSegment.transform.parent = this.transform;
 			mRopeSegments [i] = newSegment;
@@ -53,9 +55,9 @@ public class Rope : MonoBehaviour
 		}
 	}
 
-	public void DrawRope(LineRenderer pLineRenderer, HingeJoint2D balloonJoint)
+	public void DrawRope(HingeJoint2D balloonJoint)
 	{
-		mRopeRenderer.DrawRope (pLineRenderer, balloonJoint);
+		mRopeRenderer.DrawRope (balloonJoint);
 	}
 
 	public float GetLengthOfEachSegment()

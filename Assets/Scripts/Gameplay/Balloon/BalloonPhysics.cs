@@ -154,7 +154,7 @@ public class BalloonPhysics : MonoBehaviour
 
     private void UpdateLineRenderer()
     {
-        mRope.DrawRope(mLineRenderer, mBalloonJoint);
+        mRope.DrawRope(mBalloonJoint);
     }
 
     private void CheckIfInvulnerable()
@@ -295,5 +295,10 @@ public class BalloonPhysics : MonoBehaviour
 	public DistanceJoint2D DistanceJoint2D
 	{
 		get { return mDistanceJoint; }
+	}
+
+	public LineRenderer LineRenderer
+	{
+		get { return mLineRenderer; }
 	}
 }

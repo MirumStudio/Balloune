@@ -2,25 +2,27 @@ using UnityEngine;
 
 public class RopeRenderer
 {	
+	private const int Z_AXIS = -9;
 	private HingeJoint2D[] mRopeSegmentsHinges = null;
 	
-	private LineRenderer mLinerenderer = null;
+	private LineRenderer mLineRenderer = null;
+
+	private int vertexCount = 2;
+	private int vertexToDraw = -1;
 	
-	int vertexToDraw = -1;
-	
-	public RopeRenderer (GameObject[] pRopeSegments)
+	public RopeRenderer (LineRenderer pLineRenderer, GameObject[] pRopeSegments)
 	{
+		mLineRenderer = pLineRenderer;
 		mRopeSegmentsHinges = new HingeJoint2D[pRopeSegments.Length];
 		for (int i = 0; i < pRopeSegments.Length; i++) {
 			mRopeSegmentsHinges[i] = pRopeSegments[i].GetComponent<HingeJoint2D>();
 		}
+		vertexCount = mRopeSegmentsHinges.Length + 2;
+		mLineRenderer.SetVertexCount (vertexCount);
 	}
 	
-	public void DrawRope(LineRenderer pLineRenderer, HingeJoint2D balloonJoint)
+	public void DrawRope(HingeJoint2D balloonJoint)
 	{
-		mLinerenderer = pLineRenderer;
-		int vertexCount = mRopeSegmentsHinges.Length + 2;
-		mLinerenderer.SetVertexCount (vertexCount);
 		vertexToDraw = vertexCount - 1;
 		DrawJoint (balloonJoint);
 		for (int i = mRopeSegmentsHinges.Length - 1; i >= 0; i--) {
@@ -43,7 +45,7 @@ public class RopeRenderer
 	
 	private void DrawPosition(Vector2 positionToDraw)
 	{
-		mLinerenderer.SetPosition (vertexToDraw, new Vector3 (positionToDraw.x, positionToDraw.y, -9));
+		mLineRenderer.SetPosition (vertexToDraw, new Vector3 (positionToDraw.x, positionToDraw.y, Z_AXIS));
 		vertexToDraw--;
 	}
 	

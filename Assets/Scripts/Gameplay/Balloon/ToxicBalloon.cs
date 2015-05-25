@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ToxicBalloon : Balloon {
 	
-	private const float TOXIC_BALLOON_DISTANCE = 2f;
+	public const float TOXIC_ROPE_DISTANCE = 2f;
 
 	override public void Init(EBalloonType pType)
     {
@@ -12,7 +12,7 @@ public class ToxicBalloon : Balloon {
 		AddBehavior<DetachBehavior>();
 		AddBehavior<AttachBehavior>();
 		AddBehavior<TriggerableBehavior> ();
-		m_MaxBalloonDistance = TOXIC_BALLOON_DISTANCE;
+		m_MaxRopeDistance = TOXIC_ROPE_DISTANCE;
 	}
 	
 	// Update is called once per frame

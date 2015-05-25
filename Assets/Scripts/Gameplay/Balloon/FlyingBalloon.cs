@@ -3,7 +3,7 @@ using System.Collections;
 
 public class FlyingBalloon : Balloon {
 	
-	private const float FLYING_BALLOON_DISTANCE = 7f;
+	public const float FLYING_ROPE_DISTANCE = 7f;
 	
 	override public void Init(EBalloonType pType)
 	{
@@ -12,7 +12,7 @@ public class FlyingBalloon : Balloon {
 		AddBehavior<CharacterPullBehavior>();
 		AddBehavior<FlyingBehavior>();
 		AddBehavior<TriggerableBehavior>();
-		m_MaxBalloonDistance = FLYING_BALLOON_DISTANCE;
+		m_MaxRopeDistance = FLYING_ROPE_DISTANCE;
 	}
 	
 	// Update is called once per frame

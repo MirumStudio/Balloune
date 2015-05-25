@@ -66,39 +66,16 @@ public class BalloonHolder : MonoBehaviour {
 		{
 			RopeManager ropeManager = new RopeManager (m_RopePrefab, m_Tack);
 
-			var balloonObject = BalloonFactory.CreateBalloon (new Vector2(m_Tack.transform.position.x - (1 * 3), 1.2f));
-
-			Balloon balloon = null;
-			//TODO: Do it in a better way
-			switch(pType)
-			{
-				case EBalloonType.LIFE : 
-					{
-						balloon  = balloonObject.AddComponent<LifeBalloon>();
-						break;
-					}
-				case EBalloonType.TOXIC:
-					{
-						balloon = balloonObject.AddComponent<ToxicBalloon>();
-						break;
-					}
-				case EBalloonType.FLYING:
-					{
-						balloon = balloonObject.AddComponent<FlyingBalloon>();
-						break;
-					}
-				case EBalloonType.STUN:
-					{
-						balloon = balloonObject.AddComponent<StunBalloon>();
-						break;
-					}
-			}
+			Vector2 baseBalloonPosition = GetPositionXOffset(m_Tack.transform.position);
+			Balloon balloon = BalloonFactory.CreateBalloon (pType, baseBalloonPosition);
 			
-			balloon.Init(pType);
+			GameObject balloonObject = balloon.GameObject;
+
 			var physics = balloonObject.GetComponent<BalloonPhysics>();
 			SetBalloonProperties(balloon, physics, mBalloons.Count);
 
-			var rope = ropeManager.CreateRopeForBalloon(balloonObject);
+			LineRenderer balloonLineRenderer = balloonObject.GetComponent<LineRenderer>();
+			Rope rope = ropeManager.CreateRopeForBalloon(balloonLineRenderer, balloonObject);
 			ropeManager.AttachRope(balloonObject, rope, m_Tack);
 			balloonObject.transform.parent = this.gameObject.transform;
 
@@ -157,5 +134,13 @@ public class BalloonHolder : MonoBehaviour {
 	public GameObject Owner
 	{
 		get { return mOwner; }
+	}
+
+	private Vector2 GetPositionXOffset(Vector2 pBasePosition)
+	{
+		Vector2 positionOffset = pBasePosition;
+		//TODO remove the division by two when inflated ballons are not automatically given to the girl
+		positionOffset.x = positionOffset.x + (mBalloons.Count/2);
+		return positionOffset;
 	}
 }

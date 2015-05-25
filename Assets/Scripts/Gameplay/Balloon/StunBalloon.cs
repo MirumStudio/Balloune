@@ -3,7 +3,7 @@ using System.Collections;
 
 public class StunBalloon : Balloon {
 	
-	private const float STUN_BALLOON_DISTANCE = 2f;
+	public const float STUN_ROPE_DISTANCE = 2f;
 
 	override public void Init(EBalloonType pType)
     {
@@ -12,7 +12,7 @@ public class StunBalloon : Balloon {
 		AddBehavior<DetachBehavior>();
 		AddBehavior<AttachBehavior>();
 		AddBehavior<TriggerableBehavior> ();
-		m_MaxBalloonDistance = STUN_BALLOON_DISTANCE;
+		m_MaxRopeDistance = STUN_ROPE_DISTANCE;
 	}
 	
 	// Update is called once per frame
