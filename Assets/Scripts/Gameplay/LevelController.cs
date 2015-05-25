@@ -16,7 +16,7 @@ public class LevelController : BaseView {
 	
 	void Update () {
         if (mBalloonGivenCount >= LevelInfo.ChildCount && !mIsFinished)
-        {
+		{
             OnFinish();
         }
 	}
