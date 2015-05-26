@@ -33,3 +33,8 @@ public enum EGameControl
     RIGHT_PRESSED,
     RIGHT_UP
 }
+
+public enum EGameTrigger
+{
+	LEVEL_END_REACHED
+}

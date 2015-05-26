@@ -12,6 +12,7 @@ public class LevelController : BaseView {
 	protected void Start () {
 		EventListener.Register(EGameEvent.BALLOON_GIVEN, OnBalloonGiven);
 		EventListener.Register(EGameEvent.BALLOON_TAKEN, OnBalloonTaken);
+		EventListener.Register(EGameTrigger.LEVEL_END_REACHED, OnLevelEndReached);
 	}
 	
 	void Update () {
@@ -35,5 +36,10 @@ public class LevelController : BaseView {
 	private void OnBalloonTaken(Enum pEnum, object arg)
 	{
 		mBalloonGivenCount--;
+	}
+
+	private void OnLevelEndReached(Enum pEnum, object arg)
+	{
+		OnFinish ();
 	}
 }
