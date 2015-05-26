@@ -9,7 +9,7 @@ public class GirlBalloonHolder : BalloonHolder
 {
 	public const string GIRL_BALLOON_HOLDER_NAME = "GirlBalloonHolder";
 	public const int MAX_LIFE_BALLOON = 3;
-	[SerializeField]
+
 	private int mNumberOfLifeBalloons = 0;
 	protected override void Start()
 	{

@@ -53,6 +53,12 @@ public class BalloonFactory
 				balloon = balloonObject.AddComponent<StunBalloon>();
 				break;
 			}
+			case EBalloonType.WATER:
+			{
+				balloonObject = InstantiateAtDistance(pPosition, WaterBalloon.WATER_ROPE_DISTANCE);
+				balloon = balloonObject.AddComponent<WaterBalloon>();
+				break;
+			}
 		}
 		
 		balloon.Init(pType);

@@ -20,7 +20,6 @@ public class BalloonHolder : MonoBehaviour {
 	[SerializeField]
 	protected GameObject m_RopePrefab;
 
-	[SerializeField]
 	protected List<Balloon> mBalloons = new List<Balloon>();
 
 	protected GameObject mOwner = null;

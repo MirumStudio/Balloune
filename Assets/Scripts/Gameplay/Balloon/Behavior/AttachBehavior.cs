@@ -4,12 +4,9 @@ using Radix.Event;
 using System;
 
 public class AttachBehavior : BalloonBehavior
-{
-	private BalloonPhysics mPhysics;
-	
+{	
 	protected override void Start () {
 		base.Start ();
-		mPhysics = mBalloon.Physics;
 		EventListener.Register(EGameEvent.DROP_BALLOON, OnDropBalloon);
 	}
 	

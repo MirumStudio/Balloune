@@ -8,7 +8,7 @@ public class FlyingBalloon : Balloon {
 	override public void Init(EBalloonType pType)
 	{
 		base.Init(pType);
-		ChangeColor(Color.gray);
+		ChangeColor(Color.white);
 		AddBehavior<CharacterPullBehavior>();
 		AddBehavior<FlyingBehavior>();
 		AddBehavior<TriggerableBehavior>();

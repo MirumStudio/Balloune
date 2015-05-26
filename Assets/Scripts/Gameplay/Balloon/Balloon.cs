@@ -17,6 +17,8 @@ public abstract class Balloon : MonoBehaviour {
 	private BalloonHolder mBalloonHolder;
 	private int mBalloonIndex;
 
+	public float GravityScale { get; set; }
+
 	virtual public void Init (EBalloonType pType) {
 		mBalloonObject = transform.gameObject;
         mBehaviors = new List<BalloonBehavior>();
@@ -24,6 +26,7 @@ public abstract class Balloon : MonoBehaviour {
         mPhysics = GetComponent<BalloonPhysics>();
         AddBehavior<DefaultBehavior>();
 		Type = pType;
+		GravityScale = -1f;
 	}
 
     protected void ChangeColor(Color pColor)

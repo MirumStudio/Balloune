@@ -43,8 +43,8 @@ public class BalloonPhysics : MonoBehaviour
     void Start()
     {
         mBalloon = GetComponent<Balloon>();
-        mRigidbody2D = GetComponent<Rigidbody2D>();
-        mLineRenderer = GetComponent<LineRenderer>();
+		mRigidbody2D = GetComponent<Rigidbody2D>();
+		mLineRenderer = GetComponent<LineRenderer>();
         mBalloonJoint = GetComponent<HingeJoint2D>();
         mDistanceJoint = GetComponent<DistanceJoint2D>();
         mCircleCollider = GetComponent<CircleCollider2D>();
@@ -286,7 +286,7 @@ public class BalloonPhysics : MonoBehaviour
 			mIsTouched = false;
 			StopIgnoringOtherBalloonCollision();
 			mRigidbody2D.drag = 1;
-			mRigidbody2D.gravityScale = -1;
+			mRigidbody2D.gravityScale = mBalloon.GravityScale;
 			
 			EventService.DispatchEvent(EGameEvent.END_PULLING, null);
 		}

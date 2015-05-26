@@ -9,6 +9,7 @@ using System.Text;
         LIFE,
         TOXIC,
 		FLYING,
-		STUN
+		STUN,
+		WATER
     }
 
