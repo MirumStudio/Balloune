@@ -11,7 +11,7 @@ public class BalloonPhysics : MonoBehaviour
 	private const int PICKEDUP_BALLOON_COLLISION_LAYER = 10;
 
 	private const float MAX_DRAG_VELOCITY = 15f;
-	private const float TIME_TO_DETACH = 1f;
+	private const float TIME_TO_DETACH = 0.35f;
 	
 	[SerializeField]
     public Transform m_Parent = null;
