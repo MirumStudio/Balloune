@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class RopeRenderer
 {	
-	private const int Z_AXIS = -9;
+	private const int Z_AXIS = 3;
 	private HingeJoint2D[] mRopeSegmentsHinges = null;
 	
 	private LineRenderer mLineRenderer = null;
