@@ -42,8 +42,7 @@ public class UIPopupBase : MonoBehaviour {
 
     public void OnRestartClick()
     {
-		//TODO: Restart the current level
-        Application.LoadLevel("Level1_1");
+        Application.LoadLevel(Application.loadedLevelName);
     }
 
     public void OnMainMenuClick()
