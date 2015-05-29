@@ -121,10 +121,11 @@ public class BalloonPhysics : MonoBehaviour
 	{
 		if (mTimePullingAtMaximumDistance >= TIME_TO_DETACH) {
 			mDistanceJoint.enabled = false;
-			mBalloonJoint.enabled = false;
-			mLineRenderer.enabled = false;
+			//mBalloonJoint.enabled = false;
+			//mLineRenderer.enabled = false;
 			mIsAttached = false;
 			mBalloonHolder.DetachBalloon(mBalloon);
+			mRope.Detach();
 			mBalloonHolder = null;
 		}
 	}

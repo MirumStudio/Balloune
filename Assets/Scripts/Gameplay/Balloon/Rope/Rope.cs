@@ -75,5 +75,11 @@ public class Rope : MonoBehaviour
 	{
 		return mRopeSegments[mNumberOfHinges - 1];
 	}
+
+	public void Detach()
+	{
+		mRopeSegments [0].GetComponent<HingeJoint2D> ().enabled = false;
+		mRopeRenderer.Detach ();
+	}
 }
 

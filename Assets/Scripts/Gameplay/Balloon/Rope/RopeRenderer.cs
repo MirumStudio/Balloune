@@ -7,8 +7,10 @@ public class RopeRenderer
 	
 	private LineRenderer mLineRenderer = null;
 
-	private int vertexCount = 2;
-	private int vertexToDraw = -1;
+	private int mVertexCount = 2;
+	private int mVertexToDraw = -1;
+
+	private bool mIsAttached = true;
 	
 	public RopeRenderer (LineRenderer pLineRenderer, GameObject[] pRopeSegments)
 	{
@@ -17,18 +19,20 @@ public class RopeRenderer
 		for (int i = 0; i < pRopeSegments.Length; i++) {
 			mRopeSegmentsHinges[i] = pRopeSegments[i].GetComponent<HingeJoint2D>();
 		}
-		vertexCount = mRopeSegmentsHinges.Length + 2;
-		mLineRenderer.SetVertexCount (vertexCount);
+		mVertexCount = mRopeSegmentsHinges.Length + 2;
+		mLineRenderer.SetVertexCount (mVertexCount);
 	}
 	
 	public void DrawRope(HingeJoint2D balloonJoint)
 	{
-		vertexToDraw = vertexCount - 1;
+		mVertexToDraw = mVertexCount - 1;
 		DrawJoint (balloonJoint);
 		for (int i = mRopeSegmentsHinges.Length - 1; i >= 0; i--) {
 			DrawJoint (mRopeSegmentsHinges[i]);
 		}
-		DrawLastJoint (mRopeSegmentsHinges [0]);
+		if (mIsAttached) {
+			DrawLastJoint (mRopeSegmentsHinges [0]);
+		}
 	}
 
 	private void DrawJoint(HingeJoint2D jointToDraw)
@@ -45,8 +49,8 @@ public class RopeRenderer
 	
 	private void DrawPosition(Vector2 positionToDraw)
 	{
-		mLineRenderer.SetPosition (vertexToDraw, new Vector3 (positionToDraw.x, positionToDraw.y, Z_AXIS));
-		vertexToDraw--;
+		mLineRenderer.SetPosition (mVertexToDraw, new Vector3 (positionToDraw.x, positionToDraw.y, Z_AXIS));
+		mVertexToDraw--;
 	}
 	
 	private Vector2 GetAnchorWorldSpace(HingeJoint2D hingeJoint)
@@ -57,6 +61,12 @@ public class RopeRenderer
 	private Vector2 GetConnectedAnchorWorldSpace(HingeJoint2D hingeJoint, Rigidbody2D connectedBody)
 	{
 		return connectedBody.transform.TransformPoint (hingeJoint.connectedAnchor);
+	}
+
+	public void Detach()
+	{
+		mIsAttached = false;
+		Debug.Log (mIsAttached);
 	}
 }
 
