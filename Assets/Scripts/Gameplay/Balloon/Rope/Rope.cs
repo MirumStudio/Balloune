@@ -10,8 +10,7 @@ public class Rope : MonoBehaviour
 	[SerializeField]
 	private GameObject m_RopeSegmentPrefab = null;
 
-	[SerializeField]
-	private int m_NumberOfHinges = 15;
+	private int mNumberOfHinges = 16;
 
 	private RopeRenderer mRopeRenderer = null;
 	private LineRenderer mLineRenderer = null;
@@ -20,8 +19,10 @@ public class Rope : MonoBehaviour
 
 	public void CreateRope(float pRopeLength, Vector2 pBasePosition, LineRenderer pLineRenderer)
 	{
+		Debug.Log (pRopeLength);
 		mRopeLength = pRopeLength;
-		mRopeSegments = new GameObject[m_NumberOfHinges];
+		mNumberOfHinges = Mathf.CeilToInt(mRopeLength * 4);
+		mRopeSegments = new GameObject[mNumberOfHinges];
 		mLengthOfEachSegment = GetLengthOfEachSegment();
 		mLineRenderer = pLineRenderer;
 		CreateRopeSegments (pBasePosition);
@@ -31,7 +32,7 @@ public class Rope : MonoBehaviour
 
 	private void CreateRopeSegments(Vector2 pBasePosition)
 	{
-		for (int i = 0; i < m_NumberOfHinges; i++) {
+		for (int i = 0; i < mNumberOfHinges; i++) {
 			GameObject newSegment = PrefabFactory.Instantiate (m_RopeSegmentPrefab, pBasePosition);
 			newSegment.name = "segment" + i;
 			newSegment.transform.parent = this.transform;
@@ -62,7 +63,7 @@ public class Rope : MonoBehaviour
 
 	public float GetLengthOfEachSegment()
 	{
-		return (mRopeLength / m_NumberOfHinges) - 0.5f;
+		return (mRopeLength / mNumberOfHinges) - 0.5f;
 	}
 
 	public GameObject GetStartOfRope()
@@ -72,7 +73,7 @@ public class Rope : MonoBehaviour
 
 	public GameObject GetEndOfRope()
 	{
-		return mRopeSegments[m_NumberOfHinges - 1];
+		return mRopeSegments[mNumberOfHinges - 1];
 	}
 }
 
