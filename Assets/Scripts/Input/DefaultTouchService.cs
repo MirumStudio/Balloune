@@ -3,6 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class DefaultTouchService : TouchServiceBase
+public abstract class DefaultTouchService : TouchServiceBase
 {
 }
