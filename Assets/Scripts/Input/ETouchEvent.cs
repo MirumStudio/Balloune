@@ -10,5 +10,7 @@ public enum ETouchEvent
     TAP,
     DOUBLE_TAP,
     CIRCLE_DRAWN,
-    TOUCH_CANCELLED
+    CANCEL,
+    END,
+    MOVE
 }

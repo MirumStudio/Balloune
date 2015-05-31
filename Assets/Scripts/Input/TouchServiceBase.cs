@@ -19,16 +19,12 @@ public abstract class TouchServiceBase : MonoBehaviour
         //throw new NotImplementedException();
     }*/
 
-    int mTouchCount = 0;
+    private Dictionary<TouchPhase, TouchHandler> mTouchPhaseHandlers;
 
-    Dictionary<TouchPhase, TouchHandler> mTouchPhaseHandlers;
-
-    TouchControl mtouh;
+    protected TouchControl mTouchControl;
 
     protected virtual void Start()
     {
-
-        mtouh = new TouchControl();
         mTouchPhaseHandlers = new Dictionary<TouchPhase,TouchHandler>();
         mTouchPhaseHandlers.Add(TouchPhase.Began, OnTouchBegan);
         mTouchPhaseHandlers.Add(TouchPhase.Moved, OnTouchMoved);
@@ -42,7 +38,6 @@ public abstract class TouchServiceBase : MonoBehaviour
         try
         {
             HandleTouch();
-            mtouh.info();
         }
         catch(Exception ex)
         {
@@ -52,12 +47,9 @@ public abstract class TouchServiceBase : MonoBehaviour
 
     protected virtual void HandleTouch()
     {
-        //Debug.Log("----------------------------------------");
         foreach(Touch touch in Input.touches)
         {
-            mtouh.mTouch = touch;
             mTouchPhaseHandlers[touch.phase](touch);
-            
         }
     }
 

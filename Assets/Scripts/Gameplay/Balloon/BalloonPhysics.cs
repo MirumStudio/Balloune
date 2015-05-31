@@ -76,7 +76,7 @@ public class BalloonPhysics : MonoBehaviour
         if (mIsTouched)
         {
             Vector2 currentBalloonPosition = transform.position;
-            Vector2 touchPosition = TouchControl.GetTouchPosition();
+            Vector2 touchPosition = BalloonControl.GetTouchPosition();
             float balloonDistance = GetDistanceBetweenParentAndPosition();
 			if (IsBalloonAtMaximumDistance() == false)
 			{

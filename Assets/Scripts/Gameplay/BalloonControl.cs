@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Radix.Event;
 
 [RequireComponent (typeof(Camera))]
-public class TouchControl : MonoBehaviour {
+public class BalloonControl : MonoBehaviour {
 	private const string BALLOON_IDENTIFIER = "Balloon";
 
 	private GameObject mTouchedBalloonObject = null;
@@ -122,9 +122,12 @@ public class TouchControl : MonoBehaviour {
 
 	private void PickupBalloon()
 	{
-		mTouchedBalloon = mTouchedBalloonObject.GetComponent<Balloon> ();
-		mTouchedBalloonPhysics = mTouchedBalloon.Physics;
-		EventService.DispatchEvent(EGameEvent.PICKUP_BALLOON, mTouchedBalloon);
+        if (mTouchedBalloon == null)
+        {
+            mTouchedBalloon = mTouchedBalloonObject.GetComponent<Balloon>();
+            mTouchedBalloonPhysics = mTouchedBalloon.Physics;
+            EventService.DispatchEvent(EGameEvent.PICKUP_BALLOON, mTouchedBalloon);
+        }
 	}
 
 	private void DropBalloon()
