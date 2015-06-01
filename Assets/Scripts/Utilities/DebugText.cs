@@ -58,4 +58,9 @@ public class DebugText : MonoBehaviour {
         m_Panel.SetActive(!mIsHidding);
         m_ButtonText.text = mIsHidding ? "Show Console" : "Hide Console";
     }
+
+    public void onClearClick()
+    {
+        m_DebugText.text = string.Empty;
+    }
 }
