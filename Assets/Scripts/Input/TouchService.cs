@@ -38,11 +38,13 @@ public class TouchService : DefaultTouchService
     private void DispatchTapEvent()
     {
         EventService.DispatchEvent(ETouchEvent.TAP, mTouchControl.Position);
+        DebugText.Log("TAP");
     }
 
     private void DispatchDoubleTapEvent()
     {
         EventService.DispatchEvent(ETouchEvent.DOUBLE_TAP, mTouchControl.Position);
+        DebugText.Log("DOUBLE TAP");
     }
 
     #endregion
@@ -73,6 +75,7 @@ public class TouchService : DefaultTouchService
     private void DispatchSwipeBeginEvent()
     {
         EventService.DispatchEvent(ETouchEvent.SWIPE_BEGIN, null);
+        DebugText.Log("SWIPE BEGIN");
     }
 
     #endregion
@@ -86,7 +89,11 @@ public class TouchService : DefaultTouchService
         if (IsCurrentTouch(pTouch))
         {
             mTouchControl.UpdateTouch(pTouch);
-            EndSwipe();
+            mTouchControl.OnStationary();
+            if (mTouchControl.IsStationary)
+            {
+                EndSwipe();
+            }
         }
     }
 
@@ -110,6 +117,7 @@ public class TouchService : DefaultTouchService
     private void DispatchTouchEnded()
     {
         EventService.DispatchEvent(ETouchEvent.END, null);
+        DebugText.Log("END");
     }
 
     #endregion
@@ -147,6 +155,7 @@ public class TouchService : DefaultTouchService
     private void DispatchSwipeEndEvent()
     {
         EventService.DispatchEvent(ETouchEvent.SWIPE_END, mTouchControl.SwipeDistance);
+        DebugText.Log("SWIPE_END: " + mTouchControl.SwipeDistance);
     }
     #endregion
 }

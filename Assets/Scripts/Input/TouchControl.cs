@@ -6,10 +6,16 @@ using UnityEngine;
 
 public class TouchControl
 {
+    private const float STATIONARY_AJUST_TIME = 0.02f;
+    private const float STATIONARY_AJUST_TIME_DEBUG = 0.1f;
+    private float mStationaryAjustTime = 0f;
+
     public Touch mTouch;
+    private float mStationaryTime = 0f;
 
     public TouchControl(Touch pTouch)
     {
+        mStationaryAjustTime = Application.isEditor ? STATIONARY_AJUST_TIME_DEBUG : STATIONARY_AJUST_TIME;
         UpdateTouch(pTouch);
         IsSwiping = false;
     }
@@ -36,6 +42,12 @@ public class TouchControl
     private Vector2 mStartSwipePosition;
     private float mSwipeTime;
 
+    //Stationary phase of unity is too sensible
+    public bool IsStationary
+    {
+        get { return mStationaryTime > mStationaryAjustTime; }
+    }
+
     public bool IsSwiping
     {
         private set;
@@ -46,8 +58,13 @@ public class TouchControl
     {
         get
         {
-            return IsSwiping ? Vector2.Distance(mStartSwipePosition, mTouch.position) : 0f ;
+            return IsSwiping ? InternalSwipeDistance() : 0f;
         }
+    }
+
+    private float InternalSwipeDistance()
+    {
+        return Vector2.Distance(mStartSwipePosition, mTouch.position);
     }
 
     public void UpdateTouch(Touch pTouch)
@@ -80,7 +97,7 @@ public class TouchControl
     {
         AddSwipeTime();
 
-        if (mSwipeTime > 0.3f && SwipeDistance > 0f)
+        if (mSwipeTime > 0f && InternalSwipeDistance() > 0f)
         {
             IsSwiping = true;
         }
@@ -94,7 +111,14 @@ public class TouchControl
 
     private void AddSwipeTime()
     {
+        mStationaryTime = 0f;
+
         //DANGEROUS
         mSwipeTime += mTouch.deltaTime;
+    }
+
+    public void OnStationary()
+    {
+        mStationaryTime += mTouch.deltaTime;
     }
 }
