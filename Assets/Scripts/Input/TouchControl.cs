@@ -97,7 +97,7 @@ public class TouchControl
     {
         AddSwipeTime();
 
-        if (mSwipeTime > 0f && InternalSwipeDistance() > 0f)
+        if (mSwipeTime > 0f && InternalSwipeDistance() > Screen.height * 8 / 100) //To change
         {
             IsSwiping = true;
         }

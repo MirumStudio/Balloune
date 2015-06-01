@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Radix.Event;
+using System;
 
 [RequireComponent (typeof(Camera))]
 public class BalloonControl : MonoBehaviour {
@@ -12,7 +13,6 @@ public class BalloonControl : MonoBehaviour {
 	private static Vector2 mWorldPosition;
 
 	private float mMinimumSwipeDistance;
-	private List<Vector3> mTouchPositions = new List<Vector3>();
 	private int mCurrentTouchIndex = -1;
 
 	private float mSwipeSpeedThreshold = 1.2f;
@@ -23,12 +23,59 @@ public class BalloonControl : MonoBehaviour {
 
 	void Start () {
 		mMinimumSwipeDistance = Screen.height * 8 / 100;
+        EventListener.Register(ETouchEvent.TAP, OnTap);
+        EventListener.Register(ETouchEvent.DOUBLE_TAP, OnDoubleTap);
+        EventListener.Register(ETouchEvent.END, OnEndTouch);
+        EventListener.Register(ETouchEvent.SWIPE_BEGIN, OnSwipeBegin);
+        EventListener.Register(ETouchEvent.SWIPE_END, OnSwipeEnd);
 	}
 	
 	void Update () {
-		EvaluateTouchCommand();
+	//	EvaluateTouchCommand();
 	}
 	
+
+    private void OnTap(Enum pEvent, object pArg)
+    {
+        var touchedBallon = GetTouchedBalloon((Vector2)pArg);
+
+        if(touchedBallon != null)
+        {
+            mTouchedBalloonObject = touchedBallon;
+            PickupBalloon();
+        }
+    }
+
+    private void OnDoubleTap(Enum pEvent, object pArg)
+    {
+
+    }
+
+    private void OnEndTouch(Enum pEvent, object pArg)
+    {
+        if (mTouchedBalloonObject != null)
+        {
+            DropBalloon();
+        }
+    }
+
+    private void OnSwipeBegin(Enum pEvent, object pArg)
+    {
+        var lol = (Vector2)pArg;
+        if(mTouchedBalloonObject != null)
+        {
+            mIsJumpCommand = true;
+        }
+    }
+
+    private void OnSwipeEnd(Enum pEvent, object pArg)
+    {
+        if(mTouchedBalloonObject != null)
+        {
+            mIsJumpCommand = false;
+        }
+    }
+
 	private void EvaluateTouchCommand ()
 	{
 		int tapCount = Input.touchCount;
@@ -75,11 +122,6 @@ public class BalloonControl : MonoBehaviour {
 		}
 
 		return mTouchedBalloonObject;
-	}
-
-	public static Vector2 GetTouchPosition()
-	{
-		return mWorldPosition;
 	}
 
 	private bool IsJumpCommand(Touch pTouch)
@@ -139,13 +181,11 @@ public class BalloonControl : MonoBehaviour {
 			mTouchedBalloon = null;
 		}
 		mWorldPosition = Vector2.zero;
-		mTouchPositions.Clear ();
 		mCurrentTouchIndex = -1;
 	}
 
 	private void AddTouch(Touch touch)
 	{
-		mTouchPositions.Add (touch.position);
 		mCurrentTouchIndex++;
 	}
 

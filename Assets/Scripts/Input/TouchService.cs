@@ -11,7 +11,6 @@ public class TouchService : iOSTouchService
 public class TouchService : DefaultTouchService
 #endif
 {
-
     #region TouchBegan
     protected override void OnTouchBegan(Touch pTouch)
     {
@@ -66,21 +65,17 @@ public class TouchService : DefaultTouchService
                 DispatchSwipeBeginEvent();
             }
         }
-        //swipe begin
-
 
         //circle draw update
     }
 
     private void DispatchSwipeBeginEvent()
     {
-        EventService.DispatchEvent(ETouchEvent.SWIPE_BEGIN, null);
+        EventService.DispatchEvent(ETouchEvent.SWIPE_BEGIN, mTouchControl.SwipeDistance);
         DebugText.Log("SWIPE BEGIN");
     }
 
     #endregion
-
-
 
     #region TouchStationary
 

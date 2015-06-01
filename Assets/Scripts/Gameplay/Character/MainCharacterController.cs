@@ -51,7 +51,7 @@ public class MainCharacterController : BaseCharacterController {
 	
 	protected override bool CharacterWantToJump 
 	{
-		get { return TouchControl.IsJumpCommand ();/*return Input.GetKey(KeyCode.Space) || (m_JumpButton != null && m_JumpButton.GetComponent<ButtonOnPressed>().IsPressed);*/}
+        get { return BalloonControl.IsJumpCommand(); }
 	}
 	
 	protected override void UpdateJumping()
