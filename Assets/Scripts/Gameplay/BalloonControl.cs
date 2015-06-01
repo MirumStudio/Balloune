@@ -61,8 +61,7 @@ public class BalloonControl : MonoBehaviour {
 
     private void OnSwipeBegin(Enum pEvent, object pArg)
     {
-        var lol = (Vector2)pArg;
-        if(mTouchedBalloonObject != null)
+        if (mTouchedBalloonObject != null && ((ESwipeDirection)pArg) == ESwipeDirection.UP && mTouchedBalloon.Type == EBalloonType.LIFE)
         {
             mIsJumpCommand = true;
         }

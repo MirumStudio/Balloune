@@ -15,6 +15,7 @@ public class TouchControl
 
     public TouchControl(Touch pTouch)
     {
+        SwipeDirection = ESwipeDirection.NONE;
         mStationaryAjustTime = Application.isEditor ? STATIONARY_AJUST_TIME_DEBUG : STATIONARY_AJUST_TIME;
         UpdateTouch(pTouch);
         IsSwiping = false;
@@ -49,6 +50,12 @@ public class TouchControl
     }
 
     public bool IsSwiping
+    {
+        private set;
+        get;
+    }
+
+    public ESwipeDirection SwipeDirection
     {
         private set;
         get;
@@ -100,6 +107,15 @@ public class TouchControl
         if (mSwipeTime > 0f && InternalSwipeDistance() > Screen.height * 8 / 100) //To change
         {
             IsSwiping = true;
+
+            if( mTouch.position.y > mStartSwipePosition.y)
+            {
+                SwipeDirection = ESwipeDirection.UP;
+            }
+            else
+            {
+                SwipeDirection = ESwipeDirection.NONE;
+            }
         }
     }
 

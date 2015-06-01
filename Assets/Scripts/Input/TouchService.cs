@@ -71,7 +71,7 @@ public class TouchService : DefaultTouchService
 
     private void DispatchSwipeBeginEvent()
     {
-        EventService.DispatchEvent(ETouchEvent.SWIPE_BEGIN, mTouchControl.SwipeDistance);
+        EventService.DispatchEvent(ETouchEvent.SWIPE_BEGIN, mTouchControl.SwipeDirection);
         DebugText.Log("SWIPE BEGIN");
     }
 
