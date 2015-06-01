@@ -4,23 +4,58 @@ using UnityEngine.UI;
 
 public class DebugText : MonoBehaviour {
 
-    private static Text Instance;
+    public GameObject m_Panel;
+    public Text m_DebugText;
+    public Text m_ButtonText;
+
+    private bool mIsHidding = true;
+
+    private static DebugText Instance = null;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
 	void Start () {
-        Instance = GetComponent<Text>();
+        if(Debug.isDebugBuild)
+        {
+            UpdateUI();
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
 	}
 
     public static void Log(string pMessage)
     {
-        Log(pMessage, Color.black);
+        if (Debug.isDebugBuild && !string.IsNullOrEmpty(pMessage) && Instance != null)
+        {
+            Instance.AddText(pMessage);
+            Instance.EndLine();
+        }
     }
 
-    public static void Log(string pMessage, Color pColor)
+    private void AddText(string pMessage)
     {
-        if (Instance != null)
-        {
-            Instance.text = pMessage;
-            Instance.color = pColor;
-        }
+        Instance.m_DebugText.text += pMessage;
+    }
+
+    private void EndLine()
+    {
+        AddText("\n");
+    }
+
+    public void OnButtonClick()
+    {
+        mIsHidding = !mIsHidding;
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        m_Panel.SetActive(!mIsHidding);
+        m_ButtonText.text = mIsHidding ? "Show Console" : "Hide Console";
     }
 }
