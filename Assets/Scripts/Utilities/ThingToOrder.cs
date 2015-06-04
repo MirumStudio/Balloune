@@ -13,4 +13,14 @@ public static class ThingToOrder {
     {
         return value >= min && value <= max;
     }
+
+    public static bool IsBetweenExclusively(this float value, float min, float max)
+    {
+        return value > min && value < max;
+    }
+
+    public static bool IsBetweenInclusively(this float value, float min, float max)
+    {
+        return value >= min && value <= max;
+    }
 }

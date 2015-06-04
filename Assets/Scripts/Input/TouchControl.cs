@@ -41,6 +41,8 @@ public class TouchControl
     private bool mCanBeSwipe = false;
 
     private Vector2 mStartSwipePosition;
+    private Vector2 mLastSwipePosition;
+    private float mSwipeDistance;
     private float mSwipeTime;
 
     //Stationary phase of unity is too sensible
@@ -65,13 +67,8 @@ public class TouchControl
     {
         get
         {
-            return IsSwiping ? InternalSwipeDistance() : 0f;
+            return IsSwiping ? mSwipeDistance : 0f;
         }
-    }
-
-    private float InternalSwipeDistance()
-    {
-        return Vector2.Distance(mStartSwipePosition, mTouch.position);
     }
 
     public void UpdateTouch(Touch pTouch)
@@ -95,26 +92,38 @@ public class TouchControl
     {
         mCanBeSwipe = true;
         mStartSwipePosition = mTouch.position;
-
+        UpdateLastSwipePosition();
+        mSwipeDistance = 0f;
         mSwipeTime = 0f;
         AddSwipeTime();
+        AddSwipeDistance();
     }
 
     private void UpdateSwipe()
     {
         AddSwipeTime();
-
-        if (mSwipeTime > 0f && InternalSwipeDistance() > Screen.height * 8 / 100) //To change
+        AddSwipeDistance();
+        if (mSwipeTime > 0f && mSwipeDistance > Screen.height / 6 && !IsSwiping) //To change
         {
             IsSwiping = true;
 
-            if( mTouch.position.y > mStartSwipePosition.y)
+            var angle = Mathf.Atan2(mTouch.position.y - mStartSwipePosition.y, mTouch.position.x - mStartSwipePosition.x) * 180 / Mathf.PI;
+
+            if(angle.IsBetweenInclusively(30, 150))
             {
                 SwipeDirection = ESwipeDirection.UP;
             }
+            else if (angle.IsBetweenInclusively(-150, -30))
+            {
+                SwipeDirection = ESwipeDirection.DOWN;
+            }
+            else if (angle.IsBetweenInclusively(-30, 30))
+            {
+                SwipeDirection = ESwipeDirection.RIGHT;
+            }
             else
             {
-                SwipeDirection = ESwipeDirection.NONE;
+                SwipeDirection = ESwipeDirection.LEFT;
             }
         }
     }
@@ -128,9 +137,18 @@ public class TouchControl
     private void AddSwipeTime()
     {
         mStationaryTime = 0f;
-
-        //DANGEROUS
         mSwipeTime += mTouch.deltaTime;
+    }
+
+    private void AddSwipeDistance()
+    {
+        mSwipeDistance += mTouch.deltaPosition.magnitude;
+        UpdateLastSwipePosition();
+    }
+
+    private void UpdateLastSwipePosition()
+    {
+        mLastSwipePosition = mTouch.position;
     }
 
     public void OnStationary()
