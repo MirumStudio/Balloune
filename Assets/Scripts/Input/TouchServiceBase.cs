@@ -1,4 +1,5 @@
-﻿using Radix.Service;
+﻿using Radix.ErrorMangement;
+using Radix.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +10,6 @@ using UnityEngine;
 public abstract class TouchServiceBase : MonoBehaviour
 {
     private delegate void TouchHandler(Touch touch);
-  /*  protected override void Init()
-    {
-        //throw new NotImplementedException();
-    }
-
-    protected override void Dispose()
-    {
-        //throw new NotImplementedException();
-    }*/
 
     private Dictionary<TouchPhase, TouchHandler> mTouchPhaseHandlers;
 
@@ -41,7 +33,7 @@ public abstract class TouchServiceBase : MonoBehaviour
         }
         catch(Exception ex)
         {
-
+            Error.Create(ex.Message, EErrorSeverity.CRITICAL);
         }
     }
 
