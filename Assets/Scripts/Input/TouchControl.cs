@@ -14,6 +14,9 @@ public class TouchControl
     private const float SWIPE_MAX_TIME_DEBUG = 0.2f;
     private float mSwipeMaxTime = 0f;
 
+    private const int MIN_ANGLE = 30;
+    private const int MAX_ANGLE = 150;
+
     public Touch mTouch;
     private float mStationaryTime = 0f;
 
@@ -115,15 +118,15 @@ public class TouchControl
 
             var angle = Mathf.Atan2(mTouch.position.y - mStartSwipePosition.y, mTouch.position.x - mStartSwipePosition.x) * 180 / Mathf.PI;
 
-            if(angle.IsBetweenInclusively(30, 150))
+            if (angle.IsBetweenInclusively(MIN_ANGLE, MAX_ANGLE))
             {
                 SwipeDirection = ESwipeDirection.UP;
             }
-            else if (angle.IsBetweenInclusively(-150, -30))
+            else if (angle.IsBetweenInclusively(-MAX_ANGLE, -MIN_ANGLE))
             {
                 SwipeDirection = ESwipeDirection.DOWN;
             }
-            else if (angle.IsBetweenInclusively(-30, 30))
+            else if (angle.IsBetweenInclusively(-MIN_ANGLE, MIN_ANGLE))
             {
                 SwipeDirection = ESwipeDirection.RIGHT;
             }
