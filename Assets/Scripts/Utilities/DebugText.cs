@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class DebugText : MonoBehaviour {
 
@@ -32,7 +33,7 @@ public class DebugText : MonoBehaviour {
     {
         if (Debug.isDebugBuild && !string.IsNullOrEmpty(pMessage) && Instance != null)
         {
-            Instance.AddText(pMessage);
+            Instance.AddText(Time.realtimeSinceStartup.ToString() + "   " + pMessage);
             Instance.EndLine();
         }
     }
