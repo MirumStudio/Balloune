@@ -11,6 +11,31 @@ public class TouchService : iOSTouchService
 public class TouchService : DefaultTouchService
 #endif
 {
+    #region static function
+    private static TouchService mInstance = null;
+
+    public static Vector2 CurrentTouchPosition
+    {
+        get
+        {
+            if (mInstance)
+            {
+                return mInstance.mTouchControl.Position;
+            }
+            else
+            {
+                return Vector2.zero;
+            }
+        }
+    }
+
+    protected override void Start()
+    {
+        mInstance = this;
+        base.Start();
+    }
+    #endregion
+
     #region TouchBegan
     protected override void OnTouchBegan(Touch pTouch)
     {
