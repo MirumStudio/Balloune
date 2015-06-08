@@ -6,6 +6,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using Radix.Service;
+using UnityEngine;
 
 
 namespace Radix.Logging
@@ -14,6 +15,7 @@ namespace Radix.Logging
     internal class LogEntry
     {
         //[DataMember]
+        [SerializeField]
         internal ELogType LogType { get; set; }
 
         //[DataMember]

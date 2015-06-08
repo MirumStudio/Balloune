@@ -1,4 +1,5 @@
-﻿using Radix.Utilities;
+﻿using Radix.Json;
+using Radix.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,10 @@ using System.Text;
 
 namespace Radix.Logging
 {
-    //[DataContract]
     internal class LogFile
     {
         private string LOG_NAME = "Log_{0}h{1}_{2}.txt";
 
-        //[DataMember]
         public IList<LogEntry> LogEntries;
 
         public LogFile()
@@ -22,7 +21,7 @@ namespace Radix.Logging
 
         public void Save()
         {
-          //  JsonUtility.SaveJsonToFile<LogFile>(this, GetLogName());
+            JsonUtility.SaveToFile<LogJsonParser, LogFile>(this, GetLogName());
         }
 
         public void AddLogEntry(LogEntry aLogEntry)
