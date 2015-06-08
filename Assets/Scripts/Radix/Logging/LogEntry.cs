@@ -17,6 +17,9 @@ namespace Radix.Logging
         internal ELogType LogType { get; set; }
 
         //[DataMember]
+        internal ELogCategory Category { get; set; }
+
+        //[DataMember]
         internal string Message { get; set; }
 
         //[DataMember]

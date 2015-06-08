@@ -17,10 +17,20 @@ namespace Radix.Logging
 
         public static void Create(string pMessage, ELogType pType)
         {
+            Create(pMessage, pType, ELogCategory.NONE);
+        }
+
+        public static void Create(string pMessage, ELogCategory pCategory)
+        {
+            Create(pMessage, ELogType.INFO, pCategory);
+        }
+
+        public static void Create(string pMessage, ELogType pType, ELogCategory pCategory)
+        {
             if (UnityEngine.Debug.isDebugBuild && !string.IsNullOrEmpty(pMessage))
             {
                 var creator = new LogCreator();
-                var entry = creator.Create(pMessage, pType);
+                var entry = creator.Create(pMessage, pType, pCategory);
 
                 ShowLog(entry);
 
@@ -49,13 +59,14 @@ namespace Radix.Logging
         LogEntry mEntry;
         string mLastEntry;
 
-        internal LogEntry Create(string pMessage, ELogType pType)
+        internal LogEntry Create(string pMessage, ELogType pType, ELogCategory pCategory)
         {
             mEntry = new LogEntry()
             {
                 LogType = pType,
                 Message = pMessage,
-                Time = DateTime.Now
+                Time = DateTime.Now,
+                Category = pCategory
             };
 
              HandleStackTrace();
