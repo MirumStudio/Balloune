@@ -112,7 +112,7 @@ public class TouchControl
         AddSwipeTime();
         AddSwipeDistance();
 
-        if (mSwipeTime.IsBetweenExclusively(0f, mSwipeMaxTime) && mSwipeDistance > Screen.height / 8 && !IsSwiping) //To change
+        if (mSwipeTime.IsBetweenExclusively(0f, mSwipeMaxTime) && mSwipeDistance > Screen.height / 10 && !IsSwiping) //To change
         {
             IsSwiping = true;
 

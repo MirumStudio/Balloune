@@ -103,7 +103,14 @@ public abstract class BaseCharacterController : MonoBehaviour
 	}
 	
 	protected virtual void UpdateJumping()
-	{	}
+	{
+        if (mInitJumping)
+        {
+            //Character is on the ground
+            mRigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+            mInitJumping = false;
+        }
+    }
 	
 	protected abstract float GetHorizontalAxisValue();
 	

@@ -54,12 +54,12 @@ public class MainCharacterController : BaseCharacterController {
         get { return BalloonControl.IsJumpCommand(); }
 	}
 	
-	protected override void UpdateJumping()
+	/*protected override void UpdateJumping()
 	{
-		mTimeJumpPressed = mTimeJumpPressed + Time.deltaTime;
-		if (CharacterWantToJump) {
-			Jump ();
-		}
+		//mTimeJumpPressed = mTimeJumpPressed + Time.deltaTime;
+		//if (CharacterWantToJump) {
+	    Jump ();
+		//}
 	}
 
 	private void Jump(){
@@ -69,7 +69,7 @@ public class MainCharacterController : BaseCharacterController {
 			mRigidbody2D.AddForce(new Vector2(0f, base.m_JumpForce));
 			mInitJumping = false;
 		}
-		else if(mTimeJumpPressed > 0.1f && mTimeJumpPressed < 0.15f && mCanBoostJump){
+		/*else if(mTimeJumpPressed > 0.1f && mTimeJumpPressed < 0.15f && mCanBoostJump){
 			BoostJump ();
 		}
 	}
@@ -79,7 +79,7 @@ public class MainCharacterController : BaseCharacterController {
 		mRigidbody2D.AddForce(new Vector2(0f, m_BoostedJumpForce));
 		mTimeJumpPressed = 0;
 		mCanBoostJump = false;
-	}
+	}*/
 	
 	protected override float GetHorizontalAxisValue() 
 	{
