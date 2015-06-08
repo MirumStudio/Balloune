@@ -1,29 +1,38 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using UnityEngine;
 
 namespace Radix.Logging
 {
     public enum ELogType
     {
-        [LogTypeAttribute(ELogPriority.MINOR)]
-        INFO,
+        [LogTypeAttribute(ELogPriority.CRITICAL, "red")]
+        ERROR = 0,
+
+        [LogTypeAttribute(ELogPriority.MAJOR, "yellow")]
+        WARNING = 1,
+
+        [LogTypeAttribute(ELogPriority.MINOR, "blue")]
+        DEBUG = 2,
 
         [LogTypeAttribute(ELogPriority.MINOR)]
-        DEBUG,
-
-        [LogTypeAttribute(ELogPriority.MAJOR)]
-        WARNING,
-
-        [LogTypeAttribute(ELogPriority.CRITICAL)]
-        ERROR,
+        INFO = 3,
     }
 
-    public class LogTypeAttribute : Attribute
+    internal class LogTypeAttribute : Attribute
     {
-        internal LogTypeAttribute(ELogPriority aPriority)
+        internal LogTypeAttribute(ELogPriority pPriority)
         {
-            Priority = aPriority;
+            Priority = pPriority;
+            Color = "black";
         }
-        public ELogPriority Priority { get; private set; }
+
+        internal LogTypeAttribute(ELogPriority pPriority, string pColor)
+        {
+            Priority = pPriority;
+            Color = pColor;
+        }
+        internal ELogPriority Priority { get; private set; }
+        internal string Color { get; private set; }
     }
 }

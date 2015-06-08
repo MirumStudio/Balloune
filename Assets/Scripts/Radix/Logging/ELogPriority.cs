@@ -1,7 +1,7 @@
 ﻿
 namespace Radix.Logging
 {
-    public enum ELogPriority
+    internal enum ELogPriority
     {
         MINOR,
         MAJOR,

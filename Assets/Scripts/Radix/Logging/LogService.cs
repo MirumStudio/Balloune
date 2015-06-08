@@ -18,7 +18,7 @@ namespace Radix.Logging
 
         protected override void Dispose()
         {
-            
+        
         }
 
         internal void AddLogEntry(LogEntry aLogEntry)
