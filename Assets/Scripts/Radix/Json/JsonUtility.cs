@@ -25,10 +25,12 @@ namespace Radix.Json
 
         private static void DeleteFileIfExist(string aPath)
         {
+#if !UNITY_WSA && !UNITY_WP8 && !UNITY_WP8_1
             if (File.Exists(aPath))
             {
                 File.Delete(aPath);
             }
+#endif
         }
     }
 }
