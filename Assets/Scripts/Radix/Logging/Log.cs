@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Radix.Utlities;
 
 namespace Radix.Logging
 {
@@ -20,8 +21,24 @@ namespace Radix.Logging
             {
                 var creator = new LogCreator();
                 var entry = creator.Create(pMessage, pType);
-                //UnityEngine.Debug.Log("<color=" + color + ">[" + pType + "]\t" + entry.Message + "</color>");
+
+                ShowLog(entry);
+
                 ServiceManager.Instance.GetService<LogService>().AddLogEntry(entry);
+            }
+        }
+
+        private static void ShowLog(LogEntry pEntry)
+        {
+#if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
+            UnityEngine.Debug.Log("<color=black>[" + pEntry.LogType + "]\t" + pEntry.Message + "</color>");
+#else
+                UnityEngine.Debug.Log("<color=" + pEntry.LogType.GetAttribute<LogTypeAttribute>().Color + ">[" + pEntry.LogType + "]\t" + pEntry.Message + "</color>");
+#endif
+
+            if (pEntry.LogType == ELogType.DEBUG)
+            {
+                DebugText.Log(pEntry.Message);
             }
         }
     }

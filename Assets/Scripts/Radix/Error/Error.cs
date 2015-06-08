@@ -12,22 +12,32 @@ namespace Radix.ErrorMangement
     {
         private Error() { }
 
-        public static void Create(string pMessage, EErrorSeverity pSeverity/* = EErrorSeverity.MINOR*/)
+        public static void Create(string pMessage)
         {
-           /* StackFrame frame = new StackFrame(1);
-            var method = frame.GetMethod();
-            var type = method.DeclaringType;
-            var name = method.Name;
+            Create(pMessage, EErrorSeverity.MINOR);
+        }
 
-            LogEntry.Create(type + "." + name + "\t[" + pSeverity + "]\t" + pMessage, pSeverity.GetAttribute<ErrorSeverityAttribute>().LogType);
+        public static void Create(string pMessage, EErrorSeverity pSeverity)
+        {
+#if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
+            Log.Create(pMessage, ELogType.ERROR);
+#else
+            Log.Create(pMessage, pSeverity.GetAttribute<ErrorSeverityAttribute>().LogType);
+            
+#endif
 
             if (pSeverity != EErrorSeverity.MINOR)
             {
                 UnityEngine.Debug.Break();
-            }*/
+            }
         }
 
-        public static void Create(Exception pMessage, EErrorSeverity pSeverity/* = EErrorSeverity.MINOR*/)
+        public static void Create(Exception pMessage)
+        {
+            Create(pMessage, EErrorSeverity.CRITICAL);
+        }
+
+        public static void Create(Exception pMessage, EErrorSeverity pSeverity)
         {
             Create(pMessage.Message, pSeverity);
         }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Radix.ErrorMangement;
 using Radix.DatabaseManagement.Sqlite;
+using Radix.Logging;
 
 namespace Radix.Service
 {
@@ -49,6 +50,7 @@ namespace Radix.Service
         {
             mServiceTypes.Add(typeof(EventService));
             mServiceTypes.Add(typeof(SqliteService));
+            mServiceTypes.Add(typeof(LogService));
         }
         #endregion
 
