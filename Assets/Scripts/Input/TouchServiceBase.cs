@@ -1,11 +1,14 @@
-﻿using Radix.ErrorMangement;
-using Radix.Service;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
+using Radix.ErrorMangement;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
-
 
 public abstract class TouchServiceBase : MonoBehaviour
 {

@@ -1,8 +1,12 @@
-﻿using Radix.Event;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
+using Radix.Event;
+using Radix.Logging;
 using UnityEngine;
 
 #if UNITY_IOS
@@ -62,13 +66,13 @@ public class TouchService : DefaultTouchService
     private void DispatchTapEvent()
     {
         EventService.DispatchEvent(ETouchEvent.TAP, mTouchControl.Position);
-        DebugText.Log("TAP");
+        Log.Create("Touch Begin: TAP", ELogType.DEBUG);
     }
 
     private void DispatchDoubleTapEvent()
     {
         EventService.DispatchEvent(ETouchEvent.DOUBLE_TAP, mTouchControl.Position);
-        DebugText.Log("Double TAP");
+        Log.Create("Touch begin: DOUBLE TAP", ELogType.DEBUG);
     }
 
     #endregion
@@ -95,7 +99,7 @@ public class TouchService : DefaultTouchService
     private void DispatchSwipeBeginEvent()
     {
         EventService.DispatchEvent(ETouchEvent.SWIPE_BEGIN, mTouchControl.SwipeDirection);
-        DebugText.Log("SWIPE_BEGIN, " + mTouchControl.SwipeDirection.ToString());
+        Log.Create("SWIPE_BEGIN, " + mTouchControl.SwipeDirection.ToString(), ELogType.DEBUG);
     }
 
     #endregion
@@ -133,7 +137,7 @@ public class TouchService : DefaultTouchService
     private void DispatchTouchEnded()
     {
         EventService.DispatchEvent(ETouchEvent.END, null);
-        DebugText.Log("END");
+        Log.Create("TOUCH END", ELogType.DEBUG);
     }
 
     #endregion
@@ -143,6 +147,7 @@ public class TouchService : DefaultTouchService
     protected override void OnTouchCanceled(Touch pTouch)
     {
         //Touch cancelled
+        OnTouchEnded(pTouch);
     }
 
     #endregion
@@ -171,7 +176,7 @@ public class TouchService : DefaultTouchService
     private void DispatchSwipeEndEvent()
     {
         EventService.DispatchEvent(ETouchEvent.SWIPE_END, mTouchControl.SwipeDistance);
-        DebugText.Log("SWIPE_END, " + mTouchControl.SwipeDistance.ToString());
+        Log.Create("SWIPE_END, " + mTouchControl.SwipeDistance.ToString(), ELogType.DEBUG);
     }
     #endregion
 }
