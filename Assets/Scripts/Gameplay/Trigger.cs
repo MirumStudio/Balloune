@@ -1,19 +1,22 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
 using Radix.Event;
+using UnityEngine;
 
 public class Trigger : MonoBehaviour {
 
 	[SerializeField]
 	private EGameTrigger eventToTrigger = EGameTrigger.LEVEL_END_REACHED;
 
-	void Start () {
-	
-	}
-
-	public void OnTriggerEnter2D(Collider2D other)
+	public void OnTriggerEnter2D(Collider2D pOther)
 	{
-		if (other.GetComponent<MainCharacterController>() != null) {
+        if (pOther.GetComponent<MainCharacterController>() != null)
+        {
 			EventService.DispatchEvent(eventToTrigger, null);
 		}
 	}
