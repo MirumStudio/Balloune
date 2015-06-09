@@ -1,42 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Diagnostics;
-using System.Runtime.Serialization;
-using Radix.Service;
-using UnityEngine;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
 
+using System;
 
 namespace Radix.Logging
 {
-   // [DataContract]
     internal class LogEntry
     {
-        //[DataMember]
-        [SerializeField]
         internal ELogType LogType { get; set; }
 
-        //[DataMember]
         internal ELogCategory Category { get; set; }
 
-        //[DataMember]
         internal string Message { get; set; }
 
-        //[DataMember]
         internal string MemberName { get; set; }
 
-        //[DataMember]
         internal string CallerName { get; set; }
 
-        //[DataMember]
         internal int LineNumber { get; set; }
 
-        //[DataMember]
         internal DateTime Time { get; set; }
 
-        //[DataMember]
         internal string[] StackTrace { get; set; }
 
         internal LogEntry(){}

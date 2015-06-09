@@ -1,20 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
+using System;
 using System.Linq;
-using System.Text;
 
 namespace Radix.Utlities
 {
     public static class EnumUtility
     {
-        public static TAttribute GetAttribute<TAttribute>(this Enum value)
+        public static TAttribute GetAttribute<TAttribute>(this Enum pValue)
         where TAttribute : Attribute
         {
 #if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
             return null;
 #else
-            var type = value.GetType();
-            var name = Enum.GetName(type, value);
+            var type = pValue.GetType();
+            var name = Enum.GetName(type, pValue);
             return type.GetField(name)
                 .GetCustomAttributes(false)
                 .OfType<TAttribute>()

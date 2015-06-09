@@ -1,4 +1,11 @@
-﻿using Radix.ErrorMangement;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
+using Radix.ErrorMangement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,58 +20,49 @@ namespace Radix.Event
         private static EventDictionnary mEventDictionnary = new EventDictionnary();
 
         #region Register
-        internal void RegisterEventListener(EventListener _listener)
+        internal void RegisterEventListener(EventListener pListener)
         {
-            Assert.CheckNull(_listener);
+            Assert.CheckNull(pListener);
 
-            if (!mEventDictionnary.ContainsKey(_listener.Event))
+            if (!mEventDictionnary.ContainsKey(pListener.Event))
             {
-                mEventDictionnary[_listener.Event] = new List<EventListener>();
+                mEventDictionnary[pListener.Event] = new List<EventListener>();
             }
 
-            if (!ContainListener(_listener))
+            if (!ContainListener(pListener))
             {
-                mEventDictionnary[_listener.Event].Add(_listener);
+                mEventDictionnary[pListener.Event].Add(pListener);
             }
         }
         #endregion
 
         #region Unregister
-        private void UnregisterEventListener(EventListener _listener, IList<EventListener> _list)
+        private void UnregisterEventListener(EventListener pListener, IList<EventListener> pList)
         {
-            if (_listener != null)
+            if (pListener != null)
             {
-                _listener.Dispose();
-                _list.Remove(_listener);
-                _listener = null;
+                pListener.Dispose();
+                pList.Remove(pListener);
+                pListener = null;
             }
         }
 
-        internal void UnregisterEventListener(Enum _event, Type _listenerParent)
+        internal void UnregisterEventListener(Enum pEvent, Type pListenerParent)
         {
-            if (mEventDictionnary.ContainsKey(_event))
+            if (mEventDictionnary.ContainsKey(pEvent))
             {
-                EventListener eventListener = mEventDictionnary[_event].FirstOrDefault((currentEventListener) => { return currentEventListener.Listener == _listenerParent; });
-                UnregisterEventListener(eventListener, mEventDictionnary[_event]);
+                EventListener eventListener = mEventDictionnary[pEvent].FirstOrDefault((currentEventListener) => { return currentEventListener.Listener == pListenerParent; });
+                UnregisterEventListener(eventListener, mEventDictionnary[pEvent]);
             }
         }
 
-       /* internal void UnregisterAllEventsListeners(Type _listenerParent)
-        {
-            foreach (EventPair eventPair in mEventDictionnary)
-            {
-                EventListener eventListener = eventPair.Value.FirstOrDefault((currentEventListener) => { return currentEventListener.Listener == _listenerParent; });
-                UnregisterEventListener(eventListener, eventPair.Value);
-            }
-        }*/
-
-        internal void UnregisterAllEventsListeners(Type _Event)
+        internal void UnregisterAllEventsListeners(Type pEvent)
         {
             foreach (EventPair eventPair in mEventDictionnary)
             {
                 EventListener eventListener = eventPair.Value.FirstOrDefault((currentEventListener) => 
                 {
-                    return currentEventListener.Event.GetType() == _Event; 
+                    return currentEventListener.Event.GetType() == pEvent; 
                 });
                 UnregisterEventListener(eventListener, eventPair.Value);
             }
@@ -72,33 +70,33 @@ namespace Radix.Event
         #endregion
 
         #region Dispatch
-        internal void DispatchEvent(Enum _event, object _args, Type _listenerType)
+        internal void DispatchEvent(Enum pEvent, object pArgs, Type _listenerType)
         {
-            if (mEventDictionnary.ContainsKey(_event))
+            if (mEventDictionnary.ContainsKey(pEvent))
             {
 
-                foreach (EventListener listener in mEventDictionnary[_event])
+                foreach (EventListener listener in mEventDictionnary[pEvent])
                 {
                     if (_listenerType == null || _listenerType == listener.Listener)
                     {
                         Assert.CheckNull(listener.Callback);
-                        listener.Callback.DynamicInvoke(_event, _args);
+                        listener.Callback.DynamicInvoke(pEvent, pArgs);
                     }
                 }
             }
         }
 
-		internal void DispatchEvent(Enum _event, object _arg1, object _arg2, Type _listenerType)
+        internal void DispatchEvent(Enum pEvent, object pArgs1, object pArgs2, Type pListenerType)
 		{
-			if (mEventDictionnary.ContainsKey(_event))
+            if (mEventDictionnary.ContainsKey(pEvent))
 			{
-				
-				foreach (EventListener listener in mEventDictionnary[_event])
+
+                foreach (EventListener listener in mEventDictionnary[pEvent])
 				{
-					if (_listenerType == null || _listenerType == listener.Listener)
+                    if (pListenerType == null || pListenerType == listener.Listener)
 					{
 						Assert.CheckNull(listener.Callback);
-						listener.Callback.DynamicInvoke(_event, _arg1, _arg2);
+                        listener.Callback.DynamicInvoke(pEvent, pArgs1, pArgs2);
 					}
 				}
 			}
@@ -106,10 +104,10 @@ namespace Radix.Event
         #endregion
 
         #region Utility
-        private bool ContainListener(EventListener _listener)
+        private bool ContainListener(EventListener pListener)
         {
-            Assert.CheckNull(_listener);
-            return (mEventDictionnary[_listener.Event].FirstOrDefault((eventListener) => { return eventListener.Equals(_listener); }) != null);
+            Assert.CheckNull(pListener);
+            return (mEventDictionnary[pListener.Event].FirstOrDefault((eventListener) => { return eventListener.Equals(pListener); }) != null);
         }
         #endregion
     }

@@ -1,4 +1,12 @@
-﻿using System;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
+using Radix.ErrorMangement;
+using System;
 
 namespace Radix.Service
 {
@@ -32,7 +40,7 @@ namespace Radix.Service
             }
             else
             {
-                throw new InvalidOperationException("Invalide Service State");
+                TrowInvalidStateError();
             }
         }
 
@@ -45,7 +53,7 @@ namespace Radix.Service
             }
             else
             {
-                throw new InvalidOperationException("Invalide Service State");
+                TrowInvalidStateError();
             }
         }
 
@@ -58,7 +66,7 @@ namespace Radix.Service
             }
             else
             {
-                throw new InvalidOperationException("Invalide Service State");
+                TrowInvalidStateError();
             }
         }
 
@@ -71,7 +79,7 @@ namespace Radix.Service
             }
             else
             {
-                throw new InvalidOperationException("Invalide Service State");
+                TrowInvalidStateError();
             }
         }
 
@@ -85,13 +93,18 @@ namespace Radix.Service
             }
             else
             {
-                throw new InvalidOperationException("Invalide Service State");
+                TrowInvalidStateError();
             }
         }
 
-        protected bool StateIs(EServiceState _state)
+        protected bool StateIs(EServiceState pState)
         {
-            return State == _state;
+            return State == pState;
+        }
+
+        private void TrowInvalidStateError()
+        {
+            Error.Create("Invalid Service State", EErrorSeverity.CRITICAL);
         }
     }
 }

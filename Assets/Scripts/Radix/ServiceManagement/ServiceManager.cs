@@ -1,11 +1,17 @@
-﻿using Radix.Event;
-using Radix.Utilities;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
+using Radix.DatabaseManagement.Sqlite;
+using Radix.ErrorMangement;
+using Radix.Event;
+using Radix.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Radix.ErrorMangement;
-using Radix.DatabaseManagement.Sqlite;
-using Radix.Logging;
 
 namespace Radix.Service
 {
@@ -51,20 +57,24 @@ namespace Radix.Service
             mServiceTypes.Add(typeof(EventService));
             mServiceTypes.Add(typeof(SqliteService));
             mServiceTypes.Add(typeof(LogService));
+
+            Log.Create("Radix service registered", ELogCategory.RADIX);
         }
         #endregion
 
-        private List<ServiceBase> m_serviceList;
+        private List<ServiceBase> mServiceList;
 
         public void Init()
         {
             if (!mIsInit)
             {
                 RegisterRadixService();
-                m_serviceList = new List<ServiceBase>();
+                mServiceList = new List<ServiceBase>();
                 CreateAllServices();
                 InitAllServices();
                 mIsInit = true;
+
+                Log.Create("ServiceManager initialized", ELogCategory.RADIX);
             }
         }
 
@@ -72,14 +82,16 @@ namespace Radix.Service
         {
             CheckServiceListValidity();
 
-            foreach (ServiceBase service in m_serviceList)
+            foreach (ServiceBase service in mServiceList)
             {
                 StopService(service);
                 service.CallDispose();
             }
 
-            m_serviceList.Clear();
-            m_serviceList = null;
+            mServiceList.Clear();
+            mServiceList = null;
+
+            Log.Create("ServiceManager disposed", ELogCategory.RADIX);
         }
 
 		internal void CreateAllServices()
@@ -95,8 +107,8 @@ namespace Radix.Service
 		internal void InitAllServices()
 		{
 			CheckServiceListValidity();
-			
-			foreach (ServiceBase service in m_serviceList)
+
+            foreach (ServiceBase service in mServiceList)
             {
                 service.CallInit();
             }
@@ -106,7 +118,7 @@ namespace Radix.Service
         {
             CheckServiceListValidity();
 
-            foreach (ServiceBase service in m_serviceList)
+            foreach (ServiceBase service in mServiceList)
             {
                 StartService(service);
             }
@@ -116,7 +128,7 @@ namespace Radix.Service
         {
             CheckServiceListValidity();
 
-            foreach (ServiceBase service in m_serviceList)
+            foreach (ServiceBase service in mServiceList)
             {
                 StopService(service);
             }
@@ -134,26 +146,26 @@ namespace Radix.Service
 
         public T GetService<T>() where T : ServiceBase
         {
-            Assert.CheckNull(m_serviceList);
+            Assert.CheckNull(mServiceList);
 
-            T serviceBase = m_serviceList.FirstOrDefault((service) => service.GetType() == typeof(T)) as T;
+            T serviceBase = mServiceList.FirstOrDefault((service) => service.GetType() == typeof(T)) as T;
 
             Assert.CheckNull(serviceBase, "Cannot find an instance of " + typeof(T).Name);
 
             return serviceBase;
         }
 
-        private void StartService(ServiceBase _service)
+        private void StartService(ServiceBase pService)
         {
-            _service.CallStart();
+            pService.CallStart();
         }
 
-        private void StopService(ServiceBase _service)
+        private void StopService(ServiceBase pService)
         {
-            _service.CallStop();
+            pService.CallStop();
         }
 
-        private void CreateService(Type _serviceType)
+        private void CreateService(Type pServiceType)
         {
             //To think what re the condition to create service
            /* List<EServiceType> types = new List<EServiceType>();
@@ -167,18 +179,13 @@ namespace Radix.Service
                 }
             }*/
 
-            ServiceBase service = Activator.CreateInstance(_serviceType) as ServiceBase;
-            m_serviceList.Add(service);
-        }
-
-        private List<Type> GetAllServiceType()
-        {
-            return TypeUtility.GetAllTypeFromNamespace(typeof(ServiceBase), "Radix");
+            ServiceBase service = Activator.CreateInstance(pServiceType) as ServiceBase;
+            mServiceList.Add(service);
         }
 
         private void CheckServiceListValidity()
         {
-            if(m_serviceList == null)
+            if (mServiceList == null)
             {
                 throw new NullReferenceException("The Service Manager contains no service's instance.");
             }
