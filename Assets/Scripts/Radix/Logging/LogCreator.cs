@@ -30,12 +30,12 @@ namespace Radix.Logging
 
             return mEntry;
         }
-#if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
+#if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1 || UNITY_ANDROID
         private void HandleStackTrace()
         {
             mEntry.StackTrace = new string[0];
-            mEntry.CallerName = "Win8 Error";
-            mEntry.MemberName = "Win8 Error";
+            mEntry.CallerName = "Error";
+            mEntry.MemberName = "Error";
             mEntry.LineNumber = 0;
         }
 #else
@@ -89,7 +89,6 @@ namespace Radix.Logging
             }
             catch(Exception ex)
             {
-                Error.Create(ex.Message, EErrorSeverity.MINOR);
             }
 
             return lineNumber;
