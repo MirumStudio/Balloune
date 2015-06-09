@@ -1,6 +1,10 @@
-using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
+/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
 using Radix.Event;
 using System;
 
@@ -28,17 +32,17 @@ public class LevelController : BaseView {
         EventService.DispatchEvent(EGameEvent.LEVEL_FINISHED, null);
     }
 
-    private void OnBalloonGiven(Enum pEnum, object arg)
+    private void OnBalloonGiven(Enum pEnum, object pArg)
     {
         mBalloonGivenCount++;
     }
 
-	private void OnBalloonTaken(Enum pEnum, object arg)
+    private void OnBalloonTaken(Enum pEnum, object pArg)
 	{
 		mBalloonGivenCount--;
 	}
 
-	private void OnLevelEndReached(Enum pEnum, object arg)
+    private void OnLevelEndReached(Enum pEnum, object pArg)
 	{
 		OnFinish ();
 	}

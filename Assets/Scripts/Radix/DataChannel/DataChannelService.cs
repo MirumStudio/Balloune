@@ -1,9 +1,12 @@
-﻿using Radix.Service;
-using Radix.Utilities;
-using System;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
+using Radix.Service;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Radix.DataChannel
 {
@@ -24,7 +27,7 @@ namespace Radix.DataChannel
         {
             mDataChannelList = new List<DataChannel>();
 
-            List<Type> DataChannelType = GetAllDataChannelType();
+            //List<Type> DataChannelType = GetAllDataChannelType();
             //DataChannelType.ForEach(CreateService);
         }
 
@@ -43,9 +46,9 @@ namespace Radix.DataChannel
             return null;
         }
 
-        private List<Type> GetAllDataChannelType()
+       /* private List<Type> GetAllDataChannelType()
         {
             return TypeUtility.GetAllTypeFromNamespace(typeof(DataChannel), "Radix");
-        }
+        }*/
     }
 }

@@ -1,5 +1,13 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
+using Radix.ErrorMangement;
+using Radix.Logging;
+using UnityEngine;
 
 /*this code come from Unity demo project*/
 
@@ -29,19 +37,19 @@ public class AutoFollow : MonoBehaviour {
 	{
 		if(this.m_Target==null)
 		{
-			Debug.LogError("No target is assigned to the AutoFollow : desactivating the script");
+			Error.Create("No target is assigned to the AutoFollow : desactivating the script");
 			this.enabled=false;
 		}
 		else if(m_Smoothness<=0)
 		{
-			Debug.LogWarning("The smoothness value of AutoFollow is zero or lower. Consider desactivating the script instead.");
+			Log.Create("The smoothness value of AutoFollow is zero or lower. Consider desactivating the script instead.", ELogType.WARNING);
 		}
 		if(!(m_FollowX||m_FollowY||m_FollowZ))
 		{
-			Debug.LogWarning("The AutoFollow do not use any axis, consider desactivating the script.");
+            Log.Create("The AutoFollow do not use any axis, consider desactivating the script.", ELogType.WARNING);
 		}
 	}
-	// Update is called once per frame
+
 	void Update () 
 	{
 		Vector3 target = this.transform.position;

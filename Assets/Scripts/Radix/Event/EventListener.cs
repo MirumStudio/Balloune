@@ -1,37 +1,47 @@
-﻿using Radix.ErrorMangement;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
+using Radix.ErrorMangement;
+using Radix.Logging;
 using System;
 
 namespace Radix.Event
 {
     public class EventListener
     {
-        public static void Register<T>(Enum _event, SingleParamEventReceiverHandler<T> _callback)
+        public static void Register<T>(Enum pEvent, SingleParamEventReceiverHandler<T> pCallback)
         {
-            Assert.CheckNull(_callback);
-            RegisterInternal(_event, _callback);
+            Assert.CheckNull(pCallback);
+            RegisterInternal(pEvent, pCallback);
         }
 
-        public static void Register(Enum _event, SingleParamEventReceiverHandler _callback)
+        public static void Register(Enum pEvent, SingleParamEventReceiverHandler pCallback)
         {
-            Assert.CheckNull(_callback);
-            RegisterInternal(_event, _callback);
+            Assert.CheckNull(pCallback);
+            RegisterInternal(pEvent, pCallback);
         }
 
-		public static void Register(Enum _event, TwoParamEventReceiverHandler _callback)
+        public static void Register(Enum pEvent, TwoParamEventReceiverHandler pCallback)
 		{
-			Assert.CheckNull(_callback);
-			RegisterInternal(_event, _callback);
+            Assert.CheckNull(pCallback);
+            RegisterInternal(pEvent, pCallback);
 		}
 
-        private static void RegisterInternal(Enum _event, Delegate _callback)
+        private static void RegisterInternal(Enum pEvent, Delegate pCallback)
         {
             EventListener eventListener = new EventListener();
-
-            eventListener.Event = _event;
-            eventListener.Listener = _callback.Target.GetType();
-            eventListener.Callback = _callback;
+            
+            eventListener.Event = pEvent;
+            eventListener.Listener = pCallback.Target.GetType();
+            eventListener.Callback = pCallback;
 
             EventService.RegisterEventListener(eventListener);
+
+            Log.Create(pCallback.Target.GetType() + " is listening " + pEvent);
         }
 
         public void Dispose()
@@ -59,11 +69,11 @@ namespace Radix.Event
             private set;
         }
 
-        public bool Equals(EventListener _otherListener)
+        public bool Equals(EventListener pOtherListener)
         {
-            return Event == _otherListener.Event &&
-                   Listener == _otherListener.Listener &&
-                   Callback == _otherListener.Callback;
+            return Event == pOtherListener.Event &&
+                   Listener == pOtherListener.Listener &&
+                   Callback == pOtherListener.Callback;
         }
     }
 }

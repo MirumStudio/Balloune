@@ -1,13 +1,21 @@
-﻿using Radix.Service;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
+using Radix.Logging;
+using Radix.Service;
 using Radix.Utilities;
 using System;
 using UnityEngine;
 
 namespace Radix.Event
 {
-	public delegate void SingleParamEventReceiverHandler(Enum _event, object _args);
-	public delegate void SingleParamEventReceiverHandler<T>(Enum _event, T _args);
-	public delegate void TwoParamEventReceiverHandler(Enum _event, object _arg1, object _arg2);
+    public delegate void SingleParamEventReceiverHandler(Enum pEvent, object pArgs);
+    public delegate void SingleParamEventReceiverHandler<T>(Enum pEvent, T pArgs);
+    public delegate void TwoParamEventReceiverHandler(Enum pEvent, object pArgs1, object pArgs2);
     public class EventService : ServiceBase
     {
         private static EventService instance = null;
@@ -25,15 +33,15 @@ namespace Radix.Event
         private EventDispatcher mInternalEventDispatcher = new EventDispatcher();
         private EventDispatcher mExternalEventDispatcher = new EventDispatcher();
 
-        static internal void RegisterEventListener(EventListener _listener)
+        static internal void RegisterEventListener(EventListener pListener)
         {
-            if (IsInternalEvent(_listener.Event))
+            if (IsInternalEvent(pListener.Event))
             {
-                instance.mInternalEventDispatcher.RegisterEventListener(_listener);
+                instance.mInternalEventDispatcher.RegisterEventListener(pListener);
             }
             else
             {
-                instance.mExternalEventDispatcher.RegisterEventListener(_listener);
+                instance.mExternalEventDispatcher.RegisterEventListener(pListener);
             }
         }
 
@@ -43,39 +51,39 @@ namespace Radix.Event
             instance.mExternalEventDispatcher.UnregisterAllEventsListeners(_listenerParent);
         }*/
 
-        static public void UnregisterAllEventListener(Type _Event)
+        static public void UnregisterAllEventListener(Type pEvent)
         {
-            instance.mInternalEventDispatcher.UnregisterAllEventsListeners(_Event);
-            instance.mExternalEventDispatcher.UnregisterAllEventsListeners(_Event);
+            instance.mInternalEventDispatcher.UnregisterAllEventsListeners(pEvent);
+            instance.mExternalEventDispatcher.UnregisterAllEventsListeners(pEvent);
         }
 
-        static public void DispatchEvent(Enum _event, object _args /*= null*/)
+        static public void DispatchEvent(Enum pEvent, object pArgs /*= null*/)
         {
-            Debug.Log("Dispatch event : " + _event);
-            if (IsInternalEvent(_event))
+            Log.Create("Dispatch event : " + pEvent);
+            if (IsInternalEvent(pEvent))
             {
-                instance.mInternalEventDispatcher.DispatchEvent(_event, _args, null);
+                instance.mInternalEventDispatcher.DispatchEvent(pEvent, pArgs, null);
             }
             else
             {
-                instance.mExternalEventDispatcher.DispatchEvent(_event, _args, null);
+                instance.mExternalEventDispatcher.DispatchEvent(pEvent, pArgs, null);
             }
         }
 
-		static public void DispatchEvent(Enum _event, object _arg1, object _arg2 /*= null*/)
+        static public void DispatchEvent(Enum pEvent, object pArgs1, object pArgs2 /*= null*/)
 		{
-			Debug.Log("Dispatch event : " + _event);
-			if (IsInternalEvent(_event))
+            Log.Create("Dispatch event : " + pEvent);
+            if (IsInternalEvent(pEvent))
 			{
-				instance.mInternalEventDispatcher.DispatchEvent(_event, _arg1, _arg2, null);
+                instance.mInternalEventDispatcher.DispatchEvent(pEvent, pArgs1, pArgs2, null);
 			}
 			else
 			{
-				instance.mExternalEventDispatcher.DispatchEvent(_event, _arg1, _arg2, null);
+                instance.mExternalEventDispatcher.DispatchEvent(pEvent, pArgs1, pArgs2, null);
 			}
 		}
 
-        static private bool IsInternalEvent(Enum _event)
+        static private bool IsInternalEvent(Enum pEvent)
         {
             return false;
             //return TypeUtility.IsInNamespace(_event.GetType(), "InternalEvent");

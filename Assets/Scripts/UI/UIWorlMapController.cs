@@ -1,9 +1,15 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
+using Radix.ErrorMangement;
 using Radix.Event;
 using System;
-using Radix.ErrorMangement;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class UIWorlMapController : MonoBehaviour {
 

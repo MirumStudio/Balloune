@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
+using UnityEngine;
 
 public class CharacterAnimator : MonoBehaviour {
 	
@@ -19,7 +26,7 @@ public class CharacterAnimator : MonoBehaviour {
 		SetAnimationDirection(ANIMATION_RIGHT_DIRECTION);
 	}
 	
-	public void UpdateAnimation(Direction pDirection, bool pIsGrounded, bool mIsRunning)
+	public void UpdateAnimation(Direction pDirection, bool pIsGrounded, bool pIsRunning)
 	{
 		if (pDirection.Edge == EEdge.NONE)
 		{
@@ -28,7 +35,7 @@ public class CharacterAnimator : MonoBehaviour {
 		else
 		{
 			UpdateAnimationDirection(pDirection, pIsGrounded);
-			UpdateAnimationSpeed(mIsRunning);
+            UpdateAnimationSpeed(pIsRunning);
 		}
 	}
 	
