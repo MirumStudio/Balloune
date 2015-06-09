@@ -5,6 +5,7 @@
  * For more information, please see the 'LICENSE.txt', which is part of this source code package.
  */
 
+using Radix.ErrorMangement;
 using System;
 
 namespace Radix.Logging
@@ -78,10 +79,20 @@ namespace Radix.Logging
 
         private int ExtractLine()
         {
-            string line = mLastEntry.Substring(mLastEntry.IndexOf(":") + 1);
+            string line = mLastEntry.Substring(mLastEntry.LastIndexOf(":") + 1);
             line = line.Remove(line.Length - 1);
 
-            return Int32.Parse(line);
+            int lineNumber = 0;
+            try
+            {
+                lineNumber = Int32.Parse(line);
+            }
+            catch(Exception ex)
+            {
+                Error.Create(ex.Message, EErrorSeverity.MINOR);
+            }
+
+            return lineNumber;
         }
 #endif
     }

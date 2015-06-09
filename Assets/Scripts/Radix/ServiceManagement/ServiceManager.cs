@@ -57,8 +57,6 @@ namespace Radix.Service
             mServiceTypes.Add(typeof(EventService));
             mServiceTypes.Add(typeof(SqliteService));
             mServiceTypes.Add(typeof(LogService));
-
-            Log.Create("Radix service registered", ELogCategory.RADIX);
         }
         #endregion
 
