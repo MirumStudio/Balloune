@@ -47,11 +47,11 @@ namespace Radix.Event
             }
         }
 
-        internal void UnregisterEventListener(Enum pEvent, Type pListenerParent)
+        internal void UnregisterEventListener(Enum pEvent, Object pListenerParent)
         {
             if (mEventDictionnary.ContainsKey(pEvent))
             {
-                EventListener eventListener = mEventDictionnary[pEvent].FirstOrDefault((currentEventListener) => { return currentEventListener.Listener == pListenerParent; });
+                EventListener eventListener = mEventDictionnary[pEvent].FirstOrDefault((currentEventListener) => { return currentEventListener.ListenerHashCode == pListenerParent.GetHashCode(); });
                 UnregisterEventListener(eventListener, mEventDictionnary[pEvent]);
             }
         }
@@ -77,7 +77,7 @@ namespace Radix.Event
 
                 foreach (EventListener listener in mEventDictionnary[pEvent])
                 {
-                    if (_listenerType == null || _listenerType == listener.Listener)
+                    if (_listenerType == null || _listenerType == listener.ListenerType)
                     {
                         Assert.CheckNull(listener.Callback);
                         listener.Callback.DynamicInvoke(pEvent, pArgs);
@@ -93,7 +93,7 @@ namespace Radix.Event
 
                 foreach (EventListener listener in mEventDictionnary[pEvent])
 				{
-                    if (pListenerType == null || pListenerType == listener.Listener)
+                    if (pListenerType == null || pListenerType == listener.ListenerType)
 					{
 						Assert.CheckNull(listener.Callback);
                         listener.Callback.DynamicInvoke(pEvent, pArgs1, pArgs2);

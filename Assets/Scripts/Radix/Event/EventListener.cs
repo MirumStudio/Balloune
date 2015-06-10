@@ -9,34 +9,48 @@ using Radix.ErrorMangement;
 using Radix.Logging;
 using System;
 
+#if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
+using System.Reflection;
+#endif
+
 namespace Radix.Event
 {
     public class EventListener
     {
-        public static void Register<T>(Enum pEvent, SingleParamEventReceiverHandler<T> pCallback)
-        {
-            Assert.CheckNull(pCallback);
-            RegisterInternal(pEvent, pCallback);
-        }
-
         public static void Register(Enum pEvent, SingleParamEventReceiverHandler pCallback)
         {
-            Assert.CheckNull(pCallback);
-            RegisterInternal(pEvent, pCallback);
+            Register<SingleParamEventReceiverHandler>(pEvent, pCallback);
         }
 
         public static void Register(Enum pEvent, TwoParamEventReceiverHandler pCallback)
 		{
-            Assert.CheckNull(pCallback);
-            RegisterInternal(pEvent, pCallback);
+            Register<TwoParamEventReceiverHandler>(pEvent, pCallback);
 		}
+
+        public static void Register<T>(Enum pEvent, T pCallback)
+        {
+            Assert.CheckNull(pCallback);
+#if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
+            if (typeof(T).GetTypeInfo().IsSubclassOf(typeof(Delegate)))
+#else
+            if (typeof(T).IsSubclassOf(typeof(Delegate)))
+#endif
+            {
+                RegisterInternal(pEvent, pCallback as Delegate);
+            }
+            else
+            {
+                Error.Create("Callback is not a Delegate", EErrorSeverity.MAJOR);
+            }
+        }
 
         private static void RegisterInternal(Enum pEvent, Delegate pCallback)
         {
             EventListener eventListener = new EventListener();
             
             eventListener.Event = pEvent;
-            eventListener.Listener = pCallback.Target.GetType();
+            eventListener.ListenerType = pCallback.Target.GetType();
+            eventListener.ListenerHashCode = pCallback.Target.GetHashCode();
             eventListener.Callback = pCallback;
 
             EventService.RegisterEventListener(eventListener);
@@ -47,7 +61,8 @@ namespace Radix.Event
         public void Dispose()
         {
             Event = null;
-            Listener = null;
+            ListenerType = null;
+            ListenerHashCode = -1;
             Callback = null;
         }
 
@@ -57,7 +72,13 @@ namespace Radix.Event
             private set;
         }
 
-        public Type Listener
+        public Type ListenerType
+        {
+            get;
+            private set;
+        }
+
+        public int ListenerHashCode
         {
             get;
             private set;
@@ -72,7 +93,7 @@ namespace Radix.Event
         public bool Equals(EventListener pOtherListener)
         {
             return Event == pOtherListener.Event &&
-                   Listener == pOtherListener.Listener &&
+                   ListenerHashCode == pOtherListener.ListenerHashCode &&
                    Callback == pOtherListener.Callback;
         }
     }

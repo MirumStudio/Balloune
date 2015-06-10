@@ -14,7 +14,6 @@ using UnityEngine;
 namespace Radix.Event
 {
     public delegate void SingleParamEventReceiverHandler(Enum pEvent, object pArgs);
-    public delegate void SingleParamEventReceiverHandler<T>(Enum pEvent, T pArgs);
     public delegate void TwoParamEventReceiverHandler(Enum pEvent, object pArgs1, object pArgs2);
     public class EventService : ServiceBase
     {
