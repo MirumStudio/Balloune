@@ -7,6 +7,7 @@
 
 using Radix.ErrorMangement;
 using System;
+using System.Linq;
 #if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
 using System.Reflection;
 #endif
@@ -34,6 +35,7 @@ namespace Radix.Event
                 Error.Create("Event attribute is not a delegate", EErrorSeverity.MAJOR);
             }
         }
+
         public Type Handler { get; private set; }
     }
 }

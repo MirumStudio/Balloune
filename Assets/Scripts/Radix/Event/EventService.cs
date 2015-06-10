@@ -5,11 +5,17 @@
  * For more information, please see the 'LICENSE.txt', which is part of this source code package.
  */
 
+using Radix.ErrorMangement;
 using Radix.Logging;
 using Radix.Service;
 using Radix.Utilities;
 using System;
 using UnityEngine;
+
+
+#if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
+using System.Reflection;
+#endif
 
 namespace Radix.Event
 {
@@ -19,69 +25,86 @@ namespace Radix.Event
     {
         private static EventService instance = null;
 
+        private EventDispatcher mEventDispatcher = new EventDispatcher();
+
+        #region Init
         protected override void Init()
         {
             instance = this;
         }
+        #endregion
 
+        #region Dispose
         protected override void Dispose()
         {
             instance = null;
         }
+        #endregion
 
-        private EventDispatcher mInternalEventDispatcher = new EventDispatcher();
-        private EventDispatcher mExternalEventDispatcher = new EventDispatcher();
-
-        static internal void RegisterEventListener(EventListener pListener)
+        #region Register
+        public static void Register(Enum pEvent, VoidDelegate pCallback)
         {
-            if (IsInternalEvent(pListener.Event))
-            {
-                instance.mInternalEventDispatcher.RegisterEventListener(pListener);
-            }
-            else
-            {
-                instance.mExternalEventDispatcher.RegisterEventListener(pListener);
-            }
-        }
-
-        /*static public void UnregisterAllEventListener(Type _listenerParent)
-        {
-            instance.mInternalEventDispatcher.UnregisterAllEventsListeners(_listenerParent);
-            instance.mExternalEventDispatcher.UnregisterAllEventsListeners(_listenerParent);
-        }*/
-
-        static public void UnregisterAllEventListener(Type pEvent)
-        {
-            instance.mInternalEventDispatcher.UnregisterAllEventsListeners(pEvent);
-            instance.mExternalEventDispatcher.UnregisterAllEventsListeners(pEvent);
-        }
-
-        static public void DispatchEvent(Enum pEvent, params object[] pArgs)
-        {
-            Log.Create("Dispatch event : " + pEvent);
-            if (IsInternalEvent(pEvent))
-            {
-                instance.mInternalEventDispatcher.DispatchEvent(pEvent, pArgs);
-            }
-            else
-            {
-                instance.mExternalEventDispatcher.DispatchEvent(pEvent, pArgs);
-            }
-        }
-        static private bool IsInternalEvent(Enum pEvent)
-        {
-            return false;
-            //return TypeUtility.IsInNamespace(_event.GetType(), "InternalEvent");
+            Register<VoidDelegate>(pEvent, pCallback);
         }
 
         public static void Register<T>(Enum pEvent, T pCallback)
         {
-            EventListener.Register<T>(pEvent, pCallback);
+            Assert.CheckNull(pCallback);
+            if (IsGoodDelegateType(pEvent, typeof(T)))
+            {
+                instance.RegisterInternal(pEvent, pCallback as Delegate);
+            }
+            else
+            {
+                Error.Create("Callback is not a Delegate of the good type", EErrorSeverity.MAJOR);
+            }
         }
 
-        public static void Register(Enum pEvent, VoidDelegate pCallback)
+        private void RegisterInternal(Enum pEvent, Delegate pCallback)
         {
-            EventListener.Register<VoidDelegate>(pEvent, pCallback);
+            var listener = new EventListener(pEvent, pCallback as Delegate);
+            mEventDispatcher.RegisterEventListener(listener);
+
+            Log.Create(pCallback.Target.GetType() + " is listening " + pEvent, ELogCategory.RADIX);
         }
+        #endregion
+
+        #region Unregister
+        static public void UnregisterAllEventListener(Type pEvent)
+        {
+            instance.mEventDispatcher.UnregisterAllEventsListeners(pEvent);
+        }
+
+        static public void UnregisterEventListener(Enum pEvent, System.Object pListenerParent)
+        {
+            instance.mEventDispatcher.UnregisterEventListener(pEvent, pListenerParent);
+        }
+        #endregion
+
+        #region Dispatch
+        static public void DispatchEvent(Enum pEvent, params object[] pArgs)
+        {
+            Log.Create("Dispatch event : " + pEvent, ELogCategory.RADIX);
+
+            instance.mEventDispatcher.DispatchEvent(pEvent, pArgs);
+        }
+        #endregion
+
+        #region Utility
+        private static bool IsGoodDelegateType(Enum pEvent, Type pType)
+        {
+            Type type = null;
+            try
+            {
+                type = pEvent.GetAttribute<EventHandlerAttribute>().Handler;
+            }
+            catch (Exception ex)
+            {
+                Error.Create(ex.Message, EErrorSeverity.MAJOR);
+            }
+
+            return type!= null && type == pType;
+        }
+        #endregion
     }
 }

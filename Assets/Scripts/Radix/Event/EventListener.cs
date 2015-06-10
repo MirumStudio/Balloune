@@ -5,51 +5,18 @@
  * For more information, please see the 'LICENSE.txt', which is part of this source code package.
  */
 
-using Radix.ErrorMangement;
-using Radix.Logging;
 using System;
-using Radix.Utlities;
-
-#if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
-using System.Reflection;
-#endif
-
+using Radix.Utilities;
 namespace Radix.Event
 {
     internal class EventListener
     {
-        internal static void Register<T>(Enum pEvent, T pCallback)
+        internal EventListener(Enum pEvent, Delegate pCallback)
         {
-            
-            Type requireType = pEvent.GetAttribute<EventHandlerAttribute>().Handler;
-
-            Assert.CheckNull(pCallback);
-#if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
-            if (typeof(T).GetTypeInfo().IsSubclassOf(typeof(Delegate)) && typeof(T) == requireType)
-#else
-            if (typeof(T).IsSubclassOf(typeof(Delegate)) && typeof(T) == requireType)
-#endif
-            {
-                RegisterInternal(pEvent, pCallback as Delegate);
-            }
-            else
-            {
-                Error.Create("Callback is not a Delegate", EErrorSeverity.MAJOR);
-            }
-        }
-
-        private static void RegisterInternal(Enum pEvent, Delegate pCallback)
-        {
-            EventListener eventListener = new EventListener();
-            
-            eventListener.Event = pEvent;
-            eventListener.ListenerType = pCallback.Target.GetType();
-            eventListener.ListenerHashCode = pCallback.Target.GetHashCode();
-            eventListener.Callback = pCallback;
-
-            EventService.RegisterEventListener(eventListener);
-
-            Log.Create(pCallback.Target.GetType() + " is listening " + pEvent);
+            Event = pEvent;
+            ListenerType = pCallback.Target.GetType();
+            ListenerHashCode = pCallback.Target.GetHashCode();
+            Callback = pCallback;
         }
 
         public void Dispose()

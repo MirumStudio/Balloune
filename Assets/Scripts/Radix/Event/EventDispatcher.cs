@@ -24,16 +24,26 @@ namespace Radix.Event
         {
             Assert.CheckNull(pListener);
 
-            if (!mEventDictionnary.ContainsKey(pListener.Event))
-            {
-                mEventDictionnary[pListener.Event] = new List<EventListener>();
-            }
+            CheckIfEventExist(pListener.Event);
+            AddListener(pListener);
+        }
 
+        private void CheckIfEventExist(Enum pEvent)
+        {
+            if (!mEventDictionnary.ContainsKey(pEvent))
+            {
+                mEventDictionnary[pEvent] = new List<EventListener>();
+            }
+        }
+
+        private void AddListener(EventListener pListener)
+        {
             if (!ContainListener(pListener))
             {
                 mEventDictionnary[pListener.Event].Add(pListener);
             }
         }
+
         #endregion
 
         #region Unregister
@@ -70,25 +80,36 @@ namespace Radix.Event
         #endregion
 
         #region Dispatch
+        internal void DispatchEvent(Enum pEvent, params object[] pArgs)
+        {
+            DispatchEvent(pEvent, null, pArgs);
+        }
+
         internal void DispatchEvent(Enum pEvent, Type _listenerType, params object[] pArgs)
         {
             if (mEventDictionnary.ContainsKey(pEvent))
             {
-
                 foreach (EventListener listener in mEventDictionnary[pEvent])
                 {
                     if (_listenerType == null || _listenerType == listener.ListenerType)
                     {
                         Assert.CheckNull(listener.Callback);
-                        listener.Callback.DynamicInvoke(pArgs);
+                        InvokeCallback(listener.Callback, pArgs);
                     }
                 }
             }
         }
 
-        internal void DispatchEvent(Enum pEvent, params object[] pArgs)
+        private void InvokeCallback(Delegate pCallback, params object[] pArgs)
         {
-            DispatchEvent(pEvent, null, pArgs);
+            try
+            {
+                pCallback.DynamicInvoke(pArgs);
+            }
+            catch(Exception ex)
+            {
+                Error.Create("Error when attempting to invoke callback: " + ex.Message, EErrorSeverity.CRITICAL);
+            }
         }
         #endregion
 

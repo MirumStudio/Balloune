@@ -6,7 +6,7 @@
  */
 
 using Radix.Logging;
-using Radix.Utlities;
+using Radix.Utilities;
 using System;
 
 namespace Radix.ErrorMangement

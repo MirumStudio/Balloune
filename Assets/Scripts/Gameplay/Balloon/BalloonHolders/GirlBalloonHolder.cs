@@ -6,7 +6,7 @@
  */
 
 using Radix.Event;
-using Radix.Utlities;
+using Radix.Utilities;
 using System;
 
 public class GirlBalloonHolder : BalloonHolder

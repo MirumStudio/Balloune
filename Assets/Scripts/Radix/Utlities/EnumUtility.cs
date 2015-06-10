@@ -12,7 +12,7 @@ using System.Linq;
 using System.Reflection;
 #endif
 
-namespace Radix.Utlities
+namespace Radix.Utilities
 {
     public static class EnumUtility
     {
