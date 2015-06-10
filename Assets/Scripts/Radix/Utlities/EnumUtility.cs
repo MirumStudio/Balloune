@@ -8,6 +8,10 @@
 using System;
 using System.Linq;
 
+#if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
+using System.Reflection;
+#endif
+
 namespace Radix.Utlities
 {
     public static class EnumUtility
@@ -16,7 +20,12 @@ namespace Radix.Utlities
         where TAttribute : Attribute
         {
 #if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
-            return null;
+            var type = pValue.GetType();
+            var name = Enum.GetName(type, pValue);
+            return type.GetTypeInfo().GetDeclaredField(name)
+                .GetCustomAttributes(false)
+                .OfType<TAttribute>()
+                .SingleOrDefault();
 #else
             var type = pValue.GetType();
             var name = Enum.GetName(type, pValue);
