@@ -17,7 +17,7 @@ namespace Radix.Json
             string json = parser.Parse(pObject);
 
             //save (to put in a service or somewhere else
-#if !UNITY_WSA && !UNITY_WP8 && !UNITY_WP8_1
+#if !UNITY_WSA && !UNITY_WP8 && !UNITY_WP8_1 && !UNITY_ANDROID
             DeleteFileIfExist(pPath);
 
             StreamWriter writer = new StreamWriter(pPath);
@@ -28,7 +28,7 @@ namespace Radix.Json
 
         private static void DeleteFileIfExist(string aPath)
         {
-#if !UNITY_WSA && !UNITY_WP8 && !UNITY_WP8_1
+#if !UNITY_WSA && !UNITY_WP8 && !UNITY_WP8_1 && !UNITY_ANDROID
             if (File.Exists(aPath))
             {
                 File.Delete(aPath);

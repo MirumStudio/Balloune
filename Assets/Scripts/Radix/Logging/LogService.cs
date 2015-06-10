@@ -24,7 +24,10 @@ namespace Radix.Logging
         internal void AddLogEntry(LogEntry aLogEntry)
         {
             mLogFile.AddLogEntry(aLogEntry);
-           // mLogFile.Save();
+            if (LogConfig.SAVE_LOG_TO_FILE)
+            {
+                mLogFile.Save();
+            }
         }
     }
 }
