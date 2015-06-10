@@ -5,14 +5,30 @@
  * For more information, please see the 'LICENSE.txt', which is part of this source code package.
  */
 
+using Radix.Event;
+
+public delegate void SwipeBeginHandler(ESwipeDirection pDirection);
+
 public enum ETouchEvent
 {
+    [EventHandlerAttribute(typeof(SwipeBeginHandler))]
     SWIPE_BEGIN,
+
+    [EventHandlerAttribute(typeof(FloatDelegate))]
     SWIPE_END,
+
+    [EventHandlerAttribute(typeof(Vector2Delegate))]
     TAP,
+
+    [EventHandlerAttribute(typeof(Vector2Delegate))]
     DOUBLE_TAP,
-    CIRCLE_DRAWN,
+
+    [EventHandlerAttribute()]
     CANCEL,
+
+    [EventHandlerAttribute()]
     END,
+
+    [EventHandlerAttribute()]
     MOVE
 }

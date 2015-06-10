@@ -58,9 +58,9 @@ public class BalloonPhysics : MonoBehaviour
         //EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
         mainCharacter = mTack.transform.parent;
 		Physics2D.IgnoreCollision(mainCharacter.GetComponent<BoxCollider2D>(), mCircleCollider);
-		EventListener.Register(EGameEvent.PICKUP_BALLOON, OnPickupBalloon);
-		EventListener.Register(EGameEvent.DROP_BALLOON, OnDropBalloon);
-		EventListener.Register(EGameEvent.ATTACH_BALLOON, OnAttachBalloon);
+		EventService.Register<BalloonDelegate>(EGameEvent.PICKUP_BALLOON, OnPickupBalloon);
+        EventService.Register<BalloonDelegate>(EGameEvent.DROP_BALLOON, OnDropBalloon);
+        EventService.Register<AttachBallooonDelegate>(EGameEvent.ATTACH_BALLOON, OnAttachBalloon);
 	}
 	
 	
@@ -134,15 +134,15 @@ public class BalloonPhysics : MonoBehaviour
 		}
 	}
 
-	public void OnAttachBalloon(Enum pEvent, object pBalloon, object pTack)
+	public void OnAttachBalloon(Balloon pBalloon, GameObject pTack)
 	{
-		if(((Balloon) pBalloon) == mBalloon)
+		if(pBalloon == mBalloon)
 		{
 			mDistanceJoint.enabled = true;
 			mBalloonJoint.enabled = true;
 			mLineRenderer.enabled = true;
 			mIsAttached = true;
-			mTack = (GameObject)pTack;
+			mTack = pTack;
 		}
 	}
 
@@ -275,25 +275,27 @@ public class BalloonPhysics : MonoBehaviour
 		}
 	}
 
-	public void OnPickupBalloon(Enum pEvent, object pArg)
+	public void OnPickupBalloon(Balloon pBalloon)
 	{
-		if (mBalloon == (Balloon) pArg) {
+        if (mBalloon == pBalloon)
+        {
 			mIsTouched = true;
 			IgnoreOtherBalloonCollision();
 			mRigidbody2D.gravityScale = 0;
 			mRigidbody2D.drag = 0;
 		}
 	}
-	
-	public void OnDropBalloon(Enum pEvent, object pBalloon)
+
+    public void OnDropBalloon(Balloon pBalloon)
 	{
-		if (((Balloon)pBalloon) == mBalloon) {
+        if (pBalloon == mBalloon)
+        {
 			mIsTouched = false;
 			StopIgnoringOtherBalloonCollision();
 			mRigidbody2D.drag = 1;
 			mRigidbody2D.gravityScale = mBalloon.GravityScale;
 			
-			EventService.DispatchEvent(EGameEvent.END_PULLING, null);
+			EventService.DispatchEvent(EGameEvent.END_PULLING);
 		}
 	}
 

@@ -136,7 +136,7 @@ public class TouchService : DefaultTouchService
 
     private void DispatchTouchEnded()
     {
-        EventService.DispatchEvent(ETouchEvent.END, null);
+        EventService.DispatchEvent(ETouchEvent.END);
         Log.Create("TOUCH END", ELogType.DEBUG);
     }
 

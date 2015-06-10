@@ -56,36 +56,32 @@ namespace Radix.Event
             instance.mExternalEventDispatcher.UnregisterAllEventsListeners(pEvent);
         }
 
-        static public void DispatchEvent(Enum pEvent, object pArgs /*= null*/)
+        static public void DispatchEvent(Enum pEvent, params object[] pArgs)
         {
             Log.Create("Dispatch event : " + pEvent);
             if (IsInternalEvent(pEvent))
             {
-                instance.mInternalEventDispatcher.DispatchEvent(pEvent, pArgs, null);
+                instance.mInternalEventDispatcher.DispatchEvent(pEvent, pArgs);
             }
             else
             {
-                instance.mExternalEventDispatcher.DispatchEvent(pEvent, pArgs, null);
+                instance.mExternalEventDispatcher.DispatchEvent(pEvent, pArgs);
             }
         }
-
-        static public void DispatchEvent(Enum pEvent, object pArgs1, object pArgs2 /*= null*/)
-		{
-            Log.Create("Dispatch event : " + pEvent);
-            if (IsInternalEvent(pEvent))
-			{
-                instance.mInternalEventDispatcher.DispatchEvent(pEvent, pArgs1, pArgs2, null);
-			}
-			else
-			{
-                instance.mExternalEventDispatcher.DispatchEvent(pEvent, pArgs1, pArgs2, null);
-			}
-		}
-
         static private bool IsInternalEvent(Enum pEvent)
         {
             return false;
             //return TypeUtility.IsInNamespace(_event.GetType(), "InternalEvent");
+        }
+
+        public static void Register<T>(Enum pEvent, T pCallback)
+        {
+            EventListener.Register<T>(pEvent, pCallback);
+        }
+
+        public static void Register(Enum pEvent, VoidDelegate pCallback)
+        {
+            EventListener.Register<VoidDelegate>(pEvent, pCallback);
         }
     }
 }

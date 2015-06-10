@@ -14,9 +14,9 @@ public class LevelController : BaseView {
     bool mIsFinished = false;
 
 	protected void Start () {
-		EventListener.Register(EGameEvent.BALLOON_GIVEN, OnBalloonGiven);
-		EventListener.Register(EGameEvent.BALLOON_TAKEN, OnBalloonTaken);
-		EventListener.Register(EGameTrigger.LEVEL_END_REACHED, OnLevelEndReached);
+		EventService.Register<BalloonDelegate>(EGameEvent.BALLOON_GIVEN, OnBalloonGiven);
+		EventService.Register<BalloonDelegate>(EGameEvent.BALLOON_TAKEN, OnBalloonTaken);
+		EventService.Register(EGameTrigger.LEVEL_END_REACHED, OnLevelEndReached);
 	}
 	
 	void Update () {
@@ -29,20 +29,20 @@ public class LevelController : BaseView {
     private void OnFinish()
     {
         mIsFinished = true;
-        EventService.DispatchEvent(EGameEvent.LEVEL_FINISHED, null);
+        EventService.DispatchEvent(EGameEvent.LEVEL_FINISHED);
     }
 
-    private void OnBalloonGiven(Enum pEnum, object pArg)
+    private void OnBalloonGiven(Balloon pBalloon)
     {
         mBalloonGivenCount++;
     }
 
-    private void OnBalloonTaken(Enum pEnum, object pArg)
+    private void OnBalloonTaken(Balloon pBalloon)
 	{
 		mBalloonGivenCount--;
 	}
 
-    private void OnLevelEndReached(Enum pEnum, object pArg)
+    private void OnLevelEndReached()
 	{
 		OnFinish ();
 	}

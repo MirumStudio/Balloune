@@ -8,6 +8,7 @@
 using Radix.ErrorMangement;
 using Radix.Logging;
 using System;
+using Radix.Utlities;
 
 #if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
 using System.Reflection;
@@ -15,25 +16,18 @@ using System.Reflection;
 
 namespace Radix.Event
 {
-    public class EventListener
+    internal class EventListener
     {
-        public static void Register(Enum pEvent, SingleParamEventReceiverHandler pCallback)
+        internal static void Register<T>(Enum pEvent, T pCallback)
         {
-            Register<SingleParamEventReceiverHandler>(pEvent, pCallback);
-        }
+            
+            Type requireType = pEvent.GetAttribute<EventHandlerAttribute>().Handler;
 
-        public static void Register(Enum pEvent, TwoParamEventReceiverHandler pCallback)
-		{
-            Register<TwoParamEventReceiverHandler>(pEvent, pCallback);
-		}
-
-        public static void Register<T>(Enum pEvent, T pCallback)
-        {
             Assert.CheckNull(pCallback);
 #if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
-            if (typeof(T).GetTypeInfo().IsSubclassOf(typeof(Delegate)))
+            if (typeof(T).GetTypeInfo().IsSubclassOf(typeof(Delegate)) && typeof(T) == requireType)
 #else
-            if (typeof(T).IsSubclassOf(typeof(Delegate)))
+            if (typeof(T).IsSubclassOf(typeof(Delegate)) && typeof(T) == requireType)
 #endif
             {
                 RegisterInternal(pEvent, pCallback as Delegate);

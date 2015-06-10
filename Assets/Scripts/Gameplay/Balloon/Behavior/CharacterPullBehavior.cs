@@ -19,10 +19,10 @@ public class CharacterPullBehavior : BalloonBehavior
 		base.Start ();
 		mPhysics = mBalloon.Physics;
         mBalloonHolder = GetComponent<BalloonHolder>();
-        EventListener.Register(EGameEvent.END_PULLING, OnStopPulling);
+        EventService.Register(EGameEvent.END_PULLING, OnStopPulling);
 	}
 
-    public void OnStopPulling(Enum pEvent, object pArg)
+    public void OnStopPulling()
     {
         mCharacterPull = null;
     }

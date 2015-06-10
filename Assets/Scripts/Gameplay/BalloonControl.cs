@@ -20,17 +20,17 @@ public class BalloonControl : MonoBehaviour {
 	private static bool mIsJumpCommand = false;	
 
 	void Start () {
-        EventListener.Register(ETouchEvent.TAP, OnTap);
-        EventListener.Register(ETouchEvent.DOUBLE_TAP, OnDoubleTap);
-        EventListener.Register(ETouchEvent.END, OnEndTouch);
-        EventListener.Register(ETouchEvent.SWIPE_BEGIN, OnSwipeBegin);
-        EventListener.Register(ETouchEvent.SWIPE_END, OnSwipeEnd);
+        EventService.Register<Vector2Delegate>(ETouchEvent.TAP, OnTap);
+        EventService.Register<Vector2Delegate>(ETouchEvent.DOUBLE_TAP, OnDoubleTap);
+        EventService.Register(ETouchEvent.END, OnEndTouch);
+        EventService.Register<SwipeBeginHandler>(ETouchEvent.SWIPE_BEGIN, OnSwipeBegin);
+        EventService.Register<FloatDelegate>(ETouchEvent.SWIPE_END, OnSwipeEnd);
 	}
 	
 
-    private void OnTap(Enum pEvent, object pArg)
+    private void OnTap(Vector2 pPosition)
     {
-        var touchedBallon = GetTouchedBalloon((Vector2)pArg);
+        var touchedBallon = GetTouchedBalloon(pPosition);
 
         if(touchedBallon != null)
         {
@@ -39,12 +39,12 @@ public class BalloonControl : MonoBehaviour {
         }
     }
 
-    private void OnDoubleTap(Enum pEvent, object pArg)
+    private void OnDoubleTap(Vector2 pPosition)
     {
 
     }
 
-    private void OnEndTouch(Enum pEvent, object pArg)
+    private void OnEndTouch()
     {
         if (mTouchedBalloonObject != null)
         {
@@ -52,16 +52,16 @@ public class BalloonControl : MonoBehaviour {
         }
     }
 
-    private void OnSwipeBegin(Enum pEvent, object pArg)
+    private void OnSwipeBegin(ESwipeDirection pDirection)
     {
-        if (mTouchedBalloonObject != null && ((ESwipeDirection)pArg) == ESwipeDirection.UP && mTouchedBalloon.Type == EBalloonType.LIFE
+        if (mTouchedBalloonObject != null && pDirection == ESwipeDirection.UP && mTouchedBalloon.Type == EBalloonType.LIFE
             && TouchService.CurrentTouchPosition.y > mTouchedBalloonObject.transform.position.y)
         {
             mIsJumpCommand = true;
         }
     }
 
-    private void OnSwipeEnd(Enum pEvent, object pArg)
+    private void OnSwipeEnd(float pDistance)
     {
         if(mTouchedBalloonObject != null)
         {

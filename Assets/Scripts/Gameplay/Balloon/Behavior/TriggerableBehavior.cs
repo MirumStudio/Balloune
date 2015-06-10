@@ -12,16 +12,16 @@ public class TriggerableBehavior : BalloonBehavior
 {
 	protected override void Start () {
 		base.Start ();
-		EventListener.Register(EGameEvent.TRIGGER_BALLOON, OnTriggerBalloon);
+        EventService.Register<BalloonDelegate>(EGameEvent.TRIGGER_BALLOON, OnTriggerBalloon);
 	}
 	
 	void Update () {
 		
 	}
 
-	public void OnTriggerBalloon(Enum pEvent, object pBalloon)
+	public void OnTriggerBalloon(Balloon pBalloon)
 	{
-		if (((Balloon)pBalloon).GameObject == mBalloon.GameObject) { //&& !mBalloon.Physics.IsAttached) {
+		if (pBalloon.GameObject == mBalloon.GameObject) { //&& !mBalloon.Physics.IsAttached) {
 			mBalloon.Physics.PopBalloon();
 		}
 	}

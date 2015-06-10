@@ -33,7 +33,7 @@ public class GreyScaler : MonoBehaviour
         mCurrentValue = m_InitialGrayScale;
         mWantedValue = m_InitialGrayScale;
         mStepValue = (1f - m_InitialGrayScale) / LevelInfo.ChildCount;
-        EventListener.Register(EGameEvent.BALLOON_GIVEN, OnBalloonGiven);
+        EventService.Register<BalloonDelegate>(EGameEvent.BALLOON_GIVEN, OnBalloonGiven);
     }
 
     void Update()
@@ -56,7 +56,7 @@ public class GreyScaler : MonoBehaviour
         mRenderer.material.SetFloat(SHADER_MEMBER_NAME, Math.Min(MAX_GRAY_VALUE, pNewValue));
     }
 
-    private void OnBalloonGiven(Enum pEnum, System.Object arg)
+    private void OnBalloonGiven(Balloon pBalloon)
     {
         AddGreyScale(mStepValue);
     }

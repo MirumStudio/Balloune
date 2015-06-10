@@ -13,10 +13,10 @@ public class UIPopupPause : UIPopupBase
     override protected void Start()
     {
         base.Start();
-        EventListener.Register(EGameEvent.DISPLAY_PAUSE_POPUP, OnLevelFinish);
+        EventService.Register(EGameEvent.DISPLAY_PAUSE_POPUP, OnLevelFinish);
     }
 
-    private void OnLevelFinish(Enum pEvent, System.Object pArg)
+    private void OnLevelFinish()
     {
         DisplayPopup();
     }

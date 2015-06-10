@@ -70,7 +70,7 @@ namespace Radix.Event
         #endregion
 
         #region Dispatch
-        internal void DispatchEvent(Enum pEvent, object pArgs, Type _listenerType)
+        internal void DispatchEvent(Enum pEvent, Type _listenerType, params object[] pArgs)
         {
             if (mEventDictionnary.ContainsKey(pEvent))
             {
@@ -80,27 +80,16 @@ namespace Radix.Event
                     if (_listenerType == null || _listenerType == listener.ListenerType)
                     {
                         Assert.CheckNull(listener.Callback);
-                        listener.Callback.DynamicInvoke(pEvent, pArgs);
+                        listener.Callback.DynamicInvoke(pArgs);
                     }
                 }
             }
         }
 
-        internal void DispatchEvent(Enum pEvent, object pArgs1, object pArgs2, Type pListenerType)
-		{
-            if (mEventDictionnary.ContainsKey(pEvent))
-			{
-
-                foreach (EventListener listener in mEventDictionnary[pEvent])
-				{
-                    if (pListenerType == null || pListenerType == listener.ListenerType)
-					{
-						Assert.CheckNull(listener.Callback);
-                        listener.Callback.DynamicInvoke(pEvent, pArgs1, pArgs2);
-					}
-				}
-			}
-		}
+        internal void DispatchEvent(Enum pEvent, params object[] pArgs)
+        {
+            DispatchEvent(pEvent, null, pArgs);
+        }
         #endregion
 
         #region Utility

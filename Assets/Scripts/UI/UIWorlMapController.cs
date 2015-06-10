@@ -15,8 +15,8 @@ public class UIWorlMapController : MonoBehaviour {
 
     public void Start()
     {
-        EventListener.Register(EWorldMapEvent.BEGIN_CHANGE_LEVEL, OnBeginChangeLevel);
-        EventListener.Register(EWorldMapEvent.END_CHANGE_LEVEL, OnEndChangeLevel);
+        EventService.Register<IntDelegate>(EWorldMapEvent.BEGIN_CHANGE_LEVEL, OnBeginChangeLevel);
+        EventService.Register<EndChangeLevelHandler>(EWorldMapEvent.END_CHANGE_LEVEL, OnEndChangeLevel);
     }
 
     public void FadeOut()
@@ -38,14 +38,13 @@ public class UIWorlMapController : MonoBehaviour {
         FadeIn();
     }
 
-    public void OnBeginChangeLevel(Enum pEvent, object pArgs)
+    public void OnBeginChangeLevel(int pWantedLevel)
     {
         FadeOut();
     }
 
-    public void OnEndChangeLevel(Enum pEvent, object pArgs)
+    public void OnEndChangeLevel(LevelPoint pLevel)
     {
-		Assert.Check(pArgs is LevelPoint);
-        ChangeLevel(pArgs as LevelPoint);
+        ChangeLevel(pLevel);
     }
 }

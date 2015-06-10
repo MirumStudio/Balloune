@@ -35,8 +35,8 @@ public class MainCharacterController : BaseCharacterController {
 		mAnimator=GetComponent<CharacterAnimator>();
 		mBalloonHolder = GameObject.Find (GirlBalloonHolder.GIRL_BALLOON_HOLDER_NAME).GetComponent<BalloonHolder>();
 
-        EventListener.Register(EGameEvent.BEGIN_PULLING, OnBeginPulling);
-        EventListener.Register(EGameEvent.END_PULLING, OnStopPulling);
+        EventService.Register<CharacterPullDelegate>(EGameEvent.BEGIN_PULLING, OnBeginPulling);
+        EventService.Register(EGameEvent.END_PULLING, OnStopPulling);
 	}
 	
 	protected override void Update (){
@@ -138,12 +138,12 @@ public class MainCharacterController : BaseCharacterController {
 		}
 	}
 
-    public void OnBeginPulling(Enum pEvent, object pArg)
+    public void OnBeginPulling(CharacterPull pArg)
     {
-        mCurrentPull = pArg as CharacterPull;
+        mCurrentPull = pArg;
     }
 
-    public void OnStopPulling(Enum pEvent, object pArg)
+    public void OnStopPulling()
     {
         mCurrentPull = null;
     }

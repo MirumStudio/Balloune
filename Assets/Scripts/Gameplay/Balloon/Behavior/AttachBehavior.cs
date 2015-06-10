@@ -13,7 +13,7 @@ public class AttachBehavior : BalloonBehavior
 {	
 	protected override void Start () {
 		base.Start ();
-		EventListener.Register(EGameEvent.DROP_BALLOON, OnDropBalloon);
+		EventService.Register<BalloonDelegate>(EGameEvent.DROP_BALLOON, OnDropBalloon);
 	}
 	
 	void Update () {
@@ -24,9 +24,9 @@ public class AttachBehavior : BalloonBehavior
 
 	}
 	
-	private void OnDropBalloon(Enum pEvent, object pBalloon)
+	private void OnDropBalloon(Balloon pBalloon)
 	{
-		if (((Balloon) pBalloon).GameObject == mBalloon.GameObject) {
+		if (pBalloon.GameObject == mBalloon.GameObject) {
 			Vector2 position = transform.position;
 			EventService.DispatchEvent(EGameEvent.ATTEMPT_ATTACH_BALLOON, pBalloon, position);
 		}

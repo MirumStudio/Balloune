@@ -6,6 +6,7 @@
  */
 
 using Radix.ErrorMangement;
+using Radix.Event;
 using UnityEngine;
 
 public class LevelPointController : MonoBehaviour {

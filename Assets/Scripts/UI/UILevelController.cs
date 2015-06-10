@@ -12,29 +12,28 @@ using UnityEngine;
 public class UILevelController : MonoBehaviour {
 
 	void Start () {
-        EventListener.Register(EGameEvent.POPUP_DISPLAYED, OnPopupDisplayed);
-        EventListener.Register(EGameEvent.POPUP_HIDED, OnPopupHided);
+        EventService.Register<PopupDelegate>(EGameEvent.POPUP_DISPLAYED, OnPopupDisplayed);
+        EventService.Register<PopupDelegate>(EGameEvent.POPUP_HIDED, OnPopupHided);
 	}
 
-    private void OnPopupDisplayed(Enum pEvent, System.Object pArg)
+    private void OnPopupDisplayed(UIPopupBase pArg)
     {
         gameObject.SetActive(false);
     }
 
-    private void OnPopupHided(Enum pEvent, System.Object pArg)
+    private void OnPopupHided(UIPopupBase pArg)
     {
         gameObject.SetActive(true);
     }
 
     public void OnPauseClick()
     {
-        EventService.DispatchEvent(EGameEvent.DISPLAY_PAUSE_POPUP, null);
+        EventService.DispatchEvent(EGameEvent.DISPLAY_PAUSE_POPUP);
     }
 
     void OnDestroy()
     {
         EventService.UnregisterAllEventListener(typeof(EGameEvent));
-        EventService.UnregisterAllEventListener(typeof(EGameControl));
         EventService.UnregisterAllEventListener(typeof(ETouchEvent));
     }
 }

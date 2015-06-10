@@ -18,7 +18,7 @@ public class GirlBalloonHolder : BalloonHolder
 	protected override void Start()
 	{
 		base.Start ();
-		EventListener.Register(EGameEvent.INFLATE_BALLOON, OnInflateBalloon);
+        EventService.Register<BalloonTypeDelegate>(EGameEvent.INFLATE_BALLOON, OnInflateBalloon);
 		
 		for (int i = 0; i < MAX_LIFE_BALLOON; i++)
 		{
@@ -26,11 +26,9 @@ public class GirlBalloonHolder : BalloonHolder
 		}
 	}
 
-	private void OnInflateBalloon(Enum pEvent, object pArg)
-	{
-		var type = EnumUtility.ObjectToEnum<EBalloonType>(pArg);
-		
-		CreateBalloon(type);
+    private void OnInflateBalloon(EBalloonType pType)
+	{	
+		CreateBalloon(pType);
 	}
 
 	public override void CreateBalloon(EBalloonType pType)

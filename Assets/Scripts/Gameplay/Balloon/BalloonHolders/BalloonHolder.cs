@@ -32,7 +32,7 @@ public class BalloonHolder : MonoBehaviour {
 	protected virtual void Start () {
 		BalloonFactory.Init(m_BalloonPrefab, m_Tack);
 		mOwner = m_Tack.transform.parent.gameObject;
-		EventListener.Register(EGameEvent.ATTEMPT_ATTACH_BALLOON, OnAttemptAttachBalloon);
+        EventService.Register<AttempAttachBallooonDelegate>(EGameEvent.ATTEMPT_ATTACH_BALLOON, OnAttemptAttachBalloon);
 	}
 	
 	private void SetBalloonProperties(Balloon pBalloon, BalloonPhysics pPhysic, int pBalloonIndex)
@@ -55,12 +55,12 @@ public class BalloonHolder : MonoBehaviour {
 
         if (GetLifeBalloonCount() <= 0)
         {
-            EventService.DispatchEvent(EGameEvent.GAME_OVER, null);
+            EventService.DispatchEvent(EGameEvent.GAME_OVER);
         }
 
         if (GetLifeBalloonCount() <= 0)
         {
-            EventService.DispatchEvent(EGameEvent.GAME_OVER, null);
+            EventService.DispatchEvent(EGameEvent.GAME_OVER);
         }
 	}
 
@@ -87,16 +87,16 @@ public class BalloonHolder : MonoBehaviour {
 		}
     }
 
-	public void OnAttemptAttachBalloon(Enum pEvent, object pBalloon, object pPosition)
+	public void OnAttemptAttachBalloon(Balloon pBalloon, Vector2 pPosition)
 	{
 		if (CountBalloons () < m_MaxBalloonCount) {
-			Collider2D[] touchedColliders = Physics2D.OverlapCircleAll ((Vector2)pPosition,  1f);
+			Collider2D[] touchedColliders = Physics2D.OverlapCircleAll (pPosition,  1f);
 			Collider2D thisCollider = m_Tack.transform.parent.GetComponent<Collider2D> ();
 			for(int i = 0; i < touchedColliders.Length; i++)
 			{
 				if(touchedColliders[i] == thisCollider)
 				{
-					AttachBalloon ((Balloon) pBalloon);
+					AttachBalloon (pBalloon);
 					EventService.DispatchEvent(EGameEvent.ATTACH_BALLOON, pBalloon, m_Tack);
 					break;
 				}

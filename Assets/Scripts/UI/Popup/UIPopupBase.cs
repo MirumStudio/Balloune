@@ -8,6 +8,8 @@
 using Radix.Event;
 using UnityEngine;
 
+public delegate void PopupDelegate(UIPopupBase pPopup);
+
 //TODO: implement better popup system with priorities
 public class UIPopupBase : MonoBehaviour {
 

@@ -38,7 +38,7 @@ public class WordlMapCharacter : MonoBehaviour {
     }
 
 	void Start () {
-        EventListener.Register(EWorldMapEvent.WANT_CHANGE_LEVEL, OnPlayerWantToChangeLevel);
+        EventService.Register<IntDelegate>(EWorldMapEvent.WANT_CHANGE_LEVEL, OnPlayerWantToChangeLevel);
         mLevelPointList = m_LevelPointListParent.GetComponent<LevelPointController>();
         mCurrentLevel = 0; //TODO : load on database
 	}
@@ -60,16 +60,12 @@ public class WordlMapCharacter : MonoBehaviour {
         }
 	}
 
-    public void OnPlayerWantToChangeLevel(System.Enum pEvent, object pArg)
+    public void OnPlayerWantToChangeLevel(int pWantedLevel)
     {
-        Assert.CheckNull(pArg);
-        Assert.Check(pArg is int);
-
-        int wantedLevel = (int)pArg;
-        if(wantedLevel != mCurrentLevel && !mIsMoving)
+        if (pWantedLevel != mCurrentLevel && !mIsMoving)
         {
-            EventService.DispatchEvent(EWorldMapEvent.BEGIN_CHANGE_LEVEL, wantedLevel);
-            mFinalDestination = wantedLevel;
+            EventService.DispatchEvent(EWorldMapEvent.BEGIN_CHANGE_LEVEL, pWantedLevel);
+            mFinalDestination = pWantedLevel;
             ChangeLevel();
         }
     }

@@ -5,39 +5,77 @@
  * For more information, please see the 'LICENSE.txt', which is part of this source code package.
  */
 
+using Radix.Event;
+using UnityEngine;
+
+public delegate void InteractableDelegate(Interactable pArg);
+public delegate void BalloonDelegate(Balloon pArg);
+public delegate void BalloonTypeDelegate(EBalloonType pArg);
+public delegate void CharacterPullDelegate(CharacterPull pPull);
+public delegate void AttempAttachBallooonDelegate(Balloon pBalloon, Vector2 pVec);
+public delegate void AttachBallooonDelegate(Balloon pBalloon, GameObject pArg);
+
 public enum EGameEvent 
 {
+    [EventHandlerAttribute(typeof(InteractableDelegate))]
     CHILD_COLLISION,
-    BALLOON_GIVEN,
-	BALLOON_TAKEN,
-    LEVEL_FINISHED,
-    HAZARDOUS_COLLISION,
-    GAME_OVER,
-    POPUP_DISPLAYED,
-    POPUP_HIDED,
-    DISPLAY_PAUSE_POPUP,
-    INFLATE_BALLOON,
-    BEGIN_PULLING,
-    END_PULLING,
-	PICKUP_BALLOON,
-	DROP_BALLOON,
-	ATTEMPT_ATTACH_BALLOON,
-	ATTACH_BALLOON,
-	DETACH_BALLOON,
-	TRIGGER_BALLOON
-}
 
-public enum EGameControl
-{
-    JUMP_PRESSED,
-    JUMP_UP,
-    LEFT_PRESSED,
-    LEFT_UP,
-    RIGHT_PRESSED,
-    RIGHT_UP
+    [EventHandlerAttribute(typeof(BalloonDelegate))]
+    BALLOON_GIVEN,
+    
+    [EventHandlerAttribute(typeof(BalloonDelegate))]
+	BALLOON_TAKEN,
+    
+    [EventHandlerAttribute()]
+    LEVEL_FINISHED,
+    
+    [EventHandlerAttribute(typeof(InteractableDelegate))]
+    HAZARDOUS_COLLISION,
+    
+    [EventHandlerAttribute()]
+    GAME_OVER,
+    
+    [EventHandlerAttribute(typeof(PopupDelegate))]
+    POPUP_DISPLAYED,
+    
+    [EventHandlerAttribute(typeof(PopupDelegate))]
+    POPUP_HIDED,
+    
+    [EventHandlerAttribute()]
+    DISPLAY_PAUSE_POPUP,
+    
+    [EventHandlerAttribute(typeof(BalloonTypeDelegate))]
+    INFLATE_BALLOON,
+    
+    [EventHandlerAttribute(typeof(CharacterPullDelegate))]
+    BEGIN_PULLING,
+
+    [EventHandlerAttribute()]
+    END_PULLING,
+    
+    [EventHandlerAttribute(typeof(BalloonDelegate))]
+	PICKUP_BALLOON,
+    
+    [EventHandlerAttribute(typeof(BalloonDelegate))]
+	DROP_BALLOON,
+    
+    [EventHandlerAttribute(typeof(AttempAttachBallooonDelegate))]
+	ATTEMPT_ATTACH_BALLOON,
+    
+    [EventHandlerAttribute(typeof(AttachBallooonDelegate))]
+	ATTACH_BALLOON,
+    
+    [EventHandlerAttribute()]
+	DETACH_BALLOON,
+
+    [EventHandlerAttribute(typeof(BalloonDelegate))]
+	TRIGGER_BALLOON
 }
 
 public enum EGameTrigger
 {
+    [EventHandlerAttribute()]
 	LEVEL_END_REACHED
 }
+
+//    EventService.Register<>

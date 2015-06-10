@@ -17,7 +17,7 @@ public class RopeManager
 	public RopeManager(GameObject pRopePrefab, GameObject pTack)
 	{
 		mRopePrefab = pRopePrefab;
-		EventListener.Register(EGameEvent.ATTACH_BALLOON, OnAttachBalloon);
+        EventService.Register<AttachBallooonDelegate>(EGameEvent.ATTACH_BALLOON, OnAttachBalloon);
 		//TODO
 		//EventListener.Register(EGameEvent.DETACH_BALLOON, OnAttachBalloon);
 	}
@@ -60,11 +60,11 @@ public class RopeManager
 		pRope.transform.parent = pBalloon.transform;
 	}
 
-	private void OnAttachBalloon(Enum pEvent, object pBalloon, object pTack)
+	private void OnAttachBalloon(Balloon pBalloon, GameObject pTack)
 	{
-		GameObject balloonObject = ((Balloon)pBalloon).GameObject;
+		GameObject balloonObject = pBalloon.GameObject;
 		Rope rope = balloonObject.transform.GetChild(0).GetComponent<Rope>();
-		Rigidbody2D tackBody = ((GameObject)pTack).GetComponent<Rigidbody2D> ();
+		Rigidbody2D tackBody = pTack.GetComponent<Rigidbody2D> ();
 		AttachRopeToCharacter (balloonObject, rope, tackBody);
 	}
 }

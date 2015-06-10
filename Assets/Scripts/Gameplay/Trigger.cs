@@ -17,7 +17,7 @@ public class Trigger : MonoBehaviour {
 	{
         if (pOther.GetComponent<MainCharacterController>() != null)
         {
-			EventService.DispatchEvent(eventToTrigger, null);
+			EventService.DispatchEvent(eventToTrigger);
 		}
 	}
 }
