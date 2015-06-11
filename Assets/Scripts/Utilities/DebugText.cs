@@ -36,7 +36,7 @@ public class DebugText : MonoBehaviour {
 
     public static void Log(string pMessage)
     {
-        if (Debug.isDebugBuild && !string.IsNullOrEmpty(pMessage) && Instance != null)
+        if (Instance != null && Debug.isDebugBuild && !string.IsNullOrEmpty(pMessage))
         {
             Instance.AddText(Time.realtimeSinceStartup.ToString() + "   " + pMessage);
             Instance.EndLine();

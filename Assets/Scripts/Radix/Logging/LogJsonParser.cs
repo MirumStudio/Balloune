@@ -42,7 +42,7 @@ namespace Radix.Logging
 
             mJsonClass.Add("Logs", array);
 
-            return mJsonClass.ToJSON(0);
+            return mJsonClass.ToJSON(0); //This line is very very slow...
         }
     }
 }
