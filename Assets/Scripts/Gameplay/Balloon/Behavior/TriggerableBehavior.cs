@@ -21,7 +21,8 @@ public class TriggerableBehavior : BalloonBehavior
 
 	public void OnTriggerBalloon(Balloon pBalloon)
 	{
-		if (pBalloon.GameObject == mBalloon.GameObject) { //&& !mBalloon.Physics.IsAttached) {
+        if (pBalloon != null && pBalloon.GameObject == mBalloon.GameObject)
+        { //&& !mBalloon.Physics.IsAttached) {
 			mBalloon.Physics.PopBalloon();
 		}
 	}
