@@ -10,6 +10,7 @@ using System;
 
 public class TriggerableBehavior : BalloonBehavior
 {
+
 	protected override void Start () {
 		base.Start ();
         EventService.Register<BalloonDelegate>(EGameEvent.TRIGGER_BALLOON, OnTriggerBalloon);
@@ -29,8 +30,5 @@ public class TriggerableBehavior : BalloonBehavior
 
 	public override void OnPop()
 	{
-		if (!mBalloon.Physics.IsAttached) {
-			DestroyObject (mBalloon.GameObject);
-		}
 	}
 }

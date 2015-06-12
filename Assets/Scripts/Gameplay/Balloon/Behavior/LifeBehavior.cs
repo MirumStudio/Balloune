@@ -20,8 +20,6 @@ public class LifeBehavior : BalloonBehavior
 
     public override void OnPop()
 	{
-		mBalloon.BalloonHolder.DestroyBalloon (mBalloon);
-		// CheckIfGameOver();
     }
 
 	//Je crois qu'on avait dit que ce serait la scène qui ferait ce check là

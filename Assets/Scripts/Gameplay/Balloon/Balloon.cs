@@ -10,6 +10,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public abstract class Balloon : MonoBehaviour {
+    const string POP_FX = "Particule/BalloonPopFX";
+
 
 	private GameObject mBalloonObject = null;
     public EBalloonType Type { get; set; }
@@ -79,6 +81,18 @@ public abstract class Balloon : MonoBehaviour {
         foreach (BalloonBehavior behavior in mBehaviors)
         {
             behavior.OnPop();
+        }
+
+        var obj = PrefabFactory.Instantiate(POP_FX, GameObject.transform.position);
+        Destroy(obj, 1.2f);
+
+        if (BalloonHolder != null)
+        {
+            BalloonHolder.DestroyBalloon(this);
+        }
+        else
+        {
+            DestroyObject(GameObject);
         }
     }
 
