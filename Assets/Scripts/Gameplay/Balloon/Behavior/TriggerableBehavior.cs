@@ -7,6 +7,7 @@
 
 using Radix.Event;
 using System;
+using UnityEngine;
 
 public class TriggerableBehavior : BalloonBehavior
 {
@@ -17,7 +18,7 @@ public class TriggerableBehavior : BalloonBehavior
 	}
 	
 	void Update () {
-		
+  
 	}
 
 	public void OnTriggerBalloon(Balloon pBalloon)
@@ -30,5 +31,7 @@ public class TriggerableBehavior : BalloonBehavior
 
 	public override void OnPop()
 	{
+        EventService.DispatchEvent(EGameEvent.STUN_BALLOON_POP, (Vector2)(mBalloon.GameObject.transform.position));
+        base.OnPop();
 	}
 }

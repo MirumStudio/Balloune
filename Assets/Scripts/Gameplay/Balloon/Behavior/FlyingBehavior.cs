@@ -46,7 +46,4 @@ public class FlyingBehavior : BalloonBehavior
 		return pNewDistanceJoint;
 	}
 
-	public override void OnPop()
-	{
-	}
 }

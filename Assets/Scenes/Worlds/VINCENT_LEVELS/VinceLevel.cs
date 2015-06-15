@@ -17,4 +17,9 @@ public class VinceLevel : MonoBehaviour {
     {
         Application.LoadLevel("VinceLevel1");
     }
+
+    public void Level2Click()
+    {
+        Application.LoadLevel("VinceLevel2");
+    }
 }

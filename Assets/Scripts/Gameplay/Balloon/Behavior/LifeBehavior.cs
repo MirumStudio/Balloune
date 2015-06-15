@@ -18,10 +18,6 @@ public class LifeBehavior : BalloonBehavior
 	    
 	}
 
-    public override void OnPop()
-	{
-    }
-
 	//Je crois qu'on avait dit que ce serait la scène qui ferait ce check là
     private void CheckIfGameOver()
     {

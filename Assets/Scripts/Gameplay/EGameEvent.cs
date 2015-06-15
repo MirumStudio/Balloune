@@ -69,7 +69,10 @@ public enum EGameEvent
 	DETACH_BALLOON,
 
     [EventHandlerAttribute(typeof(BalloonDelegate))]
-	TRIGGER_BALLOON
+	TRIGGER_BALLOON,
+
+    [EventHandlerAttribute(typeof(Vector2Delegate))]
+    STUN_BALLOON_POP
 }
 
 public enum EGameTrigger
