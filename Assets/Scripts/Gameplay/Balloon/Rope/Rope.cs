@@ -26,7 +26,6 @@ public class Rope : MonoBehaviour
 
 	public void CreateRope(float pRopeLength, Vector2 pBasePosition, LineRenderer pLineRenderer)
 	{
-		Debug.Log (pRopeLength);
 		mRopeLength = pRopeLength;
 		mNumberOfHinges = Mathf.CeilToInt(mRopeLength * 4);
 		mRopeSegments = new GameObject[mNumberOfHinges];

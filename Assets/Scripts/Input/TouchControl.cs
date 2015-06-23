@@ -14,7 +14,7 @@ public class TouchControl
     private float mStationaryAjustTime = 0f;
 
     private const float SWIPE_MAX_TIME = 0.1f;
-    private const float SWIPE_MAX_TIME_DEBUG = 0.2f;
+    private const float SWIPE_MAX_TIME_DEBUG = 0.5f;
     private float mSwipeMaxTime = 0f;
 
     private const int MIN_ANGLE = 30;
@@ -110,20 +110,22 @@ public class TouchControl
         AddSwipeDistance();
     }
 
+    //TODO: Find a better ways
+    //This code is optimized for the jump in balloune but isn't generic
+    //Author: VBernier
     private void UpdateSwipe()
     {
         AddSwipeTime();
         AddSwipeDistance();
 
         if (mSwipeTime.IsBetweenExclusively(0f, mSwipeMaxTime) && mSwipeDistance > Screen.height / 20 && !IsSwiping) //To change
-        {
-            IsSwiping = true;
-
+        {  
             var angle = Mathf.Atan2(mTouch.position.y - mStartSwipePosition.y, mTouch.position.x - mStartSwipePosition.x) * 180 / Mathf.PI;
 
             if (angle.IsBetweenInclusively(MIN_ANGLE, MAX_ANGLE))
             {
                 SwipeDirection = ESwipeDirection.UP;
+                IsSwiping = true;
             }
             else if (angle.IsBetweenInclusively(-MAX_ANGLE, -MIN_ANGLE))
             {
