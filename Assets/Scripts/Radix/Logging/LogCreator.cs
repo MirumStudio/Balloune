@@ -30,7 +30,7 @@ namespace Radix.Logging
 
             return mEntry;
         }
-#if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1 || UNITY_ANDROID
+#if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1 || UNITY_ANDROID || UNITY_IOS
         private void HandleStackTrace()
         {
             mEntry.StackTrace = new string[0];

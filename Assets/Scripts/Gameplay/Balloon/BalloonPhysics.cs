@@ -187,7 +187,7 @@ public class BalloonPhysics : MonoBehaviour
     private void OnHazardousCollision(HazardousInteractable pArg)
     {
         int damage = pArg.Damage;
-        if (damage > 0 && !this.mIsInvulnerable)
+        if (damage > 0 )//&& !this.mIsInvulnerable)
         {
             PopBalloon();
         }
