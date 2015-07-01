@@ -21,7 +21,7 @@ public class PrefabFactory : MonoBehaviour
         return Instantiate(pType, null);
     }
 
-    public static GameObject Instantiate(Type pType, MonoBehaviour pParent)
+	public static GameObject Instantiate(Type pType, GameObject pParent)
     {
         return Instantiate(pType.Name, pParent);
     }
@@ -36,14 +36,14 @@ public class PrefabFactory : MonoBehaviour
         return Instantiate(pType, null, pPosition);
     }
 
-    public static GameObject Instantiate(string pType, MonoBehaviour pParent)
+	public static GameObject Instantiate(string pType, GameObject pParent)
     {
         var prefab = Instantiate(Resources.Load(pType)) as GameObject;
         SetParent(prefab, pParent);
         return prefab;
     }
 
-    public static GameObject Instantiate(string pType, MonoBehaviour pParent, Vector2 pPosition)
+	public static GameObject Instantiate(string pType, GameObject pParent, Vector2 pPosition)
     {
         var prefab = Instantiate(Resources.Load(pType), pPosition, Quaternion.identity) as GameObject;
         SetParent(prefab, pParent);
@@ -56,14 +56,22 @@ public class PrefabFactory : MonoBehaviour
 		return prefab;
 	}
 
-	public static GameObject Instantiate(GameObject objectToInstantiate, MonoBehaviour pParent, Vector2 pPosition)
+	public static GameObject Instantiate(GameObject objectToInstantiate, GameObject pParent)
+	{
+		var prefab = Instantiate(objectToInstantiate) as GameObject;
+		SetParent(prefab, pParent);
+		return prefab;
+	}
+
+
+	public static GameObject Instantiate(GameObject objectToInstantiate, GameObject pParent, Vector2 pPosition)
 	{
 		var prefab = Instantiate(objectToInstantiate, pPosition, Quaternion.identity) as GameObject;
 		SetParent(prefab, pParent);
 		return prefab;
 	}
 
-    private static void SetParent(GameObject pObject, MonoBehaviour pParent)
+	private static void SetParent(GameObject pObject, GameObject pParent)
     {
         if (pParent != null)
         {
