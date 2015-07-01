@@ -35,5 +35,6 @@ public class UILevelController : MonoBehaviour {
     {
         EventService.UnregisterAllEventListener(typeof(EGameEvent));
         EventService.UnregisterAllEventListener(typeof(ETouchEvent));
+        EventService.UnregisterAllEventListener(typeof(EGameTrigger));
     }
 }

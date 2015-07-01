@@ -20,7 +20,7 @@ public class GirlBalloonHolder : BalloonHolder
 		base.Start ();
         EventService.Register<BalloonTypeDelegate>(EGameEvent.INFLATE_BALLOON, OnInflateBalloon);
 		
-		for (int i = 0; i < MAX_LIFE_BALLOON; i++)
+		for (int i = 0; i < LevelInfo.StartLifeBalloonCount; i++)
 		{
 			CreateBalloon(EBalloonType.LIFE);
 		}
