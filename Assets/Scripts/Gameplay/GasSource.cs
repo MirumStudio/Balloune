@@ -27,7 +27,7 @@ public class GasSource : MonoBehaviour {
         if (Input.touchCount > 0 && timer > 0.1)
         {
             timer = 0;
-            VerivyCircle(Camera.main.ScreenToWorldPoint(Input.touches[0].position));
+            VerifyCircle(Camera.main.ScreenToWorldPoint(Input.touches[0].position));
         }
 
         if (total_angle != 0 && Input.touchCount == 0)
@@ -44,7 +44,7 @@ public class GasSource : MonoBehaviour {
         }
     }
 
-    void VerivyCircle(Vector2 pos)
+    void VerifyCircle(Vector2 pos)
     {
         prev_vec = new Vector2(curr_vec.x, curr_vec.y);
         curr_vec = new Vector2(pos.x - transform.position.x, pos.y - transform.position.y);
