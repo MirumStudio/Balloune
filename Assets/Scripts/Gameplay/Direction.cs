@@ -10,14 +10,14 @@ using System.Collections;
 
 public class Direction
 {
-    private int mDirection;
+    private float mDirection;
 
-    public Direction(int pDirection)
+    public Direction(float pDirection)
     {
         mDirection = pDirection;
     }
 
-    public int Value
+    public float Value
     {
         get { return mDirection; }
     }
