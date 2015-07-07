@@ -34,4 +34,9 @@ public class MainMenuController : MonoBehaviour
     {
         Application.LoadLevel("VinceLevels");
     }
+
+	public void PocLevelClick()
+	{
+		Application.LoadLevel("POCLevels");
+	}
 }
