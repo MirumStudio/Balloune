@@ -63,60 +63,6 @@ public class JumpSensor : CharacterSensor {
 		}
 	}
 
-	#region GetInformation
-	private Vector2 GetTopRightCorner()
-	{
-		return new Vector2(GetRightEdge(), GetTopEdge());
-	}
-	
-	private Vector2 GetTopLeftCorner()
-	{
-		return new Vector2(GetLeftEdge(), GetTopEdge());
-	}
-	
-	private Vector2 GetBottomRightCorner()
-	{
-		return new Vector2(GetRightEdge(), GetBottomEdge());
-	}
-	
-	private Vector2 GetBottomLeftCorner()
-	{
-		return new Vector2(GetLeftEdge(), GetBottomEdge());
-	}
-	
-	private float GetTopEdge()
-	{
-		return GetCenter().y + mHeight / 2;
-	}
-	
-	private float GetBottomEdge()
-	{
-		return GetCenter().y - mHeight / 2 - 0.05f;
-	}
-	
-	private float GetLeftEdge()
-	{
-		return GetCenter().x - mWidth / 2 - 0.1f;
-	}
-	
-	private float GetRightEdge()
-	{
-		return GetCenter().x + mWidth / 2 + 0.1f;
-	}
-	
-	private Vector2 GetCenter()
-	{
-		return mCollider.bounds.center;
-	}
-	
-	private int GroundLayerMask
-	{
-		get
-		{
-			return 1 << LayerMask.NameToLayer(GROUND_LAYER_NAME);
-		}
-	}
 
-	#endregion
 }
 
