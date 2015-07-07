@@ -5,7 +5,7 @@ using Radix.Event;
 public class GirlTutorial : MonoBehaviour {
 
 	[SerializeField]
-	private GameObject mTutoPrefab;
+	private GameObject m_TutoPrefab;
 
 	private GameObject mBalloon = null;
 	private GameObject mTuto = null;
@@ -37,7 +37,7 @@ public class GirlTutorial : MonoBehaviour {
 	{
 		mTutoGiven = true;
 
-		mTuto = PrefabFactory.Instantiate(mTutoPrefab, mBalloon);
+		mTuto = PrefabFactory.Instantiate(m_TutoPrefab, mBalloon);
 
 	}
 
