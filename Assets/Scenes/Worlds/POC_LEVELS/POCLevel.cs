@@ -13,28 +13,28 @@ public class POCLevel : MonoBehaviour {
 	
 	}
 
-    public void Level2Click()
+    public void Level1Click()
     {
-        Application.LoadLevel("PocLevel2");
+        Application.LoadLevel("POCLevel1");
     }
 
-    public void Level4Click()
+    public void Level2Click()
     {
-        Application.LoadLevel("PocLevel4");
+		Application.LoadLevel("POCLevel2");
     }
+
+	public void Level3Click()
+	{
+		Application.LoadLevel("POCLevel3");
+	}
+
+	public void Level4Click()
+	{
+		Application.LoadLevel("POCLevel4");
+	}
 
 	public void Level5Click()
 	{
-		Application.LoadLevel("PocLevel5");
-	}
-
-	public void Level6Click()
-	{
-		Application.LoadLevel("PocLevel6");
-	}
-
-	public void Level7Click()
-	{
-		Application.LoadLevel("PocLevel7");
+		Application.LoadLevel("POCLevel5");
 	}
 }
