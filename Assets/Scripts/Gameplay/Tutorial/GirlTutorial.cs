@@ -7,12 +7,15 @@ public class GirlTutorial : MonoBehaviour {
 	[SerializeField]
 	private GameObject m_TutoPrefab;
 
+	[SerializeField]
+	private EGameEvent m_StoppingEvent;
+
 	private GameObject mBalloon = null;
 	private GameObject mTuto = null;
 	private bool mTutoGiven = false;
 	// Use this for initialization
 	void Start () {
-		EventService.Register<BalloonDelegate>(EGameEvent.PICKUP_BALLOON, OnBalloonTaken);
+		EventService.Register<BalloonDelegate>(m_StoppingEvent, OnStoppingEvent);
 	}
 	
 	// Update is called once per frame
@@ -41,7 +44,7 @@ public class GirlTutorial : MonoBehaviour {
 
 	}
 
-	private void OnBalloonTaken(Balloon pBalloon)
+	private void OnStoppingEvent(Balloon pBalloon)
 	{
 		DestroyObject (mTuto);
 		//mTuto.GetComponent<Animator> ().CrossFade ("New Animation3", 0f);
