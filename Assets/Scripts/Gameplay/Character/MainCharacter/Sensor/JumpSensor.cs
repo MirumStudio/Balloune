@@ -4,26 +4,7 @@ using Radix.Event;
 
 public class JumpSensor : CharacterSensor {
 
-	private const string GROUND_LAYER_NAME = "Ground"; 
-
-	private const string IS_PULlING_PARAMTER = "IsPulling";
-	private const string SPEED_PARAMTER = "Speed";
-
-	private float mWidth;
-	private float mHeight;
-	
-	Collider2D mCollider;
-
 	private float AJUST_X = 1f;
-
-	protected override void Start ()
-	{
-		base.Start ();
-
-		mCollider = GetComponent<Collider2D>();
-		mWidth = mCollider.bounds.size.x;
-		mHeight = mCollider.bounds.size.y;
-	}
 
 	// Update is called once per frame
 	void Update () {
