@@ -156,7 +156,7 @@ public class TouchService : DefaultTouchService
 
     private bool IsCurrentTouch(Touch pTouch)
     {
-        return mTouchControl.ID == pTouch.fingerId;
+		return mTouchControl != null && mTouchControl.ID == pTouch.fingerId;
     }
 
     private void UpdateCurrentTouch(Touch pTouch)

@@ -5,7 +5,7 @@ using Radix.Event;
 public class Bridge : MonoBehaviour {
 
     [SerializeField]
-    public Transform mGearBox;
+    public Transform m_GearBox;
 
     private HingeJoint2D mHinge;
 
@@ -24,8 +24,8 @@ public class Bridge : MonoBehaviour {
 
     private bool IsNearGearBox(Vector2 pPos)
     {
-        float distance = Vector2.Distance(mGearBox.position, pPos);
-        return distance <= 5;
+        float distance = Vector2.Distance(m_GearBox.position, pPos);
+        return distance <= 3;
     }
 
     private void DropBridge()
