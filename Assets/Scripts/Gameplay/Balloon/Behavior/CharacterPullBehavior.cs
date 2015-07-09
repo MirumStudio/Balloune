@@ -32,7 +32,7 @@ public class CharacterPullBehavior : BalloonBehavior
         if (mCharacterPull == null)
         {
             mCharacterPull = new CharacterPull();
-            EventService.DispatchEvent(EGameEvent.BEGIN_PULLING, mCharacterPull);
+            EventService.DispatchEvent(EGameEvent.BEGIN_PULLING, mCharacterPull, mBalloon);
         }
         DragCharacter();
     }

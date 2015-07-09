@@ -1,9 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Radix.Event;
 
 public class PlateformSensor : CharacterSensor {
 
 	private float AJUST_X = 0.5f;
+
+	Balloon mBalloon = null;
+
+	protected override void Start ()
+	{
+		base.Start ();
+		
+		EventService.Register<CharacterPullDelegate>(EGameEvent.BEGIN_PULLING, OnBeginPulling);
+		EventService.Register(EGameEvent.END_PULLING, OnStopPulling);
+	}
 
 	// Update is called once per frame
 	void FixedUpdate () {
@@ -22,7 +33,7 @@ public class PlateformSensor : CharacterSensor {
 				bottom.x -= AJUST_X;
 				top.x -= AJUST_X;
 				
-				Check(bottom, top);
+				Check(bottom, top, GetTopRightCorner());
 				
 			}
 			else if(speed > 0)
@@ -32,39 +43,44 @@ public class PlateformSensor : CharacterSensor {
 				bottom.x += AJUST_X;
 				top.x += AJUST_X;
 				
-				Check(bottom, top);
+				Check(bottom, top, GetTopLeftCorner());
 			}
 		}
 		
 	}
 	
-	private void CheckRight()
+	public void OnBeginPulling(CharacterPull pArg, Balloon pBalloon)
 	{
-		
+		mBalloon = pBalloon;
 	}
 	
-	private void CheckLeft()
+	public void OnStopPulling()
 	{
-		Vector2 vector = GetBottomLeftCorner();
-		vector.y += 0.05f;
-		Debug.DrawLine(GetTopLeftCorner(), vector, Color.green);
-		Physics2D.Linecast(GetTopLeftCorner(), vector, GroundLayerMask);
+		mBalloon = null;
 	}
 	
-	private void Check(Vector2 mBottom, Vector2 mTop)
+	private void Check(Vector2 mBottom, Vector2 mTop, Vector2 pOther)
 	{
-		mTop.y += 1f;
+		mTop.y += 0.5f;
+		pOther.y += 0.5f;
 		Vector2 ultraTop = mTop;
 		
 		ultraTop.y += 2f;
 		
 		mBottom.y += 0.3f;
-		Debug.DrawLine (mTop, ultraTop, Color.yellow);
+		Debug.DrawLine (mTop, pOther, Color.yellow);
 		Debug.DrawLine (mTop, mBottom, Color.green);
-		if(Physics2D.Linecast(mTop, mBottom, PlateformLayerMask)
-		   && !Physics2D.Linecast(mTop, ultraTop, PlateformLayerMask))
+		if(Physics2D.Linecast(mTop, pOther, PlateformLayerMask))
 		{
-			mAnimator.SetBool("HaveToJump", true);
+			CheckBalloon(mTop.y);
 		}
 	}
+
+	private void CheckBalloon(float pY)
+	{
+		if (mBalloon.transform.position.y > pY) {
+			mAnimator.SetBool ("HaveToJump", true);
+		}
+	}
+
 }

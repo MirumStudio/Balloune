@@ -10,6 +10,7 @@ public class JumpingState : CharacterState {
 
 		if (mBody.velocity.y == 0) {
 		
+			//TODO: no 50 when is a plateform
 			mBody.AddForce (new Vector2 (50f * Mathf.Sign(animator.GetFloat("Speed")), m_JumpForce));
 		}
 		animator.SetBool ("HaveToJump", false);
