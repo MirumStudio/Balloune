@@ -10,7 +10,8 @@ public class GirlTutorial : MonoBehaviour {
 	[SerializeField]
 	private EGameEvent m_StoppingEvent;
 
-	private GameObject mBalloon = null;
+	[SerializeField]
+	private GameObject m_ObjectToAttachTuto = null;
 	private GameObject mTuto = null;
 	private bool mTutoGiven = false;
 	// Use this for initialization
@@ -20,11 +21,14 @@ public class GirlTutorial : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (mBalloon == null) 
+		if (m_ObjectToAttachTuto == null) 
 		{
 			try 
 			{
-				mBalloon = this.GetComponentInChildren<Balloon> ().gameObject;
+				if(m_ObjectToAttachTuto != null)
+				{
+					m_ObjectToAttachTuto = this.GetComponentInChildren<Balloon> ().gameObject;
+				}
 			} 
 			catch (UnityException ex) 
 			{
@@ -40,7 +44,7 @@ public class GirlTutorial : MonoBehaviour {
 	{
 		mTutoGiven = true;
 
-		mTuto = PrefabFactory.Instantiate(m_TutoPrefab, mBalloon);
+		mTuto = PrefabFactory.Instantiate(m_TutoPrefab, m_ObjectToAttachTuto);
 
 	}
 
