@@ -80,6 +80,7 @@ public class PlateformSensor : CharacterSensor {
 	{
 		if (mBalloon.transform.position.y > pY) {
 			mAnimator.SetBool ("HaveToJump", true);
+			mAnimator.SetBool("IsPlateformJump", true);
 		}
 	}
 
