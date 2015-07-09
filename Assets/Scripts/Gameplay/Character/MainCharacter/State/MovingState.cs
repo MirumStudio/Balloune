@@ -4,21 +4,32 @@ using System.Collections;
 public class MovingState : CharacterState {
 
 	protected bool m_IsFacingRight = true;
-	private float m_MaxSpeed = 3f;
+	private float m_MaxSpeed = 4f;
+
+	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+		base.OnStateEnter (animator, stateInfo, layerIndex);
+		Debug.Log ("MOVING STATE: Enter");
+	}
 
 	override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 		//AddForce (Vector2.right * animator.GetFloat("Speed") * 100);
 
 		float speed = animator.GetFloat ("Speed");
 
-		Direction direction = GetDirection (speed);
+		Direction direction = GetDirection (Mathf.Sign(speed));
 		
 		if (direction.Value != 0 /*&& CanMove(direction)*/ && !HorizontalMaxSpeedReached(direction))
 		{
-			AddForce(Vector2.right * speed * 500);
+			//AddForce(Vector2.right * speed * 500);
+
+			Vector2 newVelocity = mBody.velocity;
+
+			newVelocity.x = Mathf.Sign(speed) * m_MaxSpeed;
+			
+			mBody.velocity = newVelocity;
 		}
 		
-		AjustVelocity();
+		//AjustVelocity();
 		CheckFlipping(direction);
 	}
 

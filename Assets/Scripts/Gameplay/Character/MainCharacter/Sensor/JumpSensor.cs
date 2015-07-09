@@ -7,7 +7,7 @@ public class JumpSensor : CharacterSensor {
 	private float AJUST_X = 1f;
 
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		if(mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Moving"))
 		{
 			float speed = mAnimator.GetFloat(SPEED_PARAMTER);
@@ -54,11 +54,10 @@ public class JumpSensor : CharacterSensor {
 
 	private void Check(Vector2 mBottom, Vector2 mTop)
 	{
-		mBottom.y += 0.2f;
+		mBottom.y += 0.3f;
 		Debug.DrawLine (mTop, mBottom, Color.green);
 		if(Physics2D.Linecast(mTop, mBottom, GroundLayerMask))
 		{
-			Debug.Log("DETECT");
 			mAnimator.SetBool("HaveToJump", true);
 		}
 	}
