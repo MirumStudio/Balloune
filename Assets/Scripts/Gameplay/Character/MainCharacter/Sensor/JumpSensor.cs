@@ -54,9 +54,15 @@ public class JumpSensor : CharacterSensor {
 
 	private void Check(Vector2 mBottom, Vector2 mTop)
 	{
+		Vector2 ultraTop = mTop;
+
+		ultraTop.y += 2f;
+
 		mBottom.y += 0.3f;
+		Debug.DrawLine (mTop, ultraTop, Color.yellow);
 		Debug.DrawLine (mTop, mBottom, Color.green);
-		if(Physics2D.Linecast(mTop, mBottom, GroundLayerMask))
+		if(Physics2D.Linecast(mTop, mBottom, GroundLayerMask)
+		   && !Physics2D.Linecast(mTop, ultraTop, GroundLayerMask))
 		{
 			mAnimator.SetBool("HaveToJump", true);
 		}

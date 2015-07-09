@@ -16,9 +16,9 @@ public class MovingState : CharacterState {
 
 		float speed = animator.GetFloat ("Speed");
 
-		Direction direction = GetDirection (Mathf.Sign(speed));
+		Direction direction = GetDirection (speed);
 		
-		if (direction.Value != 0 /*&& CanMove(direction)*/ && !HorizontalMaxSpeedReached(direction))
+		if (speed != 0 /*&& CanMove(direction)*/ && !HorizontalMaxSpeedReached(direction))
 		{
 			//AddForce(Vector2.right * speed * 500);
 

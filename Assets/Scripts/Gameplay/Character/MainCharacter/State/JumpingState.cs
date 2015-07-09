@@ -10,7 +10,7 @@ public class JumpingState : CharacterState {
 
 		if (mBody.velocity.y == 0) {
 		
-			mBody.AddForce (new Vector2 (0f, m_JumpForce));
+			mBody.AddForce (new Vector2 (50f * Mathf.Sign(animator.GetFloat("Speed")), m_JumpForce));
 		}
 		animator.SetBool ("HaveToJump", false);
 
