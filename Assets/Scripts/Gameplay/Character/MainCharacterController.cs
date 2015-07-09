@@ -138,7 +138,7 @@ public class MainCharacterController : BaseCharacterController {
 		}
 	}
 
-    public void OnBeginPulling(CharacterPull pArg)
+	public void OnBeginPulling(CharacterPull pArg, Balloon pBalloon)
     {
         mCurrentPull = pArg;
     }

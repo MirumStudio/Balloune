@@ -11,7 +11,7 @@ using UnityEngine;
 public delegate void InteractableDelegate(Interactable pArg);
 public delegate void BalloonDelegate(Balloon pArg);
 public delegate void BalloonTypeDelegate(EBalloonType pArg);
-public delegate void CharacterPullDelegate(CharacterPull pPull);
+public delegate void CharacterPullDelegate(CharacterPull pPull, Balloon pBalloon);
 public delegate void AttempAttachBallooonDelegate(Balloon pBalloon, Vector2 pVec);
 public delegate void AttachBallooonDelegate(Balloon pBalloon, GameObject pArg);
 

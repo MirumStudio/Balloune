@@ -26,7 +26,7 @@ public class BalloonSensor : CharacterSensor {
 		}
 	}
 
-	public void OnBeginPulling(CharacterPull pArg)
+	public void OnBeginPulling(CharacterPull pArg, Balloon pBalloon)
 	{
 		mCurrentPull = pArg;
 	}
