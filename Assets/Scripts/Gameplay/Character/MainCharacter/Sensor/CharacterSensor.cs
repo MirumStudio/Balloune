@@ -5,7 +5,8 @@ using System.Collections;
 public class CharacterSensor : MonoBehaviour {
 
 	protected const string GROUND_LAYER_NAME = "Ground"; 
-	
+	protected const string PLATEFORM_LAYER_NAME = "OneWayGround";
+
 	protected const string IS_PULlING_PARAMTER = "IsPulling";
 	protected const string SPEED_PARAMTER = "Speed";
 	
@@ -81,6 +82,14 @@ public class CharacterSensor : MonoBehaviour {
 		get
 		{
 			return 1 << LayerMask.NameToLayer(GROUND_LAYER_NAME);
+		}
+	}
+
+	protected int PlateformLayerMask
+	{
+		get
+		{
+			return 1 << LayerMask.NameToLayer(PLATEFORM_LAYER_NAME);
 		}
 	}
 	
