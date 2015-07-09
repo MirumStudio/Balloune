@@ -60,7 +60,7 @@ namespace Radix.Logging
 #if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
             UnityEngine.Debug.Log("<color=black>[" + pEntry.LogType + "]\t" + pEntry.Message + "</color>");
 #else
-           // UnityEngine.Debug.Log("<color=" + pEntry.LogType.GetAttribute<LogTypeAttribute>().Color + ">[" + pEntry.LogType + "]\t" + pEntry.Message + "</color>");
+            UnityEngine.Debug.Log("<color=" + pEntry.LogType.GetAttribute<LogTypeAttribute>().Color + ">[" + pEntry.LogType + "]\t" + pEntry.Message + "</color>");
 #endif
         }
 

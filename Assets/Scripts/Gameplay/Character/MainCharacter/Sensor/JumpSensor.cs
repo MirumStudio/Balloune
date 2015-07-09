@@ -4,7 +4,7 @@ using Radix.Event;
 
 public class JumpSensor : CharacterSensor {
 
-	private float AJUST_X = 1f;
+	private float AJUST_X = 1.5f;
 
 	// Update is called once per frame
 	void FixedUpdate () {
@@ -54,6 +54,7 @@ public class JumpSensor : CharacterSensor {
 
 	private void Check(Vector2 mBottom, Vector2 mTop)
 	{
+		mTop.y += 1f;
 		Vector2 ultraTop = mTop;
 
 		ultraTop.y += 2f;

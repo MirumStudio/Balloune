@@ -3,7 +3,7 @@ using System.Collections;
 
 public class JumpingState : CharacterState {
 	[SerializeField]
-	protected float m_JumpForce = 850f;
+	protected float m_JumpForce = 1000f;
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 		base.OnStateEnter (animator, stateInfo, layerIndex);
 		Debug.Log ("JUMPING STATE: Enter");
