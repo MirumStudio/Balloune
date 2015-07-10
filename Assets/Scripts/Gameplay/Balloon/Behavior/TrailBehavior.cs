@@ -11,7 +11,7 @@ using UnityEngine;
 
 public class TrailBehavior : BalloonBehavior
 {
-	private const float TIME_BETWEEN_PARTICLES = 0.05f;
+	private const float TIME_BETWEEN_PARTICLES = 0.02f;
 	private const float DEFLATION_TIME = 10f;
 
 	[SerializeField]
@@ -29,6 +29,9 @@ public class TrailBehavior : BalloonBehavior
 		base.Start ();
 		EventService.Register<BalloonDelegate>(EGameEvent.TRIGGER_BALLOON, OnTriggerBalloon);
 		mAttachBehavior = GetComponent<AttachBehavior> ();
+
+		mCustomizedGasTrail = m_GasTrail;
+		mCustomizedGasTrail.GetComponent<ParticleSystem> ().startColor = mBalloon.SpriteRenderer.color;
 
 		mParticleGenerator = mBalloon.gameObject.AddComponent<ParticleSystem> ();
 		mParticleGenerator.enableEmission = false;
@@ -64,7 +67,7 @@ public class TrailBehavior : BalloonBehavior
 	{
 		mParticleGenerationTime += Time.deltaTime;
 		if (mParticleGenerationTime >= TIME_BETWEEN_PARTICLES) {
-			//PrefabFactory.Instantiate (m_GasTrail, transform.position);
+			PrefabFactory.Instantiate (mCustomizedGasTrail, transform.position);
 			mParticleGenerationTime = 0f;
 		}
 	}

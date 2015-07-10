@@ -18,7 +18,7 @@ public class PerfumeBalloon : Balloon {
 		ChangeColor(new Color(1f, 0.53f, 1f));
 		AddBehavior<DetachBehavior>();
 		AddBehavior<AttachBehavior>();
-		AddBehavior<TrailBehavior> ();
+		GetComponent<TrailBehavior> ().enabled = true;
 		m_MaxRopeDistance = PERFUME_ROPE_DISTANCE;
 	}
 }
