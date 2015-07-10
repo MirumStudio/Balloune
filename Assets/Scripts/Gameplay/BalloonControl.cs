@@ -30,22 +30,22 @@ public class BalloonControl : MonoBehaviour {
 
     private void OnTap(Vector2 pPosition)
     {
-        var touchedBallon = GetTouchedBalloon(pPosition);
+        var touchedBalloon = GetTouchedBalloon(pPosition);
 
-        if(touchedBallon != null)
+        if(touchedBalloon != null)
         {
-            mTouchedBalloonObject = touchedBallon;
+            mTouchedBalloonObject = touchedBalloon;
             PickupBalloon();
         }
     }
 
     private void OnDoubleTap(Vector2 pPosition)
     {
-         var touchedBallon = GetTouchedBalloon(pPosition);
+         var touchedBalloon = GetTouchedBalloon(pPosition);
 
-         if (touchedBallon != null)
+         if (touchedBalloon != null)
          {
-             EventService.DispatchEvent(EGameEvent.TRIGGER_BALLOON, touchedBallon.GetComponent<Balloon>());
+             EventService.DispatchEvent(EGameEvent.TRIGGER_BALLOON, touchedBalloon.GetComponent<Balloon>());
          }
     }
 
@@ -123,7 +123,7 @@ public class BalloonControl : MonoBehaviour {
 
 	private void DropBalloon()
 	{
-        if (mTouchedBalloonObject != null)
+        if (mTouchedBalloonObject != null && mTouchedBalloon != null)
         {
             EventService.DispatchEvent(EGameEvent.DROP_BALLOON, mTouchedBalloon);
             mTouchedBalloonObject = null;

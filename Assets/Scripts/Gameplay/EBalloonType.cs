@@ -11,6 +11,7 @@ public enum EBalloonType
         TOXIC,
 		FLYING,
 		STUN,
-		WATER
+		WATER,
+		PERFUME
     }
 

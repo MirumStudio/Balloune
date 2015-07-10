@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 6624ce0715336e240ad0cc752409ede2
+timeCreated: 1436490942
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - m_GasTrail: {fileID: 168184, guid: 64e87b91136978b4a89a6858e63d74e3, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

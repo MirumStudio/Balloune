@@ -101,14 +101,14 @@ namespace Radix.Event
         }
 
         private void InvokeCallback(Delegate pCallback, params object[] pArgs)
-        {
-            try
+        {  
+			try
             {
-                pCallback.DynamicInvoke(pArgs);
+				pCallback.DynamicInvoke(pArgs);
             }
             catch(Exception ex)
             {
-                Error.Create("Error when attempting to invoke callback: " + ex.Message, EErrorSeverity.CRITICAL);
+                Error.Create("Error when attempting to invoke callback " + pCallback + " with args " + pArgs[0] + ", error is : " + ex.Message, EErrorSeverity.CRITICAL);
             }
         }
         #endregion
