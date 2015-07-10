@@ -12,26 +12,32 @@ using UnityEngine;
 public class TrailBehavior : BalloonBehavior
 {
 	private const float TIME_BETWEEN_PARTICLES = 0.05f;
+	private const float DEFLATION_TIME = 10f;
+
 	[SerializeField]
 	private GameObject m_GasTrail;
+	private GameObject mCustomizedGasTrail;
 	private ParticleSystem mParticleGenerator;
 
+	private AttachBehavior mAttachBehavior;
+
 	private float mParticleGenerationTime = 0f;
-	private bool isGeneratingParticles = false;
+	private float mDeflationTime = 0f;
+	private bool mIsDeflating = false;
 
 	protected override void Start () {
 		base.Start ();
 		EventService.Register<BalloonDelegate>(EGameEvent.TRIGGER_BALLOON, OnTriggerBalloon);
-
-		//Change GasTrail color according to the balloon's color
+		mAttachBehavior = GetComponent<AttachBehavior> ();
 
 		mParticleGenerator = mBalloon.gameObject.AddComponent<ParticleSystem> ();
 		mParticleGenerator.enableEmission = false;
 	}
 	
 	void Update () {
-		if (isGeneratingParticles) {
+		if (mIsDeflating) {
 			GenerateTrail();
+			CheckIfDeflated();
 		}
 	}
 	
@@ -39,19 +45,35 @@ public class TrailBehavior : BalloonBehavior
 	{
 		if (pBalloon != null && pBalloon.GameObject == mBalloon.GameObject)
 		{
-			isGeneratingParticles = true;
+			mIsDeflating = true;
+			PreventAttaching();
 			//Start emission of "spray" particles
-			//Prevent this balloon from being attached to anything
-			//Make this balloon disappear after a certain period of time
 		}
 	}
 
+	private void PreventAttaching()
+	{
+		
+		if(mAttachBehavior != null)
+		{
+			mAttachBehavior.enabled = false;
+		}
+	}
+	
 	private void GenerateTrail()
 	{
 		mParticleGenerationTime += Time.deltaTime;
 		if (mParticleGenerationTime >= TIME_BETWEEN_PARTICLES) {
 			//PrefabFactory.Instantiate (m_GasTrail, transform.position);
 			mParticleGenerationTime = 0f;
+		}
+	}
+
+	private void CheckIfDeflated()
+	{
+		mDeflationTime += Time.deltaTime;
+		if (mDeflationTime >= DEFLATION_TIME) {
+			mBalloon.Physics.PopBalloon();
 		}
 	}
 }
