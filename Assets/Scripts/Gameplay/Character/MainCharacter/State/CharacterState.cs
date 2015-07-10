@@ -3,6 +3,11 @@ using System.Collections;
 
 public class CharacterState : StateMachineBehaviour {
 
+    protected const string IS_PULLING_PARAMATER = "IsPulling";
+    protected const string SPEED_PARAMATER = "Speed";
+    protected const string GROUND_PARAMATER = "IsGrounded";
+    protected const string JUMP_PARAMATER = "HaveToJump";
+    protected const string PLATEFORM_PARAMATER = "IsPlateformJump";
 
 	protected Rigidbody2D mBody = null;
 
