@@ -56,7 +56,6 @@ public class TrailBehavior : BalloonBehavior
 
 	private void PreventAttaching()
 	{
-		
 		if(mAttachBehavior != null)
 		{
 			mAttachBehavior.enabled = false;
