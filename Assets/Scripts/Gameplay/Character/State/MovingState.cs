@@ -12,14 +12,12 @@ public class MovingState : CharacterState {
 
 		float speed = animator.GetFloat(SPEED_PARAMATER);
 
-		Direction direction = GetDirection(speed);
-		
-		if (speed != 0  && !HorizontalMaxSpeedReached(direction))
+		if (speed != 0)
 		{
             Move(speed);
 		}
 
-		CheckFlipping(direction);
+		CheckFlipping(speed);
 	}
 
     private void Move(float speed)
@@ -29,15 +27,10 @@ public class MovingState : CharacterState {
         mBody.velocity = newVelocity;
     }
 
-	protected bool HorizontalMaxSpeedReached(Direction pDirection)
+    protected void CheckFlipping(float speed)
 	{
-		return pDirection.Value * mBody.velocity.x >= m_MaxSpeed;
-	}
-
-	protected void CheckFlipping(Direction pDirection)
-	{
-		if (pDirection.IsRightDirection() && !m_IsFacingRight
-		    || pDirection.IsLeftDirection() && m_IsFacingRight)
+		if (speed > 0 && !m_IsFacingRight
+            || speed < 0 && m_IsFacingRight)
 		{
 			Flip();
 		}
@@ -50,16 +43,5 @@ public class MovingState : CharacterState {
 		Vector3 theScale = mBody.transform.localScale;
 		theScale.x *= -1;
 		mBody.transform.localScale = theScale;
-	}
-
-	protected Direction GetDirection(float speed)
-	{
-		int directionInt = 0;
-		if (speed > 0) {
-			directionInt = 1;
-		} else if (speed < 0) {
-			directionInt = -1;
-		}
-		return new Direction (directionInt);
 	}
 }
