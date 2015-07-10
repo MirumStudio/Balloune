@@ -10,6 +10,7 @@ public class CharacterSensor : MonoBehaviour {
 	protected const string IS_PULLING_PARAMATER = "IsPulling";
 	protected const string SPEED_PARAMATER = "Speed";
     protected const string GROUND_PARAMATER = "IsGrounded";
+    protected const string JUMP_PARAMATER = "HaveToJump";
 	
 	protected float mWidth;
 	protected float mHeight;
@@ -93,5 +94,10 @@ public class CharacterSensor : MonoBehaviour {
         return mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Moving");
     }
 	
+    protected float GetSpeedParamater()
+    {
+        return mAnimator.GetFloat(SPEED_PARAMATER);
+    }
+
 	#endregion
 }
