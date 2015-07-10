@@ -16,6 +16,7 @@ public abstract class Balloon : MonoBehaviour {
 	private GameObject mBalloonObject = null;
     public EBalloonType Type { get; set; }
     public float Mass { get; set; }
+	public SpriteRenderer SpriteRenderer { get; set; }
 
 	public float m_MaxRopeDistance = 4f;
 
@@ -33,14 +34,15 @@ public abstract class Balloon : MonoBehaviour {
         mBehaviors = new List<BalloonBehavior>();
         mCircleCollider = GetComponent<CircleCollider2D>();
         mPhysics = GetComponent<BalloonPhysics>();
-        AddBehavior<DefaultBehavior>();
+		SpriteRenderer = GetComponent<SpriteRenderer> ();
+		AddBehavior<DefaultBehavior>();
 		Type = pType;
 		GravityScale = -1f;
 	}
 
     protected void ChangeColor(Color pColor)
     {
-        GetComponent<SpriteRenderer>().color = pColor;
+        SpriteRenderer.color = pColor;
     }
 
 	void Update () {
