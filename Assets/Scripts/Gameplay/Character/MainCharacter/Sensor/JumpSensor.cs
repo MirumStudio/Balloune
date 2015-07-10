@@ -9,51 +9,59 @@ public class JumpSensor : CharacterSensor {
 	void FixedUpdate () {
 		if(IsInMovingState())
 		{
-			float speed = mAnimator.GetFloat(SPEED_PARAMATER);
+			Vector2 bottom = Vector2.zero;
+			Vector2 top = Vector2.zero;
 
-			Vector2 bottom;
-			Vector2 top;
-
-			if(speed < 0)
-			{
-				bottom = GetBottomLeftCorner();
-				top = GetTopLeftCorner();
-				bottom.x -= AJUST_X;
-				top.x -= AJUST_X;
-
-				Check(bottom, top);
-
-			}
-			else if(speed > 0)
-			{
-				bottom = GetBottomRightCorner();
-				top = GetTopRightCorner();
-				bottom.x += AJUST_X;
-				top.x += AJUST_X;
-				
-				Check(bottom, top);
-			}
+            GetVector(out bottom, out top);
+            Check(bottom, top);
 		}
-		
 	}
 
-	private void Check(Vector2 mBottom, Vector2 mTop)
+    private void GetVector(out Vector2 pBottom, out Vector2 pTop)
+    {
+        float speed = GetSpeedParamater();  
+        
+        if(speed < 0)
+        {
+            pBottom = GetBottomLeftCorner();
+            pTop = GetTopLeftCorner();
+        }
+        else
+        {
+            pBottom = GetBottomRightCorner();
+            pTop = GetTopRightCorner();
+        }
+
+        pBottom.x += AJUST_X * Mathf.Sign(speed);
+        pTop.x += AJUST_X * Mathf.Sign(speed);
+        pTop.y += 1f;
+        pBottom.y += 0.3f;
+    }
+
+	private void Check(Vector2 pBottom, Vector2 pTop)
 	{
-		mTop.y += 1f;
-		Vector2 ultraTop = mTop;
+        Debug.DrawLine (pTop, pBottom, Color.green);
 
-		ultraTop.y += 2f;
-
-		mBottom.y += 0.3f;
-		Debug.DrawLine (mTop, ultraTop, Color.yellow);
-		Debug.DrawLine (mTop, mBottom, Color.green);
-		if(Physics2D.Linecast(mTop, mBottom, GroundLayerMask)
-		   && !Physics2D.Linecast(mTop, ultraTop, GroundLayerMask))
+        if(HaveObstacle(pBottom, pTop)
+           && !IsWall(pTop))
 		{
-			mAnimator.SetBool("HaveToJump", true);
+			mAnimator.SetBool(JUMP_PARAMATER, true);
 		}
 	}
 
+    private bool HaveObstacle(Vector2 pBottom, Vector2 pTop)
+    {
+        return Physics2D.Linecast(pTop, pBottom, GroundLayerMask);
+    }
 
+    private bool IsWall(Vector2 pTop)
+    {
+        Vector2 wall = pTop;
+        wall.y += 2f;
+
+        Debug.DrawLine (pTop, wall, Color.yellow);
+
+        return Physics2D.Linecast(pTop, wall, GroundLayerMask);
+    }
 }
 
