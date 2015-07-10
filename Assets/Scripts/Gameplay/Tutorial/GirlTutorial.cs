@@ -17,24 +17,22 @@ public class GirlTutorial : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		EventService.Register<BalloonDelegate>(m_StoppingEvent, OnStoppingEvent);
+		try 
+		{
+			if(m_ObjectToAttachTuto == null)
+			{
+				m_ObjectToAttachTuto = this.GetComponentInChildren<Balloon> ().gameObject;
+			}
+		} 
+		catch (UnityException ex) 
+		{
+			
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (m_ObjectToAttachTuto == null) 
-		{
-			try 
-			{
-				if(m_ObjectToAttachTuto != null)
-				{
-					m_ObjectToAttachTuto = this.GetComponentInChildren<Balloon> ().gameObject;
-				}
-			} 
-			catch (UnityException ex) 
-			{
-
-			}
-		} else if (!mTutoGiven) 
+		if (!mTutoGiven) 
 		{
 			GiveTutoAnimation();
 		}
@@ -44,7 +42,7 @@ public class GirlTutorial : MonoBehaviour {
 	{
 		mTutoGiven = true;
 
-		mTuto = PrefabFactory.Instantiate(m_TutoPrefab, m_ObjectToAttachTuto);
+		mTuto = PrefabFactory.Instantiate(m_TutoPrefab, m_ObjectToAttachTuto.transform.position);
 
 	}
 
