@@ -42,7 +42,7 @@ public class GirlTutorial : MonoBehaviour {
 	{
 		mTutoGiven = true;
 
-		mTuto = PrefabFactory.Instantiate(m_TutoPrefab, m_ObjectToAttachTuto.transform.position);
+		mTuto = PrefabFactory.Instantiate(m_TutoPrefab, m_ObjectToAttachTuto);
 
 	}
 
