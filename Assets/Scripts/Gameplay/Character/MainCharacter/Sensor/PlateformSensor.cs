@@ -20,7 +20,7 @@ public class PlateformSensor : CharacterSensor {
 	void FixedUpdate () {
 		if(mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Moving"))
 		{
-			float speed = mAnimator.GetFloat(SPEED_PARAMTER);
+			float speed = mAnimator.GetFloat(SPEED_PARAMATER);
 			
 			Vector2 bottom;
 			Vector2 top;

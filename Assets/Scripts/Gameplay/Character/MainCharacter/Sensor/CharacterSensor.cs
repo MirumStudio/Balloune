@@ -7,8 +7,9 @@ public class CharacterSensor : MonoBehaviour {
 	protected const string GROUND_LAYER_NAME = "Ground"; 
 	protected const string PLATEFORM_LAYER_NAME = "OneWayGround";
 
-	protected const string IS_PULlING_PARAMTER = "IsPulling";
-	protected const string SPEED_PARAMTER = "Speed";
+	protected const string IS_PULLING_PARAMATER = "IsPulling";
+	protected const string SPEED_PARAMATER = "Speed";
+    protected const string GROUND_PARAMATER = "IsGrounded";
 	
 	protected float mWidth;
 	protected float mHeight;
@@ -17,18 +18,12 @@ public class CharacterSensor : MonoBehaviour {
 
 	protected Animator mAnimator;
 
-	// Use this for initialization
 	virtual protected void Start () {
 		mAnimator = GetComponent<Animator> ();
 
 		mCollider = GetComponent<Collider2D>();
 		mWidth = mCollider.bounds.size.x;
 		mHeight = mCollider.bounds.size.y;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 
 	#region GetInformation

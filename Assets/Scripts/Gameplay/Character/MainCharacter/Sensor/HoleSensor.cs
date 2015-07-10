@@ -9,7 +9,7 @@ public class HoleSensor : CharacterSensor {
 
 		if(mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Moving"))
 		{
-			float speed = mAnimator.GetFloat(SPEED_PARAMTER);
+			float speed = mAnimator.GetFloat(SPEED_PARAMATER);
 			
 			Vector2 right;
 			Vector2 left;
@@ -38,7 +38,7 @@ public class HoleSensor : CharacterSensor {
 
 		private void Check(Vector2 pPoint)
 		{
-		float speed = mAnimator.GetFloat(SPEED_PARAMTER);
+		float speed = mAnimator.GetFloat(SPEED_PARAMATER);
 			Vector2 bot = pPoint;
 			bot.y -= 3f;
 			Debug.DrawLine (pPoint, bot, Color.cyan);
