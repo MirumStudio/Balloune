@@ -17,7 +17,7 @@ public class PlateformSensor : CharacterSensor {
 	}
 
 	void FixedUpdate () {
-		if(IsInMovingState())
+        if(IsInMovingState() && mBalloon != null)
 		{
             Vector2 left = Vector2.zero;
             Vector2 right = Vector2.zero;
