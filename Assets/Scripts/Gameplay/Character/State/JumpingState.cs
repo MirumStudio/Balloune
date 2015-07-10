@@ -39,6 +39,6 @@ public class JumpingState : CharacterState {
 
     private void ReinitializePlateformParamater(Animator animator)
     {
-        animator.SetBool(JUMP_PARAMATER, false);
+        animator.SetBool(PLATEFORM_PARAMATER, false);
     }
 }

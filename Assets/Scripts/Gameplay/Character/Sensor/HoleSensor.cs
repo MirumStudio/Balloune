@@ -48,7 +48,8 @@ public class HoleSensor : CharacterSensor {
 
         DrawDebugLine(pTop, bot);
 
-        if(!Physics2D.Linecast(pTop, bot, GroundLayerMask))
+        if(!Physics2D.Linecast(pTop, bot, GroundLayerMask)
+           && !Physics2D.Linecast(pTop, bot, PlateformLayerMask))
 		{
             CheckHoleLenght(pTop);
 		}
