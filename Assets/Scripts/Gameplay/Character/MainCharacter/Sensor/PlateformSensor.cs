@@ -19,67 +19,68 @@ public class PlateformSensor : CharacterSensor {
 	void FixedUpdate () {
 		if(IsInMovingState())
 		{
-			float speed = mAnimator.GetFloat(SPEED_PARAMATER);
-			
-			Vector2 bottom;
-			Vector2 top;
-			
-			if(speed < 0)
-			{
-				bottom = GetBottomLeftCorner();
-				top = GetTopLeftCorner();
-				bottom.x -= AJUST_X;
-				top.x -= AJUST_X;
-				
-				Check(bottom, top, GetTopRightCorner());
-				
-			}
-			else if(speed > 0)
-			{
-				bottom = GetBottomRightCorner();
-				top = GetTopRightCorner();
-				bottom.x += AJUST_X;
-				top.x += AJUST_X;
-				
-				Check(bottom, top, GetTopLeftCorner());
-			}
+            Vector2 left = Vector2.zero;
+            Vector2 right = Vector2.zero;
+            
+            GetVector(out left, out right);
+            Check(left, right);
 		}
-		
 	}
 	
-	public void OnBeginPulling(CharacterPull pArg, Balloon pBalloon)
+    private void GetVector(out Vector2 pLeft, out Vector2 pRight)
+    {
+        float speed = GetSpeedParamater();
+
+        if(speed < 0)
+        {
+            pLeft = GetTopLeftCorner();
+            pLeft.x -= AJUST_X;
+            pRight =  GetTopRightCorner();
+            
+        }
+        else
+        {
+            pRight = GetTopRightCorner();
+            pRight.x += AJUST_X;
+            pLeft = GetTopLeftCorner();
+        }
+
+        pLeft.y += 0.5f;
+        pRight.y += 0.5f;
+    }
+
+	private void OnBeginPulling(CharacterPull pArg, Balloon pBalloon)
 	{
 		mBalloon = pBalloon;
 	}
 	
-	public void OnStopPulling()
+	private void OnStopPulling()
 	{
 		mBalloon = null;
 	}
 	
-	private void Check(Vector2 mBottom, Vector2 mTop, Vector2 pOther)
+	private void Check(Vector2 pLeft, Vector2 pRight)
 	{
-		mTop.y += 0.5f;
-		pOther.y += 0.5f;
-		Vector2 ultraTop = mTop;
-		
-		ultraTop.y += 2f;
-		
-		mBottom.y += 0.3f;
-		Debug.DrawLine (mTop, pOther, Color.yellow);
-		Debug.DrawLine (mTop, mBottom, Color.green);
-		if(Physics2D.Linecast(mTop, pOther, PlateformLayerMask))
+        Debug.DrawLine (pLeft, pRight, Color.yellow);
+
+        if(Physics2D.Linecast(pLeft, pRight, PlateformLayerMask))
 		{
-			CheckBalloon(mTop.y);
+            CheckBalloon(pLeft.y);
 		}
 	}
 
 	private void CheckBalloon(float pY)
 	{
-		if (mBalloon.transform.position.y > pY) {
-			mAnimator.SetBool ("HaveToJump", true);
-			mAnimator.SetBool("IsPlateformJump", true);
+        Vector2 balloon = mBalloon.transform.position;
+        if (balloon.y > pY) 
+        {
+            UpdatePlateformParamaters();
 		}
 	}
 
+    private void UpdatePlateformParamaters()
+    {
+        mAnimator.SetBool (JUMP_PARAMATER, true);
+        mAnimator.SetBool(PLATEFORM_PARAMATER, true);
+    }
 }

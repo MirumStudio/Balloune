@@ -11,6 +11,7 @@ public class CharacterSensor : MonoBehaviour {
 	protected const string SPEED_PARAMATER = "Speed";
     protected const string GROUND_PARAMATER = "IsGrounded";
     protected const string JUMP_PARAMATER = "HaveToJump";
+    protected const string PLATEFORM_PARAMATER = "IsPlateformJump";
 	
 	protected float mWidth;
 	protected float mHeight;
