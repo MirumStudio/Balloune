@@ -60,7 +60,7 @@ public class BalloonControl : MonoBehaviour {
 
     private void OnSwipeBegin(ESwipeDirection pDirection)
     {
-        if (mTouchedBalloonObject != null && pDirection == ESwipeDirection.UP && mTouchedBalloon.Type == EBalloonType.LIFE
+        if (mTouchedBalloonObject != null && pDirection == ESwipeDirection.UP/* && mTouchedBalloon.Type == EBalloonType.LIFE*/
             && TouchService.CurrentTouchPosition.y > mTouchedBalloonObject.transform.position.y)
         {
             mIsJumpCommand = true;
