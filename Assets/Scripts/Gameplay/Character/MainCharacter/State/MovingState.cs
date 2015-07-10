@@ -4,34 +4,30 @@ using System.Collections;
 public class MovingState : CharacterState {
 
 	protected bool m_IsFacingRight = true;
+
+    [SerializeField]
 	private float m_MaxSpeed = 4f;
 
-	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		base.OnStateEnter (animator, stateInfo, layerIndex);
-		Debug.Log ("MOVING STATE: Enter");
-	}
-
 	override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		//AddForce (Vector2.right * animator.GetFloat("Speed") * 100);
 
-		float speed = animator.GetFloat ("Speed");
+		float speed = animator.GetFloat(SPEED_PARAMATER);
 
-		Direction direction = GetDirection (speed);
+		Direction direction = GetDirection(speed);
 		
-		if (speed != 0 /*&& CanMove(direction)*/ && !HorizontalMaxSpeedReached(direction))
+		if (speed != 0  && !HorizontalMaxSpeedReached(direction))
 		{
-			//AddForce(Vector2.right * speed * 500);
-
-			Vector2 newVelocity = mBody.velocity;
-
-			newVelocity.x = Mathf.Sign(speed) * m_MaxSpeed;
-			
-			mBody.velocity = newVelocity;
+            Move(speed);
 		}
-		
-		//AjustVelocity();
+
 		CheckFlipping(direction);
 	}
+
+    private void Move(float speed)
+    {
+        Vector2 newVelocity = mBody.velocity;
+        newVelocity.x = Mathf.Sign(speed) * m_MaxSpeed;
+        mBody.velocity = newVelocity;
+    }
 
 	protected bool HorizontalMaxSpeedReached(Direction pDirection)
 	{
@@ -54,18 +50,6 @@ public class MovingState : CharacterState {
 		Vector3 theScale = mBody.transform.localScale;
 		theScale.x *= -1;
 		mBody.transform.localScale = theScale;
-	}
-
-	protected void AjustVelocity()
-	{
-		Vector2 newVelocity = mBody.velocity;
-		
-		if (Mathf.Abs(mBody.velocity.x) > m_MaxSpeed)
-		{
-			newVelocity.x = Mathf.Sign(mBody.velocity.x) * m_MaxSpeed;
-		}
-		
-		mBody.velocity = newVelocity;
 	}
 
 	protected Direction GetDirection(float speed)
