@@ -16,9 +16,8 @@ public class PlateformSensor : CharacterSensor {
 		EventService.Register(EGameEvent.END_PULLING, OnStopPulling);
 	}
 
-	// Update is called once per frame
 	void FixedUpdate () {
-		if(mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Moving"))
+		if(IsInMovingState())
 		{
 			float speed = mAnimator.GetFloat(SPEED_PARAMATER);
 			
@@ -27,7 +26,6 @@ public class PlateformSensor : CharacterSensor {
 			
 			if(speed < 0)
 			{
-				//CheckLeft();
 				bottom = GetBottomLeftCorner();
 				top = GetTopLeftCorner();
 				bottom.x -= AJUST_X;

@@ -87,6 +87,11 @@ public class CharacterSensor : MonoBehaviour {
 			return 1 << LayerMask.NameToLayer(PLATEFORM_LAYER_NAME);
 		}
 	}
+
+    protected bool IsInMovingState()
+    {
+        return mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Moving");
+    }
 	
 	#endregion
 }

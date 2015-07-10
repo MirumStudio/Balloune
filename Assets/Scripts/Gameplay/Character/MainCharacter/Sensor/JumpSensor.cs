@@ -6,9 +6,8 @@ public class JumpSensor : CharacterSensor {
 
 	private float AJUST_X = 1.5f;
 
-	// Update is called once per frame
 	void FixedUpdate () {
-		if(mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Moving"))
+		if(IsInMovingState())
 		{
 			float speed = mAnimator.GetFloat(SPEED_PARAMATER);
 
@@ -17,7 +16,6 @@ public class JumpSensor : CharacterSensor {
 
 			if(speed < 0)
 			{
-				//CheckLeft();
 				bottom = GetBottomLeftCorner();
 				top = GetTopLeftCorner();
 				bottom.x -= AJUST_X;
@@ -37,19 +35,6 @@ public class JumpSensor : CharacterSensor {
 			}
 		}
 		
-	}
-
-	private void CheckRight()
-	{
-
-	}
-
-	private void CheckLeft()
-	{
-		Vector2 vector = GetBottomLeftCorner();
-		vector.y += 0.05f;
-		Debug.DrawLine(GetTopLeftCorner(), vector, Color.green);
-		Physics2D.Linecast(GetTopLeftCorner(), vector, GroundLayerMask);
 	}
 
 	private void Check(Vector2 mBottom, Vector2 mTop)

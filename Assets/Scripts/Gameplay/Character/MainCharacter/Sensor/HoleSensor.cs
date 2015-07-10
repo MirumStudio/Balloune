@@ -7,7 +7,7 @@ public class HoleSensor : CharacterSensor {
 
 	void FixedUpdate () {
 
-		if(mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Moving"))
+		if(IsInMovingState())
 		{
 			float speed = mAnimator.GetFloat(SPEED_PARAMATER);
 			
@@ -17,8 +17,6 @@ public class HoleSensor : CharacterSensor {
 			if(speed < 0)
 			{
 				left = GetBottomLeftCorner();
-				//bottom.x -= AJUST_X;
-				//top.x -= AJUST_X;
 				left.x -= AJUST_X;
 				Check(left);
 				
@@ -26,49 +24,33 @@ public class HoleSensor : CharacterSensor {
 			else if(speed > 0)
 			{
 				right = GetBottomRightCorner();
-				//bottom.x += AJUST_X;
-				//top.x += AJUST_X;
 				right.x += AJUST_X;
 				Check(right);
 			}
 		}
-
-		//mAnimator.SetBool ("IsGrounded", grounded);
 	}
 
-		private void Check(Vector2 pPoint)
+	private void Check(Vector2 pPoint)
+	{
+	    float speed = mAnimator.GetFloat(SPEED_PARAMATER);
+		Vector2 bot = pPoint;
+		bot.y -= 3f;
+		Debug.DrawLine (pPoint, bot, Color.cyan);
+
+		if(!Physics2D.Linecast(pPoint, bot, GroundLayerMask))
 		{
-		float speed = mAnimator.GetFloat(SPEED_PARAMATER);
-			Vector2 bot = pPoint;
-			bot.y -= 3f;
-			Debug.DrawLine (pPoint, bot, Color.cyan);
-
-			if(!Physics2D.Linecast(pPoint, bot, GroundLayerMask))
-			{
-				bool haveToJump = false;
-				Vector2 other = pPoint;
-				if(speed < 0)
-				{
-					other.x -= 3f;
-				}
-				else if(speed > 0)
-				{
-					other.x += 3f;
-				}
-				haveToJump = Physics2D.Linecast(pPoint, other, GroundLayerMask);
-				mAnimator.SetBool("HaveToJump", haveToJump);
-			}
-
-			Vector2 other2 = pPoint;
+			bool haveToJump = false;
+			Vector2 other = pPoint;
 			if(speed < 0)
 			{
-				other2.x -= 3f;
+				other.x -= 3f;
 			}
 			else if(speed > 0)
 			{
-				other2.x += 3f;
+				other.x += 3f;
 			}
-
-		Debug.DrawLine (pPoint, other2, Color.cyan);
+			haveToJump = Physics2D.Linecast(pPoint, other, GroundLayerMask);
+			mAnimator.SetBool("HaveToJump", haveToJump);
 		}
+	}
 }
