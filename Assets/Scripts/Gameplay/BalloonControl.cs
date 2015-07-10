@@ -47,6 +47,7 @@ public class BalloonControl : MonoBehaviour {
          {
              EventService.DispatchEvent(EGameEvent.TRIGGER_BALLOON, touchedBalloon.GetComponent<Balloon>());
          }
+		OnTap (pPosition);
     }
 
     private void OnEndTouch()
