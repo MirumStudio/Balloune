@@ -13,8 +13,10 @@ public class GirlBalloonHolder : BalloonHolder
 {
 	public const string GIRL_BALLOON_HOLDER_NAME = "GirlBalloonHolder";
 	public const int MAX_LIFE_BALLOON = 3;
+	public const int MAX_SPECIAL_BALLOON = 3;
 
 	private int mNumberOfLifeBalloons = 0;
+	private int mNumberOfSpecialBalloons = 0;
 	protected override void Start()
 	{
 		base.Start ();
@@ -33,21 +35,13 @@ public class GirlBalloonHolder : BalloonHolder
 
 	public override void CreateBalloon(EBalloonType pType)
 	{
-		if (pType.Equals (EBalloonType.LIFE) && CanCreateAdditionalLifeBalloon (pType)) {
+		if (pType.Equals (EBalloonType.LIFE) && !HoldsMaximumLifeBalloons()) {
 			mNumberOfLifeBalloons++;
 			base.CreateBalloon (pType);
-		} else if (!pType.Equals (EBalloonType.LIFE)) {
+		} else if (!pType.Equals (EBalloonType.LIFE) && !HoldsMaximumSpecialBalloons()) {
+			mNumberOfSpecialBalloons++;
 			base.CreateBalloon(pType);
 		}
-	}
-
-	private bool CanCreateAdditionalLifeBalloon(EBalloonType pType)
-	{
-		bool shouldCreateAdditionalLifeBalloon = true;
-		if (HoldsMaximumLifeBalloons()) {
-			shouldCreateAdditionalLifeBalloon = false;
-		}
-		return shouldCreateAdditionalLifeBalloon;
 	}
 
 	private bool HoldsMaximumLifeBalloons()
@@ -59,10 +53,21 @@ public class GirlBalloonHolder : BalloonHolder
 		return holdsMaximumLifeBalloons;
 	}
 
+	private bool HoldsMaximumSpecialBalloons()
+	{
+		bool holdsMaximumSpecialBalloons = false;
+		if (mNumberOfSpecialBalloons >= MAX_SPECIAL_BALLOON) {
+			holdsMaximumSpecialBalloons = true;
+		}
+		return holdsMaximumSpecialBalloons;
+	}
+
 	public override void DetachBalloon(Balloon pBalloonToDetach)
 	{
 		if (pBalloonToDetach.Type.Equals (EBalloonType.LIFE)) {
 			mNumberOfLifeBalloons--;
+		} else {
+			mNumberOfSpecialBalloons--;
 		}
 		base.DetachBalloon (pBalloonToDetach);
 	}
