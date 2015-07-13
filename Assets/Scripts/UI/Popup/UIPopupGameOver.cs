@@ -12,8 +12,8 @@ public class UIPopupGameOver : UIPopupBase
 {
     override protected void Start()
     {
-        base.Start();
-        EventService.Register(EGameEvent.GAME_OVER, OnLevelFinish);
+		base.Start();
+		EventService.Register(EGameEvent.GAME_OVER, OnLevelFinish);
     }
 
     private void OnLevelFinish()

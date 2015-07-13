@@ -48,10 +48,6 @@ public class BalloonHolder : MonoBehaviour {
         Destroy(pBalloon.gameObject);
         Destroy(pBalloon.Physics);
 		EventService.DispatchEvent (EGameEvent.DROP_BALLOON, pBalloon);
-        foreach(Balloon balloon in mBalloons)
-        {
-            balloon.Physics.SetInvulnerable(true);
-        }
 
         if (GetLifeBalloonCount() <= 0)
         {
@@ -124,9 +120,9 @@ public class BalloonHolder : MonoBehaviour {
 
     public int GetLifeBalloonCount()
     {
-        return mBalloons.FindAll((balloune) => 
+        return mBalloons.FindAll((balloon) => 
         {
-            return balloune is LifeBalloon;
+            return balloon is LifeBalloon;
         }).Count;
     }
 

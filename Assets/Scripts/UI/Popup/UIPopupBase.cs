@@ -31,6 +31,7 @@ public class UIPopupBase : MonoBehaviour {
 
     protected void DisplayPopup()
     {
+		Debug.Log ("DisplayPopup");
         gameObject.SetActive(true);
         mPopupIsDisplay = true;
         EventService.DispatchEvent(EGameEvent.POPUP_DISPLAYED, this);
