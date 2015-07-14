@@ -15,7 +15,7 @@ public class TrailBehavior : BalloonBehavior
 	private const float DEFLATION_TIME = 10f;
 
 	[SerializeField]
-	private GameObject m_GasTrail;
+	private GameObject m_GasTrail = null;
 	private GameObject mCustomizedGasTrail;
 	private ParticleSystem mParticleGenerator;
 
@@ -32,7 +32,7 @@ public class TrailBehavior : BalloonBehavior
 
 		mCustomizedGasTrail = m_GasTrail;
 		mCustomizedGasTrail.GetComponent<ParticleSystem> ().startColor = mBalloon.SpriteRenderer.color;
-
+		Debug.Log ("mCustomizedGasTrail has been instanced");
 		mParticleGenerator = mBalloon.gameObject.AddComponent<ParticleSystem> ();
 		mParticleGenerator.enableEmission = false;
 	}

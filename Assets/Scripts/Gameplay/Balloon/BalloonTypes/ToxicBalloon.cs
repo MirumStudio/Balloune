@@ -18,7 +18,7 @@ public class ToxicBalloon : Balloon {
 		ChangeColor(Color.green);
 		AddBehavior<DetachBehavior>();
 		AddBehavior<AttachBehavior>();
-		AddBehavior<TriggerableBehavior> ();
+		GetComponent<TrailBehavior> ().enabled = true;
 		m_MaxRopeDistance = TOXIC_ROPE_DISTANCE;
 	}
 }
