@@ -7,43 +7,46 @@
 
 using System;
 using UnityEngine;
+using Radix.Event;
 
 public class FlyingBehavior : BalloonBehavior
 {
+	private DetachBehavior mDetachBehavior;
+
 	protected override void Start () {
 		base.Start ();
-		AllowFlight ();
-		//TODO this will be used if/when balloons are not automatically attached to the girl upon creation
-		//EventListener.Register (EGameEvent.ATTACH_BALLOON, OnAttachBalloon);
+		EventService.Register<AttachBalloonDelegate>(EGameEvent.ATTACH_BALLOON, OnAttachBalloon);
+		mDetachBehavior = GetComponent<DetachBehavior> ();
 	}
 	
 	void Update () {
 		
 	}
-
-	private void OnAttachBalloon(Enum pEvent, object pBalloon, object pTack)
+	
+	private void OnAttachBalloon(Balloon pBalloon, GameObject pTack)
 	{
 		if (((Balloon)pBalloon).GameObject == mBalloon.GameObject) {
-			AllowFlight ();
+			MoveableObject flyingObject = mBalloon.BalloonHolder.Owner.GetComponent<MoveableObject>();
+			if(flyingObject != null)
+			{
+				AllowFlight (flyingObject);
+				DisallowDetach();
+			}
 		}
 	}
-
-	private void AllowFlight()
+	
+	private void AllowFlight(MoveableObject pFlyingObject)
 	{
 		DistanceJoint2D existingDistanceJoint = mBalloon.Physics.DistanceJoint2D;
-		GameObject flyingCharacterObject = mBalloon.BalloonHolder.Owner;
-		//TODO dans les niveaux qui peuvent contenir une source de gaz "flying", il faudrait que les personnages aient déjà ce newDistanceJoint
-		DistanceJoint2D newDistanceJoint = flyingCharacterObject.AddComponent<DistanceJoint2D> ();
-		newDistanceJoint = CopyDistanceJoint2D (existingDistanceJoint, newDistanceJoint);
-		newDistanceJoint.connectedBody = mBalloon.Physics.GetRigidBody();
+		existingDistanceJoint.enabled = false;
+		DistanceJoint2D objectDistanceJoint = pFlyingObject.GetDistanceJoint ();
+		objectDistanceJoint.connectedBody = mBalloon.Physics.GetRigidBody();
+		objectDistanceJoint.enabled = true;
 	}
 
-	private DistanceJoint2D CopyDistanceJoint2D (DistanceJoint2D pJointToCopy, DistanceJoint2D pNewDistanceJoint)
+	private void DisallowDetach()
 	{
-		pNewDistanceJoint.connectedAnchor = pJointToCopy.anchor;
-		pNewDistanceJoint.distance = pJointToCopy.distance;
-		pNewDistanceJoint.maxDistanceOnly = pJointToCopy.maxDistanceOnly;
-		return pNewDistanceJoint;
+		mDetachBehavior.enabled = false;
 	}
-
+	
 }

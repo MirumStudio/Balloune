@@ -32,7 +32,7 @@ public class BalloonHolder : MonoBehaviour {
 	protected virtual void Start () {
 		BalloonFactory.Init(m_BalloonPrefab, m_Tack);
 		mOwner = m_Tack.transform.parent.gameObject;
-        EventService.Register<AttempAttachBallooonDelegate>(EGameEvent.ATTEMPT_ATTACH_BALLOON, OnAttemptAttachBalloon);
+        EventService.Register<AttempAttachBalloonDelegate>(EGameEvent.ATTEMPT_ATTACH_BALLOON, OnAttemptAttachBalloon);
 	}
 	
 	private void SetBalloonProperties(Balloon pBalloon, BalloonPhysics pPhysic, int pBalloonIndex)

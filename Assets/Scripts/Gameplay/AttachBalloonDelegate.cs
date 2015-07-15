@@ -1,4 +1,4 @@
-﻿/* -----      MIRUM STUDIO      -----
+/* -----      MIRUM STUDIO      -----
  * Copyright (c) 2015 All Rights Reserved.
  * 
  * This source is subject to a copyright license.
@@ -12,8 +12,8 @@ public delegate void InteractableDelegate(Interactable pArg);
 public delegate void BalloonDelegate(Balloon pArg);
 public delegate void BalloonTypeDelegate(EBalloonType pArg);
 public delegate void CharacterPullDelegate(CharacterPull pPull, Balloon pBalloon);
-public delegate void AttempAttachBallooonDelegate(Balloon pBalloon, Vector2 pVec);
-public delegate void AttachBallooonDelegate(Balloon pBalloon, GameObject pArg);
+public delegate void AttempAttachBalloonDelegate(Balloon pBalloon, Vector2 pVec);
+public delegate void AttachBalloonDelegate(Balloon pBalloon, GameObject pArg);
 
 public enum EGameEvent 
 {
@@ -59,10 +59,10 @@ public enum EGameEvent
     [EventHandlerAttribute(typeof(BalloonDelegate))]
 	DROP_BALLOON,
     
-    [EventHandlerAttribute(typeof(AttempAttachBallooonDelegate))]
+    [EventHandlerAttribute(typeof(AttempAttachBalloonDelegate))]
 	ATTEMPT_ATTACH_BALLOON,
     
-    [EventHandlerAttribute(typeof(AttachBallooonDelegate))]
+    [EventHandlerAttribute(typeof(AttachBalloonDelegate))]
 	ATTACH_BALLOON,
     
     [EventHandlerAttribute()]

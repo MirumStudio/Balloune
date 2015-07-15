@@ -7,7 +7,7 @@ public class CharacterState : StateMachineBehaviour {
     protected const string SPEED_PARAMATER = "Speed";
     protected const string GROUND_PARAMATER = "IsGrounded";
     protected const string JUMP_PARAMATER = "HaveToJump";
-    protected const string PLATEFORM_PARAMATER = "IsPlateformJump";
+    protected const string PLATFORM_PARAMETER = "IsPlateformJump";
 
 	protected Rigidbody2D mBody = null;
 

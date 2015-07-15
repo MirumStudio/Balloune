@@ -17,7 +17,7 @@ public class RopeManager
 	public RopeManager(GameObject pRopePrefab, GameObject pTack)
 	{
 		mRopePrefab = pRopePrefab;
-        EventService.Register<AttachBallooonDelegate>(EGameEvent.ATTACH_BALLOON, OnAttachBalloon);
+        EventService.Register<AttachBalloonDelegate>(EGameEvent.ATTACH_BALLOON, OnAttachBalloon);
 		//TODO
 		//EventListener.Register(EGameEvent.DETACH_BALLOON, OnAttachBalloon);
 	}

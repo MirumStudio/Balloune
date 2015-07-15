@@ -9,8 +9,8 @@ using UnityEngine;
 
 public class TouchControl
 {
-    private const float STATIONARY_AJUST_TIME = 0.013f;
-    private const float STATIONARY_AJUST_TIME_DEBUG = 0.1f;
+    private const float STATIONARY_ADJUST_TIME = 0.013f;
+    private const float STATIONARY_ADJUST_TIME_DEBUG = 0.1f;
     private float mStationaryAjustTime = 0f;
 
     private const float SWIPE_MAX_TIME = 0.1f;
@@ -26,7 +26,7 @@ public class TouchControl
     public TouchControl(Touch pTouch)
     {
         SwipeDirection = ESwipeDirection.NONE;
-        mStationaryAjustTime = Application.isEditor ? STATIONARY_AJUST_TIME_DEBUG : STATIONARY_AJUST_TIME;
+        mStationaryAjustTime = Application.isEditor ? STATIONARY_ADJUST_TIME_DEBUG : STATIONARY_ADJUST_TIME;
         mSwipeMaxTime = Application.isEditor ? SWIPE_MAX_TIME_DEBUG : SWIPE_MAX_TIME;
         UpdateTouch(pTouch);
         IsSwiping = false;

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class JumpingState : CharacterState {
@@ -22,7 +22,7 @@ public class JumpingState : CharacterState {
     private float GetXAxisForce(Animator animator)
     {
         float xForce = 50f;
-        if(animator.GetBool(PLATEFORM_PARAMATER))
+        if(animator.GetBool(PLATFORM_PARAMETER))
         {
             xForce = 0f;
         }
@@ -39,6 +39,6 @@ public class JumpingState : CharacterState {
 
     private void ReinitializePlateformParamater(Animator animator)
     {
-        animator.SetBool(PLATEFORM_PARAMATER, false);
+        animator.SetBool(PLATFORM_PARAMETER, false);
     }
 }

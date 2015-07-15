@@ -60,7 +60,7 @@ public class BalloonPhysics : MonoBehaviour
 		Physics2D.IgnoreCollision(mainCharacter.GetComponent<BoxCollider2D>(), mCircleCollider);
 		EventService.Register<BalloonDelegate>(EGameEvent.PICKUP_BALLOON, OnPickupBalloon);
         EventService.Register<BalloonDelegate>(EGameEvent.DROP_BALLOON, OnDropBalloon);
-        EventService.Register<AttachBallooonDelegate>(EGameEvent.ATTACH_BALLOON, OnAttachBalloon);
+        EventService.Register<AttachBalloonDelegate>(EGameEvent.ATTACH_BALLOON, OnAttachBalloon);
 	}
 	
 	

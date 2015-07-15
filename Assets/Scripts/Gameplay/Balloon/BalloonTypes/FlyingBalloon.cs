@@ -16,9 +16,9 @@ public class FlyingBalloon : Balloon {
 	{
 		base.Init(pType);
 		ChangeColor(Color.white);
-		AddBehavior<CharacterPullBehavior>();
 		AddBehavior<FlyingBehavior>();
-		AddBehavior<TriggerableBehavior>();
+		AddBehavior<DetachBehavior>();
+		AddBehavior<AttachBehavior>();
 		m_MaxRopeDistance = FLYING_ROPE_DISTANCE;
 	}
 }
