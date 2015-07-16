@@ -19,6 +19,7 @@ public class FlyingBalloon : Balloon {
 		AddBehavior<FlyingBehavior>();
 		AddBehavior<DetachBehavior>();
 		AddBehavior<AttachBehavior>();
+		AddBehavior<TriggerableBehavior> ();
 		m_MaxRopeDistance = FLYING_ROPE_DISTANCE;
 	}
 }

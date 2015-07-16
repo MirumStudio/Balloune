@@ -10,7 +10,7 @@ public class MoveableObject : MonoBehaviour {
 	private bool mIsFlying = false;
 	
 	
-	void Start () {
+	protected virtual void Start () {
 		mRigidbody = GetComponent<Rigidbody2D> ();
 		mDistanceJoint = GetComponent<DistanceJoint2D> ();
 	}

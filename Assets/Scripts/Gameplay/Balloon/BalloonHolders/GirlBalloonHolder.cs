@@ -44,6 +44,16 @@ public class GirlBalloonHolder : BalloonHolder
 		}
 	}
 
+	public virtual void DestroyBalloon(Balloon pBalloon)
+	{
+		base.DestroyBalloon (pBalloon);
+		
+		if (GetLifeBalloonCount() <= 0)
+		{
+			EventService.DispatchEvent(EGameEvent.GAME_OVER);
+		}
+	}
+
 	private bool HoldsMaximumLifeBalloons()
 	{
 		bool holdsMaximumLifeBalloons = false;

@@ -42,17 +42,12 @@ public class BalloonHolder : MonoBehaviour {
         pPhysic.SetTack(m_Tack);
 	}
 
-    public void DestroyBalloon(Balloon pBalloon)
+    public virtual void DestroyBalloon(Balloon pBalloon)
     {
         DetachBalloon(pBalloon);
         Destroy(pBalloon.gameObject);
         Destroy(pBalloon.Physics);
 		EventService.DispatchEvent (EGameEvent.DROP_BALLOON, pBalloon);
-
-        if (GetLifeBalloonCount() <= 0)
-        {
-            EventService.DispatchEvent(EGameEvent.GAME_OVER);
-        }
 	}
 
     public virtual void CreateBalloon(EBalloonType pType)

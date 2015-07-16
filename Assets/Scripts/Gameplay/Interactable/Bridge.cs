@@ -3,6 +3,8 @@ using System.Collections;
 using Radix.Event;
 
 public class Bridge : MonoBehaviour {
+	
+	private const int AREA_OF_EFFECT = 3;
 
     [SerializeField]
     public Transform m_GearBox;
@@ -25,7 +27,7 @@ public class Bridge : MonoBehaviour {
     private bool IsNearGearBox(Vector2 pPos)
     {
         float distance = Vector2.Distance(m_GearBox.position, pPos);
-        return distance <= 3;
+		return distance <= AREA_OF_EFFECT;
     }
 
     private void DropBridge()
