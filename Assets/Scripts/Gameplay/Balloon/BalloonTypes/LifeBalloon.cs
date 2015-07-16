@@ -10,7 +10,7 @@ using System.Collections;
 
 public class LifeBalloon : Balloon {
 
-	public const float LIFE_ROPE_DISTANCE = 4f;
+	public const float LIFE_ROPE_DISTANCE = 2f;
 	override public void Init(EBalloonType pType)
     {
 		base.Init(pType);
