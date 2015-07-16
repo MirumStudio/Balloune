@@ -11,7 +11,12 @@ using Radix.Event;
 
 public class FlyingBehavior : BalloonBehavior
 {
+	private int MAX_FLYING_TIME = 10;
+
 	private DetachBehavior mDetachBehavior;
+
+	private float mFlyingTime = 0f;
+	private bool mIsAttachedToMoveableObject = false;
 
 	protected override void Start () {
 		base.Start ();
@@ -20,7 +25,7 @@ public class FlyingBehavior : BalloonBehavior
 	}
 	
 	void Update () {
-		
+		DeflateBalloon ();
 	}
 	
 	private void OnAttachBalloon(Balloon pBalloon, GameObject pTack)
@@ -29,6 +34,7 @@ public class FlyingBehavior : BalloonBehavior
 			MoveableObject flyingObject = mBalloon.BalloonHolder.Owner.GetComponent<MoveableObject>();
 			if(flyingObject != null)
 			{
+				mIsAttachedToMoveableObject = true;
 				AllowFlight (flyingObject);
 				DisallowDetach();
 			}
@@ -47,6 +53,19 @@ public class FlyingBehavior : BalloonBehavior
 	private void DisallowDetach()
 	{
 		mDetachBehavior.enabled = false;
+	}
+
+	private void DeflateBalloon()
+	{
+		if (mBalloon.Physics.IsTouched && mIsAttachedToMoveableObject == true) {
+			mFlyingTime += Time.deltaTime;
+			mBalloon.Shrink();
+			if(mFlyingTime >= MAX_FLYING_TIME)
+			{
+				mBalloon.Physics.PopBalloon();
+			}
+
+		}
 	}
 	
 }

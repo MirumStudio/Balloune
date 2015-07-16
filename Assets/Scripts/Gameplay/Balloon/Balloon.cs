@@ -115,6 +115,11 @@ public abstract class Balloon : MonoBehaviour {
 		mPhysics.SetBalloonIndex (mBalloonIndex);
 	}
 
+	public void Shrink()
+	{
+		transform.localScale = transform.localScale * 0.999f;
+	}
+
 	public int BalloonIndex
 	{
 		get { return mBalloonIndex; }
