@@ -9,60 +9,73 @@ using UnityEngine;
 
 public class CharacterPull
 {
-	private float mPullStrength = 0f;
-	private int mPullDirection = 0;
+    public float Strength
+    {
+        get;
+        private set;
+    }
 
-	public CharacterPull (){}
+    public EDirection Direction
+    {
+        get;
+        private set;
+    }
 
-	public void SetPullStrength(double pPullAngle)
+    public CharacterPull()
+    {
+        Strength = 0f;
+        Direction = EDirection.NONE;
+    }
+
+    public void SetBalloonInfo(Vector2 pPosition, float pAngle)
+    {
+        float distance = CalculateDistance(pPosition);
+        CalculatePullDirection(pAngle);
+        CalculatePullStrength(distance);
+    }
+
+    private float CalculateDistance(Vector2 pPosition)
+    {
+        float distance = Vector2.Distance(pPosition, TouchService.CurrentTouchPosition);
+        
+        float distanceMax = 5;
+        
+        distance = Mathf.Min(distance, distanceMax);
+        
+        distance = distance * 0.7f / distanceMax;
+        distance += 0.35f;
+
+        return distance;
+    }
+
+	private void CalculatePullStrength(float pDistance)
 	{
-		mPullStrength = CalculatePullStrength (pPullAngle);
-		SetPullDirection (mPullStrength);
-	}
+        Strength = Direction.Sign() * pDistance;
+    }
 
-	private float CalculatePullStrength(double pPullAngle)
+    private void CalculatePullDirection(double pPullAngle)
 	{
-		float pPullAngleFloat = Mathf.Abs ((float) pPullAngle);
-		float pullStrength = (90 - pPullAngleFloat) / 90;
+        float pPullAngleFloat = Mathf.Abs((float)pPullAngle);
+        float pullStrength = (90 - pPullAngleFloat) / 90;
 
-		return pullStrength;
-	}
-
-	public float GetPullStrength()
-	{
-		return mPullStrength;
-	}
-
-	private void SetPullDirection(double pPullDirection)
-	{
-		if (pPullDirection > 0) {
-			mPullDirection = 1;
-		} else if (pPullDirection < 0) {
-			mPullDirection = -1;
+        if (pullStrength > 0.1) {
+			Direction = EDirection.RIGHT;
+        } else if (pullStrength < -0.1) {
+            Direction = EDirection.LEFT;
 		} else {
-			mPullDirection = 0;
+            Direction = EDirection.NONE;
 		}
-	}
-
-	public void SetPullDirection(int pPullDirection)
-	{
-		mPullDirection = pPullDirection;
-	}
-
-	public int GetPullDirection()
-	{
-		return mPullDirection;
 	}
 
 	public bool IsPulling()
 	{
-        return (mPullStrength != 0);
+        return (Strength != 0);
 	}
 
 	public void StopPulling()
 	{
-		mPullStrength = 0f;
-		mPullDirection = 0;
+		Strength = 0f;
+		Direction = EDirection.NONE;
 	}
 }
 

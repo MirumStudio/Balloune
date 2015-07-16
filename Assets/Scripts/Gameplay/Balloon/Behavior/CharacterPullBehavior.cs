@@ -7,6 +7,7 @@
 
 using Radix.Event;
 using System;
+using UnityEngine;
 
 public class CharacterPullBehavior : BalloonBehavior
 {
@@ -39,9 +40,9 @@ public class CharacterPullBehavior : BalloonBehavior
 
     private void DragCharacter()
     {
-        double balloonAngle = mPhysics.GetBalloonAngle();
-        mCharacterPull.SetPullStrength(balloonAngle);
-        float mDirection = mCharacterPull.GetPullDirection();
+        float balloonAngle = (float)mPhysics.GetBalloonAngle();
+        Vector2 balloonPos = mPhysics.transform.position;
+        mCharacterPull.SetBalloonInfo(balloonPos, balloonAngle);
     }
 
     public bool IsPullingCharacter()

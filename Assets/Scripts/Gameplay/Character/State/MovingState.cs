@@ -6,7 +6,7 @@ public class MovingState : CharacterState {
 	protected bool m_IsFacingRight = true;
 
     [SerializeField]
-	private float m_MaxSpeed = 4f;
+	private float m_MaxSpeed = 7f;
 
 	override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 
@@ -23,7 +23,7 @@ public class MovingState : CharacterState {
     private void Move(float speed)
     {
         Vector2 newVelocity = mBody.velocity;
-        newVelocity.x = Mathf.Sign(speed) * m_MaxSpeed;
+        newVelocity.x = speed * m_MaxSpeed;
         mBody.velocity = newVelocity;
     }
 
