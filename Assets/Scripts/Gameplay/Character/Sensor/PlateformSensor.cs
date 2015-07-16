@@ -45,8 +45,8 @@ public class PlateformSensor : CharacterSensor {
             pLeft = GetTopLeftCorner();
         }
 
-        pLeft.y += 0.5f;
-        pRight.y += 0.5f;
+        pLeft.y += 0.3f;
+        pRight.y += 0.3f;
     }
 
 	private void OnBeginPulling(CharacterPull pArg, Balloon pBalloon)
