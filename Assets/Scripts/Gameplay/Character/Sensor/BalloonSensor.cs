@@ -16,7 +16,7 @@ public class BalloonSensor : CharacterSensor {
 	void Update () {
 		if (mCurrentPull != null) 
         {
-			UpdateSpeedParamater(mCurrentPull.GetPullStrength());
+			UpdateSpeedParamater(mCurrentPull.Strength);
 		} else 
         {
 			UpdateSpeedParamater(0f);
