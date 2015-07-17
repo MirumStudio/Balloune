@@ -23,12 +23,7 @@ public class Trigger : MonoBehaviour {
 		}
 	}
 	
-	private void FixedUpdate()
-	{
-		Activate ();
-	}
-	
-	private void Activate()
+	protected virtual void Activate()
 	{
 		if (mIsTriggered == true) {
 			EventService.DispatchEvent (EGameEvent.TRIGGER_OBJECT, this);
@@ -44,15 +39,16 @@ public class Trigger : MonoBehaviour {
 
 	public void SetIsTriggered(bool pIsTriggered)
 	{
-		mIsTriggered = pIsTriggered;
+		if (mIsTriggered != pIsTriggered) {
+			mIsTriggered = pIsTriggered;
+			Activate ();
+		}
 	}
 
 	protected void OnStunBalloonPop(Vector2 pPos)
 	{
-		Debug.Log ("test1");
 		if(IsInAOE(pPos))
 		{
-			Debug.Log ("test2");
 			EventService.DispatchEvent (EGameEvent.TRIGGER_OBJECT, this);
 		}
 	}

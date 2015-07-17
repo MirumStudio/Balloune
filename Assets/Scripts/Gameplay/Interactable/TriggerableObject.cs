@@ -19,16 +19,13 @@ public class TriggerableObject : MonoBehaviour {
 	
 	
 	protected virtual void Start () {
-		Debug.Log ("test2.5");
 		EventService.Register<TriggerObjectDelegate> (EGameEvent.TRIGGER_OBJECT, OnTrigger);
 	}
 	
 	protected virtual void OnTrigger(Trigger pTrigger)
 	{
-		Debug.Log ("test3");
 		if(m_Trigger != null && (m_Trigger.gameObject == pTrigger.gameObject))
 		{
-			Debug.Log ("test4");
 			Trigger();
 		}
 	}
