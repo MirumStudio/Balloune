@@ -8,7 +8,7 @@
 using Radix.Event;
 using UnityEngine;
 
-public class Trigger : MonoBehaviour {
+public class CollisionTrigger : MonoBehaviour {
 
 	[SerializeField]
 	private EGameTrigger eventToTrigger = EGameTrigger.LEVEL_END_REACHED;

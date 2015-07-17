@@ -1,34 +1,26 @@
-﻿using UnityEngine;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+using UnityEngine;
 using System.Collections;
 using Radix.Event;
 
-public class Bridge : MonoBehaviour {
-	
-	private const int AREA_OF_EFFECT = 3;
-
-    [SerializeField]
-    public Transform m_GearBox;
+public class Bridge : TriggerableObject {
 
     private HingeJoint2D mHinge;
 
 	void Start () {
+		base.Start ();
         mHinge = GetComponent<HingeJoint2D>();
-        EventService.Register<Vector2Delegate>(EGameEvent.STUN_BALLOON_POP, OnStunBalloonPop);
 	}
 
-    private void OnStunBalloonPop(Vector2 pPos)
-    {
-        if(IsNearGearBox(pPos))
-        {
-            DropBridge();
-        }
-    }
-
-    private bool IsNearGearBox(Vector2 pPos)
-    {
-        float distance = Vector2.Distance(m_GearBox.position, pPos);
-		return distance <= AREA_OF_EFFECT;
-    }
+	protected override void Trigger()
+	{
+		DropBridge ();
+	}
 
     private void DropBridge()
     {

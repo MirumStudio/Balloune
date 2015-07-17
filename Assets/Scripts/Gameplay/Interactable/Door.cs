@@ -1,63 +1,30 @@
+/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
 using UnityEngine;
 using System.Collections;
 using Radix.Event;
 
-public class Door : MonoBehaviour {
-
-	private const int AREA_OF_EFFECT = 3;
-
-	[SerializeField]
-	public Transform m_GearBox;
-
-	[SerializeField]
-	private GameObject m_LeverObject;
-	private Lever mLever;
-
-	private bool mIsTriggered = false;
+public class Door : TriggerableObject {
 
 	private SliderJoint2D mSliderJoint;
-
 	
-	void Start () {
+	protected override void Start () {
+		base.Start ();
 		mSliderJoint = GetComponent<SliderJoint2D> ();
-		EventService.Register<Vector2Delegate>(EGameEvent.STUN_BALLOON_POP, OnStunBalloonPop);
-		if (m_LeverObject != null) {
-			mLever = m_LeverObject.GetComponent<Lever> ();
-		}
-	}
-
-	private void Update()
-	{
-		if (m_LeverObject != null && mIsTriggered == false) {
-			Trigger ();
-		}
-	}
-
-	private void Trigger()
-	{
-		if (mLever.IsTriggered ()) {
-			RaiseDoor ();
-			mIsTriggered = true;
-		}
-	}
-
-	private void OnStunBalloonPop(Vector2 pPos)
-	{
-		if(IsNearGearBox(pPos))
-		{
-			RaiseDoor();
-		}
 	}
 	
-	private bool IsNearGearBox(Vector2 pPos)
+
+	protected override void Trigger()
 	{
-		float distance = Vector2.Distance(m_GearBox.position, pPos);
-		return distance <= AREA_OF_EFFECT;
+		RaiseDoor ();
 	}
 	
-	private void RaiseDoor()
+	protected void RaiseDoor()
 	{
 		mSliderJoint.useMotor = true;
-
 	}
 }
