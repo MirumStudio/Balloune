@@ -27,10 +27,7 @@ public class GasSource : MonoBehaviour {
 	void Start()
 	{
 		mEdgeCollider = GetComponent<EdgeCollider2D> ();
-
-		mGasPoints.Add (new GasPoint (GetColliderMaxBound()));
-		mGasPoints.Add (new GasPoint (transform.position));
-		mGasPoints.Add (new GasPoint (GetColliderMinBound()));
+		UpdateGasPoints ();
 	}
 
     void Update()
@@ -56,6 +53,11 @@ public class GasSource : MonoBehaviour {
 			resetAngle ();
 		}
     }
+
+	void FixedUpdate()
+	{
+		UpdateGasPoints ();
+	}
 
     void VerifyCircle(Vector2 pos)
     {
@@ -92,6 +94,13 @@ public class GasSource : MonoBehaviour {
     {
         return (v1.x * v2.y) - (v1.y * v2.x);
     }
+
+	private void UpdateGasPoints()
+	{
+		mGasPoints.Add (new GasPoint (GetColliderMaxBound()));
+		mGasPoints.Add (new GasPoint (transform.position));
+		mGasPoints.Add (new GasPoint (GetColliderMinBound()));
+	}
 
 	Vector2 GetColliderMaxBound()
 	{
