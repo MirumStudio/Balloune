@@ -8,23 +8,28 @@ using UnityEngine;
 using System.Collections;
 using Radix.Event;
 
-public class Door : TriggerableObject {
-
-	private SliderJoint2D mSliderJoint;
+public class PressurePlate : Trigger {
 	
-	protected override void Start () {
+	private SliderJoint2D mSliderJoint;
+	private float mHalfLimits = 0f;
+	
+	protected void Start () {
 		base.Start ();
 		mSliderJoint = GetComponent<SliderJoint2D> ();
+		mHalfLimits = ((Mathf.Abs (mSliderJoint.limits.max) - Mathf.Abs (mSliderJoint.limits.min)) / 2);
 	}
-	
 
-	protected override void Trigger()
+	private void FixedUpdate()
 	{
-		RaiseDoor ();
+		CheckIfPressed ();
 	}
-	
-	protected void RaiseDoor()
+
+	private void CheckIfPressed()
 	{
-		mSliderJoint.useMotor = true;
+		if (mSliderJoint.jointTranslation >= mSliderJoint.limits.max) {
+			base.SetIsTriggered(true);
+		} else {
+			base.SetIsTriggered(false);
+		}
 	}
 }

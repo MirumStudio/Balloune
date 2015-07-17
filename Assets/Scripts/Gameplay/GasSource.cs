@@ -17,23 +17,20 @@ public class GasSource : MonoBehaviour {
     [SerializeField]
     private float m_MinimumDistance = 4.0f;
 
-	EdgeCollider2D mEdgeCollider;
+	protected EdgeCollider2D mEdgeCollider;
 	Vector2 mEdgeVector;
 
     float timer = 0f;
 
 	List<GasPoint> mGasPoints = new List<GasPoint>();
 
-	void Start()
+	protected virtual void Start()
 	{
 		mEdgeCollider = GetComponent<EdgeCollider2D> ();
-
-		mGasPoints.Add (new GasPoint (GetColliderMaxBound()));
-		mGasPoints.Add (new GasPoint (transform.position));
-		mGasPoints.Add (new GasPoint (GetColliderMinBound()));
+		UpdateGasPoints ();
 	}
 
-    void Update()
+    protected virtual void Update()
     {
         timer += Time.deltaTime;
         if (Input.touchCount > 0 && timer > 0.1)
@@ -57,7 +54,12 @@ public class GasSource : MonoBehaviour {
 		}
     }
 
-    void VerifyCircle(Vector2 pos)
+	protected virtual void FixedUpdate()
+	{
+		UpdateGasPoints ();
+	}
+
+    protected virtual void VerifyCircle(Vector2 pos)
     {
 		for (int i = 0; i < mGasPoints.Count; i++) {
 			Vector2 previousVector = mGasPoints[i].PreviousVector;
@@ -92,6 +94,13 @@ public class GasSource : MonoBehaviour {
     {
         return (v1.x * v2.y) - (v1.y * v2.x);
     }
+
+	protected void UpdateGasPoints()
+	{
+		mGasPoints.Add (new GasPoint (GetColliderMaxBound()));
+		mGasPoints.Add (new GasPoint (transform.position));
+		mGasPoints.Add (new GasPoint (GetColliderMinBound()));
+	}
 
 	Vector2 GetColliderMaxBound()
 	{

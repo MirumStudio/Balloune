@@ -14,6 +14,7 @@ public delegate void BalloonTypeDelegate(EBalloonType pArg);
 public delegate void CharacterPullDelegate(CharacterPull pPull, Balloon pBalloon);
 public delegate void AttempAttachBalloonDelegate(Balloon pBalloon, Vector2 pVec);
 public delegate void AttachBalloonDelegate(Balloon pBalloon, GameObject pArg);
+public delegate void TriggerObjectDelegate(Trigger pTrigger);
 
 public enum EGameEvent 
 {
@@ -72,7 +73,13 @@ public enum EGameEvent
 	TRIGGER_BALLOON,
 
     [EventHandlerAttribute(typeof(Vector2Delegate))]
-    STUN_BALLOON_POP
+    STUN_BALLOON_POP,
+	
+	[EventHandlerAttribute(typeof(TriggerObjectDelegate))]
+	TRIGGER_OBJECT,
+
+	[EventHandlerAttribute(typeof(TriggerObjectDelegate))]
+	STOP_TRIGGER_OBJECT
 }
 
 public enum EGameTrigger
