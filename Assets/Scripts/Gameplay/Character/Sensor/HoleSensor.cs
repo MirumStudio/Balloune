@@ -6,7 +6,7 @@ public class HoleSensor : CharacterSensor {
 	private float AJUST_X = 0.15f;
 
     [SerializeField]
-    private float m_HoleMaxLenght = 3f;
+    private float m_HoleMaxLenght = 2f;
 
     [SerializeField]
     private float m_HoleDeep = 3f;
@@ -63,6 +63,7 @@ public class HoleSensor : CharacterSensor {
 
         bool haveToJump = Physics2D.Linecast(pTop, extremity, GroundLayerMask);
         mAnimator.SetBool(JUMP_PARAMATER, haveToJump);
+        mAnimator.SetBool(HOLE_PARAMATER, haveToJump);
     }
 
     private void DrawDebugLine(Vector2 pTop, Vector2 pBot)

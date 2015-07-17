@@ -8,6 +8,9 @@ public class GroundSensor : CharacterSensor {
         Vector2 left = GetBottomLeftCorner();
         Vector2 right = GetBottomRightCorner();
 
+       /* left.x += 0.3f;
+            right.x -= 0.3f;*/
+
         bool grounded = CheckGround(left, right);
 		
         UpdateGroundParamater(grounded);

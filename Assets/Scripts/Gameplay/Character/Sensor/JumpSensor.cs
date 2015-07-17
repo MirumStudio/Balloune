@@ -4,7 +4,7 @@ using Radix.Event;
 
 public class JumpSensor : CharacterSensor {
 
-	private float AJUST_X = 1.5f;
+	private float AJUST_X = 1f;
 
 	void FixedUpdate () {
 		if(IsInMovingState())
@@ -34,8 +34,8 @@ public class JumpSensor : CharacterSensor {
 
         pBottom.x += AJUST_X * Mathf.Sign(speed);
         pTop.x += AJUST_X * Mathf.Sign(speed);
-        pTop.y += 1f;
-        pBottom.y += 0.3f;
+        pTop.y += 0.75f;
+        pBottom.y += 0.4f;
     }
 
 	private void Check(Vector2 pBottom, Vector2 pTop)
@@ -43,7 +43,7 @@ public class JumpSensor : CharacterSensor {
         Debug.DrawLine (pTop, pBottom, Color.green);
 
         if(HaveObstacle(pBottom, pTop)
-           && !IsWall(pTop))
+           && !IsWall(pTop) && HaveMinimalDistance(pBottom))
 		{
 			mAnimator.SetBool(JUMP_PARAMATER, true);
 		}
@@ -62,6 +62,15 @@ public class JumpSensor : CharacterSensor {
         Debug.DrawLine (pTop, wall, Color.yellow);
 
         return Physics2D.Linecast(pTop, wall, GroundLayerMask);
+    }
+
+    private bool HaveMinimalDistance(Vector2 pBottom)
+    {
+        float speed = GetSpeedParamater();  
+        Vector2 start = pBottom;
+        start.x -= AJUST_X * Mathf.Sign(speed);
+
+        return true;//Physics2D.Linecast(start, pBottom, GroundLayerMask).distance > 0;
     }
 }
 

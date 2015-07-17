@@ -12,6 +12,7 @@ public class CharacterSensor : MonoBehaviour {
     protected const string GROUND_PARAMATER = "IsGrounded";
     protected const string JUMP_PARAMATER = "HaveToJump";
     protected const string PLATEFORM_PARAMATER = "IsPlateformJump";
+    protected const string HOLE_PARAMATER = "IsHoleJump";
 	
 	protected float mWidth;
 	protected float mHeight;
@@ -56,7 +57,7 @@ public class CharacterSensor : MonoBehaviour {
 	
 	protected float GetBottomEdge()
 	{
-		return GetCenter().y - mHeight / 2 - 0.05f;
+		return GetCenter().y - mHeight / 2 - 0.1f;
 	}
 	
 	protected float GetLeftEdge()
