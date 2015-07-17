@@ -58,5 +58,6 @@ public class Door : MonoBehaviour {
 	private void RaiseDoor()
 	{
 		mSliderJoint.useMotor = true;
+
 	}
 }

@@ -10,7 +10,7 @@ using System.Collections;
 
 public class PerfumeBalloon : Balloon {
 	
-	public const float PERFUME_ROPE_DISTANCE = 2f;
+	public const float PERFUME_ROPE_DISTANCE = 1.2f;
 	
 	override public void Init(EBalloonType pType)
 	{
