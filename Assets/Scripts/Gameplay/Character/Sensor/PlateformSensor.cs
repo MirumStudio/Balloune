@@ -63,16 +63,23 @@ public class PlateformSensor : CharacterSensor {
 	{
         Debug.DrawLine (pLeft, pRight, Color.yellow);
 
-        if(Physics2D.Linecast(pLeft, pRight, PlateformLayerMask))
+        RaycastHit2D cast = Physics2D.Linecast(pLeft, pRight, PlateformLayerMask);
+
+        if(cast)
 		{
-            CheckBalloon(pLeft.y);
+            CheckBalloon(pLeft.y, cast.collider);
 		}
 	}
 
-	private void CheckBalloon(float pY)
+	private void CheckBalloon(float pY, Collider2D pPlatformCollider)
 	{
+        float width = pPlatformCollider.bounds.size.x;
+        Vector2 platformPos = pPlatformCollider.transform.position;
+
         Vector2 balloon = mBalloon.transform.position;
-        if (balloon.y > pY) 
+        if (balloon.y > pY 
+            && balloon.x > platformPos.x - width / 2
+            && balloon.x < platformPos.x + width / 2)
         {
             UpdatePlateformParamaters();
 		}
