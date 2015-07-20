@@ -8,6 +8,7 @@
 using Radix.Event;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class TriggerableGasSource : GasSource {
 
@@ -23,6 +24,8 @@ public class TriggerableGasSource : GasSource {
 	private bool mIsTriggered = false;
 
 	private ParticleSystem mParticleSystem;
+
+	private int mPreviouslyActivatedGasPoint = 0;
 	
 	void Start()
 	{
@@ -38,6 +41,7 @@ public class TriggerableGasSource : GasSource {
 	{
 		if (mIsTriggered) {
 			base.Update ();
+			ActivateGasPoints();
 			IncrementEmissionTimer();
 		}
 	}
@@ -49,10 +53,16 @@ public class TriggerableGasSource : GasSource {
 		}
 	}
 
-	protected override void VerifyCircle (Vector2 pos)
+	protected override void VerifyCircle (Vector2 pPos)
 	{
 		if (mIsTriggered == true) {
-			base.VerifyCircle (pos);
+			for (int i = 0; i < mGasPoints.Count; i++) {
+				if(((TimedGasPoint)mGasPoints[i]).IsActive())
+				{
+					Debug.Log ("Verifying circle for timed gas point");
+					base.VerifyCircleForGasPoint(i, pPos);
+				}
+			}
 		}
 	}
 
@@ -95,6 +105,30 @@ public class TriggerableGasSource : GasSource {
 			{
 				StopEmission();
 			}
+		}
+	}
+
+	protected override void UpdateGasPoints()
+	{
+		mGasPoints.Add (new TimedGasPoint (GetColliderMaxBound()));
+		mGasPoints.Add (new TimedGasPoint (transform.position));
+		mGasPoints.Add (new TimedGasPoint (GetColliderMinBound()));
+		float maxActivationTime = EMISSION_TIME / mGasPoints.Count;
+		for(int i = 0; i < mGasPoints.Count; i++)
+		{
+			if(((TimedGasPoint)mGasPoints[i]).GetMaxActivationTime() == 0f)
+			{
+				((TimedGasPoint)mGasPoints[i]).SetMaxActivationTime(maxActivationTime);
+			}
+			((TimedGasPoint)mGasPoints[i]).CheckTime();
+		}
+	}
+
+	private void ActivateGasPoints()
+	{
+		if (((TimedGasPoint)mGasPoints[mPreviouslyActivatedGasPoint]).IsActive() == false && mPreviouslyActivatedGasPoint < mGasPoints.Count) {
+			mPreviouslyActivatedGasPoint++;
+			((TimedGasPoint)mGasPoints[mPreviouslyActivatedGasPoint]).SetIsActive(true);
 		}
 	}
 }

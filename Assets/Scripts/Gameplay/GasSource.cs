@@ -22,7 +22,7 @@ public class GasSource : MonoBehaviour {
 
     float timer = 0f;
 
-	List<GasPoint> mGasPoints = new List<GasPoint>();
+	protected List<GasPoint> mGasPoints = new List<GasPoint>();
 
 	protected virtual void Start()
 	{
@@ -59,31 +59,36 @@ public class GasSource : MonoBehaviour {
 		UpdateGasPoints ();
 	}
 
-    protected virtual void VerifyCircle(Vector2 pos)
+    protected virtual void VerifyCircle(Vector2 pPos)
     {
 		for (int i = 0; i < mGasPoints.Count; i++) {
-			Vector2 previousVector = mGasPoints[i].PreviousVector;
-			Vector2 currentVector = mGasPoints[i].CurrentVector;
-			previousVector = new Vector2(currentVector.x, currentVector.y);
-			currentVector = new Vector2(pos.x - mGasPoints[i].Position.x, pos.y - mGasPoints[i].Position.y);
-			if (currentVector.magnitude <= m_MinimumDistance)
-			{
-				var constants_value = Mathf.Min(1, Vector2.Dot(previousVector, currentVector) / (previousVector.magnitude * currentVector.magnitude));
-				
-				if (!float.IsNaN(constants_value))
-				{
-					var delta_angle = Mathf.Acos(constants_value);
-					
-					var direction = CrossProduct(previousVector, currentVector) > 0 ? 1 : -1;
-					
-					mGasPoints[i].TotalAngle = ((Mathf.Rad2Deg * delta_angle) * direction) + mGasPoints[i].TotalAngle;
-				}
-			}
-			mGasPoints[i].PreviousVector = previousVector;
-			mGasPoints[i].CurrentVector = currentVector;
+			VerifyCircleForGasPoint(i, pPos);
 		}
     }
 
+	protected virtual void VerifyCircleForGasPoint(int i, Vector2 pPos)
+	{
+		Vector2 previousVector = mGasPoints[i].PreviousVector;
+		Vector2 currentVector = mGasPoints[i].CurrentVector;
+		previousVector = new Vector2(currentVector.x, currentVector.y);
+		currentVector = new Vector2(pPos.x - mGasPoints[i].Position.x, pPos.y - mGasPoints[i].Position.y);
+		if (currentVector.magnitude <= m_MinimumDistance)
+		{
+			var constants_value = Mathf.Min(1, Vector2.Dot(previousVector, currentVector) / (previousVector.magnitude * currentVector.magnitude));
+			
+			if (!float.IsNaN(constants_value))
+			{
+				var delta_angle = Mathf.Acos(constants_value);
+				
+				var direction = CrossProduct(previousVector, currentVector) > 0 ? 1 : -1;
+				
+				mGasPoints[i].TotalAngle = ((Mathf.Rad2Deg * delta_angle) * direction) + mGasPoints[i].TotalAngle;
+			}
+		}
+		mGasPoints[i].PreviousVector = previousVector;
+		mGasPoints[i].CurrentVector = currentVector;
+	}
+	
 	void resetAngle() {
 		for (int i = 0; i < mGasPoints.Count; i++) {
 			mGasPoints[i].Reset ();
@@ -95,14 +100,14 @@ public class GasSource : MonoBehaviour {
         return (v1.x * v2.y) - (v1.y * v2.x);
     }
 
-	protected void UpdateGasPoints()
+	protected virtual void UpdateGasPoints()
 	{
 		mGasPoints.Add (new GasPoint (GetColliderMaxBound()));
 		mGasPoints.Add (new GasPoint (transform.position));
 		mGasPoints.Add (new GasPoint (GetColliderMinBound()));
 	}
 
-	Vector2 GetColliderMaxBound()
+	protected Vector2 GetColliderMaxBound()
 	{
 		Vector2 maxBoundPosition = transform.position;
 		maxBoundPosition.x = maxBoundPosition.x + mEdgeCollider.bounds.extents.x;
@@ -110,7 +115,7 @@ public class GasSource : MonoBehaviour {
 		return maxBoundPosition;
 	}
 
-	Vector2 GetColliderMinBound()
+	protected Vector2 GetColliderMinBound()
 	{
 		Vector2 minBoundPosition = transform.position;
 		minBoundPosition.x = minBoundPosition.x - mEdgeCollider.bounds.extents.x;
