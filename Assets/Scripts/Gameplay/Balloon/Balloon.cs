@@ -10,7 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public abstract class Balloon : MonoBehaviour {
-    const string POP_FX = "Particule/BalloonPopFX";
+    const string POP_FX = "Particle/BalloonPopFX";
 
 
 	private GameObject mBalloonObject = null;
