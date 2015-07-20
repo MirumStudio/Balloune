@@ -25,7 +25,7 @@ public class TriggerableGasSource : GasSource {
 
 	private ParticleSystem mParticleSystem;
 
-	private int mPreviouslyActivatedGasPoint = 0;
+	private int mPreviouslyActivatedGasPoint = -1;
 	
 	void Start()
 	{
@@ -39,29 +39,23 @@ public class TriggerableGasSource : GasSource {
 
 	protected override void Update()
 	{
+		base.Update ();
 		if (mIsTriggered) {
-			base.Update ();
-			ActivateGasPoints();
 			IncrementEmissionTimer();
 		}
 	}
 
 	protected override void FixedUpdate()
 	{
-		if (mIsTriggered) {
-			base.FixedUpdate();
-		}
+		base.FixedUpdate();
 	}
 
 	protected override void VerifyCircle (Vector2 pPos)
 	{
-		if (mIsTriggered == true) {
-			for (int i = 0; i < mGasPoints.Count; i++) {
-				if(((TimedGasPoint)mGasPoints[i]).IsActive())
-				{
-					Debug.Log ("Verifying circle for timed gas point");
-					base.VerifyCircleForGasPoint(i, pPos);
-				}
+		for (int i = 0; i < mGasPoints.Count; i++) {
+			if(((TimedGasPoint)mGasPoints[i]).IsActive())
+			{
+				base.VerifyCircleForGasPoint(i, pPos);
 			}
 		}
 	}
@@ -108,27 +102,70 @@ public class TriggerableGasSource : GasSource {
 		}
 	}
 
-	protected override void UpdateGasPoints()
+	private void CreateGasPoints()
 	{
 		mGasPoints.Add (new TimedGasPoint (GetColliderMaxBound()));
 		mGasPoints.Add (new TimedGasPoint (transform.position));
 		mGasPoints.Add (new TimedGasPoint (GetColliderMinBound()));
-		float maxActivationTime = EMISSION_TIME / mGasPoints.Count;
 		for(int i = 0; i < mGasPoints.Count; i++)
 		{
-			if(((TimedGasPoint)mGasPoints[i]).GetMaxActivationTime() == 0f)
+			TimedGasPoint tempTimedGasPoint = ((TimedGasPoint)mGasPoints[i]);
+			if(tempTimedGasPoint.GetMaxActivationTime() == 0f)
 			{
-				((TimedGasPoint)mGasPoints[i]).SetMaxActivationTime(maxActivationTime);
+				tempTimedGasPoint.SetMaxActivationTime(EMISSION_TIME);
 			}
-			((TimedGasPoint)mGasPoints[i]).CheckTime();
+		}
+	}
+	
+	protected override void UpdateGasPoints()
+	{
+		if (mGasPoints.Count == 0) {
+			CreateGasPoints ();
+		} else {
+			for(int i = 0; i < mGasPoints.Count; i++)
+			{
+				TimedGasPoint tempTimedGasPoint = ((TimedGasPoint)mGasPoints[i]);
+				tempTimedGasPoint.CheckTime();
+			}
+			ActivateGasPoints();
 		}
 	}
 
 	private void ActivateGasPoints()
 	{
-		if (((TimedGasPoint)mGasPoints[mPreviouslyActivatedGasPoint]).IsActive() == false && mPreviouslyActivatedGasPoint < mGasPoints.Count) {
+		if (ShouldActivateGasPoint()) {
+			float currentAngle = 0f;
+			if(!IsFirstGasPoint())
+			{
+				currentAngle = mGasPoints[mPreviouslyActivatedGasPoint].TotalAngle;
+			}
 			mPreviouslyActivatedGasPoint++;
-			((TimedGasPoint)mGasPoints[mPreviouslyActivatedGasPoint]).SetIsActive(true);
+			((TimedGasPoint)mGasPoints [mPreviouslyActivatedGasPoint]).SetIsActive (true);
+			mGasPoints[mPreviouslyActivatedGasPoint].TotalAngle = currentAngle;
+
+		} else if (IsLastGasPoint()){
+			mPreviouslyActivatedGasPoint = -1;
+			StopEmission ();
 		}
+	}
+
+	private bool ShouldActivateGasPoint()
+	{
+		return ((IsFirstGasPoint () && mIsTriggered) || (!IsFirstGasPoint() && !IsPreviousGasPointActive() && !IsLastGasPoint ()));
+	}
+	
+	private bool IsFirstGasPoint()
+	{
+		return (mPreviouslyActivatedGasPoint == -1);
+	}
+
+	private bool IsPreviousGasPointActive()
+	{
+		return (mPreviouslyActivatedGasPoint != -1 && ((TimedGasPoint)mGasPoints [mPreviouslyActivatedGasPoint]).IsActive () == true);
+	}
+
+	private bool IsLastGasPoint()
+	{
+		return (mPreviouslyActivatedGasPoint == mGasPoints.Count - 1);
 	}
 }

@@ -33,11 +33,10 @@ public class GasSource : MonoBehaviour {
     protected virtual void Update()
     {
         timer += Time.deltaTime;
-        if (Input.touchCount > 0 && timer > 0.1)
-        {
-            timer = 0;
-            VerifyCircle(Camera.main.ScreenToWorldPoint(Input.touches[0].position));
-        }
+        if (Input.touchCount > 0 && timer > 0.1) {
+			timer = 0;
+			VerifyCircle (Camera.main.ScreenToWorldPoint (Input.touches [0].position));
+		}
 		for (int i = 0; i < mGasPoints.Count; i++) {
 			if (mGasPoints[i].TotalAngle != 0 && Input.touchCount > 0)
 			{
