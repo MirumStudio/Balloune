@@ -8,6 +8,7 @@
 using Radix.Event;
 using Radix.Utilities;
 using System;
+using System.Collections.Generic;
 
 public class GirlBalloonHolder : BalloonHolder
 {
@@ -17,6 +18,7 @@ public class GirlBalloonHolder : BalloonHolder
 
 	private int mNumberOfLifeBalloons = 0;
 	private int mNumberOfSpecialBalloons = 0;
+
 	protected override void Start()
 	{
 		base.Start ();
@@ -80,6 +82,23 @@ public class GirlBalloonHolder : BalloonHolder
 			mNumberOfSpecialBalloons--;
 		}
 		base.DetachBalloon (pBalloonToDetach);
+	}
+
+	public override void PopRandomBalloon()
+	{
+		List<Balloon> lifeBalloons = GetLifeBalloons ();
+		if (lifeBalloons.Count > 0) {
+			int balloonIndexToPop = UnityEngine.Random.Range(0, mNumberOfLifeBalloons - 1);
+			lifeBalloons[balloonIndexToPop].Physics.PopBalloon ();
+		}
+	}
+
+	private List<Balloon> GetLifeBalloons()
+	{
+		return mBalloons.FindAll((balloon) => 
+		{
+			return balloon is LifeBalloon;
+		});
 	}
 }
 

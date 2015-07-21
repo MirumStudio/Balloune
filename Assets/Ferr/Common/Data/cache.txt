@@ -7,6 +7,7 @@ Assets/Ferr/2DTerrain/TerrainMaterials/MossyTerrainMaterial.prefab
 Assets/Ferr/2DTerrain/TerrainMaterials/ForestTerrainMaterial.prefab
 Assets/Ferr/2DTerrain/TerrainMaterials/ForegroundTerrainMaterial.prefab
 Assets/Ferr/2DTerrain/TerrainMaterials/CaveTerrainMaterial.prefab
-Assets/Art/Materials/Ferr2D/CityDemoEdge.prefab
+Assets/Art/Materials/Ferr2D/City/CityDemoEdge.prefab
+Assets/Art/Materials/Ferr2D/HauntedCity/HauntedCityDemoEdge.prefab
 
 [Ferr2DT_PathTerrain]

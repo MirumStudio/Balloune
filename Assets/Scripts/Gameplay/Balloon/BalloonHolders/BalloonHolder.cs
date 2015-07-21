@@ -7,6 +7,7 @@
 
 using Radix.Event;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -132,5 +133,13 @@ public class BalloonHolder : MonoBehaviour {
 		//TODO remove the division by two when inflated ballons are not automatically given to the girl
 		positionOffset.x = positionOffset.x + (mBalloons.Count/2);
 		return positionOffset;
+	}
+
+	public virtual void PopRandomBalloon()
+	{
+		if (mBalloons.Count > 0) {
+			int balloonIndexToPop = UnityEngine.Random.Range(0, mBalloons.Count -1);
+			mBalloons [balloonIndexToPop].Physics.PopBalloon ();
+		}
 	}
 }
