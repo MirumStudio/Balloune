@@ -14,6 +14,7 @@ public class FlyingBehavior : BalloonBehavior
 	private int MAX_FLYING_TIME = 10;
 
 	private DetachBehavior mDetachBehavior;
+	private AttachBehavior mAttachBehavior;
 
 	private float mFlyingTime = 0f;
 	private bool mIsAttachedToMoveableObject = false;
@@ -22,6 +23,7 @@ public class FlyingBehavior : BalloonBehavior
 		base.Start ();
 		EventService.Register<AttachBalloonDelegate>(EGameEvent.ATTACH_BALLOON, OnAttachBalloon);
 		mDetachBehavior = GetComponent<DetachBehavior> ();
+		mAttachBehavior = GetComponent<AttachBehavior> ();
 	}
 	
 	void Update () {
@@ -53,6 +55,7 @@ public class FlyingBehavior : BalloonBehavior
 	private void DisallowDetach()
 	{
 		mDetachBehavior.enabled = false;
+		mAttachBehavior.enabled = false;
 	}
 
 	private void DeflateBalloon()

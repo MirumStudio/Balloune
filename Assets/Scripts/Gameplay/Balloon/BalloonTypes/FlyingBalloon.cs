@@ -10,7 +10,7 @@ using System.Collections;
 
 public class FlyingBalloon : Balloon {
 	
-	public const float FLYING_ROPE_DISTANCE = 4f;
+	public const float FLYING_ROPE_DISTANCE = 3.4f;
 	
 	override public void Init(EBalloonType pType)
 	{

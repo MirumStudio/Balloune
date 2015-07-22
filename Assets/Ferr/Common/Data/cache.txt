@@ -11,3 +11,4 @@ Assets/Art/Materials/Ferr2D/City/CityDemoEdge.prefab
 Assets/Art/Materials/Ferr2D/HauntedCity/HauntedCityDemoEdge.prefab
 
 [Ferr2DT_PathTerrain]
+Assets/Prefabs/Gameplay/Environment/CityGround.prefab
