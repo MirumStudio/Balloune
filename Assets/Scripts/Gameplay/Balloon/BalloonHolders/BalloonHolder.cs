@@ -83,6 +83,7 @@ public class BalloonHolder : MonoBehaviour {
 			{
 				if(touchedColliders[i] == thisCollider)
 				{
+					pBalloon.Physics.DetachBalloon();
 					AttachBalloon (pBalloon);
 					EventService.DispatchEvent(EGameEvent.ATTACH_BALLOON, pBalloon, m_Tack);
 					break;

@@ -31,4 +31,8 @@ public class GasPoint {
 		PreviousVector = new Vector2 ();
 		CurrentVector = new Vector2 ();
 	}
+
+	public bool IsActive() {
+		return true;
+	}
 }
