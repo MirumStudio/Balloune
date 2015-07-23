@@ -10,7 +10,7 @@ using System.Collections;
 
 public class ToxicBalloon : Balloon {
 	
-	public const float TOXIC_ROPE_DISTANCE = 1.2f;
+	public const float TOXIC_ROPE_DISTANCE = 1f;
 
 	override public void Init(EBalloonType pType)
     {

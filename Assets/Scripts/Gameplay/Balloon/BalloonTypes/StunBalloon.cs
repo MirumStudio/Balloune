@@ -10,7 +10,7 @@ using System.Collections;
 
 public class StunBalloon : Balloon {
 	
-	public const float STUN_ROPE_DISTANCE = 1.2f;
+	public const float STUN_ROPE_DISTANCE = 1f;
 
 	override public void Init(EBalloonType pType)
     {
