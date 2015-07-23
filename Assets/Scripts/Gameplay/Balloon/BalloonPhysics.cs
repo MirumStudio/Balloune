@@ -125,6 +125,7 @@ public class BalloonPhysics : MonoBehaviour
 	public void DetachBalloon()
 	{
 		if (mTimePullingAtMaximumDistance >= TIME_TO_DETACH) {
+			Debug.Log ("Detaching balloon");
 			mDistanceJoint.enabled = false;
 			mBalloonJoint.enabled = false;
 			mLineRenderer.enabled = false;
@@ -255,15 +256,15 @@ public class BalloonPhysics : MonoBehaviour
 
 	private bool IsBalloonAtDetachDistance()
 	{
-		bool isBalloonAtMaximumDistance = false;
+		bool isBalloonAtDetachDistance = false;
 		//We have to do this because the balloon is almost never exactly at its max distance
-		float distanceOffset = mDistanceJoint.distance * 0.00025f;
+		float distanceOffset = mDistanceJoint.distance * 0.0005f;//0.00025f;
 		float detachMaxDistance = mDistanceJoint.distance - distanceOffset;
 		if(mIsAttached)
 		{
-			isBalloonAtMaximumDistance = GetDistanceBetweenParentAndPosition() >= detachMaxDistance;
+			isBalloonAtDetachDistance = GetDistanceBetweenParentAndPosition() >= detachMaxDistance;
 		}
-		return isBalloonAtMaximumDistance;
+		return isBalloonAtDetachDistance;
 	}
 
 	private void ChangeTimePullingAtMaximumDistance()
