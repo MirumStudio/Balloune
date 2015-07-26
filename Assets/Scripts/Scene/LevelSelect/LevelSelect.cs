@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using Radix.Event;
 
-public class LevelSelect : MonoBehaviour {
+public class LevelSelect : BaseView {
 
     private List<UILevelInfo> mLevels;
     private int mCurrentLevelIndex = 0;
@@ -20,8 +21,19 @@ public class LevelSelect : MonoBehaviour {
     private void Start()
     {
         mLevels = new List<UILevelInfo>();
-        AddMockData();
-        ChangeLevel(mCurrentLevelIndex);
+    }
+
+    //Late start (To change)
+    private bool loaded = false;
+    private void Update()
+    {
+        if (!loaded)
+        {
+            loaded = true;
+            AddMockData();
+            EventService.DispatchEvent(ELevelSelectEvent.LEVEL_LOADED, mLevels);
+            ChangeLevel(mCurrentLevelIndex);
+        }
     }
 
     public void OnNextClick()
@@ -65,6 +77,13 @@ public class LevelSelect : MonoBehaviour {
 
         m_Lock.enabled = !info.IsUnlocked;
 
+        EventService.DispatchEvent(ELevelSelectEvent.LEVEL_CHANGED, mCurrentLevelIndex);
+
+    }
+
+    void OnDestroy()
+    {
+        EventService.UnregisterAllEventListener(typeof(ELevelSelectEvent));
     }
 
     //TO DELETE
