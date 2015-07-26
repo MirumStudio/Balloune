@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -21,6 +28,7 @@ public class LevelSelect : BaseView {
     private void Start()
     {
         mLevels = new List<UILevelInfo>();
+        EventService.Register<IntDelegate>(ELevelSelectEvent.WANT_CHANGE_LEVEL, ChangeLevel);
     }
 
     //Late start (To change)
@@ -40,10 +48,9 @@ public class LevelSelect : BaseView {
     {
         if (mCurrentLevelIndex + 1 < mLevels.Count)
         {
-            ChangeLevel(mCurrentLevelIndex +1);
+            ChangeLevel(mCurrentLevelIndex + 1);
         }
     }
-
 
     public void OnPreviousClick()
     {
@@ -78,7 +85,6 @@ public class LevelSelect : BaseView {
         m_Lock.enabled = !info.IsUnlocked;
 
         EventService.DispatchEvent(ELevelSelectEvent.LEVEL_CHANGED, mCurrentLevelIndex);
-
     }
 
     void OnDestroy()

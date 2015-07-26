@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/* -----      MIRUM STUDIO      -----
+ * Copyright (c) 2015 All Rights Reserved.
+ * 
+ * This source is subject to a copyright license.
+ * For more information, please see the 'LICENSE.txt', which is part of this source code package.
+ */
+
+using UnityEngine;
 using System.Collections;
 using Radix.Event;
 using System.Collections.Generic;
@@ -10,5 +17,8 @@ public enum ELevelSelectEvent
     LEVEL_LOADED,
 
     [EventHandlerAttribute(typeof(IntDelegate))]
-    LEVEL_CHANGED
+    LEVEL_CHANGED,
+
+    [EventHandlerAttribute(typeof(IntDelegate))]
+    WANT_CHANGE_LEVEL
 }
