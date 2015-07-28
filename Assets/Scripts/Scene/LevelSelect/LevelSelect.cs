@@ -25,6 +25,9 @@ public class LevelSelect : BaseView {
     [SerializeField]
     private Image m_Lock;
 
+    [SerializeField]
+    private Image m_Background;
+
     private void Start()
     {
         mLevels = new List<UILevelInfo>();
@@ -79,12 +82,26 @@ public class LevelSelect : BaseView {
 
         UILevelInfo info = mLevels [mCurrentLevelIndex];
 
+        string levelName = "Level " + info.Chapter + "-" + info.Index;
+
         m_Title.text = info.Name;
-        m_Subtitle.text = "Level " + info.Chapter + "-" + info.Index;
+        m_Subtitle.text = levelName;
+
+        LoadImage(info);
 
         m_Lock.enabled = !info.IsUnlocked;
 
         EventService.DispatchEvent(ELevelSelectEvent.LEVEL_CHANGED, mCurrentLevelIndex);
+    }
+
+    private void LoadImage(UILevelInfo pInfo)
+    {
+        Sprite newSprite =  Resources.Load <Sprite>("Screenshot/" + "Level" + pInfo.Chapter + "-" + pInfo.Index);
+        if (pInfo.IsUnlocked && newSprite){
+            m_Background.sprite = newSprite;
+        } else {
+            m_Background.sprite = Resources.Load <Sprite>("Screenshot/Cadre_BG");
+        }
     }
 
     void OnDestroy()
