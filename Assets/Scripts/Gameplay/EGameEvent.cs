@@ -16,6 +16,12 @@ public delegate void AttempAttachBalloonDelegate(Balloon pBalloon, Vector2 pVec)
 public delegate void AttachBalloonDelegate(Balloon pBalloon, GameObject pArg);
 public delegate void TriggerObjectDelegate(Trigger pTrigger);
 
+public delegate void IntDelegate(int pArg);
+public delegate void StringDelegate(string pArg);
+public delegate void BoolDelegate(bool pArg);
+public delegate void FloatDelegate(float pArg);
+public delegate void Vector2Delegate(Vector2 pVec);
+
 public enum EGameEvent 
 {
     [EventHandlerAttribute(typeof(InteractableDelegate))]
