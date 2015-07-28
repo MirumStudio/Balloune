@@ -45,7 +45,8 @@ public class UIPopupBase : MonoBehaviour {
 
     public void OnLevelSelectClick()
     {
-        Application.LoadLevel(WorldMapBaseView.SCENE_NAME + 1);
+        Debug.Log("ddd");
+        Application.LoadLevel("LevelSelect");
     }
 
     public void OnRestartClick()
