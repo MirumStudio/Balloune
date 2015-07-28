@@ -16,7 +16,11 @@ public class GirlTutorial : MonoBehaviour {
 	private bool mTutoGiven = false;
 	// Use this for initialization
 	void Start () {
-		EventService.Register<BalloonDelegate>(m_StoppingEvent, OnStoppingEvent);
+		if (m_StoppingEvent == EGameEvent.PICKUP_BALLOON) {
+			EventService.Register<BalloonDelegate> (m_StoppingEvent, OnStopTouchTutoEvent);
+		} else if (m_StoppingEvent == EGameEvent.INFLATE_BALLOON) {
+			EventService.Register<BalloonTypeDelegate> (m_StoppingEvent, OnStopInflateTutoEvent);
+		}
 		try 
 		{
 			if(m_ObjectToAttachTuto == null)
@@ -42,11 +46,16 @@ public class GirlTutorial : MonoBehaviour {
 	{
 		mTutoGiven = true;
 
-		mTuto = PrefabFactory.Instantiate(m_TutoPrefab, m_ObjectToAttachTuto);
-
+		mTuto = PrefabFactory.Instantiate(m_TutoPrefab, m_ObjectToAttachTuto.transform.position);
 	}
 
-	private void OnStoppingEvent(Balloon pBalloon)
+	private void OnStopTouchTutoEvent(Balloon pBalloon)
+	{
+		DestroyObject (mTuto);
+		//mTuto.GetComponent<Animator> ().CrossFade ("New Animation3", 0f);
+	}
+
+	private void OnStopInflateTutoEvent(EBalloonType pType)
 	{
 		DestroyObject (mTuto);
 		//mTuto.GetComponent<Animator> ().CrossFade ("New Animation3", 0f);
