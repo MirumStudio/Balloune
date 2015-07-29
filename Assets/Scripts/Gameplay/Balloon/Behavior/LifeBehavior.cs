@@ -5,6 +5,7 @@
  * For more information, please see the 'LICENSE.txt', which is part of this source code package.
  */
 
+using Radix.Event;
 public class LifeBehavior : BalloonBehavior
 {
     private BalloonPhysics mPhysics;
@@ -13,17 +14,4 @@ public class LifeBehavior : BalloonBehavior
 		base.Start ();
 		mPhysics = mBalloon.Physics;
 	}
-
-	void Update () {
-	    
-	}
-
-	//Je crois qu'on avait dit que ce serait la scène qui ferait ce check là
-    private void CheckIfGameOver()
-    {
-       /* if (mBalloonHolder.GetLifeBalloonCount() <= 0)
-        {
-            EventService.DipatchEvent(EGameEvent.GAME_OVER, null);
-        }*/
-    }
 }

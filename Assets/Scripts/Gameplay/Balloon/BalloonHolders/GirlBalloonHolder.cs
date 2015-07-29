@@ -9,6 +9,7 @@ using Radix.Event;
 using Radix.Utilities;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class GirlBalloonHolder : BalloonHolder
 {
@@ -46,10 +47,9 @@ public class GirlBalloonHolder : BalloonHolder
 		}
 	}
 
-	public virtual void DestroyBalloon(Balloon pBalloon)
+	public override void DestroyBalloon(Balloon pBalloon)
 	{
 		base.DestroyBalloon (pBalloon);
-		
 		if (GetLifeBalloonCount() <= 0)
 		{
 			EventService.DispatchEvent(EGameEvent.GAME_OVER);

@@ -7,6 +7,7 @@
 
 using Radix.Event;
 using System;
+using UnityEngine;
 
 public class UIPopupGameOver : UIPopupBase
 {
@@ -17,7 +18,7 @@ public class UIPopupGameOver : UIPopupBase
     }
 
     private void OnLevelFinish()
-    {
+	{
         DisplayPopup();
     }
 }
