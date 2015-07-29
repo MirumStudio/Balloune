@@ -9,7 +9,7 @@ public class JumpingState : CharacterState {
 		base.OnStateEnter (animator, stateInfo, layerIndex);
        
 
-		if (mBody.velocity.y == 0) 
+        if (mBody.velocity.y < 0.01 && mBody.velocity.y > -0.01)
         {
             float speed = animator.GetFloat(SPEED_PARAMATER);
 
