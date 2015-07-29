@@ -102,9 +102,11 @@ public class GasSource : MonoBehaviour {
 	protected virtual void UpdateGasPoints()
 	{
 		if (mGasPoints.Count == 0) {
-			mGasPoints.Add (new GasPoint (GetColliderMaxBound()));
-			mGasPoints.Add (new GasPoint (transform.position));
-			mGasPoints.Add (new GasPoint (GetColliderMinBound()));
+			for(int i = 0; i < mEdgeCollider.points.Length; i++)
+			{
+				Vector2 worldSpacePoint = transform.TransformPoint (mEdgeCollider.points[i]);
+				mGasPoints.Add (new GasPoint(worldSpacePoint));
+			}
 		}
 	}
 

@@ -29,7 +29,6 @@ public class MovementTutorial : MonoBehaviour {
 		mTutoGiven = true;
 
 		mTuto = PrefabFactory.Instantiate(m_TutoPrefab, m_ObjectToAttachTuto);
-		//mTuto.transform.Translate (m_ObjectToAttachTuto.transform.position);
 	}
 
 	private void OnStopTutoEvent(Balloon pBalloon)
