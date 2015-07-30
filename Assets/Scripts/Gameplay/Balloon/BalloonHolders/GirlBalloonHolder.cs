@@ -45,6 +45,8 @@ public class GirlBalloonHolder : BalloonHolder
 			mNumberOfSpecialBalloons++;
 			base.CreateBalloon(pType);
 		}
+		mBalloons [mBalloons.Count - 1].InstantShrink ();
+		mBalloons [mBalloons.Count - 1].Inflate ();
 	}
 
 	public override void DestroyBalloon(Balloon pBalloon)

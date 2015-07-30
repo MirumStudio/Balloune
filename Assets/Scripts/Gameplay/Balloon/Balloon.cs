@@ -10,6 +10,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public abstract class Balloon : MonoBehaviour {
+	private const int INFLATE_FACTOR = 5;
+
     const string POP_FX = "Particle/BalloonPopFX";
 
 
@@ -118,6 +120,20 @@ public abstract class Balloon : MonoBehaviour {
 	public void Shrink()
 	{
 		transform.localScale = transform.localScale * 0.999f;
+	}
+
+	public void InstantShrink()
+	{
+		transform.localScale = transform.localScale / INFLATE_FACTOR;
+	}
+
+	public void Inflate()
+	{
+		Vector3 targetScale = transform.localScale * INFLATE_FACTOR;
+		while (transform.localScale < targetScale)
+		{
+			transform.localScale = transform.localScale * 1.01f;
+		}
 	}
 
 	public int BalloonIndex
