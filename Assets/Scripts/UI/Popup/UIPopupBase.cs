@@ -45,7 +45,6 @@ public class UIPopupBase : MonoBehaviour {
 
     public void OnLevelSelectClick()
     {
-        Debug.Log("ddd");
         Application.LoadLevel("LevelSelect");
     }
 

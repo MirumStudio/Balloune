@@ -81,11 +81,10 @@ public class BalloonHolder : MonoBehaviour {
 			Collider2D thisCollider = m_Tack.transform.parent.GetComponent<Collider2D> ();
 			for(int i = 0; i < touchedColliders.Length; i++)
 			{
-				if(touchedColliders[i] == thisCollider)
+				if(touchedColliders[i] == thisCollider && !pBalloon.Physics.IsAttached)
 				{
 					pBalloon.Physics.DetachBalloon();
 					AttachBalloon (pBalloon);
-					EventService.DispatchEvent(EGameEvent.ATTACH_BALLOON, pBalloon, m_Tack);
 					break;
 				}
 			}
@@ -98,6 +97,7 @@ public class BalloonHolder : MonoBehaviour {
 		pBalloon.SetBalloonHolder (this);
 		mBalloons.Add (pBalloon);
 		pBalloon.GameObject.transform.parent = this.gameObject.transform;
+		EventService.DispatchEvent(EGameEvent.ATTACH_BALLOON, pBalloon, m_Tack);
 	}
 
 	public virtual void DetachBalloon(Balloon pBalloonToDetach)

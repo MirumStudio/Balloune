@@ -6,6 +6,7 @@
  */
 
 using Radix.Event;
+using UnityEngine;
 
 public class KidBalloonHolder : BalloonHolder
 {
@@ -19,6 +20,7 @@ public class KidBalloonHolder : BalloonHolder
 	protected override void AttachBalloon(Balloon pBalloon)
 	{
 		EventService.DispatchEvent(EGameEvent.BALLOON_GIVEN, pBalloon);
+		Debug.Log ("Attached to kid");
 		base.AttachBalloon (pBalloon);
 	}
 

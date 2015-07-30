@@ -125,7 +125,6 @@ public class BalloonPhysics : MonoBehaviour
 	public void DetachBalloon()
 	{
 		if (mTimePullingAtMaximumDistance >= TIME_TO_DETACH) {
-			Debug.Log ("Detaching balloon");
 			mDistanceJoint.enabled = false;
 			mBalloonJoint.enabled = false;
 			mLineRenderer.enabled = false;
