@@ -10,16 +10,19 @@ using Radix.Event;
 
 public class Door : TriggerableObject {
 
+	private Rigidbody2D mRigidBody;
 	private SliderJoint2D mSliderJoint;
 	
 	protected override void Start () {
 		base.Start ();
+		mRigidBody = GetComponent<Rigidbody2D> ();
 		mSliderJoint = GetComponent<SliderJoint2D> ();
 	}
 	
 
 	protected override void Trigger()
 	{
+		mRigidBody.isKinematic = false;
 		RaiseDoor ();
 	}
 	
