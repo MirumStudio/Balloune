@@ -30,6 +30,10 @@ public abstract class Balloon : MonoBehaviour {
 	private int mBalloonIndex;
 
 	public float GravityScale { get; set; }
+	private Vector3 mBaseScale;
+
+	private bool mIsDeflating = false;
+	private bool mIsInflating = false;
 
 	virtual public void Init (EBalloonType pType) {
 		mBalloonObject = transform.gameObject;
@@ -40,6 +44,7 @@ public abstract class Balloon : MonoBehaviour {
 		AddBehavior<DefaultBehavior>();
 		Type = pType;
 		GravityScale = -1f;
+		mBaseScale = transform.localScale;
 	}
 
     protected void ChangeColor(Color pColor)
@@ -48,7 +53,8 @@ public abstract class Balloon : MonoBehaviour {
     }
 
 	void Update () {
-	
+		Deflate();
+		Inflate();
 	}
 
     protected void AddBehavior<T>() where T : BalloonBehavior
@@ -117,22 +123,35 @@ public abstract class Balloon : MonoBehaviour {
 		mPhysics.SetBalloonIndex (mBalloonIndex);
 	}
 
-	public void Shrink()
+	public void StartDeflate()
 	{
-		transform.localScale = transform.localScale * 0.999f;
+		mIsDeflating = true;
 	}
 
-	public void InstantShrink()
+	private void Deflate() {
+		if (mIsDeflating)
+		{
+			transform.localScale = transform.localScale * 0.999f;
+		}
+	}
+
+	public void InstantDeflate()
 	{
 		transform.localScale = transform.localScale / INFLATE_FACTOR;
 	}
 
+	public void StartInflate()
+	{
+		mIsDeflating = false;
+		mIsInflating = true;
+	}
+
 	public void Inflate()
 	{
-		Vector3 targetScale = transform.localScale * INFLATE_FACTOR;
-		while (transform.localScale < targetScale)
-		{
-			transform.localScale = transform.localScale * 1.01f;
+		if (mIsInflating && transform.localScale.magnitude < mBaseScale.magnitude) {
+			transform.localScale = transform.localScale * 1.05f;
+		} else if(transform.localScale.magnitude >= mBaseScale.magnitude){
+			mIsInflating = false;
 		}
 	}
 

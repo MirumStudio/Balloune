@@ -21,9 +21,4 @@ public class StunBalloon : Balloon {
 		AddBehavior<TriggerableBehavior> ();
 		m_MaxRopeDistance = STUN_ROPE_DISTANCE;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }
