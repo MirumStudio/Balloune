@@ -13,6 +13,7 @@ using System.Linq;
 using EventDictionnary = System.Collections.Generic.Dictionary<System.Enum, System.Collections.Generic.IList<Radix.Event.EventListener>>;
 using EventPair = System.Collections.Generic.KeyValuePair<System.Enum, System.Collections.Generic.IList<Radix.Event.EventListener>>;
 
+
 namespace Radix.Event
 {
     internal class EventDispatcher
@@ -47,12 +48,11 @@ namespace Radix.Event
         #endregion
 
         #region Unregister
-        private void UnregisterEventListener(EventListener pListener, IList<EventListener> pList)
+        private void UnregisterEventListener(EventListener pListener)
         {
             if (pListener != null)
             {
                 pListener.Dispose();
-                pList.Remove(pListener);
                 pListener = null;
             }
         }
@@ -62,21 +62,40 @@ namespace Radix.Event
             if (mEventDictionnary.ContainsKey(pEvent))
             {
                 EventListener eventListener = mEventDictionnary[pEvent].FirstOrDefault((currentEventListener) => { return currentEventListener.ListenerHashCode == pListenerParent.GetHashCode(); });
-                UnregisterEventListener(eventListener, mEventDictionnary[pEvent]);
+                mEventDictionnary[pEvent].Remove(eventListener);
+                UnregisterEventListener(eventListener);
             }
         }
 
         internal void UnregisterAllEventsListeners(Type pEvent)
         {
+            List<Enum> eventToRemove = new List<Enum>();
             foreach (EventPair eventPair in mEventDictionnary)
             {
-                EventListener eventListener = eventPair.Value.FirstOrDefault((currentEventListener) => 
+                if(eventPair.Key.GetType() == pEvent)
                 {
-                    return currentEventListener.Event.GetType() == pEvent; 
-                });
-                UnregisterEventListener(eventListener, eventPair.Value);
+                    foreach(EventListener listener in eventPair.Value)
+                    {
+                        UnregisterEventListener(listener);
+                    }
+                    eventPair.Value.Clear();
+                    eventToRemove.Add(eventPair.Key);
+                }
             }
         }
+
+        private void RemoveEvent(List<Enum> pEventToRemove)
+        {
+            foreach (Enum eventName in pEventToRemove)
+            {
+                if (mEventDictionnary.ContainsKey(eventName) 
+                    && mEventDictionnary[eventName].Count == 0)
+                {
+                    mEventDictionnary.Remove(eventName);
+                }
+            }
+        }
+
         #endregion
 
         #region Dispatch
