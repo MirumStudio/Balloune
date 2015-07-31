@@ -62,12 +62,12 @@ public class FlyingBehavior : BalloonBehavior
 	{
 		if (mBalloon.Physics.IsTouched && mIsAttachedToMoveableObject == true) {
 			mFlyingTime += Time.deltaTime;
-			mBalloon.StartDeflate();
-			if(mFlyingTime >= MAX_FLYING_TIME)
-			{
-				mBalloon.Physics.PopBalloon();
+			mBalloon.SetDeflate (true);
+			if (mFlyingTime >= MAX_FLYING_TIME) {
+				mBalloon.Physics.PopBalloon ();
 			}
-
+		} else {
+			mBalloon.SetDeflate(false);
 		}
 	}
 	

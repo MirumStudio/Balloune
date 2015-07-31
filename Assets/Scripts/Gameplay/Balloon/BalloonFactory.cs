@@ -1,4 +1,4 @@
-﻿/* -----      MIRUM STUDIO      -----
+/* -----      MIRUM STUDIO      -----
  * Copyright (c) 2015 All Rights Reserved.
  * 
  * This source is subject to a copyright license.
@@ -65,10 +65,10 @@ public class BalloonFactory
 				balloon = balloonObject.AddComponent<WaterBalloon>();
 				break;
 			}
-			case EBalloonType.PERFUME:
+			case EBalloonType.GUM:
 			{
-				balloonObject = InstantiateAtDistance(pPosition, PerfumeBalloon.PERFUME_ROPE_DISTANCE);
-				balloon = balloonObject.AddComponent<PerfumeBalloon>();
+				balloonObject = InstantiateAtDistance(pPosition, GumBalloon.GUM_ROPE_DISTANCE);
+				balloon = balloonObject.AddComponent<GumBalloon>();
 				break;
 			}
 		}

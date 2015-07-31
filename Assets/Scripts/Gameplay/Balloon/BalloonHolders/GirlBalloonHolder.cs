@@ -41,12 +41,10 @@ public class GirlBalloonHolder : BalloonHolder
 		if (pType.Equals (EBalloonType.LIFE) && !HoldsMaximumLifeBalloons()) {
 			mNumberOfLifeBalloons++;
 			base.CreateBalloon (pType);
-		} else if (!pType.Equals (EBalloonType.LIFE) && !HoldsMaximumSpecialBalloons()) {
+		} else if (!pType.Equals (EBalloonType.LIFE) && !pType.Equals (EBalloonType.GUM) && !HoldsMaximumSpecialBalloons()) {
 			mNumberOfSpecialBalloons++;
 			base.CreateBalloon(pType);
 		}
-		mBalloons [mBalloons.Count - 1].InstantDeflate ();
-		mBalloons [mBalloons.Count - 1].StartInflate ();
 	}
 
 	public override void DestroyBalloon(Balloon pBalloon)

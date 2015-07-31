@@ -20,8 +20,8 @@ public class KidBalloonHolder : BalloonHolder
 	protected override void AttachBalloon(Balloon pBalloon)
 	{
 		EventService.DispatchEvent(EGameEvent.BALLOON_GIVEN, pBalloon);
-		Debug.Log ("Attached to kid");
 		base.AttachBalloon (pBalloon);
+
 	}
 
 	public override void DetachBalloon(Balloon pBalloonToDetach)

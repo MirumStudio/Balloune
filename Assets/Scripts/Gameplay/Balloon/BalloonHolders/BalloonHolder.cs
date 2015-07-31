@@ -71,6 +71,8 @@ public class BalloonHolder : MonoBehaviour {
 			balloonObject.transform.parent = this.gameObject.transform;
 
 			mBalloons.Add(balloon);
+			mBalloons [mBalloons.Count - 1].InstantDeflate ();
+			mBalloons [mBalloons.Count - 1].SetInflate (true);
 		}
     }
 

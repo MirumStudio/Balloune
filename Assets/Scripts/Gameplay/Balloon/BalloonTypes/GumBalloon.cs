@@ -8,9 +8,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class PerfumeBalloon : Balloon {
+public class GumBalloon : Balloon {
 	
-	public const float PERFUME_ROPE_DISTANCE = 1f;
+	public const float GUM_ROPE_DISTANCE = 0.1f;
 	
 	override public void Init(EBalloonType pType)
 	{
@@ -18,7 +18,18 @@ public class PerfumeBalloon : Balloon {
 		ChangeColor(new Color(1f, 0.53f, 1f));
 		AddBehavior<DetachBehavior>();
 		AddBehavior<AttachBehavior>();
-		GetComponent<TrailBehavior> ().enabled = true;
-		m_MaxRopeDistance = PERFUME_ROPE_DISTANCE;
+		AddBehavior<TriggerableBehavior> ();
+		m_MaxRopeDistance = GUM_ROPE_DISTANCE;
 	}
+
+	protected override void Deflate() {
+		base.mIsInflating = false;
+		base.mIsDeflating = true;
+		if (transform.localScale.magnitude > (base.mBaseScale.magnitude / INFLATE_FACTOR)) {
+			transform.localScale = transform.localScale * 0.95f;
+		} else {
+			base.mIsDeflating = false;
+		}
+	}
+
 }

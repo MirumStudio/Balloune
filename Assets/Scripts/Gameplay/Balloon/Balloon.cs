@@ -10,7 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public abstract class Balloon : MonoBehaviour {
-	private const int INFLATE_FACTOR = 5;
+	protected const int INFLATE_FACTOR = 5;
 
     const string POP_FX = "Particle/BalloonPopFX";
 
@@ -30,10 +30,10 @@ public abstract class Balloon : MonoBehaviour {
 	private int mBalloonIndex;
 
 	public float GravityScale { get; set; }
-	private Vector3 mBaseScale;
+	protected Vector3 mBaseScale;
 
-	private bool mIsDeflating = false;
-	private bool mIsInflating = false;
+	protected bool mIsDeflating = false;
+	protected bool mIsInflating = false;
 
 	virtual public void Init (EBalloonType pType) {
 		mBalloonObject = transform.gameObject;
@@ -53,8 +53,7 @@ public abstract class Balloon : MonoBehaviour {
     }
 
 	void Update () {
-		Deflate();
-		Inflate();
+		Resize ();
 	}
 
     protected void AddBehavior<T>() where T : BalloonBehavior
@@ -123,15 +122,22 @@ public abstract class Balloon : MonoBehaviour {
 		mPhysics.SetBalloonIndex (mBalloonIndex);
 	}
 
-	public void StartDeflate()
+	private void Resize()
 	{
-		mIsDeflating = true;
+		if (mIsDeflating) {
+			Deflate ();
+		} else if (mIsInflating) {
+			Inflate ();
+		}
 	}
 
-	private void Deflate() {
-		if (mIsDeflating)
-		{
+	protected virtual void Deflate() {
+		mIsInflating = false;
+		mIsDeflating = true;
+		if (transform.localScale.magnitude > (mBaseScale.magnitude / INFLATE_FACTOR)) {
 			transform.localScale = transform.localScale * 0.999f;
+		} else {
+			mIsDeflating = false;
 		}
 	}
 
@@ -140,15 +146,11 @@ public abstract class Balloon : MonoBehaviour {
 		transform.localScale = transform.localScale / INFLATE_FACTOR;
 	}
 
-	public void StartInflate()
+	private void Inflate()
 	{
 		mIsDeflating = false;
 		mIsInflating = true;
-	}
-
-	public void Inflate()
-	{
-		if (mIsInflating && transform.localScale.magnitude < mBaseScale.magnitude) {
+		if (transform.localScale.magnitude < mBaseScale.magnitude) {
 			transform.localScale = transform.localScale * 1.05f;
 		} else if(transform.localScale.magnitude >= mBaseScale.magnitude){
 			mIsInflating = false;
@@ -159,4 +161,32 @@ public abstract class Balloon : MonoBehaviour {
 	{
 		get { return mBalloonIndex; }
 	}
+
+	public bool IsDeflating()
+	{
+		return mIsDeflating;
+	}
+
+	public void SetDeflate(bool pIsDeflating)
+	{
+		mIsDeflating = pIsDeflating;
+		mIsInflating = !pIsDeflating;
+	}
+
+	public bool IsInflating()
+	{
+		return mIsInflating;
+	}
+
+	public void SetInflate(bool pIsInflating)
+	{
+		mIsInflating = pIsInflating;
+		mIsDeflating = !mIsInflating;
+	}
+
+	public bool IsFullSize()
+	{
+		return transform.localScale.magnitude >= mBaseScale.magnitude;
+	}
+	
 }
