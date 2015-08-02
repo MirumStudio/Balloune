@@ -35,6 +35,8 @@ public abstract class Balloon : MonoBehaviour {
 	protected bool mIsDeflating = false;
 	protected bool mIsInflating = false;
 
+	protected Vector2 mCenterOfMass;
+
 	virtual public void Init (EBalloonType pType) {
 		mBalloonObject = transform.gameObject;
         mBehaviors = new List<BalloonBehavior>();
@@ -45,6 +47,7 @@ public abstract class Balloon : MonoBehaviour {
 		Type = pType;
 		GravityScale = -1f;
 		mBaseScale = transform.localScale;
+		mCenterOfMass = new Vector2(0, SpriteRenderer.bounds.size.y/4);
 	}
 
     protected void ChangeColor(Color pColor)
@@ -54,6 +57,7 @@ public abstract class Balloon : MonoBehaviour {
 
 	void Update () {
 		Resize ();
+		UpdateCenterOfMass ();
 	}
 
     protected void AddBehavior<T>() where T : BalloonBehavior
@@ -187,6 +191,11 @@ public abstract class Balloon : MonoBehaviour {
 	public bool IsFullSize()
 	{
 		return transform.localScale.magnitude >= mBaseScale.magnitude;
+	}
+
+	protected virtual void UpdateCenterOfMass(){
+		mCenterOfMass.y = SpriteRenderer.bounds.size.y/4;
+		Physics.GetRigidBody().centerOfMass = mCenterOfMass;
 	}
 	
 }

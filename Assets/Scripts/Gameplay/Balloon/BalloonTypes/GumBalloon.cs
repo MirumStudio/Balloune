@@ -32,4 +32,11 @@ public class GumBalloon : Balloon {
 		}
 	}
 
+	protected override void UpdateCenterOfMass()
+	{
+		mCenterOfMass.x = SpriteRenderer.bounds.size.x / 2;
+		mCenterOfMass.x = mCenterOfMass.x * -1;
+		Physics.GetRigidBody ().centerOfMass = mCenterOfMass;
+	}
+
 }

@@ -52,7 +52,7 @@ public class BalloonPhysics : MonoBehaviour
 		mLineRenderer = GetComponent<LineRenderer>();
         mBalloonJoint = GetComponent<HingeJoint2D>();
         mDistanceJoint = GetComponent<DistanceJoint2D>();
-        mCircleCollider = GetComponent<CircleCollider2D>();
+		mCircleCollider = GetComponent<CircleCollider2D>();
         mRope = GetComponentInChildren<Rope>();
 		m_Parent = mBalloonHolder.transform;
         //EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
