@@ -14,11 +14,15 @@ public class MoveableObject : MonoBehaviour {
 	private DistanceJoint2D mDistanceJoint;
 
 	private bool mIsFlying = false;
-	
-	
+
+	private float mBaseMass = 0f;
+	[SerializeField]
+	private float m_FlyingMass = 0f;
+
 	protected virtual void Start () {
 		mRigidbody = GetComponent<Rigidbody2D> ();
 		mDistanceJoint = GetComponent<DistanceJoint2D> ();
+		mBaseMass = mRigidbody.mass;
 	}
 
 	public bool IsFlying()
@@ -40,9 +44,9 @@ public class MoveableObject : MonoBehaviour {
 	private void UpdateMass()
 	{
 		if (mIsFlying) {
-			mRigidbody.mass = 10;
+			mRigidbody.mass = m_FlyingMass;
 		} else {
-			mRigidbody.mass = 150;
+			mRigidbody.mass = mBaseMass;
 		}
 	}
 }

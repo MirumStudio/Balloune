@@ -8,16 +8,14 @@
 using Radix.Event;
 using UnityEngine;
 
-public class CollisionTrigger : MonoBehaviour {
-
-	[SerializeField]
-	private EGameTrigger eventToTrigger = EGameTrigger.LEVEL_END_REACHED;
+public class CollisionTrigger : Trigger {
 
 	public void OnTriggerEnter2D(Collider2D pOther)
 	{
         if (pOther.GetComponent<MainCharacterController>() != null)
         {
-			EventService.DispatchEvent(eventToTrigger);
+			mIsTriggered = true;
+			Activate();
 		}
 	}
 }
