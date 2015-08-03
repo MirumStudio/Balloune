@@ -50,6 +50,7 @@ public class FlyingBehavior : BalloonBehavior
 		DistanceJoint2D objectDistanceJoint = pFlyingObject.GetDistanceJoint ();
 		objectDistanceJoint.connectedBody = mBalloon.Physics.GetRigidBody();
 		objectDistanceJoint.enabled = true;
+		pFlyingObject.SetIsFlying (true);
 	}
 
 	private void DisallowDetach()

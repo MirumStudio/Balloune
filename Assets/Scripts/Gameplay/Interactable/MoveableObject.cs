@@ -29,10 +29,20 @@ public class MoveableObject : MonoBehaviour {
 	public void SetIsFlying(bool pIsFlying)
 	{
 		mIsFlying = pIsFlying;
+		UpdateMass ();
 	}
 
 	public DistanceJoint2D GetDistanceJoint()
 	{
 		return mDistanceJoint;
+	}
+
+	private void UpdateMass()
+	{
+		if (mIsFlying) {
+			mRigidbody.mass = 10;
+		} else {
+			mRigidbody.mass = 150;
+		}
 	}
 }
