@@ -24,7 +24,7 @@ public class CharacterSensor : MonoBehaviour {
 	virtual protected void Start () {
 		mAnimator = GetComponent<Animator> ();
 
-		mCollider = GetComponent<Collider2D>();
+		mCollider = GetComponent<BoxCollider2D>() as Collider2D;
 		mWidth = mCollider.bounds.size.x;
 		mHeight = mCollider.bounds.size.y;
 	}

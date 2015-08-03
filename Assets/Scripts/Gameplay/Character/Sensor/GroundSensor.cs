@@ -3,6 +3,14 @@ using System.Collections;
 
 public class GroundSensor : CharacterSensor {
 
+    private bool mIsGrounded = false;
+
+    protected override void Start()
+    {
+        base.Start();
+        UpdateGroundParamater();
+    }
+
 	void Update () {
 
         Vector2 left = GetBottomLeftCorner();
@@ -13,7 +21,11 @@ public class GroundSensor : CharacterSensor {
 
         bool grounded = CheckGround(left, right);
 		
-        UpdateGroundParamater(grounded);
+        if (mIsGrounded != grounded)
+        {
+            mIsGrounded = grounded;
+            UpdateGroundParamater();
+        }
 
         DrawDebugLine(left, right);
 	}
@@ -29,8 +41,8 @@ public class GroundSensor : CharacterSensor {
             || Physics2D.Linecast(pLeft, pRight, PlateformLayerMask);
     }
 
-    private void UpdateGroundParamater(bool pValue)
+    private void UpdateGroundParamater()
     {
-        mAnimator.SetBool(GROUND_PARAMATER, pValue);
+        mAnimator.SetBool(GROUND_PARAMATER, mIsGrounded);
     }
 }
