@@ -11,7 +11,9 @@ using System.Collections;
 public class GumBalloon : Balloon {
 	
 	public const float GUM_ROPE_DISTANCE = 0.1f;
-	
+
+	private bool mIsAttachedToKid = true;
+
 	override public void Init(EBalloonType pType)
 	{
 		base.Init(pType);
@@ -22,21 +24,33 @@ public class GumBalloon : Balloon {
 		m_MaxRopeDistance = GUM_ROPE_DISTANCE;
 	}
 
+	protected override void Update()
+	{
+		base.Update();
+		Orient ();
+	}
+
 	protected override void Deflate() {
 		base.mIsInflating = false;
 		base.mIsDeflating = true;
-		if (transform.localScale.magnitude > (base.mBaseScale.magnitude / INFLATE_FACTOR)) {
-			transform.localScale = transform.localScale * 0.95f;
+		if (transform.localScale.magnitude >= (base.mBaseScale.magnitude / INFLATE_FACTOR)) {
+			transform.localScale = transform.localScale * 0.99f;
 		} else {
 			base.mIsDeflating = false;
 		}
 	}
 
-	protected override void UpdateCenterOfMass()
+	private void Orient()
 	{
-		mCenterOfMass.x = SpriteRenderer.bounds.size.x / 2;
-		mCenterOfMass.x = mCenterOfMass.x * -1;
-		Physics.GetRigidBody ().centerOfMass = mCenterOfMass;
+		if (mIsAttachedToKid) {
+			//TODO change this if the kid is facing left
+			Quaternion rotation = Quaternion.Euler (0, 0, -110);
+			transform.rotation = Quaternion.Slerp (transform.rotation, rotation, Time.deltaTime * 10);
+		}
 	}
 
+	public void SetIsAttachedToKid(bool pIsAttachedToKid)
+	{
+		mIsAttachedToKid = pIsAttachedToKid;
+	}
 }

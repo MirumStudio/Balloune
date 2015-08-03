@@ -55,7 +55,7 @@ public abstract class Balloon : MonoBehaviour {
         SpriteRenderer.color = pColor;
     }
 
-	void Update () {
+	protected virtual void Update () {
 		Resize ();
 		UpdateCenterOfMass ();
 	}
@@ -193,7 +193,7 @@ public abstract class Balloon : MonoBehaviour {
 		return transform.localScale.magnitude >= mBaseScale.magnitude;
 	}
 
-	protected virtual void UpdateCenterOfMass(){
+	protected void UpdateCenterOfMass(){
 		mCenterOfMass.y = SpriteRenderer.bounds.size.y/4;
 		Physics.GetRigidBody().centerOfMass = mCenterOfMass;
 	}

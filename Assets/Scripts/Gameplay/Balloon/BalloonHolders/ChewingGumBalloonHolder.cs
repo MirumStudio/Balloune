@@ -32,11 +32,8 @@ public class ChewingGumBalloonHolder : BalloonHolder
 	private void UpdateBalloon()
 	{
 		if (mBalloons.Count == 0) {
-			
 			CreateGumBalloon();
-			
 		} else {
-			//TODO Inflate and deflate balloon
 			ResizeBalloon();
 		}
 	}
@@ -71,6 +68,8 @@ public class ChewingGumBalloonHolder : BalloonHolder
 	
 	public override void DetachBalloon(Balloon pBalloonToDetach)
 	{
+		((GumBalloon)pBalloonToDetach).SetIsAttachedToKid (false);
+		pBalloonToDetach.SetInflate (true);
 		base.DetachBalloon (pBalloonToDetach);
 	}
 }
