@@ -78,7 +78,8 @@ public class BalloonControl : MonoBehaviour {
 	private GameObject GetTouchedBalloon(Vector3 pWorldPosition)
 	{
 		Vector2 worldPosition2D = new Vector2(pWorldPosition.x, pWorldPosition.y);
-		Collider2D[] touchedColliders = Physics2D.OverlapCircleAll (worldPosition2D,  1f);
+		Collider2D[] touchedColliders = Physics2D.OverlapCircleAll (worldPosition2D,  0.5f);
+		Debug.Log (touchedColliders.Length);
 		for(int i = 0; i < touchedColliders.Length; i++)
 		{
 			if(touchedColliders[i].name.Contains (BALLOON_IDENTIFIER))
@@ -90,27 +91,6 @@ public class BalloonControl : MonoBehaviour {
 
 		return mTouchedBalloonObject;
 	}
-
-	/* bool IsDoubleTap(Touch pTouch)
-	{
-		bool isDoubleTap = false;
-		if (pTouch.phase == TouchPhase.Began && mDoubleTapTime > 0f && mDoubleTapTime <= mDoubleTapThreshold) {
-			//this is a double tap
-			isDoubleTap = true;
-			EventService.DispatchEvent(EGameEvent.TRIGGER_BALLOON, mTouchedBalloon);
-			mDoubleTapTime = 0f;
-		} else if (pTouch.phase == TouchPhase.Began) {
-			//First touch ever
-			mDoubleTapTime = 0f;
-		} else if(pTouch.phase == TouchPhase.Began) {
-			//Any touch that is not a double tap
-			mDoubleTapTime = 0f;
-		} else if (pTouch.phase != TouchPhase.Began) {
-			//Any touch that stayed on the screen
-			mDoubleTapTime += pTouch.deltaTime;
-		}
-		return isDoubleTap;
-	}*/
 
 	private void PickupBalloon()
 	{

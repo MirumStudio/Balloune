@@ -131,6 +131,7 @@ public class BalloonPhysics : MonoBehaviour
 			mIsAttached = false;
 			mBalloonHolder.DetachBalloon(mBalloon);
 			mBalloonHolder = null;
+			IgnoreOtherBalloonCollision();
 		}
 	}
 
