@@ -74,6 +74,12 @@ public class GirlBalloonHolder : BalloonHolder
 		return holdsMaximumSpecialBalloons;
 	}
 
+	protected override void AttachBalloon(Balloon pBalloon)
+	{
+		base.AttachBalloon (pBalloon);
+		pBalloon.Physics.StopIgnoringOtherBalloonCollision ();
+	}
+
 	public override void DetachBalloon(Balloon pBalloonToDetach)
 	{
 		if (pBalloonToDetach.Type.Equals (EBalloonType.LIFE)) {
