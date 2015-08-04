@@ -13,31 +13,38 @@ public class BreakableObject : MonoBehaviour {
 	private Rigidbody2D mRigidBody;
 
 	[SerializeField]
-	private GameObject m_BrokenObject;
-
-	[SerializeField]
 	private float m_BreakMass = 4f;
-	// Use this for initialization
 
 	void Start () {
 		mRigidBody = GetComponent<Rigidbody2D> ();
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 		
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
-		if (collision.relativeVelocity.magnitude > 4 && collision.rigidbody.mass >= m_BreakMass) {
-			Break ();
+		if (collision.rigidbody != null && (collision.relativeVelocity.magnitude > 4 && collision.rigidbody.mass >= m_BreakMass)) {
+			Break (collision.relativeVelocity);
 		}
 	}
 
-	private void Break()
+	private void Break(Vector2 pRelativeVelocity)
 	{
-		PrefabFactory.Instantiate (m_BrokenObject, transform.position);
-		PrefabFactory.Instantiate (m_BrokenObject, transform.position);
-		GameObject.Destroy (this.gameObject);
+		Transform parent = transform.parent;
+		int numberOfParts = parent.childCount;
+		for (int i = 0; i < numberOfParts; i++) {
+			Transform child = parent.GetChild (i);
+			child.gameObject.layer = 12;
+			Rigidbody2D brokenPartRigidbody = child.GetComponent<Rigidbody2D>();
+			brokenPartRigidbody.isKinematic = false;
+			brokenPartRigidbody.velocity = GetFallingVelocity(pRelativeVelocity);
+			child.GetComponent<BreakableObject>().enabled = false;
+		}
+	}
+
+	private Vector2 GetFallingVelocity(Vector2 pRelativeVelocity)
+	{
+		return pRelativeVelocity * -1;
 	}
 }
