@@ -95,7 +95,7 @@ public class BalloonPhysics : MonoBehaviour
         }
     }
 
-	private void IgnoreOtherBalloonCollision()
+	public void IgnoreOtherBalloonCollision()
 	{
 		mBalloon.GameObject.layer = PICKEDUP_BALLOON_COLLISION_LAYER;
 	}
@@ -294,7 +294,7 @@ public class BalloonPhysics : MonoBehaviour
 			mIsTouched = false;
 			mRigidbody2D.drag = 1;
 			mRigidbody2D.gravityScale = mBalloon.GravityScale;
-			
+			StopIgnoringOtherBalloonCollision();
 			EventService.DispatchEvent(EGameEvent.END_PULLING);
 		}
 	}

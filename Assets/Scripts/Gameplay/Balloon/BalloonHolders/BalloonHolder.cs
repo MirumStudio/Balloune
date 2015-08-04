@@ -100,6 +100,7 @@ public class BalloonHolder : MonoBehaviour {
 		mBalloons.Add (pBalloon);
 		pBalloon.GameObject.transform.parent = this.gameObject.transform;
 		EventService.DispatchEvent(EGameEvent.ATTACH_BALLOON, pBalloon, m_Tack);
+		pBalloon.Physics.IgnoreOtherBalloonCollision();
 	}
 
 	public virtual void DetachBalloon(Balloon pBalloonToDetach)
