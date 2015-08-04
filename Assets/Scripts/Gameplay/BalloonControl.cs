@@ -79,7 +79,6 @@ public class BalloonControl : MonoBehaviour {
 	{
 		Vector2 worldPosition2D = new Vector2(pWorldPosition.x, pWorldPosition.y);
 		Collider2D[] touchedColliders = Physics2D.OverlapCircleAll (worldPosition2D,  0.5f);
-		Debug.Log (touchedColliders.Length);
 		for(int i = 0; i < touchedColliders.Length; i++)
 		{
 			if(touchedColliders[i].name.Contains (BALLOON_IDENTIFIER))
