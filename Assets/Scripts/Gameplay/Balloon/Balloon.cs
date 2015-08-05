@@ -57,7 +57,7 @@ public abstract class Balloon : MonoBehaviour {
 
 	protected virtual void Update () {
 		Resize ();
-		UpdateCenterOfMass ();
+		//UpdateCenterOfMass ();
 	}
 
     protected void AddBehavior<T>() where T : BalloonBehavior
