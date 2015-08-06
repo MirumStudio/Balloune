@@ -12,8 +12,8 @@ using UnityEngine;
 
 public class BalloonPhysics : MonoBehaviour
 {
-	private const int BALLOON_COLLISION_LAYER = 8;
-	private const int PICKEDUP_BALLOON_COLLISION_LAYER = 10;
+	public const int BALLOON_COLLISION_LAYER = 8;
+	public const int NOT_GIRL_BALLOON_COLLISION_LAYER = 10;
 
 	private const float MAX_DRAG_VELOCITY = 15f;
 	private const float TIME_TO_DETACH = 0f;
@@ -93,7 +93,7 @@ public class BalloonPhysics : MonoBehaviour
 
 	public void IgnoreOtherBalloonCollision()
 	{
-		mBalloon.GameObject.layer = PICKEDUP_BALLOON_COLLISION_LAYER;
+		mBalloon.GameObject.layer = NOT_GIRL_BALLOON_COLLISION_LAYER;
 	}
 
 	public void StopIgnoringOtherBalloonCollision()

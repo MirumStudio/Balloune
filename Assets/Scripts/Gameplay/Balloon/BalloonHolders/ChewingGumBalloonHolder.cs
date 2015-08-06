@@ -41,6 +41,7 @@ public class ChewingGumBalloonHolder : BalloonHolder
 	private void CreateGumBalloon()
 	{
 		CreateBalloon (EBalloonType.GUM);
+		mBalloons [0].GameObject.layer = BalloonPhysics.NOT_GIRL_BALLOON_COLLISION_LAYER;
 	}
 
 	private void ResizeBalloon()
