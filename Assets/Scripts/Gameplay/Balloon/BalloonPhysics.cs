@@ -85,13 +85,18 @@ public class BalloonPhysics : MonoBehaviour
             float balloonDistance = GetDistanceBetweenParentAndPosition();
 			if (IsBalloonAtMaximumDistance() == false)
 			{
+				//This does not prevent the balloon from trying to move out of range of the rope
+				//What DragBalloon does : it tells the balloon to go at a certain speed in a direction until it reaches its maxDistance
+				//What DragBalloon SHOULD do : tell the balloon to go at a certain speed unless it would go beyond its max distance. If that's the case, bring it to maximum distance
+				//DragBalloon should bring the balloon at max distance and stop it there
 				DragBalloon(touchPosition, currentBalloonPosition);
 				mBalloon.OnMove(balloonDistance);
 			}
 			if (IsBalloonAtMaximumDistance())
 			{
 				SetVelocity(Vector2.zero);
-			}
+				//mRigidbody2D.angularVelocity = 0;
+			} 
         }
     }
 
@@ -107,11 +112,39 @@ public class BalloonPhysics : MonoBehaviour
 
     private void DragBalloon(Vector2 pTouchPosition, Vector2 pCurrentBalloonPosition)
     {
-        float xDistance = pTouchPosition.x - pCurrentBalloonPosition.x;
+        /*float xDistance = pTouchPosition.x - pCurrentBalloonPosition.x;
         float yDistance = pTouchPosition.y - pCurrentBalloonPosition.y;
-        Vector2 velocity = new Vector2(xDistance * 5, yDistance * 5);
+        Vector2 velocity = new Vector2(xDistance * 5, yDistance * 5);*/
+		Vector2 velocity = GetRequiredVelocity (pTouchPosition, pCurrentBalloonPosition);
+		Vector2 predictedPoint = pCurrentBalloonPosition + velocity * Time.deltaTime;
+		Vector2 predictedAnchorPoint = (Vector2)transform.TransformPoint (mDistanceJoint.anchor) + velocity * Time.deltaTime;
+		Debug.Log ("pCurrentBalloonPosition : " + pCurrentBalloonPosition);
+		Debug.Log ("anchor point : " + transform.TransformPoint (mDistanceJoint.anchor));
+		Debug.Log ("predicted point : " + predictedPoint);
+		Debug.Log ("predicted anchor point : " + predictedAnchorPoint);
+		//Vector2 difference = GetDifferenceBetweenCenterAndAnchor ();
+		//predictedPoint = predictedPoint - difference;
+		//check if predictedPoint is beyond maximumdistance
+		//if predictedPoint is at maximumdistance, continue "as planned" and set the velocity
+		if (IsPointBeyondMaximumDistance (predictedAnchorPoint)) {
+			//if predictedPoint is beyond maximumdistance, find maximumdistance point and set velocity using that point
+			//velocity.x = velocity.x/10;
+			//velocity.y = velocity.y/10;
+			//above is hackish but works "well". Below is the right solution
+			Vector2 maximumDistancePoint = FindPointAtMaximumDistance(predictedAnchorPoint);
+			velocity = GetRequiredVelocity(maximumDistancePoint, pCurrentBalloonPosition);
+		}
+
         SetVelocity(velocity);
     }
+
+	private Vector2 GetRequiredVelocity(Vector2 pTouchPosition, Vector2 pCurrentBalloonPosition)
+	{
+		float xDistance = pTouchPosition.x - pCurrentBalloonPosition.x;
+		float yDistance = pTouchPosition.y - pCurrentBalloonPosition.y;
+		Vector2 velocity = new Vector2(xDistance * 5, yDistance * 5);
+		return velocity;
+	}
 
     public double GetBalloonAngle()
     {
@@ -153,12 +186,17 @@ public class BalloonPhysics : MonoBehaviour
         mRigidbody2D.velocity = velocity;
     }
 
-    private float GetDistanceBetweenParentAndPosition()
+	private float GetDistanceBetweenParentAndPosition()
     {
         return Vector2.Distance(mTack.transform.position, transform.TransformPoint(mDistanceJoint.anchor));
     }
 
-    private void UpdateLineRenderer()
+	private float GetDistanceBetweenParentAndPoint(Vector2 pPoint)
+	{
+		return Vector2.Distance(mTack.transform.position, pPoint);
+	}
+	
+	private void UpdateLineRenderer()
     {
         mRope.DrawRope(mBalloonJoint);
     }
@@ -254,11 +292,21 @@ public class BalloonPhysics : MonoBehaviour
 		return isBalloonAtMaximumDistance;
 	}
 
+	private bool IsPointBeyondMaximumDistance(Vector2 pPoint)
+	{
+		bool isBalloonAtMaximumDistance = false;
+		if(mIsAttached)
+		{
+			isBalloonAtMaximumDistance = GetDistanceBetweenParentAndPoint(pPoint) > mDistanceJoint.distance;
+		}
+		return isBalloonAtMaximumDistance;
+	}
+
 	private bool IsBalloonAtDetachDistance()
 	{
 		bool isBalloonAtDetachDistance = false;
 		//We have to do this because the balloon is almost never exactly at its max distance
-		float distanceOffset = mDistanceJoint.distance * 0.0005f;//0.00025f;
+		float distanceOffset = mDistanceJoint.distance * 0.0005f;
 		float detachMaxDistance = mDistanceJoint.distance - distanceOffset;
 		if(mIsAttached)
 		{
@@ -307,5 +355,21 @@ public class BalloonPhysics : MonoBehaviour
 	public LineRenderer LineRenderer
 	{
 		get { return mLineRenderer; }
+	}
+
+	private Vector2 FindPointAtMaximumDistance(Vector2 pPredictedPoint)
+	{
+		Vector2 tackToPredictedPoint = (pPredictedPoint - (Vector2)mTack.transform.position);
+		Vector2 tackToPointUnitLength = (Vector2)Vector3.Normalize(tackToPredictedPoint);
+		Vector2 tackToMaxDistancePoint = tackToPointUnitLength * mDistanceJoint.distance;
+		Vector2 maxDistancePoint = (Vector2)mTack.transform.position + tackToMaxDistancePoint;
+		//this works, except it puts the center of the balloon at the maximum distance. I need to put the anchor of the balloon at maximum distance
+		return maxDistancePoint;
+	}
+
+	private Vector2 GetDifferenceBetweenCenterAndAnchor()
+	{
+		Vector2 difference = transform.TransformPoint (transform.position) - transform.TransformPoint (mDistanceJoint.anchor);
+		return difference;
 	}
 }
