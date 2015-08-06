@@ -83,16 +83,16 @@ public class BalloonControl : MonoBehaviour {
 		if (touchedColliders != null && touchedColliders.Length > 0) {
 			float minDistance = float.MaxValue;
 			int minDistanceBalloonIndex = 0;
-			for (int i = 0; i > touchedColliders.Length; i++) {
-				if (touchedColliders [i].name.Contains (BALLOON_IDENTIFIER)) {
+			for (int i = 0; i < touchedColliders.Length; i++) {
+				if (touchedColliders[i].name.Contains (BALLOON_IDENTIFIER)) {
 					float distance = Vector2.Distance (touchedColliders [i].gameObject.transform.position, pWorldPosition);
 					if (distance < minDistance) {
 						minDistance = distance;
 						minDistanceBalloonIndex = i;
+						mTouchedBalloonObject = touchedColliders [minDistanceBalloonIndex].gameObject;
 					}
 				}
 			}
-			mTouchedBalloonObject = touchedColliders [minDistanceBalloonIndex].gameObject;
 		} else {
 			mTouchedBalloonObject = null;
 		}
