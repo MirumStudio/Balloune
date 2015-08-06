@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Radix.Logging;
 
 public class CharacterState : StateMachineBehaviour {
 

@@ -72,7 +72,7 @@ namespace Radix.Service
                 InitAllServices();
                 mIsInit = true;
 
-                Log.Create("ServiceManager initialized", ELogCategory.RADIX);
+                Log.Info("ServiceManager initialized", ELogCategory.RADIX);
             }
         }
 
@@ -89,7 +89,7 @@ namespace Radix.Service
             mServiceList.Clear();
             mServiceList = null;
 
-            Log.Create("ServiceManager disposed", ELogCategory.RADIX);
+            Log.Info("ServiceManager disposed", ELogCategory.RADIX);
         }
 
 		internal void CreateAllServices()

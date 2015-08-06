@@ -10,7 +10,6 @@ public class MovingState : CharacterState {
 
 	override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 
-        Debug.Log("ENTER MOVING");
 		float speed = animator.GetFloat(SPEED_PARAMATER);
 
 		if (speed != 0)

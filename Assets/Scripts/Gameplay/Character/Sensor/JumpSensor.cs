@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Radix.Event;
+using Radix.Logging;
 
 public class JumpSensor : CharacterSensor {
 
@@ -45,7 +46,6 @@ public class JumpSensor : CharacterSensor {
         if(HaveObstacle(pBottom, pTop)
            && !IsWall(pTop) && HaveMinimalDistance(pBottom))
 		{
-            Debug.Log("TRUE !");
 			mAnimator.SetBool(JUMP_PARAMATER, true);
 		}
 	}

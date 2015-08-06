@@ -66,13 +66,13 @@ public class TouchService : DefaultTouchService
     private void DispatchTapEvent()
     {
         EventService.DispatchEvent(ETouchEvent.TAP, mTouchControl.Position);
-        Log.Create("Touch Begin: TAP", ELogType.DEBUG);
+        Log.Debug("Touch Begin: TAP", ELogCategory.INPUT);
     }
 
     private void DispatchDoubleTapEvent()
     {
         EventService.DispatchEvent(ETouchEvent.DOUBLE_TAP, mTouchControl.Position);
-        Log.Create("Touch begin: DOUBLE TAP", ELogType.DEBUG);
+        Log.Debug("Touch begin: DOUBLE TAP", ELogCategory.INPUT);
     }
 
     #endregion
@@ -99,7 +99,7 @@ public class TouchService : DefaultTouchService
     private void DispatchSwipeBeginEvent()
     {
         EventService.DispatchEvent(ETouchEvent.SWIPE_BEGIN, mTouchControl.SwipeDirection);
-        Log.Create("SWIPE_BEGIN, " + mTouchControl.SwipeDirection.ToString(), ELogType.DEBUG);
+        Log.Debug("SWIPE_BEGIN, " + mTouchControl.SwipeDirection.ToString(), ELogCategory.INPUT);
     }
 
     #endregion
@@ -137,7 +137,7 @@ public class TouchService : DefaultTouchService
     private void DispatchTouchEnded()
     {
         EventService.DispatchEvent(ETouchEvent.END);
-        Log.Create("TOUCH END", ELogType.DEBUG);
+        Log.Debug("TOUCH END", ELogCategory.INPUT);
     }
 
     #endregion
@@ -176,7 +176,7 @@ public class TouchService : DefaultTouchService
     private void DispatchSwipeEndEvent()
     {
         EventService.DispatchEvent(ETouchEvent.SWIPE_END, mTouchControl.SwipeDistance);
-        Log.Create("SWIPE_END, " + mTouchControl.SwipeDistance.ToString(), ELogType.DEBUG);
+        Log.Debug("SWIPE_END, " + mTouchControl.SwipeDistance.ToString(), ELogCategory.INPUT);
     }
     #endregion
 }

@@ -42,11 +42,11 @@ public class AutoFollow : MonoBehaviour {
 		}
 		else if(m_Smoothness<=0)
 		{
-			Log.Create("The smoothness value of AutoFollow is zero or lower. Consider desactivating the script instead.", ELogType.WARNING);
+			Log.Warning("The smoothness value of AutoFollow is zero or lower. Consider desactivating the script instead.", ELogCategory.GAMEPLAY);
 		}
 		if(!(m_FollowX||m_FollowY||m_FollowZ))
 		{
-            Log.Create("The AutoFollow do not use any axis, consider desactivating the script.", ELogType.WARNING);
+            Log.Warning("The AutoFollow do not use any axis, consider desactivating the script.", ELogCategory.GAMEPLAY);
 		}
 	}
 

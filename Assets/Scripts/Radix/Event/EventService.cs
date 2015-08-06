@@ -65,7 +65,7 @@ namespace Radix.Event
             var listener = new EventListener(pEvent, pCallback as Delegate);
             mEventDispatcher.RegisterEventListener(listener);
 
-            Log.Create(pCallback.Target.GetType() + " is listening " + pEvent, ELogCategory.RADIX);
+            Log.Info(pCallback.Target.GetType() + " is listening " + pEvent, ELogCategory.RADIX);
         }
         #endregion
 
@@ -84,7 +84,7 @@ namespace Radix.Event
         #region Dispatch
         static public void DispatchEvent(Enum pEvent, params object[] pArgs)
         {
-            Log.Create("Dispatch event : " + pEvent, ELogCategory.RADIX);
+            Log.Info("Dispatch event : " + pEvent, ELogCategory.RADIX);
 
             instance.mEventDispatcher.DispatchEvent(pEvent, pArgs);
         }

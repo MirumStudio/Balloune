@@ -13,7 +13,7 @@ namespace Radix.Logging
 {
     public class Log
     {
-        public static void Create(string pMessage)
+        /*public static void Create(string pMessage)
         {
             Create(pMessage, ELogType.INFO);
         }
@@ -21,14 +21,29 @@ namespace Radix.Logging
         public static void Create(string pMessage, ELogType pType)
         {
             Create(pMessage, pType, ELogCategory.NONE);
-        }
+        }*/
 
-        public static void Create(string pMessage, ELogCategory pCategory)
+        public static void Info(string pMessage, ELogCategory pCategory)
         {
-            Create(pMessage, ELogType.INFO, pCategory);
+            Create(pMessage, pCategory, ELogType.INFO);
         }
 
-        public static void Create(string pMessage, ELogType pType, ELogCategory pCategory)
+        public static void Debug(string pMessage, ELogCategory pCategory)
+        {
+            Create(pMessage, pCategory, ELogType.DEBUG);
+        }
+
+        public static void Warning(string pMessage, ELogCategory pCategory)
+        {
+            Create(pMessage, pCategory, ELogType.WARNING);
+        }
+
+        public static void Error(string pMessage, ELogCategory pCategory)
+        {
+            Create(pMessage, pCategory, ELogType.ERROR);
+        }
+
+        private static void Create(string pMessage, ELogCategory pCategory, ELogType pType)
         {
             if (UnityEngine.Debug.isDebugBuild && !string.IsNullOrEmpty(pMessage))
             {
@@ -43,8 +58,7 @@ namespace Radix.Logging
 
         private static void ShowLog(LogEntry pEntry)
         {
-
-            if ((int)pEntry.LogType <= LogConfig.UNITY_EDITOR_CONSOLE_LOG_LEVEL)
+            if (pEntry.Category.GetAttribute<LogCategoryAttribute>().Active && (int)pEntry.LogType <= LogConfig.UNITY_EDITOR_CONSOLE_LOG_LEVEL)
             {
                 ShowLogEditorConsole(pEntry);
             }
@@ -60,14 +74,33 @@ namespace Radix.Logging
 #if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
             UnityEngine.Debug.Log("<color=black>[" + pEntry.LogType + "]\t" + pEntry.Message + "</color>");
 #else
-            UnityEngine.Debug.Log("<color=" + pEntry.LogType.GetAttribute<LogTypeAttribute>().Color + ">[" + pEntry.LogType + "]\t" + pEntry.Message + "</color>");
+            string log = string.Empty;
+            log += log += pEntry.Time.ToLongTimeString() + "." + pEntry.Time.Millisecond + "  ";
+
+            log += "<color=" + pEntry.Category.GetAttribute<LogCategoryAttribute>().Color + ">[" + pEntry.Category + "]</color>";
+
+            log+= "\t";
+            log += pEntry.Message;    
+
+            if(pEntry.LogType == ELogType.ERROR)
+            {
+                UnityEngine.Debug.LogError(log);
+            }
+            else if(pEntry.LogType == ELogType.WARNING)
+            {
+                UnityEngine.Debug.LogWarning(log);
+            }
+            else
+            {
+                UnityEngine.Debug.Log(log);
+            }
 #endif
         }
 
 
         private static void ShowLogDebugText(LogEntry pEntry)
         {
-            DebugText.Log(pEntry.Message);
+            //DebugText.Log(pEntry.Message);
         }
     }
 }

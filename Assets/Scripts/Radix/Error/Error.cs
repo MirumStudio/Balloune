@@ -25,7 +25,7 @@ namespace Radix.ErrorMangement
 #if UNITY_WSA || UNITY_WP8 || UNITY_WP8_1
             Log.Create(pMessage, ELogType.ERROR);
 #else
-            Log.Create(pMessage, pSeverity.GetAttribute<ErrorSeverityAttribute>().LogType);
+            Log.Error(pMessage, ELogCategory.RADIX);
             
 #endif
 
