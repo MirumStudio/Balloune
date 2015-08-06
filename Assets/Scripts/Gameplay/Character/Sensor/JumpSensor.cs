@@ -7,7 +7,7 @@ public class JumpSensor : CharacterSensor {
 	private float AJUST_X = 1f;
 
 	void FixedUpdate () {
-		if(IsInMovingState())
+        if(IsInMovingState() && !mAnimator.GetBool(JUMP_PARAMATER))
 		{
 			Vector2 bottom = Vector2.zero;
 			Vector2 top = Vector2.zero;
@@ -45,6 +45,7 @@ public class JumpSensor : CharacterSensor {
         if(HaveObstacle(pBottom, pTop)
            && !IsWall(pTop) && HaveMinimalDistance(pBottom))
 		{
+            Debug.Log("TRUE !");
 			mAnimator.SetBool(JUMP_PARAMATER, true);
 		}
 	}
