@@ -54,8 +54,10 @@ public class ChewingGumBalloonHolder : BalloonHolder
 			if(mBalloons[0].IsFullSize())
 			{
 				mBalloons[0].SetDeflate(true);
+				mBalloons[0].SetInflate (false);
 			} else{
 				mBalloons[0].SetInflate (true);
+				mBalloons[0].SetDeflate (false);
 			}
 			mNotChewingTime = 0f;
 		}

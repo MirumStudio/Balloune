@@ -15,7 +15,7 @@ public class Trigger : MonoBehaviour {
 	[SerializeField]
 	private bool m_IsActivatedByStunBalloon = false;
 
-	private bool mIsTriggered = false;
+	protected bool mIsTriggered = false;
 	
 	protected void Start () {
 		if (m_IsActivatedByStunBalloon) {

@@ -14,11 +14,15 @@ public class MoveableObject : MonoBehaviour {
 	private DistanceJoint2D mDistanceJoint;
 
 	private bool mIsFlying = false;
-	
-	
+
+	private float mBaseMass = 0f;
+	[SerializeField]
+	private float m_FlyingMass = 0f;
+
 	protected virtual void Start () {
 		mRigidbody = GetComponent<Rigidbody2D> ();
 		mDistanceJoint = GetComponent<DistanceJoint2D> ();
+		mBaseMass = mRigidbody.mass;
 	}
 
 	public bool IsFlying()
@@ -29,10 +33,20 @@ public class MoveableObject : MonoBehaviour {
 	public void SetIsFlying(bool pIsFlying)
 	{
 		mIsFlying = pIsFlying;
+		UpdateMass ();
 	}
 
 	public DistanceJoint2D GetDistanceJoint()
 	{
 		return mDistanceJoint;
+	}
+
+	private void UpdateMass()
+	{
+		if (mIsFlying) {
+			mRigidbody.mass = m_FlyingMass;
+		} else {
+			mRigidbody.mass = mBaseMass;
+		}
 	}
 }

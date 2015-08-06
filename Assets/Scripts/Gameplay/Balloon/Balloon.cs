@@ -57,7 +57,7 @@ public abstract class Balloon : MonoBehaviour {
 
 	protected virtual void Update () {
 		Resize ();
-		UpdateCenterOfMass ();
+		//UpdateCenterOfMass ();
 	}
 
     protected void AddBehavior<T>() where T : BalloonBehavior
@@ -137,7 +137,6 @@ public abstract class Balloon : MonoBehaviour {
 
 	protected virtual void Deflate() {
 		mIsInflating = false;
-		mIsDeflating = true;
 		if (transform.localScale.magnitude > (mBaseScale.magnitude / INFLATE_FACTOR)) {
 			transform.localScale = transform.localScale * 0.999f;
 		} else {
@@ -153,7 +152,6 @@ public abstract class Balloon : MonoBehaviour {
 	private void Inflate()
 	{
 		mIsDeflating = false;
-		mIsInflating = true;
 		if (transform.localScale.magnitude < mBaseScale.magnitude) {
 			transform.localScale = transform.localScale * 1.05f;
 		} else if(transform.localScale.magnitude >= mBaseScale.magnitude){
@@ -174,7 +172,6 @@ public abstract class Balloon : MonoBehaviour {
 	public void SetDeflate(bool pIsDeflating)
 	{
 		mIsDeflating = pIsDeflating;
-		mIsInflating = !pIsDeflating;
 	}
 
 	public bool IsInflating()
@@ -185,7 +182,6 @@ public abstract class Balloon : MonoBehaviour {
 	public void SetInflate(bool pIsInflating)
 	{
 		mIsInflating = pIsInflating;
-		mIsDeflating = !mIsInflating;
 	}
 
 	public bool IsFullSize()

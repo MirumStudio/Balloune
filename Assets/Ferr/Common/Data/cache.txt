@@ -9,6 +9,7 @@ Assets/Ferr/2DTerrain/TerrainMaterials/ForegroundTerrainMaterial.prefab
 Assets/Ferr/2DTerrain/TerrainMaterials/CaveTerrainMaterial.prefab
 Assets/Art/Materials/Ferr2D/City/CityDemoEdge.prefab
 Assets/Art/Materials/Ferr2D/HauntedCity/HauntedCityDemoEdge.prefab
+Assets/Art/Materials/Ferr2D/PavedRoad/PavedRoad.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/Prefabs/Gameplay/Environment/CityGround.prefab

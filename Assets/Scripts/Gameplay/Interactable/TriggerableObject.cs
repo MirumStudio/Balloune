@@ -15,7 +15,7 @@ public class TriggerableObject : MonoBehaviour {
 	[SerializeField]
 	private Trigger m_Trigger;
 
-	private bool mIsTriggered = false;
+	protected bool mIsTriggered = false;
 	
 	
 	protected virtual void Start () {
