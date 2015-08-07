@@ -32,6 +32,7 @@ public class BalloonPhysics : MonoBehaviour
     private CircleCollider2D mCircleCollider = null;
     private GameObject mTack = null;
     private Transform mainCharacter = null;
+	private Rigidbody2D mOwnerRigidBody = null;
 
     private Rope mRope = null;
 
@@ -54,6 +55,7 @@ public class BalloonPhysics : MonoBehaviour
         mDistanceJoint = GetComponent<DistanceJoint2D>();
 		mCircleCollider = GetComponent<CircleCollider2D>();
         mRope = GetComponentInChildren<Rope>();
+		mOwnerRigidBody = mBalloonHolder.Owner.GetComponent<Rigidbody2D> ();
 		m_Parent = mBalloonHolder.transform;
         //EventListener.Register(EGameEvent.HAZARDOUS_COLLISION, OnHazardousCollision);
         mainCharacter = mTack.transform.parent;
@@ -106,8 +108,13 @@ public class BalloonPhysics : MonoBehaviour
         float xDistance = pTouchPosition.x - pCurrentBalloonPosition.x;
         float yDistance = pTouchPosition.y - pCurrentBalloonPosition.y;
         Vector2 velocity = new Vector2(xDistance * 5, yDistance * 5);
-        SetVelocity(velocity);
-    }
+		Vector2 predictedAnchorPoint = (Vector2)transform.TransformPoint (mDistanceJoint.anchor) + velocity * Time.deltaTime;
+		if (IsPointBeyondMaximumDistance (predictedAnchorPoint)) {
+			LimitAttachedVelocity (velocity);
+		} else {
+			SetVelocity(velocity);
+		}
+	}
 
     public double GetBalloonAngle()
     {
@@ -128,6 +135,7 @@ public class BalloonPhysics : MonoBehaviour
 			mBalloonHolder.DetachBalloon(mBalloon);
 			mBalloonHolder = null;
 			IgnoreOtherBalloonCollision();
+			mOwnerRigidBody = null;
 		}
 	}
 
@@ -140,21 +148,41 @@ public class BalloonPhysics : MonoBehaviour
 			mLineRenderer.enabled = true;
 			mIsAttached = true;
 			mTack = pTack;
+			mOwnerRigidBody = mBalloonHolder.Owner.GetComponent<Rigidbody2D>();
 		}
 	}
 
-    private void SetVelocity(Vector2 velocity)
+    private void SetVelocity(Vector2 pVelocity)
     {
-        velocity = Vector2.ClampMagnitude(velocity, MAX_DRAG_VELOCITY);
-        mRigidbody2D.velocity = velocity;
+		pVelocity = Vector2.ClampMagnitude(pVelocity, MAX_DRAG_VELOCITY);
+        mRigidbody2D.velocity = pVelocity;
     }
+
+	private void LimitAttachedVelocity(Vector2 pVelocity)
+	{
+		//TODO Have a minimum velocity in the case of mOwnerRigidBody.velocity having no velocity
+		//TODO Find out why balloon "lags" at certain angles
+		if (mIsAttached && mOwnerRigidBody.velocity.magnitude > 0) {
+			Vector2 holderVelocity = mOwnerRigidBody.velocity;
+			pVelocity = Vector2.ClampMagnitude (pVelocity, holderVelocity.magnitude);
+			if (pVelocity.magnitude < 4f) {
+				//pVelocity.magnitude = 4f;
+			}
+		}
+		mRigidbody2D.velocity = pVelocity;
+	}
 
     private float GetDistanceBetweenParentAndPosition()
     {
         return Vector2.Distance(mTack.transform.position, transform.TransformPoint(mDistanceJoint.anchor));
     }
 
-    private void UpdateLineRenderer()
+	private float GetDistanceBetweenParentAndPoint(Vector2 pPoint)
+	{
+		return Vector2.Distance(mTack.transform.position, pPoint);
+	}
+		
+		private void UpdateLineRenderer()
     {
         mRope.DrawRope(mBalloonJoint);
     }
@@ -248,6 +276,16 @@ public class BalloonPhysics : MonoBehaviour
 			isBalloonAtMaximumDistance = GetDistanceBetweenParentAndPosition() >= mDistanceJoint.distance;
 		}
 		return isBalloonAtMaximumDistance;
+	}
+
+	private bool IsPointBeyondMaximumDistance(Vector2 pPoint)
+	{
+		bool isPointBeyondMaximumDistance = false;
+		if(mIsAttached)
+		{
+			isPointBeyondMaximumDistance = GetDistanceBetweenParentAndPoint(pPoint) >= mDistanceJoint.distance;
+		}
+		return isPointBeyondMaximumDistance;
 	}
 
 	private bool IsBalloonAtDetachDistance()
