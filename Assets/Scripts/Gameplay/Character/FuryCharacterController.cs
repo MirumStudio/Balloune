@@ -21,12 +21,15 @@ public class FuryCharacterController : MonoBehaviour {
 
     private void UpdateColor()
     {
-        if (!mIsRed && mAnimator.GetBool(FURY_PARAMATER))
+        bool isInFury = mAnimator.GetBool(FURY_PARAMATER);
+        if (!mIsRed && isInFury)
         {
             mRenderer.color = Color.red;
-        } else if(mIsRed)
+            mIsRed = true;
+        } else if(mIsRed && !isInFury)
         {
             mRenderer.color = Color.white;
+            mIsRed = false;
         }
     }
 }

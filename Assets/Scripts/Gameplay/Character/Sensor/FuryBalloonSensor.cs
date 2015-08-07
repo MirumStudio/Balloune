@@ -20,12 +20,16 @@ public class FuryBalloonSensor : CharacterSensor {
         {
             Collider2D[] touchedColliders = Physics2D.OverlapCircleAll(transform.position, m_SensorRange, BalloonLayerMask);
 
+            bool haveBalloon = false;
+
             foreach (Collider2D collider2d in touchedColliders)
             { 
                 RaycastHit2D hit = Physics2D.Linecast(transform.position, collider2d.transform.position, GroundLayerMask);
 
-                mAnimator.SetBool(FURY_PARAMATER,!hit);
+                haveBalloon = !hit;
             }
+
+            mAnimator.SetBool(FURY_PARAMATER,haveBalloon);
         }
 	}
 
