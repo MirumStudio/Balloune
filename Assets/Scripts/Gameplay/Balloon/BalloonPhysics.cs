@@ -12,11 +12,11 @@ using UnityEngine;
 
 public class BalloonPhysics : MonoBehaviour
 {
-	private const int BALLOON_COLLISION_LAYER = 8;
-	private const int PICKEDUP_BALLOON_COLLISION_LAYER = 10;
+	public const int BALLOON_COLLISION_LAYER = 8;
+	public const int NOT_GIRL_BALLOON_COLLISION_LAYER = 10;
 
 	private const float MAX_DRAG_VELOCITY = 15f;
-	private const float TIME_TO_DETACH = 0.35f;
+	private const float TIME_TO_DETACH = 0f;
 	
 	[SerializeField]
     public Transform m_Parent = null;
@@ -88,16 +88,12 @@ public class BalloonPhysics : MonoBehaviour
 				DragBalloon(touchPosition, currentBalloonPosition);
 				mBalloon.OnMove(balloonDistance);
 			}
-			if (IsBalloonAtMaximumDistance())
-			{
-				SetVelocity(Vector2.zero);
-			}
         }
     }
 
 	public void IgnoreOtherBalloonCollision()
 	{
-		mBalloon.GameObject.layer = PICKEDUP_BALLOON_COLLISION_LAYER;
+		mBalloon.GameObject.layer = NOT_GIRL_BALLOON_COLLISION_LAYER;
 	}
 
 	public void StopIgnoringOtherBalloonCollision()
@@ -124,7 +120,7 @@ public class BalloonPhysics : MonoBehaviour
 
 	public void DetachBalloon()
 	{
-		if (mTimePullingAtMaximumDistance >= TIME_TO_DETACH) {
+		if (mIsTouched && mBalloonHolder != null && IsBalloonAtMaximumDistance()) {
 			mDistanceJoint.enabled = false;
 			mBalloonJoint.enabled = false;
 			mLineRenderer.enabled = false;
