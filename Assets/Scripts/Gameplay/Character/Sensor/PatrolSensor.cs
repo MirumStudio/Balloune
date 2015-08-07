@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PatrolSensor : CharacterSensor {
 
     private List<Vector2> mPatrolPoints = new List<Vector2>();
-
+    private const string FURY_PARAMATER = "IsInFury";
     private int mCurrentIndex = 0;
 
     public EdgeCollider2D edge;
@@ -26,27 +26,27 @@ public class PatrolSensor : CharacterSensor {
 	// Update is called once per frame
 	void Update () {
 
-        if (Vector2.Distance(mPatrolPoints [mCurrentIndex], transform.position) < 0.2f)
+        if (!mAnimator.GetBool(FURY_PARAMATER))
         {
-            if(mCurrentIndex + 1 == mPatrolPoints.Count)
+            if (Vector2.Distance(mPatrolPoints [mCurrentIndex], transform.position) < 0.2f)
             {
-                mCurrentIndex = 0;
+                if (mCurrentIndex + 1 == mPatrolPoints.Count)
+                {
+                    mCurrentIndex = 0;
+                } else
+                {
+                    mCurrentIndex ++;
+                }
             }
-            else
+
+            if (mPatrolPoints [mCurrentIndex].x > transform.position.x)
             {
-                mCurrentIndex ++;
+                UpdateSpeedParamater(0.3f);
+            } else if (mPatrolPoints [mCurrentIndex].x < transform.position.x)
+            {
+                UpdateSpeedParamater(-0.3f);
             }
         }
-
-        if (mPatrolPoints[mCurrentIndex].x > transform.position.x)
-        {
-            UpdateSpeedParamater(0.3f);
-        }
-        else if (mPatrolPoints [mCurrentIndex].x < transform.position.x)
-        {
-            UpdateSpeedParamater(-0.3f);
-        }
-
 	}
 
     private void UpdateSpeedParamater(float pSpeed)
