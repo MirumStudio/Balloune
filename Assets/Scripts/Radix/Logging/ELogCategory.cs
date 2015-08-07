@@ -23,7 +23,7 @@ namespace Radix.Logging
         INPUT,
 
         [LogCategoryAttribute(true, "green")]
-        DEMOPO,
+        CHARACTER_STATE,
     }
 
     internal class LogCategoryAttribute : Attribute

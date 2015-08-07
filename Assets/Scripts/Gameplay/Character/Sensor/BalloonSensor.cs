@@ -8,12 +8,7 @@ public class BalloonSensor : CharacterSensor {
 
 	protected override void Start ()
 	{
-        Log.Info("BLABLA", ELogCategory.DEMOPO);
-        Log.Debug("BLABLA", ELogCategory.DEMOPO);
-        Log.Warning("BLABLA", ELogCategory.DEMOPO);
-        Log.Error("BLABLA", ELogCategory.DEMOPO);
-
-		base.Start ();
+        base.Start ();
 
 		EventService.Register<CharacterPullDelegate>(EGameEvent.BEGIN_PULLING, OnBeginPulling);
 		EventService.Register(EGameEvent.END_PULLING, OnStopPulling);
