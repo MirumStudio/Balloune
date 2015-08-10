@@ -11,7 +11,7 @@ public class GirlJumpingState : JumpingState {
             
             float xForce = GetXAxisForce();
             
-            mBody.AddForce(new Vector2 (xForce, m_JumpForce));
+            mBody.AddForce(new Vector2 (xForce, m_JumpForce), ForceMode2D.Force);
         }
     }
 

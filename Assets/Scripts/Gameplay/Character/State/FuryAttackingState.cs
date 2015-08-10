@@ -21,6 +21,7 @@ public class FuryAttackingState : CharacterState {
             mCurrentWaitingTime += Time.deltaTime;
             if(mCurrentWaitingTime > mWaitingTime)
             {
+                mCurrentWaitingTime = 0;
                 mBody.AddForce(new Vector2(100 * animator.GetFloat(SPEED_PARAMATER), 700F));
             }
         } else
