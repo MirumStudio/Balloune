@@ -4,7 +4,7 @@ using Radix.Logging;
 
 public class FuryAttackingState : CharacterState {
 
-    private float mWaitingTime = 1;
+    private float mWaitingTime = 0.5f;
 
     private float mCurrentWaitingTime = 2;
 
@@ -17,7 +17,6 @@ public class FuryAttackingState : CharacterState {
 
         if (animator.GetBool(GROUND_PARAMATER))
         {
-            Log.Debug(mCurrentWaitingTime.ToString(), ELogCategory.CHARACTER_STATE);
             mCurrentWaitingTime += Time.deltaTime;
             if(mCurrentWaitingTime > mWaitingTime)
             {

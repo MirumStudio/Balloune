@@ -55,16 +55,7 @@ public class AutoFollow : MonoBehaviour {
 		Vector3 target = this.transform.position;
 		if(this.m_FollowX)
 		{
-            float x = this.m_Target.position.x;
-            if(x < m_MaxLeftX)
-            {
-                x = m_MaxLeftX;
-            }
-            else if (x > m_MaxRightX)
-            {
-                x = m_MaxRightX;
-            }
-			target.x = x;
+            target.x = GetFollowX();;
 		}
 		if(this.m_FollowY)
 		{
@@ -76,4 +67,32 @@ public class AutoFollow : MonoBehaviour {
 		}
 		this.transform.position=Vector3.Lerp(this.transform.position,target,this.m_Smoothness*Time.deltaTime);
 	}
+
+    private float GetFollowX()
+    {
+        Animator anim = m_Target.GetComponent<Animator>();
+        float xAjustement = 0f;
+        if (anim != null)
+        {
+            float speed = anim.GetFloat("Speed");
+
+            if(speed != 0)
+            {
+                xAjustement = 5 * Mathf.Sign(speed);
+            }
+        }
+
+        float x = this.m_Target.position.x;
+        if(x < m_MaxLeftX)
+        {
+            x = m_MaxLeftX;
+        }
+        else if (x > m_MaxRightX)
+        {
+            x = m_MaxRightX;
+        }
+
+        return x + xAjustement;
+    }
+
 }
